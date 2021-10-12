@@ -1,0 +1,21 @@
+
+@import './mixin.scss';
+
+.product-special-str {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16rpx;
+    font-size: 24rpx;
+    font-family: 'HelveticaNeueLTPro-Lt';
+    color: #fff;
+}
+.product-special-str::before {
+  @include product-special-str-mixin;
+  margin-right: 10rpx;
+}
+
+.product-special-str::after {
+  @include product-special-str-mixin;
+  margin-left: 10rpx;
+}

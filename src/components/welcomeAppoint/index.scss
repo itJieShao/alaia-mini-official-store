@@ -1,0 +1,40 @@
+.welcome-appoint {
+  padding-top: 129rpx;
+  .title {
+    text-align: center;
+    margin-bottom: 58rpx;
+    font-size: 56rpx;
+    font-family: 'FZHTJW-animate-font';
+    font-weight: normal;
+    color: #FFFFFF;
+  }
+  .title::after {
+    content: "";
+    display: block;
+    margin: auto;
+    padding-bottom: 59rpx;
+    width: 68rpx;
+    border-bottom: 2rpx solid #717171;
+  }
+  .content {
+    margin-bottom: 107rpx;
+    text-align: center;
+    color: #ffffff;
+    font-size: 26rpx;
+    line-height: 54rpx;
+    font-family: 'FZHTJW-animate-font';
+  }
+  .btn {
+    margin-top: 107rpx;
+    padding-bottom: 154rpx;
+  }
+  .tips {
+    padding-bottom: 40rpx;
+    padding-top: 154rpx;
+    margin-left: 30rpx;
+    color: #FFFFFF;
+    font-size: 20rpx;
+    font-family: 'FZHTJW-animate-font';
+    font-weight: normal;
+  }
+}

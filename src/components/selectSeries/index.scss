@@ -1,0 +1,100 @@
+.select-series {
+  padding-top: 106rpx;
+  .title {
+    margin-bottom: 106rpx;
+    text-align: center;
+    font-size: 54rpx;
+    font-family: 'FZHTJW-animate-font';
+    font-weight: normal;
+    color: #FFFFFF;
+  }
+  // .title::after {
+  //   content: "";
+  //   display: block;
+  //   margin: auto;
+  //   padding-bottom: 40rpx;
+  //   width: 77rpx;
+  //   border-bottom: 1px solid #717171;
+  // }
+  .list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-left: 34rpx;
+    margin-right: 34rpx;
+    padding-bottom: 55rpx;
+    .item {
+      margin-bottom: 52rpx;
+      width: 324rpx;
+      .img {
+        width: 100%;
+        height: 324rpx;
+        margin-bottom: 37rpx;
+      }
+      .info {
+        text-align: center;
+        .first {
+          font-size: 40rpx;
+          font-family: 'HelveticaNeueLTPro-Th';
+          font-weight: normal;
+          color: #FFFFFF;
+          line-height: 30rpx;
+          min-height: 30rpx;
+        }
+        .second {
+          margin-top: 9rpx;
+          margin-bottom: 22rpx;
+          font-size: 32rpx;
+          font-family: 'FZHTJW-animate-font';
+          font-weight: normal;
+          color: #FFFFFF;
+          line-height: 28rpx;
+          min-height: 28rpx;
+        }
+        .third {
+          font-size: 30rpx;
+          font-family: 'FZHTJW-animate-font';
+          color: #B5B5B5;
+          line-height: 22rpx;
+          min-height: 22rpx;
+        }
+      }
+    }
+  }
+
+  .last-model {
+    position: relative;
+    // padding: 0 32rpx 0 52rpx;
+    margin-top: 20rpx;
+    width: 750rpx;
+    height: 396rpx;
+    background-color: #242729;
+    .wrapper {
+      position: absolute;
+      top: 50%;
+      transform: translate(0, -50%);
+      width: 48%;
+      text-align: center;
+      color: #FFFFFF;
+    }
+    .txt-title1, .txt-title2 {
+      font-size: 40rpx;
+      font-family: 'HelveticaNeueLTPro-Th';
+      font-weight: normal;
+    }
+    .txt-title2 {
+      font-size: 32rpx;
+      font-family: 'FZHTJW-animate-font';
+      margin-top: -6rpx;
+    }
+    .txt-title3 {
+      margin-top: 10rpx;
+      font-size: 30rpx;
+      font-family: 'FZHTJW-animate-font';
+      color: #B5B5B5;
+    }
+    .img {
+      width: 750rpx;
+    }
+  }
+}

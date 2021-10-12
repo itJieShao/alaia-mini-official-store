@@ -1,0 +1,110 @@
+@import "@/styles/utilities.scss";
+.address-add{
+    .title{
+        font-size: 32rpx;
+        font-family: HiraginoSansGB-W3, HiraginoSansGB;
+        font-weight: normal;
+        color: #1D1D1D;
+        line-height: 48rpx;
+        letter-spacing: 2rpx;
+        border-bottom: 1px solid #EFF2F4;
+        padding: 30rpx 32rpx;
+    }
+    .form-box{
+        padding: 0 36rpx;
+        margin-top: 46rpx;
+        .input-box{
+            margin-bottom: 48rpx;
+            input{
+                height: 80rpx;
+                background: #F9F9F9;
+                padding-left: 32rpx;
+                font-size: 28rpx;
+                font-family: HiraginoSansGB-W3, HiraginoSansGB;
+                font-weight: normal;
+                color: #1D1D1D;
+                line-height: 80rpx;
+                letter-spacing: 0.84rpx;
+            }
+            input::-webkit-input-placeholder { 
+                /* WebKit browsers */ 
+                color: #8E8E8E; 
+            } 
+            input:-moz-placeholder { 
+                /* Mozilla Firefox 4 to 18 */ 
+                color: #8E8E8E; 
+            } 
+            input::-moz-placeholder { 
+                /* Mozilla Firefox 19+ */ 
+                color: #8E8E8E; 
+            } 
+            input:-ms-input-placeholder { 
+                /* Internet Explorer 10+ */ 
+                color: #8E8E8E; 
+            }
+            .area{
+                height: 80rpx;
+                background: #F9F9F9;
+                padding: 0 32rpx;
+                font-size: 28rpx;
+                font-weight: normal;
+                line-height: 80rpx;
+                display: flex;
+                justify-content: space-between;
+                .area-placeholder{
+                    color: #8E8E8E;
+                }
+                .area-text{
+                    color: #1D1D1D;
+                }
+                .icon-font{
+                    font-size: 14rpx;
+                }
+            }
+        }
+        .check-box{
+            display: flex;
+            align-items: center;
+            margin-top: 60rpx;
+            .icon{
+                display: inline-block;
+                width: 32rpx;
+                height: 32rpx;
+                background: #FFFFFF;
+                border-radius: 50%;
+                border: 1px solid #BBBBBB;
+                margin-right: 20rpx;
+            }
+            .text{
+                font-size: 28rpx;
+                font-family: HiraginoSansGB-W3, HiraginoSansGB;
+                font-weight: normal;
+                color: #252525;
+            }
+            .active{
+                background: #E3F0EA;
+                border: 1px solid #1D1D1D;
+            }
+        }
+        .handle{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 52rpx;
+            button{
+                width: 328rpx;
+                height: 80rpx;
+                border: 1px solid #000000;
+                text-align: center;
+                line-height: 80rpx;
+                font-size: 28rpx;
+                font-family: HiraginoSansGB-W3, HiraginoSansGB;
+                font-weight: normal;
+                color: #1D1D1D;
+                &:nth-child(2){
+                    background: #E3F0EA;
+                }
+            }
+        }
+        
+    }
+}

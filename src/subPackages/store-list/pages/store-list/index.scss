@@ -1,0 +1,107 @@
+.store-list{
+  .store-screen-box{
+    background-color: #fff;
+    position: fixed;
+    z-index: 2;    
+    width: 100%;
+    height: 92rpx;
+    box-sizing: border-box;
+    .store-screen-item {
+      background-color: #fff;
+      width: 50%;
+      float: left;
+      line-height: 92rpx;
+      text-align: center;
+      box-sizing: border-box;
+      border-bottom: 1px solid #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &:first-child{
+        border-right: 1px solid #f4f4f4;
+      }
+      .icon-font{
+        font-size: 12rpx;
+        margin-left: 12rpx;
+        color: #8E8E8E;
+      }
+    }
+  }
+  .store-list-box{
+    padding: 92rpx 32rpx 60rpx;
+    .store-list-item{
+      position: relative;
+      padding: 44rpx 0 20rpx;
+      border-bottom: 1px solid #f4f4f4;
+      .store-name{
+        line-height: 42rpx;
+        margin-bottom: 30rpx;
+        display: flex;
+        justify-content: space-between; 
+        .name{
+          flex: 1;
+          font-size: 28rpx;
+          color: #1D1D1D;
+        }
+        .store-distance{ 
+          width: 180rpx;
+          text-align: right;
+          .icon-font{
+            font-size: 20rpx;
+            color: #1D1D1D;
+            margin-right: 10rpx;
+          }
+          .distance{
+            font-size: 24rpx;
+            color: #1D1D1D;
+            text-decoration:underline;
+          }
+        }
+      }
+      .store-info{
+        display: flex;
+        align-items: center;
+        margin-bottom: 24rpx;
+        .icon-font{
+          width: 28rpx;
+          font-size: 20rpx;
+          color: #8E8E8E;
+          margin-right: 8rpx;
+          text-align: center;
+        }
+        .info{
+          flex: 1;
+          font-size: 24rpx;
+          color: #8E8E8E;
+        }
+        .phonenum{
+          text-decoration: underline;
+          color: #1D1D1D;
+        }
+      }
+    }
+  }
+  .nodata{
+    text-align: center;
+    font-size: 24rpx;
+    padding-top: 300rpx;
+  }
+  .goTop{
+    position: fixed;
+    right: 34rpx;
+    bottom: 54rpx;
+    text{
+      display: inline-block;
+      border-radius: 50%;
+      width: 62rpx;
+      height: 62rpx;
+      background: #FFFFFF;
+      box-shadow: 0px 6px 20px 0px rgba(102, 102, 102, 0.1);
+      text-align: center;
+      line-height: 62rpx;
+      .icon-font{
+        font-size: 36rpx;
+      }
+    }
+  }
+}

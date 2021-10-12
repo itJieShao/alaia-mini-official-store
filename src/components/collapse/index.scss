@@ -1,0 +1,17 @@
+.collapse .collapse-outer {
+  height: 0;
+  overflow: hidden;
+}
+.collapse .collapse-outer.collapse-outer-show {
+  height: auto;
+}
+.collapse .collapse-outer .collapse-inner {
+  line-height: 40rpx;
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: 0.3s;
+}
+.collapse .collapse-outer .collapse-inner.collapse-inner-show {
+  opacity: 1;
+  transform: translateY(0);
+}

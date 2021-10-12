@@ -1,0 +1,63 @@
+.color-section {
+  margin-bottom: 78rpx;
+  .icon {
+    width: 40rpx;
+    height: 40rpx;
+  }
+  .anser {
+    margin-top: -20rpx;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 80rpx;
+    height: 118rpx;
+    text-align: center;
+  }
+  .movable {
+    position: relative;
+    margin-top: 50rpx;
+    .line {
+      position: relative;
+      width: 93%;
+      height: 1px;
+      margin-left: 50%;
+      transform: translate(-50%);
+      background: rgba(255, 255, 255, 0.4);
+    }
+    .anser-box {
+      display: flex;
+      justify-content: space-between;
+    }
+    .line-icon {
+      position: absolute;
+      top: -20rpx;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  .select {
+    margin-top: 50rpx;
+    .anser-box {
+      display: flex;
+      justify-content: space-around;
+      .anser {
+        align-items: center;
+      }
+    }
+    .checked {
+      margin-bottom: 20rpx;
+      position: relative;
+      width: 34rpx;
+      height: 34rpx;
+      border: 1px solid #fff;
+      border-radius: 50%;
+      .line-icon {
+        position: absolute;
+        top: -5rpx;
+        left: -5rpx;
+      }
+    }
+  }
+}

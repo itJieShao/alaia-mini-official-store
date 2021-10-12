@@ -1,0 +1,41 @@
+.my-order {
+  padding-bottom: var(--safe-area-inset-bottom);
+  .my-order-content{
+    .no-order{
+      padding: 120rpx 0;
+      color: #1D1D1D;
+      text-align: center;
+      .no-order-text{
+        font-size:32rpx;
+        line-height: 8rpx;
+        letter-spacing: 2rpx;
+        margin-bottom: 34rpx;
+      }
+      .no-order-tip{
+        font-size: 24rpx;
+        font-weight: normal;
+        line-height: 36rpx;
+        margin-bottom: 70rpx;
+      }
+
+    }
+    .order-list{
+        color: #1D1D1D;
+        padding-bottom: 60rpx;
+      .order-list-header{
+        height: 92rpx;
+        line-height: 92rpx;
+        padding: 0 32rpx;
+        font-size: 32rpx;
+        letter-spacing: 2rpx;
+        border-bottom: 1px solid #F4F4F4;
+        .order-total-num{
+          float: right;
+          font-size: 28rpx;
+          color: #8E8E8E;
+        }
+      }
+      
+    }
+  }
+}

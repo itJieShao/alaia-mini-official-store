@@ -1,0 +1,42 @@
+.help-center{
+  .help-center-title{
+    padding:  0 32rpx;
+    box-sizing: border-box;
+    height: 92rpx;
+    font-size: 32rpx;
+    color: #1D1D1D;
+    line-height: 92rpx;
+    letter-spacing: 2rpx;
+    border-bottom: 1px solid #EFF2F4;
+  }
+  .help-list{
+    padding: 0 32rpx;
+    .help-list-item{
+      position: relative;
+      box-sizing: border-box;
+      height: 120rpx;
+      padding-left: 44rpx;
+      font-size: 28rpx;
+      font-weight: normal;
+      color: #1D1D1D;
+      line-height: 120rpx;
+      border-bottom: 1px solid #F4F4F4;
+      &::before{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        content: "";
+        width: 20rpx;
+        height: 20rpx;
+        background: #E3F0EA;
+        border-radius: 50%;
+      } 
+      .icon-font{
+        position: absolute;
+        right: 0;
+        font-size: 28rpx;
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+.menu {
+  color: #ffffff;
+  font-family: 'FZHTJW-animate-font';
+  .close {
+    margin-top: 52rpx;
+    .icon-c {
+      width: 32rpx;
+      height: 32rpx;
+    }
+  }
+  .search {
+    margin-top: 49rpx;
+    border: 1px solid #ffffff;
+    border-radius: 10rpx;
+    .search-content {
+      margin: auto;
+      width: 90%;
+      height: 81rpx;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .icon {
+      width: 40rpx;
+      height: 40rpx;
+    }
+    .input-placeholder {
+      color: #ffffff;
+      font-size: 32rpx;
+    }
+    .close-icon {
+      width: 32rpx;
+      height: 32rpx;
+    }
+  }
+  .list {
+    margin-top: 60rpx;
+    font-size: 36rpx;
+    height: calc(100% - 290rpx);
+    .item  {
+      height: 96rpx;
+      line-height: 96rpx;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border-bottom: 1px solid #4b4e50;
+    }
+  }
+}

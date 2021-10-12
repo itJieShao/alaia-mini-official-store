@@ -1,0 +1,350 @@
+@import "@/styles/utilities.scss";
+
+.product-content {
+  overflow: hidden;
+  padding-bottom: var(--safe-area-inset-bottom);
+
+  .wrapper {
+    padding-bottom: rpx(64);
+  }
+}
+
+.product-banner-content {
+  position: relative;
+  width: 100%;
+  min-height: rpx(405);
+
+  .pdp-swiper {
+    position: relative;
+    background: #ffffff;
+
+    &-content {
+      width: 750rpx;
+      height: 750rpx;
+      margin: 0 auto;
+
+      & .swiper-item {
+        width: 750rpx;
+        height: 750rpx;
+
+        & .imgs {
+          width: 750rpx;
+          height: 750rpx;
+          object-fit: cover;
+        }
+
+        & .video {
+          position: relative;
+          width: 100%;
+          height: 100%;
+
+          .play {
+            width: 108rpx;
+            height: 108rpx;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          .poster {
+            width: 100%;
+            height: auto;
+          }
+        }
+      }
+    }
+  }
+
+  .view-dost {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+    margin: rpx(24) 0 0;
+
+    .dots-item {
+      height: rpx(6);
+      width: rpx(6);
+      margin: 0 rpx(4);
+      border-radius: 50%;
+      background: #E3F0EA;
+
+      &.dots-item-active {
+        background: #C0EBDB;
+      }
+    }
+  }
+}
+
+.product-info-content {
+  position: relative;
+  text-align: center;
+  margin-top: rpx(17);
+  color: #1D1D1D;
+  font-size: 0;
+  line-height: rpx(14);
+  padding: 0 rpx(50) rpx(20);
+  border-bottom: rpx(1) solid #f4f4f4;
+
+  &.box-margin {
+    margin-bottom: rpx(30);
+  }
+
+  .title {
+    font-size: rpx(18);
+    line-height: rpx(24);
+    padding-top: rpx(4);
+  }
+
+  .sub-title {
+    font-size: rpx(14);
+    line-height: rpx(16);
+    margin-top: rpx(15);
+  }
+
+  .sku {
+    font-size: rpx(12);
+    color: #8E8E8E;
+    margin-top: rpx(15);
+    letter-spacing: rpx(1);
+  }
+
+  .attr {
+    font-size: rpx(12);
+    margin-top: rpx(6);
+    color: #8E8E8E;
+  }
+
+  .price {
+    font-weight: 300;
+    color: #1D1D1D;
+    line-height: rpx(24);
+    font-size: rpx(18);
+    margin-top: rpx(20);
+  }
+
+  .share {
+    position: absolute;
+    right: rpx(9);
+    top: rpx(-4);
+    z-index: 1;
+
+    button {
+      font-size: 0;
+      line-height: rpx(18);
+      background: transparent;
+      padding: rpx(4) rpx(10);
+    }
+
+    .text {
+      font-size: rpx(10);
+      line-height: rpx(10);
+      color: #616161;
+    }
+
+    .icon-font {
+      font-size: rpx(18);
+      width: rpx(18);
+      height: rpx(18);
+      color: #1D1D1D;
+      margin-bottom: rpx(6);
+    }
+  }
+}
+
+.product-size-content {
+  position: relative;
+  background: #fff;
+  padding: rpx(24);
+  border-bottom: rpx(1) solid #f4f4f4;
+  // margin-bottom: rpx(30);
+
+  .picker-wrap {
+    position: relative;
+    width: rpx(240);
+    height: rpx(40);
+  }
+
+  .picker-wrap-style {
+    position: relative;
+    width: 100%;
+    height: rpx(40);
+  }
+
+  .size-guide {
+    position: absolute;
+    right: rpx(14);
+    top: 50%;
+    transform: translateY(-50%);
+    padding: rpx(10);
+
+    .text {
+      position: relative;
+      display: inline-block;
+      color: #1D1D1D;
+      font-size: rpx(14);
+      line-height: rpx(14);
+
+      &::after {
+        position: absolute;
+        bottom: rpx(-2);
+        left: 0;
+        content: '';
+        display: block;
+        width: 100%;
+        height: rpx(1);
+        background: #1D1D1D;
+      }
+
+    }
+  }
+}
+
+.product-details-content {
+  position: relative;
+  // margin-top: rpx(-30);
+  margin-bottom: rpx(30);
+
+  .details-item {
+    image {
+      width: 100%;
+    }
+  }
+}
+
+.pdp-buy-fixed {
+  width: 100%;
+  background-color: #fff;
+  padding-bottom: var(--safe-area-inset-bottom);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  border-top: rpx(1) solid #f4f4f4;
+  z-index: 99;
+}
+
+.pdp-buy-content {
+  position: relative;
+  width: 100%;
+  height: rpx(64);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 rpx(11) 0 rpx(12);
+
+  .add-success-content {
+    position: absolute;
+    top: rpx(-36);
+    left: 0;
+    width: 100%;
+    height: rpx(36);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #E3F0EA;
+    padding: 0 0 0 rpx(16);
+    color: #1D1D1D;
+    font-size: rpx(14);
+    letter-spacing: rpx(1);
+
+    .icon-font {
+      font-size: rpx(14);
+      margin-right: rpx(7);
+    }
+
+    .btn {
+      height: rpx(36);
+      line-height: rpx(37);
+      color: #1D1D1D;
+      padding: 0 rpx(12);
+
+      text {
+        position: relative;
+
+        &::after {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          content: '';
+          display: block;
+          width: 100%;
+          height: rpx(1);
+          background: #1D1D1D;
+        }
+      }
+    }
+  }
+
+  .add-cart-btn,
+  .buy-now-btn {
+    width: rpx(122);
+  }
+
+  .add-cart-btn {
+    margin-right: rpx(12);
+  }
+
+  .arrival-notice {
+    width: rpx(258);
+
+    .btn-disabled {
+      background: #DDDDDD;
+      border: rpx(1) solid #DDDDDD;
+      color: #8E8E8E;
+    }
+  }
+
+  .service-content,
+  .cart-content {
+    font-size: 0;
+    color: #1D1D1D;
+
+    .cart-btn,
+    .service-btn {
+      text-align: center;
+      font-size: 0;
+      padding: 0;
+      line-height: 0;
+      background: transparent;
+    }
+
+    .imgs {
+      width: rpx(24);
+    }
+
+    .text {
+      font-size: rpx(12);
+      margin-top: rpx(4);
+      line-height: rpx(12);
+      letter-spacing: rpx(1);
+    }
+
+    .cart-main {
+      position: relative;
+      display: inline-block;
+
+      .cart-num {
+        position: absolute;
+        top: rpx(-2);
+        right: rpx(-2);
+        width: rpx(13);
+        height: rpx(13);
+        background: #E3F0EA;
+        color: #1D1D1D;
+        border-radius: 50%;
+        font-size: rpx(8);
+        line-height: rpx(15);
+        text-align: center;
+      }
+    }
+  }
+
+  .buy-main {
+    font-size: 0;
+
+    button {
+      display: inline-block;
+    }
+  }
+}

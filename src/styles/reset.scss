@@ -1,0 +1,31 @@
+/* 去掉button的border */
+button::after {
+  border-width: 0;
+  border-radius: 0;
+}
+
+button{
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* 在ios下开启惯性滚动 */
+page,
+scroll-view,
+view,
+swiper,
+button,
+label,
+text,
+input,
+textarea,
+navigator {
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  font-family: 'GillSansLight', PingFang SC, Helvetica Neue, Arial, sans-serif;
+}
+
+@import './utilities.scss';
+@import './var.scss';
+@import './btn.scss';

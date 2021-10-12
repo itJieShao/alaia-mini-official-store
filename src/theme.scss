@@ -1,0 +1,30 @@
+@import "./styles/reset.scss";
+
+page {
+  height: 100%;
+  background: #fff;
+}
+
+scroll-view ::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+  display: none;
+}
+
+page {
+  --safe-area-inset-bottom: 0rpx;
+}
+
+// 底部安全区域  env 和 constant 在桌面小程序会出现兼容问题，导致计算出错，所以这里进行判断一下
+@supports (bottom: constant(safe-area-inset-bottom)) {
+  page {
+    --safe-area-inset-bottom: constant(safe-area-inset-bottom);
+  }
+}
+
+@supports (bottom: env(safe-area-inset-bottom)) {
+  page {
+    --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  }
+}

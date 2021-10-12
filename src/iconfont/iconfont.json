@@ -1,0 +1,247 @@
+{
+  "id": "2640416",
+  "name": "TASAKI",
+  "font_family": "icon-font",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "23003623",
+      "name": "icon-播放",
+      "font_class": "bofang",
+      "unicode": "e72f",
+      "unicode_decimal": 59183
+    },
+    {
+      "icon_id": "23003624",
+      "name": "icon-播放关闭",
+      "font_class": "bofangguanbi",
+      "unicode": "e730",
+      "unicode_decimal": 59184
+    },
+    {
+      "icon_id": "22732534",
+      "name": "icon-成功2",
+      "font_class": "icon-chenggong2",
+      "unicode": "e72e",
+      "unicode_decimal": 59182
+    },
+    {
+      "icon_id": "22726417",
+      "name": "icon-下",
+      "font_class": "icon-xia",
+      "unicode": "e72c",
+      "unicode_decimal": 59180
+    },
+    {
+      "icon_id": "22726418",
+      "name": "icon-上",
+      "font_class": "icon-shang",
+      "unicode": "e72d",
+      "unicode_decimal": 59181
+    },
+    {
+      "icon_id": "22716987",
+      "name": "icon-微信",
+      "font_class": "icon-weixin",
+      "unicode": "e72b",
+      "unicode_decimal": 59179
+    },
+    {
+      "icon_id": "22716951",
+      "name": "icon-微信支付",
+      "font_class": "iconweixinzhifu",
+      "unicode": "e72a",
+      "unicode_decimal": 59178
+    },
+    {
+      "icon_id": "22655859",
+      "name": "icon-右箭头",
+      "font_class": "icon-youjiantou",
+      "unicode": "e729",
+      "unicode_decimal": 59177
+    },
+    {
+      "icon_id": "22655811",
+      "name": "icon-logo",
+      "font_class": "icon-logo",
+      "unicode": "e728",
+      "unicode_decimal": 59176
+    },
+    {
+      "icon_id": "22621120",
+      "name": "icon-客服",
+      "font_class": "icon-kefu",
+      "unicode": "e727",
+      "unicode_decimal": 59175
+    },
+    {
+      "icon_id": "22621008",
+      "name": "icon-个人中心未选中",
+      "font_class": "icon-gerenzhongxinweixuanzhong",
+      "unicode": "e725",
+      "unicode_decimal": 59173
+    },
+    {
+      "icon_id": "22597161",
+      "name": "icon-下拉灰色",
+      "font_class": "icon-xialahuise",
+      "unicode": "e724",
+      "unicode_decimal": 59172
+    },
+    {
+      "icon_id": "22597120",
+      "name": "icon-设置",
+      "font_class": "icon-shezhi",
+      "unicode": "e723",
+      "unicode_decimal": 59171
+    },
+    {
+      "icon_id": "22597098",
+      "name": "icon-帮助中心",
+      "font_class": "icon-bangzhuzhongxin",
+      "unicode": "e722",
+      "unicode_decimal": 59170
+    },
+    {
+      "icon_id": "22597084",
+      "name": "icon-地址簿",
+      "font_class": "icon-dizhibu",
+      "unicode": "e721",
+      "unicode_decimal": 59169
+    },
+    {
+      "icon_id": "22597045",
+      "name": "icon-精品店",
+      "font_class": "icon-jingpindian",
+      "unicode": "e720",
+      "unicode_decimal": 59168
+    },
+    {
+      "icon_id": "22597020",
+      "name": "icon-订单",
+      "font_class": "icon-dingdan",
+      "unicode": "e71f",
+      "unicode_decimal": 59167
+    },
+    {
+      "icon_id": "22596960",
+      "name": "icon-下拉",
+      "font_class": "icon-xiala",
+      "unicode": "e71e",
+      "unicode_decimal": 59166
+    },
+    {
+      "icon_id": "22596899",
+      "name": "icon-删除",
+      "font_class": "icon-shanchu",
+      "unicode": "e71d",
+      "unicode_decimal": 59165
+    },
+    {
+      "icon_id": "22596854",
+      "name": "icon-关闭",
+      "font_class": "icon-guanbi",
+      "unicode": "e71c",
+      "unicode_decimal": 59164
+    },
+    {
+      "icon_id": "22596850",
+      "name": "icon-搜索",
+      "font_class": "icon-sousuo",
+      "unicode": "e71b",
+      "unicode_decimal": 59163
+    },
+    {
+      "icon_id": "22596847",
+      "name": "icon-左",
+      "font_class": "icon-zuo",
+      "unicode": "e71a",
+      "unicode_decimal": 59162
+    },
+    {
+      "icon_id": "22596832",
+      "name": "icon-定点",
+      "font_class": "icon-dingdian",
+      "unicode": "e718",
+      "unicode_decimal": 59160
+    },
+    {
+      "icon_id": "22596819",
+      "name": "icon-定位",
+      "font_class": "icon-dingwei",
+      "unicode": "e716",
+      "unicode_decimal": 59158
+    },
+    {
+      "icon_id": "22596816",
+      "name": "icon-预约",
+      "font_class": "icon-yuyue",
+      "unicode": "e715",
+      "unicode_decimal": 59157
+    },
+    {
+      "icon_id": "22596814",
+      "name": "icon-电话",
+      "font_class": "icon-dianhua",
+      "unicode": "e714",
+      "unicode_decimal": 59156
+    },
+    {
+      "icon_id": "22596808",
+      "name": "icon -分类",
+      "font_class": "a-icon-fenlei",
+      "unicode": "e713",
+      "unicode_decimal": 59155
+    },
+    {
+      "icon_id": "22596786",
+      "name": "icon-购物袋",
+      "font_class": "icon-gouwudai",
+      "unicode": "e711",
+      "unicode_decimal": 59153
+    },
+    {
+      "icon_id": "22596778",
+      "name": "icon-一键向上",
+      "font_class": "icon-yijianxiangshang",
+      "unicode": "e710",
+      "unicode_decimal": 59152
+    },
+    {
+      "icon_id": "22596775",
+      "name": "icon-播放",
+      "font_class": "icon-bofang",
+      "unicode": "e70f",
+      "unicode_decimal": 59151
+    },
+    {
+      "icon_id": "22596771",
+      "name": "icon-时间",
+      "font_class": "icon-shijian",
+      "unicode": "e70e",
+      "unicode_decimal": 59150
+    },
+    {
+      "icon_id": "22596768",
+      "name": "icon-分享",
+      "font_class": "icon-fenxiang",
+      "unicode": "e70d",
+      "unicode_decimal": 59149
+    },
+    {
+      "icon_id": "22596754",
+      "name": "icon-支付失败",
+      "font_class": "icon-zhifushibai",
+      "unicode": "e70c",
+      "unicode_decimal": 59148
+    },
+    {
+      "icon_id": "22596750",
+      "name": "icon-支付成功",
+      "font_class": "icon-zhifuchenggong",
+      "unicode": "e70b",
+      "unicode_decimal": 59147
+    }
+  ]
+}

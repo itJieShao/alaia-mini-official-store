@@ -1,0 +1,37 @@
+.left-pop-up {
+  .wrapper {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    left: -750rpx;
+    z-index: 5;
+    &.show {
+      left: 0rpx;
+      transition: left .25s linear;
+      .layer {
+        opacity: 1;
+        transition: opacity 0s;
+      }
+    }
+    &.animation {
+      transition: left .25s linear;
+    }
+    .layer {
+      opacity: 0;
+      width: 750rpx;
+      height: 100%;
+      z-index: 40;
+      background: rgba(0,0,0,.6);
+    }
+    .content {
+      position: absolute;
+      top: 0;
+      height: calc(100vh - 100rpx - var(--safe-area-inset-bottom));
+      width: 650rpx;
+      z-index: 41;
+      padding-left: 51rpx;
+      padding-right: 51rpx;
+      background-color: #2f3335;
+    }
+  }
+}

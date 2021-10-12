@@ -1,0 +1,247 @@
+.container .footer-share {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  bottom: 100rpx;
+  left: 0;
+  z-index: 9999;
+  box-sizing: border-box;
+}
+.container .footer-share .top-content {
+  width: 100%;
+  height: calc(100vh - 200rpx);
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.container .footer-share .bottom-content {
+  display: flex;
+  width: 100%;
+  height: 200rpx;
+  background-color: #2e3235;
+  border-bottom: 1px solid #ccc;
+}
+.container .footer-share .bottom-content .share-content-left {
+  width: 50%;
+  height: 100%;
+  background-color: #2e3235;
+}
+.container .footer-share .bottom-content .share-content-left .content-image {
+  width: 50rpx;
+  height: 50rpx;
+  display: block;
+  margin: 0 auto;
+  margin-top: 52rpx;
+}
+.container .footer-share .bottom-content .share-content-left .content-text {
+  text-align: center;
+  color: #fff;
+  font-size: 24rpx;
+  margin-top: -14rpx;
+}
+.container .footer-share .bottom-content .share-content-left:first-child {
+  border-right: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+.container .isIpX {
+  bottom: 158rpx;
+}
+.share-content {
+  width: 74rpx;
+  height: 74rpx;
+  position: fixed;
+  right: 0;
+  bottom: 30%;
+}
+.share-content .share-box {
+  width: 100%;
+  height: 100%;
+}
+.share-content .share-box .share-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.picture-content {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  z-index: 9999;
+}
+.picture-content .picture-image {
+  width: 100%;
+  height: calc(100vh - 90rpx);
+  position: relative;
+}
+.picture-content .picture-image .image-box {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.picture-content .picture-image .products-content {
+  width: 100%;
+  height: calc(100vh - 290rpx);
+  background-color: #000;
+}
+.picture-content .picture-image .products-content .top-box {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.picture-content
+  .picture-image
+  .products-content
+  .top-box
+  .product-contentImage {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.picture-content .picture-image .products-content .top-box .logo-box {
+  width: 165rpx;
+  height: 55rpx;
+  display: block;
+  position: absolute;
+  top: 47rpx;
+  right: 43rpx;
+}
+.picture-content .picture-image .products-content .top-box .content-info {
+  position: absolute;
+  left: 0;
+  bottom: 4%;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+}
+.picture-content
+  .picture-image
+  .products-content
+  .top-box
+  .content-info
+  .info-title {
+  font-size: 48rpx;
+  letter-spacing: 4rpx;
+  line-height: 60rpx;
+}
+.picture-content
+  .picture-image
+  .products-content
+  .top-box
+  .content-info
+  .subTitle {
+  font-weight: 700;
+}
+.picture-content
+  .picture-image
+  .products-content
+  .top-box
+  .content-info
+  .info-line {
+  width: 76rpx;
+  height: 3rpx;
+  background-color: #fff;
+  margin: 0 auto;
+  margin-top: 39rpx;
+  margin-bottom: 32rpx;
+}
+.picture-content
+  .picture-image
+  .products-content
+  .top-box
+  .content-info
+  .info-content {
+  font-size: 40rpx;
+  letter-spacing: 3rpx;
+  line-height: 56rpx;
+}
+.picture-content .picture-image .products-content .productCode-box {
+  width: 100%;
+  height: 200rpx;
+  background-color: #fff;
+  display: flex;
+}
+.picture-content
+  .picture-image
+  .products-content
+  .productCode-box
+  .letf-boxCode {
+  width: 50%;
+  color: #000;
+  font-size: 28rpx;
+  text-align: center;
+  letter-spacing: 6rpx;
+  margin-left: 13%;
+}
+.picture-content
+  .picture-image
+  .products-content
+  .productCode-box
+  .letf-boxCode
+  .code-title {
+  line-height: 46rpx;
+}
+.picture-content
+  .picture-image
+  .products-content
+  .productCode-box
+  .letf-boxCode
+  .margin {
+  margin-top: 70rpx;
+}
+.picture-content .picture-image .products-content .productCode-box .image-box {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.picture-content
+  .picture-image
+  .products-content
+  .productCode-box
+  .image-box
+  .right-imageCode {
+  width: 168rpx;
+  height: 168rpx;
+  display: block;
+}
+.picture-content .picture-image .isNormolProductX {
+  height: calc(100vh - 340rpx);
+}
+.picture-content .picture-image .close-picture {
+  position: absolute;
+  top: 30rpx;
+  left: 20rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.picture-content .picture-image .close-picture .close-image {
+  width: 40rpx;
+  height: 40rpx;
+  display: block;
+}
+.picture-content .pictureIsIpx {
+  height: calc(100vh - 140rpx);
+}
+.picture-content .picture-button {
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  background-color: #2e3235;
+  font-size: 24rpx;
+  text-align: center;
+  color: #b5b5b5;
+  letter-spacing: 2rpx;
+}
+.picture-content button {
+  border: none;
+  padding: 0;
+}
+.picture-content .buttonIsIpx {
+  height: 150rpx;
+  line-height: 150rpx;
+}

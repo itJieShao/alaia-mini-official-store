@@ -1,0 +1,19 @@
+.search-result {
+  padding-bottom: calc(var(--safe-area-inset-bottom));
+  color: #fff;
+  .title {
+    text-align: center;
+    line-height: 250rpx;
+    font-size: 50rpx;
+  }
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    .product-item {
+      width: 50%;
+    }
+  }
+  .swiper {
+    margin-top: 70rpx;
+  }
+}

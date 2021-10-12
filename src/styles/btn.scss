@@ -1,0 +1,58 @@
+// 按钮
+.btn {
+  min-width: rpx(40);
+  height: rpx(40);
+  line-height: rpx(41);
+  box-sizing: border-box;
+  padding: 0 rpx(5);
+  font-size: rpx(14);
+  color: $white;
+  border-radius: rpx(0);
+  letter-spacing: rpx(0.5);
+  text-align: center;
+
+  // 不可用
+  &.disabled {
+    background: $gray-bb !important;
+    border: rpx(1) solid $gray-bb !important;
+  }
+}
+
+//主按钮
+.btn-primary {
+  @extend .btn;
+  background: $primary-color;
+  border: rpx(1) solid $text-color;
+  color: $text-color;
+
+  &.button-hover,
+  &.navigator-hover {
+    background: $primary-color;
+  }
+}
+
+//白底黑边按钮
+.btn-black-white {
+  @extend .btn;
+  background: $white;
+  border: rpx(1) solid $text-color;
+  color: $text-color;
+
+  &.button-hover,
+  &.navigator-hover {
+    background: $white;
+  }
+}
+
+//禁用按钮
+.btn-disabled {
+  @extend .btn;
+  background: $background-color;
+  border: rpx(1) solid $gray-bb;
+  color: $gray-bb;
+
+  &.button-hover,
+  &.navigator-hover {
+    background: $background-color;
+  }
+}

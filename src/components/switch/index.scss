@@ -1,0 +1,46 @@
+.switch {
+  padding-top: 158rpx;
+  padding-bottom: 177rpx;
+  .head {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: auto;
+    width: 680rpx;
+    color: #FFFFFF;
+    font-size: 54rpx;
+    font-family: 'FZHTJW-animate-font';
+    font-weight: normal;
+    line-height: 54rpx;
+    .title::after {
+      content: "";
+      padding-bottom: 37rpx;
+      display: block;
+      width: 0rpx;
+      border-bottom: 1px solid transparent;
+    }
+    .active::after {
+      width: 100%;
+      border-bottom: 1px solid #717171;
+    }
+  }
+  .content {
+    margin-top: 91rpx;
+    .wrapper {
+      margin: auto;
+      text-align: center;
+      width: 700rpx;
+      opacity: 0;
+      height: 0rpx;
+      overflow: hidden;
+      &.active {
+        opacity: 1;
+        height: auto;
+        overflow-y: auto;
+      }
+      .btn {
+        margin-top: 135rpx;
+      }
+    }
+  }
+}
