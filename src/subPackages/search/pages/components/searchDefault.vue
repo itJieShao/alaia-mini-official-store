@@ -2,94 +2,133 @@
   <view>
     <search-input @getProduct="getProduct" />
     <view class="search-recommend">
-      <text class="search-recommend-title">热词搜索</text>
-      <view class="search-recommend-con">
-        <view @click="searchClick(item)" class="search-recommend-item" style="background-color: #E3F0EA;"
-          v-for="(item,index) in hotWords" :key="index">
+      <text class="title">热词搜索</text>
+      <view class="hot-list">
+        <view @click="searchClick(item)" :class="['item',index==0?'hot':'']" v-for="(item,index) in hotWords" :key="index">
           {{item.name}}
         </view>
       </view>
     </view>
-    <view class="search-recommend">
-      <view style="width: 680upx;display: flex;align-items: center;justify-content: space-between;"
-        v-if="historyWords.length">
-        <text class="search-recommend-title">搜索历史</text>
-        <image @click="delHistoryWords" style="width: 24rpx;height: 24rpx;"
-          src="https://res-tasaki.baozun.com/static/images/icon-del.png" mode="widthFix" :lazy-load="true"></image>
-      </view>
-      <view class="search-recommend-con">
-        <view @click="searchClick(item)" class="search-recommend-item" style="background-color: #E6E6E6;"
-          v-for="(item,index) in historyWords" :key="index">
-          {{item.name}}
+    <view class="guess-like">
+      <text class="title">猜你喜欢</text>
+      <scroll-view class="guess-list" scroll-x="true">
+        <view class="item" v-for="(item,index) in guessLike" :key="index">
+          <image class="cover" :src="item.cover" mode="aspectFill"></image>
+          <view class="title">{{item.title}}</view>
+          <view class="price">{{item.price}}</view>
         </view>
-      </view>
+      </scroll-view>
     </view>
   </view>
 </template>
 
 <script>
-  import searchInput from '@/components/searchInput';
-  export default {
-    components: {
-      searchInput
+import searchInput from '@/components/searchInput';
+
+export default {
+  components: {
+    searchInput,
+  },
+  props: {
+    hotWords: {
+      type: Array,
+      default: [],
     },
-    props: {
-      hotWords: {
-        type: Array,
-        default: [],
-      },
-      historyWords: {
-        type: Array,
-        default: [],
-      },
+    guessLike: {
+      type: Array,
+      default: [],
     },
-    methods: {
-      getProduct(params) {
-        this.$emit("getProduct", params);
-      },
-      searchClick(keyword) {
-        console.log("searchClick",keyword)
-        this.$emit("getProduct", keyword);
-        this.$sr.track("search", {
-          keyword:keyword.name,
-        });
-      },
-      delHistoryWords() {
-        this.$emit("delHistoryWords");
-      },
-    }
-  }
+  },
+  methods: {
+    getProduct (params) {
+      this.$emit('getProduct', params);
+    },
+    searchClick (keyword) {
+      this.$emit('getProduct', keyword);
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
-  .search-recommend {
-    width: 720upx;
-    margin: 50upx 0 40upx 30upx;
-
-    text,
-    view {
-      font-family: 'HiraginoSansGB';
+@import '@/styles/utilities.scss';
+.search-recommend {
+  margin-top: rpx(40);
+  padding: 0 rpx(16);
+  .title {
+    font-family: PingFangSC, PingFangSC-Medium;
+    font-size: rpx(14);
+    font-weight: 500;
+    line-height: rpx(20);
+    letter-spacing: 2px;
+    color: #1d1d1d;
+  }
+  .hot-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: rpx(-10);
+    .item {
+      font-family: PingFangSC, PingFangSC-Medium;
+      font-size: rpx(14);
+      font-weight: 500;
+      line-height: rpx(20);
+      margin-top: rpx(20);
+      margin-left: rpx(10);
+      padding: rpx(10) rpx(20);
+      letter-spacing: 2px;
+      color: #8e8e8e;
+      border: rpx(2) solid #bbb;
     }
-
-    .search-recommend-title {
-      font-size: 28upx;
-      color: #1D1D1D;
+    .hot {
+      color: #1d1d1d;
+      border-color: #1d1d1d;
     }
-
-    .search-recommend-con {
-      margin-top: 28upx;
-      display: flex;
-      flex-wrap: wrap;
-
-      .search-recommend-item {
-        margin: 0 30upx 30upx 0;
-        font-size: 24upx;
-        text-align: center;
-        line-height: 24upx;
-        letter-spacing: 1.44upx;
-        padding: 16upx 20upx;
-        border-radius: 5upx;
+  }
+}
+.guess-like {
+  margin-top: rpx(30);
+  padding-left: rpx(16);
+  .title {
+    font-family: PingFangSC, PingFangSC-Medium;
+    font-size: rpx(14);
+    font-weight: 500;
+    line-height: rpx(20);
+    letter-spacing: 2px;
+    color: #1d1d1d;
+  }
+  .guess-list {
+    margin-top: rpx(30);
+    white-space: nowrap;
+    .item {
+      display: inline-block;
+      width: rpx(165);
+      margin-right: rpx(8);
+      text-align: center;
+      .cover {
+        width: 100%;
+        height: rpx(227);
+      }
+      .title {
+        font-family: PingFangSC, PingFangSC-Regular;
+        font-size: rpx(12);
+        font-weight: 400;
+        line-height: rpx(14);
+        height: rpx(28);
+        margin-top: rpx(15);
+        white-space: initial;
+        color: #1d1d1d;
+      }
+      .price {
+        font-family: Lato, Lato-Regular;
+        font-size: rpx(12);
+        font-weight: 400;
+        line-height: rpx(14);
+        margin-top: rpx(4);
+        color: #1d1d1d;
       }
     }
   }
+}
+
 </style>

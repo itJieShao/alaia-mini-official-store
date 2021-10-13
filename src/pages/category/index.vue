@@ -129,12 +129,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/utilities.scss";
+@import '@/styles/utilities.scss';
 $fontColor: #1d1d1d;
 .content {
   position: relative;
-  padding-top: rpx(3);
   overflow-y: auto;
+  padding-top: rpx(3);
 }
 .activity-banner {
   position: relative;
@@ -196,21 +196,22 @@ $fontColor: #1d1d1d;
         }
         .mark {
           position: absolute;
-          left: 0;
           top: 0;
+          left: 0;
           width: 100%;
           height: 100%;
         }
         .txt {
-          position: relative;
           font-family: PingFangSC, PingFangSC-Regular;
           font-size: rpx(13);
           font-weight: 400;
           line-height: rpx(18);
+          position: relative;
           color: #616161;
         }
       }
     }
   }
 }
+
 </style>
