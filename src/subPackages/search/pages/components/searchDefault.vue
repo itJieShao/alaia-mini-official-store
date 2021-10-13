@@ -10,7 +10,7 @@
       </view>
     </view>
     <view class="guess-like">
-      <recently-like-products />
+      <recently-like-products like />
     </view>
   </view>
 </template>

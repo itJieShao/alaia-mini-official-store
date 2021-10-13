@@ -1,15 +1,8 @@
 <template>
   <view>
-    <productDisplay
-      v-if="guessLikeProduct.length"
-      title="猜你喜欢"
-      :products="guessLikeProduct">
+    <productDisplay v-if="guessLikeProduct.length&&!recent" title="猜你喜欢" :products="guessLikeProduct">
     </productDisplay>
-    <productDisplay
-      v-if="recentProducts.length"
-      title="最近浏览"
-      :products="recentProducts"
-    ></productDisplay>
+    <productDisplay v-if="recentProducts.length&&!like" title="最近浏览" :products="recentProducts"></productDisplay>
   </view>
 </template>
 
@@ -26,21 +19,30 @@ export default {
   components: {
     productDisplay,
   },
-  props: {},
-  data() {
+  props: {
+    like: {
+      type: Boolean,
+      default: false,
+    },
+    recent: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data () {
     return {
       guessLikeProduct: [],
       recentProducts: [],
     };
   },
-  created() {
+  created () {
     this.getGuessLike()
     this.getRecentProducts()
   },
   methods: {
     ...mapActions('search', ['searchProduct']),
     ...mapActions('product', ['getProductList']),
-    async getGuessLike() {
+    async getGuessLike () {
       try {
         const res = await queryGuessLikeGoods({
           templateCode: 'P001',
@@ -65,7 +67,7 @@ export default {
         console.error(error)
       }
     },
-    async getRecentProducts() {
+    async getRecentProducts () {
       const localData = uni.getStorageSync('recentBrowseGoods') || [];
       const codes = localData.map((v) => v.code)
       this.getProductList(codes).then((list) => {
