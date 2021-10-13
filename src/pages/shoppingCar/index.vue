@@ -61,24 +61,30 @@
     <!-- 删除商品二次确认 -->
     <view class="message-box" v-if="messageVisible">
       <view class="message-inner">
-        <view class="message-title">移除商品</view>
-        <view class="message-info">你确定要移除此商品吗？</view>
+        <view class="message-title">确定要删除此商品吗？</view>
+        <view class="message-info">
+           <view class="message-info-inner">
+             <view class="arrow"></view>
+             <view class="arrow"></view>
+             <view class="arrow"></view>
+           </view>
+        </view>
         <view class="message-footer">
           <customButton
             class="cancel"
             :btnWidth="240"
             :btnHeight="70"
-            className="transparent"
+            className="big-btn"
             @click="messageVisible = false">
-            取消
+            暂不删除
           </customButton>
           <customButton
             :btnWidth="240"
             :btnHeight="70"
-            className="big-btn"
+            className="transparent"
             @click="handleDelete"
             >
-            确认
+            确认删除
           </customButton>
         </view>
       </view>
@@ -94,9 +100,9 @@ import RecentlyLikeProducts from '@/pages/shoppingCar/components/RecentlyLikePro
 import navBarHeight from '@/components/common/navBarHeight';
 import { addShopCartApi } from '@/service/apis/pdp';
 import utils from '../../utils/utils';
-import customButton from '../../components/button/normal.vue'
+import customButton from '../../components/al-button/normal.vue'
 import productItem from './components/productItem/productItem';
-import zCheckbox from '../../components/checkbox';
+import zCheckbox from '../../components/al-checkbox';
 import { get } from '../../utils/utilityOperationHelper';
 import {
   cartDelete,

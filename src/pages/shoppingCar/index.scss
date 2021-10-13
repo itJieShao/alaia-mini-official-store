@@ -4,6 +4,9 @@
 /**
  * font
  **/
+
+ @import '@/styles/base';
+
 page {
   background: #fff;
 }
@@ -381,20 +384,44 @@ $textColor: #1D1D1D;
     top: 50%;
     left: 50%;
     padding: 60rpx 30rpx;
-    width: 560rpx;
+    box-sizing: border-box;
+    width: rpx(280);
+    height: rpx(167);
     background: #fff;
     transform: translate(-50%, -50%);
     .message-title {
-      margin-bottom: 44rpx;
-      font-size: 32rpx;
+      margin-bottom: rpx(25);
+      font-size: rpx(16);
       text-align: center;
       color: #1D1D1D;
     }
     .message-info {
-      margin-bottom: 46rpx;
-      font-size: 28rpx;
+      position: relative;
+      margin-bottom: rpx(28);
       text-align: center;
-      color: #8E8E8E;
+      border-bottom: 1px solid #dddddd;
+      .message-info-inner {
+        position: absolute;
+        width: rpx(50);
+        height: rpx(10);
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        background: #fff;
+        .arrow {
+          display: inline-block;
+          width: 0;
+          height: 0;
+          border-left: rpx(4) solid transparent;
+          border-right: rpx(4) solid transparent;
+          border-bottom: rpx(8) solid #1d1d1d;
+          transform: rotate(180deg);
+          &:nth-child(2) {
+            transform: rotate(0);
+          }
+        }
+      }
     }
     .message-footer {
       display: flex;

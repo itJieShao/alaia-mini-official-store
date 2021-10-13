@@ -1,8 +1,7 @@
 <template>
-  <view>
-    <view class="box-outer" :class="{disabled: !isInventory}">
+    <view class="sp-item" :class="{disabled: !isInventory}">
       <!-- 选中商品 -->
-      <view class="box">
+      <view class="c-box">
         <z-checkbox
           v-if="isInventory"
           @checkEvent="checkedEventer"
@@ -12,81 +11,52 @@
         <z-checkbox v-else :disabled="!isInventory"></z-checkbox>
       </view>
       <!-- 商品图片 -->
-      <view class="box image" @tap="toPDP" v-if="skuData">
+      <view class="image-box" @tap="toPDP" v-if="skuData">
         <image
+          class="image"
           mode="aspectFit"
           :lazy-load="true"
           :src="imgUrlReplace(skuData.product.images[0].url || skuData.product.images[1].url, 375, 375 )">
         </image>
+        <view class="no-stock-txt" v-if="!onShelves || inventory <= 0">该商品暂时缺货</view>
       </view>
       <!-- 商品信息 -->
-      <view class="box">
-        <view class="box-in">
-          <text class="productName" style="line-height: 1.5;" @tap="toPDP">{{ skuData.product.title }}</text>
-          <text @tap="toPDP" class="category" v-if="material">{{ material }}</text>
-          <!-- 尺寸 -->
-          <view class="num size" style="line-height: 1.5;" v-if="currentSize !== '00'">
-            <text decode="true">尺寸:</text>
-            <picker @change="bindPickerChange" :value="sizeIndex" :range="sizeOptions" range-key="frontName" v-if="isInventory">
-              <text class="quantity uni-input">
-                {{ currentSize }}
-                <text class="icon-font icon-icon-xiala"></text>
-              </text>
-            </picker>
-            <text class="quantity" v-else>
-              {{ currentSize }}
-            </text>
+      <view class="info-box">
+        <text class="p-name" @tap="toPDP">{{ skuData.product.title }}</text>
+        <view class="select-attr-field">
+          <text class="label">颜色:</text>
+          <view class="content">
+            <text class="value">红色</text>
+            <view class="arrow-icon"></view>
           </view>
-          <view class="num size" style="line-height: 1.5;" v-if="currentStyle">
-            <text decode="true">款式:</text>
-            <picker @change="bindStylePickerChange" :value="styleIndex" :range="styleOptions" range-key="frontName" v-if="isInventory">
-              <text class="quantity uni-input">
-                {{ currentStyle }}
-                <text class="icon-font icon-icon-xiala"></text>
-              </text>
-            </picker>
-            <text class="quantity" v-else>
-              {{ currentStyle }}
-            </text>
+        </view>
+        <view class="select-attr-field">
+          <text class="label">尺寸:</text>
+          <view class="content">
+            <text class="value">38</text>
+            <view class="arrow-icon"></view>
           </view>
-          <!-- 数量 -->
-          <view class="num " style="line-height: 1.5;" v-if="!productData.bonusProduct">
-            <text decode="true">数量:</text>
-            <picker @change="bindNumPickerChange" :value="numIndex" :range="numOptions"  v-if="isInventory">
-              <text class="quantity uni-input">
-                {{ productData.quantity }}
-                <text class="icon-font icon-icon-xiala"></text>
-              </text>
-            </picker>
-              <text class="quantity " v-else>
-                {{ productData.quantity }}
-              </text>
-          </view>
-          <!-- 价格 -->
-          <view class="price-box">
-            <text class="price">{{ skuData.salePrice.amount | currency }}</text>
-          </view>
-          <view class="noStock" v-if="!onShelves || inventory <= 0">该商品暂时缺货</view>
+        </view>
+        
+        <view class="price-box">
+          <view class="amount"><text class="label">数量:</text> 1</view>
+          <view class="price">{{ skuData.salePrice.amount | currency }}</view>
         </view>
       </view>
       <!-- 删除按钮 -->
-      <view class="box">
-        <view class="del" v-if="!productData.bonusProduct" @tap="deleteEventer">
-          <text class="icon-font icon-icon-guanbi"></text>
-        </view>
+      <view class="delete-btn" v-if="!productData.bonusProduct" @tap="deleteEventer">
+        <text class="icon-font icon-icon-guanbi"></text>
       </view>
-    </view>
   </view>
 </template>
 
 <script>
 import utils, { imgUrlReplace } from '@/utils/utils';
 import { getProductDetailsAction } from '@/service/apis/pdp';
-import zCheckbox from '../../../../components/checkbox';
+import zCheckbox from '../../../../components/al-checkbox';
 import { get } from '../../../../utils/utilityOperationHelper';
 
 import { getCategory, getDescription, getSizeBySkuInfo } from '../../../../utils/product'
-// import { trackerClickProduct, EVENT_TYPE, SCREEN_NAME } from '../../../../utils/ga'
 
 export default {
   props: {
