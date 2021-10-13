@@ -1,11 +1,13 @@
 <template>
   <view class="res-wrap">
     <image v-if="img" class="banner" :src="img" mode="widthFix" :lazy-load="true"></image>
-    <view class="keyword">{{keyWord}}</view>
-    <view class="remark">{{remark}}</view>
-    <view class="search-box">
-      <image class="icon icon-search" src="https://res-tasaki.baozun.com/static/images/icon-search.png" mode="widthFix"></image>
-      <text class="txt">搜索商品</text>
+    <view class="info">
+      <view class="keyword">{{keyWord}}</view>
+      <view class="remark">{{remark}}</view>
+      <view class="search-box">
+        <image class="icon icon-search" src="https://res-tasaki.baozun.com/static/images/icon-search.png" mode="widthFix"></image>
+        <text class="txt">搜索商品</text>
+      </view>
     </view>
     <view class="res-font">共{{totalCount}}个作品<text class="filter" v-if="filterKeyWord">筛选条件：{{filterKeyWord}}</text></view>
     <goods-list :goodsList="goodsList" @updateList="updateList" @goFilter="goFilter" />
@@ -76,6 +78,12 @@ export default {
   width: 100%;
   height: rpx(200);
 }
+.info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
 .keyword {
   font-family: PingFangSC, PingFangSC-Semibold;
   font-size: rpx(16);
@@ -98,6 +106,10 @@ export default {
   color: #616161;
 }
 .search-box {
+  margin-top: rpx(30);
+  padding: rpx(6) rpx(16);
+  border: rpx(1) solid #f7f7f7;
+  border-radius: rpx(15);
   .icon {
     width: rpx(14);
     height: rpx(14);
@@ -111,6 +123,20 @@ export default {
     text-align: center;
     letter-spacing: 1px;
     color: #1d1d1d;
+  }
+}
+.res-font {
+  font-family: PingFangSC, PingFangSC-Regular;
+  font-size: rpx(12);
+  font-weight: 400;
+  line-height: rpx(17);
+  margin-top: rpx(21);
+  padding: 0 rpx(15);
+  text-align: left;
+  letter-spacing: 1px;
+  color: #1d1d1d;
+  .filter {
+    margin-left: rpx(21);
   }
 }
 .goTop {
