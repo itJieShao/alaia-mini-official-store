@@ -17,7 +17,7 @@
             <view class="c-item" v-for="li in item.children" :key="li">
               <!-- 点击空白收起部分 -->
               <view class="mark" @click="cutItem(null)"></view>
-              <text class="txt" @click="goPlp(li.name,li.url,li.icon)">{{li.name}}</text>
+              <text class="txt" @click="goPlp(li.name,li.url,li.icon,li.remark)">{{li.name}}</text>
             </view>
           </view>
         </view>

@@ -3,7 +3,7 @@
     <custom-nav-bar left-arrow="left" :head-border="isHeadBorder" :head-blank="isHeadBlank" :head-font-color="isHeaderBlackColor" />
     <!-- <view :style="{ 'padding-top': ktxStatusHeight }"></view> -->
     <block v-if="pageShow">
-      <search-res v-if="goodsList.length" :totalCount="totalCount" :keyWord="keyWord" :filterKeyWord="filterKeyWord" :img="img" :goodsList="goodsList" @updateList="updateList" @goFilter="goFilter" @scrollToTop="scrollToTop" :goTopFlag="goTopFlag" />
+      <search-res v-if="goodsList.length" :totalCount="totalCount" :keyWord="keyWord" :remark="remark" :filterKeyWord="filterKeyWord" :img="img" :goodsList="goodsList" @updateList="updateList" @goFilter="goFilter" @scrollToTop="scrollToTop" :goTopFlag="goTopFlag" />
       <search-no-res v-else :keyWord="keyWord" :totalCount="totalCount" />
     </block>
   </view>
@@ -59,27 +59,27 @@ export default {
       remark,
     } = option;
     this.params.filters.categories = code || '';
-    if (remark) {
-      this.params.filters.condition.conditions = [{
-        operator: 'OR',
-        conditions: [{
-          key: 'attrList.valueCode',
-          value: remark,
-          fqRule: 'EQ',
-        }],
-      },
-      {
-        operator: 'OR',
-        conditions: [{
-          key: 'attrList.valueCode',
-          value: name,
-          fqRule: 'EQ',
-        }],
-      },
-      ];
-      this.remark = remark
-    }
+    // if (remark) {
+    //   this.params.filters.condition.conditions = [{
+    //     operator: 'OR',
+    //     conditions: [{
+    //       key: 'attrList.valueCode',
+    //       value: remark,
+    //       fqRule: 'EQ',
+    //     }],
+    //   },
+    //   {
+    //     operator: 'OR',
+    //     conditions: [{
+    //       key: 'attrList.valueCode',
+    //       value: name,
+    //       fqRule: 'EQ',
+    //     }],
+    //   },
+    //   ];
+    // }
 
+    this.remark = remark || ''
     this.keyWord = name || '';
     this.img = img || '';
     this.getProduct();

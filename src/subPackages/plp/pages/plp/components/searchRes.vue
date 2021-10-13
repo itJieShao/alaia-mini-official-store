@@ -1,7 +1,13 @@
 <template>
   <view class="res-wrap">
     <image v-if="img" class="banner" :src="img" mode="widthFix" :lazy-load="true"></image>
-    <view class="res-font">共{{totalCount}}个作品<text class="filter" v-if="showKeyWord">筛选条件：{{showKeyWord}}</text></view>
+    <view class="keyword">{{keyWord}}</view>
+    <view class="remark">{{remark}}</view>
+    <view class="search-box">
+      <image class="icon icon-search" src="https://res-tasaki.baozun.com/static/images/icon-search.png" mode="widthFix"></image>
+      <text class="txt">搜索商品</text>
+    </view>
+    <view class="res-font">共{{totalCount}}个作品<text class="filter" v-if="filterKeyWord">筛选条件：{{filterKeyWord}}</text></view>
     <goods-list :goodsList="goodsList" @updateList="updateList" @goFilter="goFilter" />
     <view v-if="goTopFlag" class="goTop" @click="scrollToTop">
       <text class="icon-font icon-icon-yijianxiangshang"></text>
@@ -31,6 +37,10 @@ export default {
       type: String,
       default: '',
     },
+    remark: {
+      type: String,
+      default: '',
+    },
     filterKeyWord: {
       type: String,
       default: '',
@@ -38,11 +48,6 @@ export default {
     goodsList: {
       type: Array,
       default: [],
-    },
-  },
-  computed: {
-    showKeyWord () {
-      return this.keyWord + this.filterKeyWord;
     },
   },
   components: {
@@ -71,18 +76,41 @@ export default {
   width: 100%;
   height: rpx(200);
 }
-.res-font {
+.keyword {
+  font-family: PingFangSC, PingFangSC-Semibold;
+  font-size: rpx(16);
+  font-weight: 600;
+  line-height: rpx(22);
+  margin-top: rpx(20);
+  text-align: center;
+  letter-spacing: 2px;
+  color: #1d1d1d;
+}
+.remark {
   font-family: PingFangSC, PingFangSC-Regular;
   font-size: rpx(12);
   font-weight: 400;
   line-height: rpx(17);
-  margin-top: rpx(21);
-  padding: 0 rpx(15);
-  text-align: left;
+  margin-top: rpx(17);
+  padding: 0 rpx(70);
+  text-align: center;
   letter-spacing: 1px;
-  color: #1d1d1d;
-  .filter {
-    margin-left: rpx(21);
+  color: #616161;
+}
+.search-box {
+  .icon {
+    width: rpx(14);
+    height: rpx(14);
+    margin-right: rpx(8);
+  }
+  .txt {
+    font-family: Lato, Lato-Regular;
+    font-size: rpx(12);
+    font-weight: 400;
+    line-height: rpx(15);
+    text-align: center;
+    letter-spacing: 1px;
+    color: #1d1d1d;
   }
 }
 .goTop {
