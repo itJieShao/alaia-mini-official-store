@@ -25,16 +25,24 @@
         <text class="p-name" @tap="toPDP">{{ skuData.product.title }}</text>
         <view class="select-attr-field">
           <text class="label">颜色:</text>
-          <view class="content">
-            <text class="value">红色</text>
-            <view class="arrow-icon"></view>
+          <view class="content" :class="{ 'no-bg': !isInventory }">
+             <!-- todo：后面需要有颜色的列表  -->
+            <picker @change="bindNumPickerChange" :value="numIndex" :range="numOptions" v-if="isInventory">
+                <text class="value">红色</text>
+                <view class="arrow-icon"></view>
+            </picker>
+            <text class="value" v-else>红色</text>
           </view>
         </view>
         <view class="select-attr-field">
           <text class="label">尺寸:</text>
-          <view class="content">
-            <text class="value">38</text>
-            <view class="arrow-icon"></view>
+          <view class="content" :class="{ 'no-bg': !isInventory }">
+            <!-- todo：后面需要有颜色的尺寸  -->
+            <picker @change="bindNumPickerChange" :value="numIndex" :range="numOptions"  v-if="isInventory">
+                <text class="value">38</text>
+                <view class="arrow-icon"></view>
+            </picker>
+            <text class="value" v-else>38</text>
           </view>
         </view>
         
@@ -293,5 +301,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./productItem";
+  @import "./productItem";
 </style>
