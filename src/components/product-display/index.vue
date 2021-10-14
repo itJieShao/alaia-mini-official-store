@@ -1,15 +1,8 @@
 <template>
-  <section class="product-display">
-    <div class="section-titile" v-if="title">
-      <div class="logo-wrap">
-        <image
-          src="http://res-tasaki.baozun.com/static/images/tasaki.png"
-        ></image>
-      </div>
-      <span>{{ title }}</span>
-    </div>
+  <view class="product-display">
+    <view class="title">{{title}}</view>
     <productSwiper @clickItem="handleClick" :products="products" />
-  </section>
+  </view>
 </template>
 
 <script>
@@ -28,14 +21,14 @@ export default {
       default: () => [],
     },
   },
-  data() {
+  data () {
     return {};
   },
-  mounted() {},
+  mounted () { },
   computed: {},
   watch: {},
   methods: {
-    handleClick(item) {
+    handleClick (item) {
       this.$sr.track('trigger_sku_component',
         {
           sku: {
@@ -57,28 +50,22 @@ export default {
       })
     },
   },
-  beforeCreate() {},
+  beforeCreate () { },
 };
 </script>
 
 <style lang="scss" scoped>
-.section-titile {
-  margin-bottom: 100rpx;
-  text-align: center;
-  .logo-wrap {
-    width: 144rpx;
+@import '@/styles/utilities.scss';
+.product-display {
+  .title {
+    font-family: PingFangSC, PingFangSC-Medium;
+    font-size: rpx(14);
+    font-weight: 500;
+    line-height: rpx(20);
     text-align: center;
-    margin: 0 auto;
-    margin-bottom: 20rpx;
-    border-bottom: 8rpx solid #e3f0ea;
-    image {
-      width: 106rpx;
-      height: 16rpx;
-    }
-  }
-  span {
-    font-size: 32rpx;
-    color: #0e0e0e;
+    letter-spacing: 2px;
+    color: #1d1d1d;
   }
 }
+
 </style>

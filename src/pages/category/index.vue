@@ -1,164 +1,70 @@
 <template>
   <view style="padding-bottom: 100upx;">
-    <custom-nav-bar left-icon="search" left-text="搜索" :head-border="false" :head-font-color="false" />
+    <custom-nav-bar left-icon="search" left-text="搜索" title="分类" :head-border="false" :head-font-color="false" />
     <view :style="{'padding-top':ktxStatusHeight}"></view>
-    <view class="content"
-      :style="'height: calc(100vh - '+ktxStatusHeight+' - 112rpx - var(--safe-area-inset-bottom));'">
-      <scroll-view scroll-y class="scroll-left-view">
-        <!-- <view class="left-name"
-          :style="index == 0 && index == curIndex && type == 2?'border-top: 2rpx solid #F4F4F4;':'border-top: 2rpx solid #f9f9f9'"
-          @click="leftClick(item,index,2)" v-for="(item,index) in pageData[2].children" :key="index"
-          :class="index == curIndex && type == 2?'left-name-act':''">
-          {{item.name}}
-        </view>
-        <view class="left-name" @click="leftClick(item,index,1)" v-for="(item,index) in pageData[1].children"
-          :key="index" :class="index == curIndex && type == 1?'left-name-act':''">
-          {{item.name}}
-        </view> -->
-        <view class="left-name" @click="leftClick(item,index)" v-for="(item,index) in pageData[1].children" :key="index"
-          :class="index == curIndex?'left-name-act':''"
-          :style="index == 0 && index == curIndex?'border-top: 2rpx solid #F4F4F4;':'border-top: 2rpx solid #f9f9f9'">
-          {{item.name}}
-        </view>
-
-      </scroll-view>
-      <scroll-view :scroll-y="true" scroll-with-animation :scroll-top="scrollTop" @scroll="scroll"
-        class="scroll-right-view">
-        <!-- <view class="right-con" v-if="rightData.children && rightData.children.length">
-          <block v-if="type == 2">
-            <image @click="goPlp(rightData.name,rightData.url,rightData.icon)" class="right-banner b-border"
-              :src="rightData.icon" mode="aspectFill" style="height: 270rpx;"></image>
-            <view class="catena">
-              <view class="catena-item" @click="goPlp(it.name,it.url,rightData.icon)"
-                v-for="(it,idx) in rightData.children" :key="idx">
-                <view class="catena-box">
-                  <image :src="it.icon" mode="aspectFit"></image>
-                </view>
-                <text>{{it.name}}</text>
-              </view>
+    <view class="content" :style="'height: calc(100vh - '+ktxStatusHeight+' - 112rpx - var(--safe-area-inset-bottom));'">
+      <view class="activity-banner">
+        <image class="cover" :src="cover" mode="aspectFill"></image>
+        <view class="txt">FALL WINTER 2021 COLLECTION</view>
+      </view>
+      <view class="category-banner">
+        <image class="cover" :src="cover" mode="aspectFill"></image>
+      </view>
+      <view class="category">
+        <view class="item" v-for="(item,index) in pageData" :key="item">
+          <view class="title" @click="cutItem(index)">{{item.name}}</view>
+          <view class="children" v-show="curIndex==index">
+            <view class="c-item" v-for="li in item.children" :key="li">
+              <!-- 点击空白收起部分 -->
+              <view class="mark" @click="cutItem(null)"></view>
+              <text class="txt" @click="goPlp(li.name,li.url,li.icon,li.remark)">{{li.name}}</text>
             </view>
-          </block>
-          <block v-else>
-            <view v-for="(item,index) in rightData.children" :key="index">
-              <image class="right-banner" style="height: 250rpx;"
-                @click="goPlp(rightData.name,rightData.url,rightData.icon)" :src="item.icon" mode="aspectFill"></image>
-              <view class="goods">
-                <view class="goods-item observer_item" @click="goPdp(it)" v-for="(it,idx) in item.goodsChildren"
-                  :key="idx" :data-skucode="it.skus[0].code" :data-title="it.title" :data-spucode="it.code"
-                  :data-price="it.skus[0].salePrice.amount"
-                  :data-image="it.images.length && it.images[0].url ? it.images[0].url : ''">
-                  <image :src="it.images[0].url" mode="aspectFit"></image>
-                  <text class="goods-title">{{it.title}}</text>
-                  <text>￥{{it.skus[0].salePrice.amount | formatMoney}}</text>
-                </view>
-              </view>
-            </view>
-          </block>
-          <view class="tsall" @click="goPlp(rightData.name,rightData.url,rightData.icon)">
-            <text>探索全部</text>
-          </view>
-        </view> -->
-        <view class="right-con" v-if="JSON.stringify(rightData) != '{}'">
-          <image v-if="rightData.icon" @click="goPlp(rightData.name,rightData.url,rightData.icon)"
-            class="right-banner b-border" :src="rightData.icon" mode="aspectFill" style="height: 270rpx;"
-            :lazy-load="true"></image>
-          <block>
-            <view v-for="(item,index) in rightData.children" :key="index">
-              <image class="right-banner" style="height: 250rpx;" @click="goPlp(item.name,item.url,item.icon,item.remark)"
-                :src="item.icon" mode="aspectFill" :lazy-load="true">
-              </image>
-              <view class="goods">
-                <view class="goods-item observer_item" @click="goPdp(it)" v-for="(it,idx) in item.goodsChildren"
-                  :key="idx" :data-skucode="it.skus[0].code" :data-title="it.title" :data-spucode="it.code"
-                  :data-price="it.skus && it.skus.length && it.skus[0].salePrice.amount ? it.skus[0].salePrice.amount : 0"
-                  :data-image="it.images.length && it.images[0].url ? it.images[0].url : ''">
-                  <image :src="it.images[0].url" mode="aspectFit" :lazy-load="true"></image>
-                  <text class="goods-title">{{it.title}}</text>
-                  <text class="goods-price"
-                    v-if="it.skus && it.skus.length && it.skus[0].salePrice.amount">￥{{it.skus[0].salePrice.amount | formatMoney}}</text>
-                </view>
-              </view>
-            </view>
-          </block>
-          <view class="tsall" v-if="rightData.url" @click="goPlp(rightData.name,rightData.url,rightData.icon)">
-            <text>探索全部</text>
           </view>
         </view>
-      </scroll-view>
+      </view>
     </view>
   </view>
 </template>
 
 <script>
-import {
-  mapActions,
-  mapGetters,
-  mapMutations,
-} from 'vuex';
-import {
-  priceFormat,
-  imgUrlReplace,
-} from '@/utils/utils';
-import searchInput from '@/components/searchInput';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { priceFormat, imgUrlReplace } from '@/utils/utils';
 
 export default {
-  components: {
-    searchInput,
-  },
-  data() {
+  data () {
     return {
+      type: 2,
       ktxStatusHeight: getApp().globalData.ktxStatusHeight,
       pageData: [],
-      curIndex: 0,
-      rightData: {},
-      type: 2,
-      scrollTop: 0,
-      old: {
-        scrollTop: 0,
-      },
+      curIndex: null,
     }
-  },
-  watch: {
-    'rightData.children': {
-      immediate: true,
-      handler(n) {
-        if (this.type != 2 && n && n.length && n.find((item) => item.hasOwnProperty('goodsChildren'))) {
-          this.observer();
-        }
-      },
-    },
   },
   computed: {
     ...mapGetters('category', ['categoryData']),
   },
   filters: {
-    formatMoney(val) {
+    formatMoney (val) {
       if (val) {
         return priceFormat(val);
       }
       return '0';
     },
   },
-  async onLoad() {
+  async onLoad () {
     const res = await this.getCategoryData();
-    // this.rightData = res[1].children[0];
-    this.pageData = res;
-    this.getProduct();
-    // const allSpuCodes = [];
-    // if (res[1].children[0].children) {
-    //   res[1].children[0].children.forEach((item) => {
-    //     item.children && allSpuCodes.push(...item.children[0].spuCodes)
-    //   })
-    //   this.getProduct(res[1].children[0], [...new Set(allSpuCodes)], 0);
-    // }
+    for (const [key, value] of Object.entries(res)) {
+      if (value.name === '商品分类') {
+        this.pageData = value ? value.children : []
+      }
+    }
   },
-  onShow() {
+  onShow () {
     this.setTabSelected(1);
   },
-  onPullDownRefresh() {
+  onPullDownRefresh () {
     wx.stopPullDownRefresh(); // 阻止下拉刷新
   },
-  onShareAppMessage(res) {
+  onShareAppMessage (res) {
     return {
       title: 'TASAKI塔思琦线上旗舰店',
       path: '/pages/category/index',
@@ -168,37 +74,11 @@ export default {
     imgUrlReplace,
     ...mapMutations('globle', ['setTabSelected']),
     ...mapActions('category', ['getCategoryData', 'categoryProductList']),
-    leftClick(data, index, type) {
-      this.curIndex = index;
-      this.rightData = data;
-      this.scrollTop = this.old.scrollTop
-      this.$nextTick(() => {
-        this.scrollTop = 0
-      });
+
+    cutItem (index) {
+      this.curIndex = index
     },
-    // leftClick(data, index) {
-    //   this.scrollTop = this.old.scrollTop
-    //   this.$nextTick(() => {
-    //     this.scrollTop = 0
-    //   });
-    //   this.curIndex = index;
-    //   if (data.children && data.children[0].hasOwnProperty("goodsChildren")) {
-    //     this.rightData = data;
-    //   } else {
-    //     this.rightData = {};
-    //     const allSpuCodes = [];
-    //     if (data.children && data.children.length) {
-    //       data.children.forEach(item => {
-    //         item.children && allSpuCodes.push(...item.children[0].spuCodes)
-    //       })
-    //     }
-    //     this.getProduct(data, [...new Set(allSpuCodes)], index);
-    //   }
-    // },
-    scroll(e) {
-      this.old.scrollTop = e.detail.scrollTop
-    },
-    getProduct() {
+    getProduct () {
       uni.showLoading({
         title: '加载中...',
       });
@@ -231,24 +111,7 @@ export default {
         uni.hideLoading();
       })
     },
-
-    // getProduct(data, codes, index) {
-    //   this.categoryProductList(codes).then((list) => {
-    //     if (data.children) {
-    //       data.children.forEach((it) => {
-    //         it.goodsChildren = [];
-    //         it.children[0].spuCodes.forEach((itd) => {
-    //           const pushItem = list.find((itdc) => itdc.code == itd && itdc.onShelves);
-    //           if (pushItem) {
-    //             it.goodsChildren.push(pushItem)
-    //           }
-    //         })
-    //       })
-    //     }
-    //     this.rightData = data;
-    //   })
-    // },
-    observer() {
+    observer () {
       setTimeout(() => {
         if (this._observer) {
           this._observer.disconnect();
@@ -282,7 +145,7 @@ export default {
           })
       }, 200)
     },
-    goPlp(name, url, img, remark) {
+    goPlp (name, url, img, remark) {
       if (url) {
         if (remark) {
           uni.navigateTo({
@@ -295,7 +158,7 @@ export default {
         }
       }
     },
-    goPdp(item) {
+    goPdp (item) {
       const aData = {
         sku: {
           sku_id: item.skus && item.skus.length && item.skus[0].code ? item.skus[0].code
@@ -327,140 +190,88 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "@/styles/utilities.scss";
-  $fontColor: #1d1d1d;
-
-  .content {
-    padding-top: 20upx;
-    display: flex;
-  }
-
-  .scroll-left-view {
-    width: 240upx;
-    background-color: #f9f9f9;
-  }
-
-  .left-name {
-    width: 240upx;
-    height: 90upx;
-    text-align: center;
-    line-height: 90upx;
-    box-sizing: border-box;
-    font-size: 24upx;
-    color: $fontColor;
-  }
-
-  .left-name-act {
-    background-color: #fff;
-    border-bottom: 8upx solid #E3F0EA;
-  }
-
-  .scroll-right-view {
+@import '@/styles/utilities.scss';
+.content {
+  position: relative;
+  overflow-y: auto;
+  padding-top: rpx(3);
+}
+.activity-banner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: rpx(175);
+  margin-bottom: rpx(10);
+  .cover {
+    width: 100%;
     height: 100%;
-
-    .right-con {
-      width: 470upx;
-      margin: 0 auto;
-
-      .right-banner {
-        display: block;
-        margin-bottom: 20upx;
-        width: 100%;
-      }
-
-      .b-border {
-        border-bottom: 10upx solid #E3F0EA;
-      }
-
-      .goods {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-
-        .goods-item {
+  }
+  .txt {
+    font-family: Lato, Lato-Bold;
+    font-size: rpx(16);
+    font-weight: 700;
+    line-height: rpx(19);
+    position: absolute;
+    z-index: 2;
+    bottom: rpx(17);
+    left: 0;
+    width: 100%;
+    padding: 0 rpx(12);
+    text-align: center;
+    letter-spacing: 2px;
+    color: #fff;
+  }
+}
+.category-banner {
+  width: 100%;
+  height: rpx(175);
+  .cover {
+    width: 100%;
+    height: 100%;
+  }
+}
+.category {
+  padding-top: rpx(10);
+  background-color: #fff;
+  .item {
+    width: 100%;
+    .title {
+      font-family: PingFangSC, PingFangSC-Medium;
+      font-size: rpx(16);
+      font-weight: 500;
+      line-height: rpx(22);
+      padding: rpx(10);
+      text-align: center;
+      letter-spacing: 1px;
+      color: #1d1d1d;
+    }
+    .children {
+      background: #f7f7f7;
+      .c-item {
+        position: relative;
+        padding: rpx(11) rpx(10);
+        text-align: center;
+        &:first-child {
+          padding-top: rpx(15);
+        }
+        .mark {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        }
+        .txt {
+          font-family: PingFangSC, PingFangSC-Regular;
+          font-size: rpx(13);
+          font-weight: 400;
+          line-height: rpx(18);
           position: relative;
-          width: 224upx;
-          padding-bottom: 70upx;
-
-          image {
-            width: 224upx;
-            height: 224upx;
-            border: 2upx solid #f4f4f4;
-          }
-
-          .goods-title {
-            line-height: 40rpx;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-          }
-
-          .goods-price {
-            width: 100%;
-            margin: 0;
-            position: absolute;
-            bottom: 30upx;
-          }
-
-          text {
-            display: block;
-            text-align: center;
-            margin: 10upx 10upx 0;
-            font-size: 24upx;
-            color: $fontColor;
-            line-height: 26rpx;
-          }
-        }
-      }
-
-      .catena {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-
-        .catena-item {
-          width: 224upx;
-
-          .catena-box {
-            width: 100%;
-            height: 146upx;
-            border: 2upx solid #F4F4F4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            image {
-              width: 120upx;
-              height: 120upx;
-            }
-          }
-
-          text {
-            display: block;
-            text-align: center;
-            margin: 25upx 10upx;
-            font-size: 24upx;
-            color: $fontColor;
-          }
-        }
-      }
-
-      .tsall {
-        display: flex;
-        justify-content: center;
-        padding: 30upx 0;
-
-        text {
-          font-size: 24upx;
-          color: #616568;
-          padding: 0 5upx 8upx;
-          border-bottom: 2upx solid #8E8E8E;
+          color: #616161;
         }
       }
     }
   }
+}
+
 </style>

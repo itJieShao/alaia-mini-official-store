@@ -12,23 +12,23 @@ export default {
   globalData: {
     ktxStatusHeight: 0, // 组件上面预留导航的高度
   },
-  onLaunch(params) {
+  onLaunch (params) {
     log.info('App -- onLaunch');
     this.setTabSelected(0);
-    this.loginByAuthCode().then(() => {
-      if (this.openId) {
-        this.$sr.setUser({
-          open_id: this.openId, // 必传，字符串类型
-        });
-      }
-      // gaTracker.setClientId(this.openId);
-      // 如果是已经注册过，并已经登陆过的用户，同步一下crm的会员信息
-      // if (this.userInfo.mobile) {
-      //   this.syncCrmMemberInfo();
-      // }
-      // 计算购物车数量
-      // this.queryCartInfo();
-    });
+    // this.loginByAuthCode().then(() => {
+    //   if (this.openId) {
+    //     this.$sr.setUser({
+    //       open_id: this.openId, // 必传，字符串类型
+    //     });
+    //   }
+    //   // gaTracker.setClientId(this.openId);
+    //   // 如果是已经注册过，并已经登陆过的用户，同步一下crm的会员信息
+    //   // if (this.userInfo.mobile) {
+    //   //   this.syncCrmMemberInfo();
+    //   // }
+    //   // 计算购物车数量
+    //   // this.queryCartInfo();
+    // });
     // this.qyLogin();
     if (!wx.qy) {
       // this.setBAInfo(getBaInfoByShare(params));
@@ -43,25 +43,25 @@ export default {
     this.globalData.ktxStatusHeight = `${systemInfo.statusBarHeight + 44}px`;
 
     // 广告转化跟踪
-    this.setAdvertising(params);
-    // 有数 初始化
-    this.srInit();
+    // this.setAdvertising(params);
+    // // 有数 初始化
+    // this.srInit();
   },
-  onShow(params) {
+  onShow (params) {
     // 广告转化跟踪
-    this.setAdvertising(params);
-    // if (wx.qy) return;
-    const baInfo = getBaInfoByShare(params);
-    if (baInfo && baInfo.baId && baInfo.storeCode) {
-      // this.setBAInfo(baInfo);
-    }
+    // this.setAdvertising(params);
+    // // if (wx.qy) return;
+    // const baInfo = getBaInfoByShare(params);
+    // if (baInfo && baInfo.baId && baInfo.storeCode) {
+    //   // this.setBAInfo(baInfo);
+    // }
     // 获取有数场景值开始 https://mp.zhls.qq.com/youshu-docs/develop/event/channel/chan_id.html
-    const chan_id = this.getChanID(params);
+    // const chan_id = this.getChanID(params);
     // console.log(`chan_id=${chan_id}`, params);
     // 获取有数场景值结束
   },
   // 不存在页面处理
-  onPageNotFound(options) {
+  onPageNotFound (options) {
     log.warn('App -- onPageNotFound');
     const { query } = options;
     // console.log('---未找到的页面信息', options)
@@ -85,10 +85,10 @@ export default {
     ...mapActions('user', ['loginByAuthCode']),
     ...mapActions('qy', ['setEnvironment', 'qyLogin', 'setBAInfo']),
     // 有数 初始化
-    srInit() {
+    srInit () {
       this.$sr.init({
         // 有数 - ka‘接入测试用’ 分配的 app_id，对应的业务接口人负责
-        token: 'bidbd509aa9af64d53',  //测试 bi7b7818a894d7498e
+        token: 'bidbd509aa9af64d53', // 测试 bi7b7818a894d7498e
         // 微信小程序appID，以wx开头
         appid: 'wxe5bd54b04e85cd62',
         // 如果使用了小程序插件，需要设置为 true
@@ -124,7 +124,7 @@ export default {
       console.log('open_id', open_id);
     },
     // 渠道ID
-    async getChanID(query) {
+    async getChanID (query) {
       const chan_id = (query && query.query && query.query.chan_id) || query.chan_id;
       if (chan_id) {
         return chan_id;
@@ -164,7 +164,7 @@ export default {
        * 广告转化跟踪
        * url参数中可以获取到gdt_vid、weixinadinfo参数值
        * */
-    setAdvertising(options) {
+    setAdvertising (options) {
       const gdt_vid = (options && options.query.gdt_vid) || '';
       const weixinadinfo = (options && options.query.weixinadinfo) || '';
       if (gdt_vid) {

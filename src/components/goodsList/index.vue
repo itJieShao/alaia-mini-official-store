@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view class="screen-tab">
+    <view class="screen-tab" v-if="!noFilter">
       <view class="screen-tab-item" style="width: 450rpx;">
         <view class="screen-item-left" style="margin-right: 100rpx;" @click="goFilter">
           筛选
@@ -17,14 +17,14 @@
       </view>
     </view>
     <view class="goods">
-      <view class="goods-item observer_item" :style="item.hasBorder?'border-bottom:10rpx solid #E3F0EA;':''"
-        v-for="(item,index) in goodsList" @click="goPdp(item)" :key="index" :data-skucode="item.skus[0].code"
-        :data-title="item.title" :data-spucode="item.code" :data-price="item.minSkuSalePrice"
-        :data-image="item.images.length && item.images[0].url ? item.images[0].url : ''">
-        <image :src="item.images[0].url" mode="aspectFit"></image>
-        <view style="padding: 30rpx 0;">
-          <text style="font-size: 28upx;margin-bottom: 16rpx;">{{item.title}}</text>
-          <text>￥{{item.minSkuSalePrice | formatMoney}}</text>
+      <view class="goods-item observer_item" v-for="(item,index) in goodsList" @click="goPdp(item)" :key="index" :data-skucode="item.skus[0].code" :data-title="item.title" :data-spucode="item.code" :data-price="item.minSkuSalePrice" :data-image="item.images.length && item.images[0].url ? item.images[0].url : ''">
+        <view class="cover">
+          <image :src="item.images[0].url" mode="aspectFit"></image>
+        </view>
+        <view class="info">
+          <view class="txt tag">标签</view>
+          <view class="txt title">{{item.title}}</view>
+          <view class="txt price">￥{{item.minSkuSalePrice | formatMoney}}</view>
         </view>
       </view>
     </view>
@@ -32,9 +32,7 @@
 </template>
 
 <script>
-import {
-  priceFormat,
-} from '@/utils/utils';
+import { priceFormat } from '@/utils/utils';
 import zCheckbox from '../checkbox';
 
 export default {
@@ -43,11 +41,15 @@ export default {
       type: Array,
       default: [],
     },
+    noFilter: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     zCheckbox,
   },
-  data() {
+  data () {
     return {
       index: 0,
       array: ['默认', '价格从低到高', '价格从高到低', '新品'],
@@ -60,7 +62,7 @@ export default {
       this.selected = false;
     },
     goodsList: {
-      handler() {
+      handler () {
         if (this._observer) {
           this._observer.disconnect();
         }
@@ -94,7 +96,7 @@ export default {
     },
   },
   filters: {
-    formatMoney(val) {
+    formatMoney (val) {
       if (val) {
         return priceFormat(val);
       }
@@ -102,7 +104,7 @@ export default {
     },
   },
   methods: {
-    bindPickerChange(e) {
+    bindPickerChange (e) {
       const index = e.target.value;
       let sort = {};
       switch (Number(index)) {
@@ -132,14 +134,14 @@ export default {
       this.filterClickFlag = true;
       this.$emit('updateList', 1, sort);
     },
-    goFilter() {
+    goFilter () {
       this.$emit('goFilter');
     },
-    changeSelected() {
+    changeSelected () {
       this.selected = !this.selected;
       this.$emit('updateList', 2, this.selected);
     },
-    goPdp(item) {
+    goPdp (item) {
       const aData = {
         sku: {
           sku_id: item.skus[0].code || item.code || 'TASAKI', // 若商品无sku_id时，可传spu_id信息
@@ -168,87 +170,109 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .screen-tab {
+@import '@/styles/utilities.scss';
+.screen-tab {
+  display: flex;
+  justify-content: space-between;
+  width: 680upx;
+  margin: 20upx auto 32upx;
+  .screen-tab-item {
     display: flex;
-    justify-content: space-between;
-    width: 680upx;
-    margin: 20upx auto 32upx;
-
-    .screen-tab-item {
+    align-items: center;
+    .check-box-item {
       display: flex;
       align-items: center;
-
-      .check-box-item {
-        display: flex;
-        align-items: center;
-
-        .filter-check-icon {
-          width: 30upx;
-          height: 30upx;
-          background-color: #fff;
-          border: 2upx solid #bbb;
-          border-radius: 50%;
-        }
-
-        .filter-icon-act {
-          background-color: #E3F0EA !important;
-          border: 2upx solid #1d1d1d !important;
-        }
-
-        text {
-          margin-left: 20rpx;
-          font-size: 28rpx;
-          color: #1d1d1d;
-        }
+      .filter-check-icon {
+        width: 30upx;
+        height: 30upx;
+        border: 2upx solid #bbb;
+        border-radius: 50%;
+        background-color: #fff;
       }
-
-      .screen-item-left {
-        display: flex;
-        align-items: center;
-        font-size: 28upx;
-        color: #1d1d1d;
+      .filter-icon-act {
+        border: 2upx solid #1d1d1d !important;
+        background-color: #e3f0ea !important;
       }
-
-      .screen-item-left:after {
-        display: block;
-        border-left: 3upx solid #000;
-        border-top: 3upx solid #000;
-        transform: rotate(224deg);
-        content: "";
-        position: relative;
-        width: 15upx;
-        height: 15upx;
-        margin: 0 0 8upx 20upx;
-      }
-    }
-  }
-
-  .goods {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 40upx;
-
-    .goods-item {
-      width: 50%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border: 2upx solid #F4F4F4;
-      box-sizing: border-box;
-      margin: 0 -2upx -2upx 0;
-
-      image {
-        display: block;
-        width: 100%;
-        height: 375upx;
-      }
-
       text {
-        display: block;
-        padding: 0 20upx;
+        font-size: 28rpx;
+        margin-left: 20rpx;
         color: #1d1d1d;
-        text-align: center;
       }
     }
+    .screen-item-left {
+      font-size: 28upx;
+      display: flex;
+      align-items: center;
+      color: #1d1d1d;
+    }
+    .screen-item-left:after {
+      position: relative;
+      display: block;
+      width: 15upx;
+      height: 15upx;
+      margin: 0 0 8upx 20upx;
+      content: '';
+      transform: rotate(224deg);
+      border-top: 3upx solid #000;
+      border-left: 3upx solid #000;
+    }
   }
+}
+.goods {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: rpx(40);
+  .goods-item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 50%;
+    background-color: #fff;
+    &:nth-child(odd) {
+      border-right: rpx(5) solid #fff;
+    }
+    .cover {
+      width: 100%;
+      height: rpx(255);
+      background-color: #f7f7f7;
+      image {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .info {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+      padding: 0 rpx(10);
+      padding-bottom: rpx(20);
+      background-color: #fff;
+    }
+    .txt {
+      font-family: PingFangSC, PingFangSC-Regular;
+      font-size: rpx(12);
+      font-weight: 400;
+      line-height: rpx(14);
+      text-align: center;
+      color: #1d1d1d;
+    }
+    .tag {
+      font-family: PingFangSC, PingFangSC-Medium;
+      font-weight: 500;
+      margin-top: rpx(14);
+      padding: rpx(4);
+      border: rpx(1) solid #1d1d1d;
+    }
+    .title {
+      margin-top: rpx(12);
+    }
+    .price {
+      margin-top: rpx(4);
+    }
+  }
+}
+
 </style>
