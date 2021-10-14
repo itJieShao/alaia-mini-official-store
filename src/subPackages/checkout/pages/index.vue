@@ -1,8 +1,6 @@
 <template>
   <view class="checkout-container">
-    <custom-nav-bar
-      :head-font-color="false"
-    />
+    <custom-nav-bar :title="'订单结算'" />
     <view id="address"></view>
     <view class="container" :style="{ 'padding-top': computedHeight }">
       <view class="form-item-block">
@@ -152,7 +150,7 @@
               @checkEvent="handleReceiverCheck"
               :checked="isAgree"
             ></z-checkbox>
-            <view class="privacy-txt" @click="handleReceiverCheck"> 我已阅读并接受TASAKI<view class="under-line" @click.stop="handleToRule">销售条款</view>及
+            <view class="privacy-txt" @click="handleReceiverCheck"> 我已阅读并接受ALAIA<view class="under-line" @click.stop="handleToRule">销售条款</view>及
             <view class="under-line" @click.stop="handleToPrivacy">隐私政策</view>。</view>
           </view>
         </view>
@@ -161,7 +159,7 @@
             <view class="total-price">
               总计: {{get(orderAmount, 'productAmount.amount') | currency }}
             </view>
-            <button class="btn-submit" form-type="submit" @click="handleCreateOrder">立即支付</button>
+            <button class="btn-submit" form-type="submit" @click="handleCreateOrder">微信支付</button>
           </view>
         </form>
       </view>
@@ -171,7 +169,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
-import zCheckbox from '@/components/checkbox';
+import zCheckbox from '@/components/al-checkbox';
 import navBarHeight from '@/components/common/navBarHeight';
 import OrderProductItem from '@/components/orderProductItem'
 import { trackWechatAd } from '@/service/apis'

@@ -1,3 +1,5 @@
+@import "@/styles/base.scss";
+
 .checkout-container {
 //   color: #fff;
   height: 100%;
@@ -83,13 +85,12 @@
     }
   }
   .btn-submit {
-    // margin: 0rpx auto;
-    width: 330rpx;
+    width: rpx(114);
     height: 80rpx;
     line-height: 80rpx;
-    background: #E3F0EA;
-    border: 2rpx solid #1D1D1D;
+    background: #1d1d1d;
     font-size: 28rpx;
+    color: #fff;
     border-radius: 0;
   }
   .order-info{
