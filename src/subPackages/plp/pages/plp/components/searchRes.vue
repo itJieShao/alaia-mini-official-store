@@ -4,16 +4,16 @@
     <view class="info">
       <view class="keyword" v-if="keyWord">{{keyWord}}</view>
       <view class="remark" v-if="remark">{{remark}}</view>
-      <view class="search-box">
+      <view class="search-box" @click="linkSearch">
         <image class="icon icon-search" src="https://res-tasaki.baozun.com/static/images/icon-search.png" mode="widthFix"></image>
         <text class="txt">搜索商品</text>
       </view>
     </view>
     <view class="res-font">共{{totalCount}}个作品<text class="filter" v-if="filterKeyWord">筛选条件：{{filterKeyWord}}</text></view>
     <goods-list :goodsList="goodsList" @updateList="updateList" @goFilter="goFilter" />
-    <view v-if="goTopFlag" class="goTop" @click="scrollToTop">
+    <!-- <view v-if="goTopFlag" class="goTop" @click="scrollToTop">
       <text class="icon-font icon-icon-yijianxiangshang"></text>
-    </view>
+    </view> -->
   </view>
 </template>
 
@@ -63,6 +63,9 @@ export default {
       this.$emit('goFilter');
     },
     scrollToTop () {
+      this.$emit('scrollToTop')
+    },
+    linkSearch () {
       this.$emit('scrollToTop')
     },
   },
@@ -131,6 +134,7 @@ export default {
   font-weight: 400;
   line-height: rpx(17);
   margin-top: rpx(21);
+  margin-bottom: rpx(12);
   padding: 0 rpx(15);
   text-align: left;
   letter-spacing: 1px;

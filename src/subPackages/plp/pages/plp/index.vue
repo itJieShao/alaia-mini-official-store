@@ -124,11 +124,6 @@ export default {
   onUnload () {
     this.clearFilterData(1);
   },
-  onReachBottom () {
-    if (this.moreFlag) {
-      this.getProduct();
-    }
-  },
   onPullDownRefresh () {
     wx.stopPullDownRefresh(); // 阻止下拉刷新
   },
