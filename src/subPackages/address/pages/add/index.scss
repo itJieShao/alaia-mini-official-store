@@ -16,8 +16,8 @@
         .input-box{
             margin-bottom: 48rpx;
             input{
+				border: 2rpx solid #8E8E8E;
                 height: 80rpx;
-                background: #F9F9F9;
                 padding-left: 32rpx;
                 font-size: 28rpx;
                 font-family: HiraginoSansGB-W3, HiraginoSansGB;
@@ -28,23 +28,23 @@
             }
             input::-webkit-input-placeholder { 
                 /* WebKit browsers */ 
-                color: #8E8E8E; 
+                color: #BBBBBB; 
             } 
             input:-moz-placeholder { 
                 /* Mozilla Firefox 4 to 18 */ 
-                color: #8E8E8E; 
+                color: #BBBBBB; 
             } 
             input::-moz-placeholder { 
                 /* Mozilla Firefox 19+ */ 
-                color: #8E8E8E; 
+                color: #BBBBBB; 
             } 
             input:-ms-input-placeholder { 
                 /* Internet Explorer 10+ */ 
-                color: #8E8E8E; 
+                color: #BBBBBB; 
             }
             .area{
+				border: 2rpx solid #8E8E8E;
                 height: 80rpx;
-                background: #F9F9F9;
                 padding: 0 32rpx;
                 font-size: 28rpx;
                 font-weight: normal;
@@ -67,13 +67,21 @@
             align-items: center;
             margin-top: 60rpx;
             .icon{
-                display: inline-block;
+                display: flex;
+				align-items: center;
+				justify-content: center;
                 width: 32rpx;
                 height: 32rpx;
                 background: #FFFFFF;
                 border-radius: 50%;
-                border: 1px solid #BBBBBB;
+                border: 1px solid #1D1D1D;
                 margin-right: 20rpx;
+				.icon-act{
+					width: 20rpx;
+					height: 20rpx;
+					background: #000000;
+					border-radius: 50%;
+				}
             }
             .text{
                 font-size: 28rpx;
@@ -90,21 +98,24 @@
             display: flex;
             justify-content: space-between;
             margin-top: 52rpx;
-            button{
-                width: 328rpx;
-                height: 80rpx;
-                border: 1px solid #000000;
-                text-align: center;
-                line-height: 80rpx;
-                font-size: 28rpx;
-                font-family: HiraginoSansGB-W3, HiraginoSansGB;
-                font-weight: normal;
-                color: #1D1D1D;
-                &:nth-child(2){
-                    background: #E3F0EA;
-                }
-            }
-        }
-        
+			button{
+				width: 328rpx;
+				height: 80rpx;
+				border: 1px solid #000000;
+				text-align: center;
+				line-height: 80rpx;
+				font-size: 28rpx;
+				font-family: HiraginoSansGB-W3, HiraginoSansGB;
+				font-weight: normal;
+				&:nth-child(1){
+					color: #1D1D1D;
+					background-color: #FFFFFF;
+				}
+				&:nth-child(2){
+					background: #000000;
+					color: #FFFFFF;
+				}
+			}
+        }      
     }
 }

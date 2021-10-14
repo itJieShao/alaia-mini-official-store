@@ -1,12 +1,11 @@
 page{
-   background-color: #F9F9F9;
+   background-color: #FFFFFF;
  }
 $textColor: #1D1D1D;
 .scroll-container{
   height: 100%;
 }
 .container {
-  background: #F9F9F9;
   color: #1d1d1d;
   padding:0 0 100rpx;
   box-sizing: border-box;
@@ -37,64 +36,55 @@ $textColor: #1D1D1D;
     }
   }
   .login-entrance{
-    background-color: #F9F9F9;
+	display: flex;
+	align-items: center;
+	justify-content: center;
     padding-top: 10rpx;
-    font-weight: normal;
     color: #1D1D1D;
     text-align: center;
     .login-entrance-btn{
       font-family: 'HiraginoSansGB';
-      font-size: 40rpx;
-      line-height: 60rpx;
-      letter-spacing: 1rpx;
+      font-size: 32rpx;
+      line-height: 38rpx;
+	  font-weight: bold;
     }
-    .editer-info-btn{
-      margin: 20rpx auto 0;
-      width: 202rpx;
-      height: 54rpx;
-      border-radius: 32rpx;
-      background-color: #fff;
-      font-size: 24rpx;
-      font-weight: normal;
-      color: #8E8E8E;
-      line-height: 54rpx;
-      .icon-icon-shezhi{
-        font-size: 24rpx;
-        margin-right: 18rpx;
-      }
+    .icon-icon-shezhi{
+      font-size: 32rpx;
+      margin-left: 20rpx;
     }
   }
   .account-content{    
     .account-entrance-box{
-      padding: 40rpx 60rpx;
+	  margin-top: 36rpx;
+      padding: 58rpx 60rpx 0;
+	  border-top: 2rpx solid #E8E8E8;
       overflow: hidden;
+	  display: flex;
+	  flex-wrap: wrap;
       .accout-entrance-item{
-        position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
         width: 300rpx;
-        height: 300rpx;
-        float: left;
+        height: 148rpx;
         background-color: #fff;
-        margin-bottom: 30rpx;
-        border-bottom: 12rpx solid #E3F0EA;
+        margin-bottom: 98rpx;
+        
         &:nth-child(2n-1){
           margin-right: 28rpx;
+		  border-right: 4rpx solid #DDDDDD;
         }
         image{
-          width: 60rpx;
-          position: absolute;
-          top: 80rpx;
-          left: 50%;
-          transform: translateX(-50%);
+          width: 50rpx;
+		  margin-bottom: 20rpx;
         }
         .ent-name{
           width: 100%;
           text-align: center;
-          position: absolute;
-          bottom: 80rpx;
-          font-size: 26rpx;
-          font-weight: normal;
-          color: #252525;
-          line-height: 40rpx;
+		  font-size: 28rpx;
+		  font-weight: bold;
+		  color: #1D1D1D;
         }
 
       }

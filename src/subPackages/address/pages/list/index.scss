@@ -1,96 +1,70 @@
 @import "@/styles/utilities.scss";
 .address-container{
-    padding: 0 36rpx 80rpx;
-    .address-list{
-        padding: 48rpx 0;
-        border-bottom: 1px solid #F4F4F4;
-        display: flex;
-        .address-left{
-            width: 70rpx;
-            display: flex;
-            align-items: center;
-            text{
-                display: inline-block;
-                width: 32rpx;
-                height: 32rpx;
-                background: #FFFFFF;
-                border-radius: 50%;
-                border: 1px solid #BBBBBB;
-            }
-            .active{
-                background: #E3F0EA;
-                border: 1px solid #1D1D1D;
-            }
-        }
-        .address-center{
-            flex: 1;
-            .name{
-                text{
-                    font-size: 28rpx;
-                    font-family: HiraginoSansGB-W3, HiraginoSansGB;
-                    font-weight: normal;
-                    color: #1D1D1D;
-                    line-height: 42rpx;
-                    margin-right: 20rpx;
-                }
-            }
-            .address-details{
-                font-size: 28rpx;
-                font-family: HiraginoSansGB-W3, HiraginoSansGB;
-                font-weight: normal;
-                color: #8E8E8E;
-                line-height: 40rpx;
-                margin-top: 18rpx;
-                padding-right: 30rpx;
-            }
-            .handle{
-                margin-top: 24rpx;
-                text{
-                    font-size: 28rpx;
-                    font-family: HiraginoSansGB-W3, HiraginoSansGB;
-                    font-weight: normal;
-                    color: #8E8E8E;
-                    line-height: 42rpx;
-                    margin-right: 60rpx;
-                    text-decoration: underline;
-                }
-            }
-        }
-        .address-right{
-            width: 84rpx;
-            font-size: 28rpx;
-            font-family: HiraginoSansGB-W3, HiraginoSansGB;
-            font-weight: normal;
-            color: #8E8E8E;
-            border-left: 1px solid #E6E6E6;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-        }
-    }
-    .add{
-        margin-top: 100rpx;
-        display: flex;
-        justify-content: center;
-        view{
-            width: 516rpx;
-            height: 80rpx;
-            border: 1px solid #1D1D1D;
-            text-align: center;
-            line-height: 80rpx;
-            font-size: 28rpx;
-            font-family: HiraginoSansGB-W3, HiraginoSansGB;
-            font-weight: normal;
-            color: #1D1D1D;
-        }
-    }
-    .use-wechat{
+    .list {
+		.item-box{
+			width: 690rpx;
+			margin: 0 auto; 
+			margin-top: 40rpx;
+			background-color: #F7F7F7;
+			.item{
+				padding: 30rpx;
+				display: flex;
+				flex-direction: column;
+				font-size: 28rpx;
+				color: #1D1D1D;
+				text{
+					display: block;
+				}
+				.item-name{
+					display: flex;
+					justify-content: space-between;
+				}
+				.item-phone{
+					margin: 20rpx 0;
+				}
+				.item-address{
+					color: #8E8E8E !important;
+				}
+				.item-btn{
+					margin-top: 50rpx;
+					display: flex;
+					text{
+						text-decoration:underline;
+						&:nth-child(2){
+							margin-left: 86rpx;
+						}
+					}
+				}
+			}
+		}
+	}
+    .no-list{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		.empty {
+		  font-size: 36rpx;
+		  line-height: 50rpx;
+		  letter-spacing: 2rpx;
+		  color: #1D1D1D;
+		  margin-bottom: 28rpx;
+		}
+		
+		.tip-text {
+		  color: #8E8E8E;
+		  font-size: 28rpx;
+		  line-height: 40rpx;
+		  letter-spacing: 4rpx;
+		}
+	}
+	.use-wechat{
         text-align: center;
-        margin-top: 54rpx;
+        margin-top: 48rpx;
         font-size: 28rpx;
         font-family: HiraginoSansGB-W3, HiraginoSansGB;
         font-weight: normal;
         color: #1D1D1D;
+		padding-bottom: 80rpx;
         .icon-font{
             vertical-align: middle;
             color: #BBBBBB;

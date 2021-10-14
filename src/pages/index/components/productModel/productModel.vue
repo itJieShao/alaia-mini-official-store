@@ -5,7 +5,7 @@
       <text class="subtitle">Shop the Look</text>
     </view>
     <view class="product">
-      <view class="product-item" v-for="i in 6" :key="i">
+      <view class="product-item" v-for="i in 6" :key="i" @click="goDetail">
         <image class="product-img" src="" mode="aspectFit"></image>
       </view>
     </view>
@@ -16,6 +16,20 @@
 </template>
 
 <script>
+  export default {
+    data(){
+      return{
+        
+      }
+    },
+    methods:{
+      goDetail(){
+        uni.navigateTo({
+          url:"/subPackages/productCollocation/pages/index"
+        })
+      }
+    }
+  }
 </script>
 
 <style lang="scss" scoped>

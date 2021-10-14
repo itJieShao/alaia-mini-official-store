@@ -26,14 +26,14 @@
         }
     }
     .title{
-        font-size: 40rpx;
+        font-size: 36rpx;
         font-family: HiraginoSansGB-W3, HiraginoSansGB;
         font-weight: normal;
         color: #1D1D1D;
         // height: 60rpx;
         line-height: 60rpx;
         text-align: center;
-        margin: 88rpx 0 20rpx 0;
+        margin: 108rpx 0 20rpx 0;
     }
     .edit-icon{
         margin: 10rpx auto 0;
@@ -55,23 +55,22 @@
     }
     .form-box{
         padding: 0 32rpx 68rpx;
-        margin-top: 60rpx;
+        margin-top: 40rpx;
         .form-inner{
-            padding: 0 32rpx;
             input, .picker{
+				border: 2rpx solid #8E8E8E;
                 height: 80rpx;
-                background: #F9F9F9;
                 padding: 0 32rpx;
                 font-size: 28rpx;
                 font-weight: normal;
                 color: #1D1D1D;
                 margin-bottom: 50rpx;
                 line-height: 80rpx;
-                letter-spacing: 0.84rpx;
+                letter-spacing: 2rpx;
                 display: flex;
                 justify-content: space-between;
                 .date-placeholder{
-                    color: #8E8E8E; 
+                    color: #BBBBBB; 
                 }
                 .date-text{
                     color: #1D1D1D;
@@ -82,34 +81,19 @@
             }
             input::-webkit-input-placeholder { 
                 /* WebKit browsers */ 
-                color: #8E8E8E; 
+                color: #BBBBBB; 
             } 
             input::-moz-placeholder { 
                 /* Mozilla Firefox 4 to 18 */ 
-                color: #8E8E8E; 
+                color: #BBBBBB; 
             } 
             input::-moz-placeholder { 
                 /* Mozilla Firefox 19+ */ 
-                color: #8E8E8E; 
+                color: #BBBBBB; 
             } 
             input::-ms-input-placeholder { 
                 /* Internet Explorer 10+ */ 
-                color: #8E8E8E; 
-            }
-            .area{
-                height: 80rpx;
-                background: #F9F9F9;
-                padding: 0 32rpx;
-                font-size: 28rpx;
-                font-weight: normal;
-                color: #1D1D1D;
-                margin-bottom: 48rpx;
-                line-height: 80rpx;
-                display: flex;
-                justify-content: space-between;
-                .icon-font{
-                    font-size: 14rpx;
-                }
+                color: #BBBBBB; 
             }
             .check-box{
                 label{
@@ -127,19 +111,18 @@
         .handle{
             display: flex;
             justify-content: center;
-            margin-top: 60rpx;
+            margin-top: 100rpx;
             button{
                 width: 100%;
                 display: block;
                 height: 80rpx;
-                border: 1px solid #000000;
                 text-align: center;
                 line-height: 80rpx;
                 font-size: 28rpx;
                 font-family: HiraginoSansGB-W3, HiraginoSansGB;
                 font-weight: normal;
-                color: #1D1D1D;
-                background: #E3F0EA;
+                color: #FFFFFF;
+                background: #000000;
             }
         } 
         .input-box{

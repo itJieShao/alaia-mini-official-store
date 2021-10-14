@@ -370,8 +370,8 @@ $transitionAll: all .8s;
   }
   .yingliang{
     position: absolute;
-    top: 200rpx;
-    right: 32rpx;
+    bottom: 115rpx;
+    left: 30rpx;
     font-size: 36rpx;
   }
 }

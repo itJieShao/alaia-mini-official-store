@@ -15,23 +15,11 @@
       position: relative;
       box-sizing: border-box;
       height: 120rpx;
-      padding-left: 44rpx;
       font-size: 28rpx;
       font-weight: normal;
       color: #1D1D1D;
       line-height: 120rpx;
       border-bottom: 1px solid #F4F4F4;
-      &::before{
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        content: "";
-        width: 20rpx;
-        height: 20rpx;
-        background: #E3F0EA;
-        border-radius: 50%;
-      } 
       .icon-font{
         position: absolute;
         right: 0;

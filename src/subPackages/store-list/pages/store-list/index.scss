@@ -27,12 +27,16 @@
       }
     }
   }
+	.banner{
+		display: block;
+		width: 750rpx;
+	}
   .store-list-box{
-    padding: 92rpx 32rpx 60rpx;
+    padding: 0 32rpx 60rpx;
     .store-list-item{
       position: relative;
-      padding: 44rpx 0 20rpx;
-      border-bottom: 1px solid #f4f4f4;
+      padding: 60rpx 0 16rpx;
+      border-bottom: 1px solid #EFF2F4;
       .store-name{
         line-height: 42rpx;
         margin-bottom: 30rpx;
@@ -47,12 +51,12 @@
           width: 180rpx;
           text-align: right;
           .icon-font{
-            font-size: 20rpx;
+            font-size: 24rpx;
             color: #1D1D1D;
-            margin-right: 10rpx;
+            margin-right: 20rpx;
           }
           .distance{
-            font-size: 24rpx;
+            font-size: 28rpx;
             color: #1D1D1D;
             text-decoration:underline;
           }
@@ -65,14 +69,22 @@
         .icon-font{
           width: 28rpx;
           font-size: 20rpx;
-          color: #8E8E8E;
+          color: #616161;
           margin-right: 8rpx;
           text-align: center;
         }
         .info{
           flex: 1;
-          font-size: 24rpx;
-          color: #8E8E8E;
+          font-size: 28rpx;
+		  color: #616161;
+		  text{
+			  display: block;
+			  margin-bottom: 20rpx;
+			  color: #616161;
+		  }
+		  .back-font{
+			  color: #1D1D1D !important;
+		  }
         }
         .phonenum{
           text-decoration: underline;
