@@ -2,7 +2,7 @@
   <view>
     <custom-nav-bar left-arrow="left" title="搜索" />
     <view :style="{'padding-top':ktxStatusHeight}"></view>
-    <search-default v-if="searchPageType === 1" :hotWords="hotWords" :guessLike="guessLike" @getProduct="searchClick"></search-default>
+    <search-default v-if="searchPageType === 1" :hotWords="hotWords" @getProduct="searchClick"></search-default>
     <search-res v-if="searchPageType === 2" @getProduct="searchClick" @goFilter="goFilter" @updateList="updateList" :keyword="keyword" :filterKeyWord="filterKeyWord" :goodsList="goodsList" :totalCount="totalCount" @scrollToTop="scrollToTop" :goTopFlag="goTopFlag">
     </search-res>
     <search-no-res v-if="searchPageType === 3" :keyword="keyword" @getProduct="searchClick"></search-no-res>
@@ -25,28 +25,6 @@ export default {
   },
   data () {
     return {
-      guessLike: [
-        {
-          cover: 'http://scm-dam-oss-cn-cdn.baozun.com/scm-dam/2021-7-22/0.8227653865569999Aurora%E7%B3%BB%E5%88%97-750_442_.jpg',
-          title: '马赛克提花针织喇叭连衣裙1',
-          price: '￥14,200',
-        },
-        {
-          cover: 'http://scm-dam-oss-cn-cdn.baozun.com/scm-dam/2021-7-22/0.8227653865569999Aurora%E7%B3%BB%E5%88%97-750_442_.jpg',
-          title: '马赛克提花针织喇叭连衣裙2',
-          price: '￥14,200',
-        },
-        {
-          cover: 'http://scm-dam-oss-cn-cdn.baozun.com/scm-dam/2021-7-22/0.8227653865569999Aurora%E7%B3%BB%E5%88%97-750_442_.jpg',
-          title: '马赛克提花针织喇叭连衣裙3',
-          price: '￥14,200',
-        },
-        {
-          cover: 'http://scm-dam-oss-cn-cdn.baozun.com/scm-dam/2021-7-22/0.8227653865569999Aurora%E7%B3%BB%E5%88%97-750_442_.jpg',
-          title: '马赛克提花针织喇叭连衣裙4',
-          price: '￥14,200',
-        },
-      ],
       keyword: {},
       filterKeyWord: '',
       goodsList: [],
@@ -120,11 +98,6 @@ export default {
       this.goTopFlag = true;
     } else {
       this.goTopFlag = false;
-    }
-  },
-  onReachBottom () {
-    if (this.moreFlag) {
-      this.getProduct();
     }
   },
   created () {

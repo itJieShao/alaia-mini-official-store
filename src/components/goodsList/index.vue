@@ -9,12 +9,6 @@
           <view class="screen-item-left">{{filterClickFlag?array[index]:"排序"}}</view>
         </picker>
       </view>
-      <view class="screen-tab-item" style="justify-content: flex-end;">
-        <view class="check-box-item" @click="changeSelected">
-          <view class="filter-check-icon" :class="selected?'filter-icon-act':''"></view>
-          <text>仅有货</text>
-        </view>
-      </view>
     </view>
     <view class="goods">
       <view class="goods-item observer_item" v-for="(item,index) in goodsList" @click="goPdp(item)" :key="index" :data-skucode="item.skus[0].code" :data-title="item.title" :data-spucode="item.code" :data-price="item.minSkuSalePrice" :data-image="item.images.length && item.images[0].url ? item.images[0].url : ''">
@@ -54,13 +48,9 @@ export default {
       index: 0,
       array: ['默认', '价格从低到高', '价格从高到低', '新品'],
       filterClickFlag: false,
-      selected: false,
     }
   },
   watch: {
-    '$store.state.search.clearSelectFlag': function () {
-      this.selected = false;
-    },
     goodsList: {
       handler () {
         if (this._observer) {
@@ -137,10 +127,6 @@ export default {
     goFilter () {
       this.$emit('goFilter');
     },
-    changeSelected () {
-      this.selected = !this.selected;
-      this.$emit('updateList', 2, this.selected);
-    },
     goPdp (item) {
       const aData = {
         sku: {
@@ -179,26 +165,6 @@ export default {
   .screen-tab-item {
     display: flex;
     align-items: center;
-    .check-box-item {
-      display: flex;
-      align-items: center;
-      .filter-check-icon {
-        width: 30upx;
-        height: 30upx;
-        border: 2upx solid #bbb;
-        border-radius: 50%;
-        background-color: #fff;
-      }
-      .filter-icon-act {
-        border: 2upx solid #1d1d1d !important;
-        background-color: #e3f0ea !important;
-      }
-      text {
-        font-size: 28rpx;
-        margin-left: 20rpx;
-        color: #1d1d1d;
-      }
-    }
     .screen-item-left {
       font-size: 28upx;
       display: flex;

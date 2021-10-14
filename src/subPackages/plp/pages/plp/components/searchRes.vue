@@ -2,8 +2,8 @@
   <view class="res-wrap">
     <image v-if="img" class="banner" :src="img" mode="widthFix" :lazy-load="true"></image>
     <view class="info">
-      <view class="keyword">{{keyWord}}</view>
-      <view class="remark">{{remark}}</view>
+      <view class="keyword" v-if="keyWord">{{keyWord}}</view>
+      <view class="remark" v-if="remark">{{remark}}</view>
       <view class="search-box">
         <image class="icon icon-search" src="https://res-tasaki.baozun.com/static/images/icon-search.png" mode="widthFix"></image>
         <text class="txt">搜索商品</text>

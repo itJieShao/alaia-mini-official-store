@@ -1,6 +1,11 @@
 <template>
   <view class="product-display">
-    <view class="title">{{title}}</view>
+    <view class="label" v-if="titleLeft">{{title}}</view>
+    <view class="line-title" v-else>
+      <view class="line"></view>
+      <image class="triangle" src="https://res-tasaki.baozun.com/static/images/icon-my.png" mode="scaleToFill"></image>
+      <view class="title">{{title}}</view>
+    </view>
     <productSwiper @clickItem="handleClick" :products="products" />
   </view>
 </template>
@@ -19,6 +24,10 @@ export default {
     products: {
       type: Array,
       default: () => [],
+    },
+    titleLeft: {
+      type: Boolean,
+      default: false,
     },
   },
   data () {
@@ -57,14 +66,44 @@ export default {
 <style lang="scss" scoped>
 @import '@/styles/utilities.scss';
 .product-display {
-  .title {
+  margin-bottom: rpx(7);
+  .label {
     font-family: PingFangSC, PingFangSC-Medium;
     font-size: rpx(14);
     font-weight: 500;
     line-height: rpx(20);
-    text-align: center;
-    letter-spacing: 2px;
+    margin-bottom: rpx(30);
+    padding-left: rpx(16);
+    text-align: left;
+    letter-spacing: 1px;
     color: #1d1d1d;
+  }
+  .line-title {
+    position: relative;
+    margin-bottom: rpx(30);
+    .line {
+      margin-bottom: rpx(31);
+      border: 1px solid #1d1d1d;
+    }
+    .triangle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: rpx(31);
+      height: rpx(4);
+      padding: 0 rpx(7);
+      transform: translate(-50%, 0);
+      background-color: #fff;
+    }
+    .title {
+      font-family: PingFangSC, PingFangSC-Semibold;
+      font-size: rpx(16);
+      font-weight: 600;
+      line-height: rpx(22);
+      text-align: center;
+      letter-spacing: 1px;
+      color: #1d1d1d;
+    }
   }
 }
 

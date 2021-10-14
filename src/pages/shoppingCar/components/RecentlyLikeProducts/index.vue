@@ -1,8 +1,7 @@
 <template>
   <view>
-    <productDisplay v-if="guessLikeProduct.length&&!recent" title="猜你喜欢" :products="guessLikeProduct">
-    </productDisplay>
-    <productDisplay v-if="recentProducts.length&&!like" title="最近浏览" :products="recentProducts"></productDisplay>
+    <productDisplay v-if="guessLikeProduct.length&&!recent" title="猜你喜欢" :titleLeft="titleLeft" :products="guessLikeProduct"></productDisplay>
+    <productDisplay v-if="recentProducts.length&&!like" title="最近浏览" :titleLeft="titleLeft" :products="recentProducts"></productDisplay>
   </view>
 </template>
 
@@ -25,6 +24,10 @@ export default {
       default: false,
     },
     recent: {
+      type: Boolean,
+      default: false,
+    },
+    titleLeft: {
       type: Boolean,
       default: false,
     },

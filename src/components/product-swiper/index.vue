@@ -2,8 +2,10 @@
   <scroll-view class="products-list" scroll-x="true" bindscroll="scroll">
     <view class="item" v-for="(item,index) in products" :key="index" @click="handleProductClick(item)">
       <image class="cover" :src="imgUrlReplace(item.productImg, 375, 375)" :lazy-load="true" mode="aspectFit"></image>
-      <view class="title">{{item.productName}}</view>
-      <view class="price" v-show="item.productPrice">￥{{ priceFormat(item.productPrice) || 0 }}</view>
+      <view class="info">
+        <view class="title">{{item.productName}}</view>
+        <view class="price" v-show="item.productPrice">￥{{ priceFormat(item.productPrice) || 0 }}</view>
+      </view>
     </view>
   </scroll-view>
 </template>
@@ -33,7 +35,6 @@ export default {
 <style lang="scss" scoped>
 @import '@/styles/utilities.scss';
 .products-list {
-  margin-top: rpx(30);
   padding-left: rpx(16);
   white-space: nowrap;
   .item {
@@ -45,6 +46,16 @@ export default {
       width: 100%;
       height: rpx(227);
       background-color: #f7f7f7;
+    }
+    .info {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+      padding: 0 rpx(10);
+      padding-bottom: rpx(60);
+      background-color: #fff;
     }
     .title {
       font-family: PingFangSC, PingFangSC-Regular;
