@@ -66,7 +66,7 @@ export default {
       this.$emit('scrollToTop')
     },
     linkSearch () {
-      this.$emit('scrollToTop')
+      wx.navigateTo({ url: '/subPackages/search/pages/index' })
     },
   },
 }
