@@ -1,6 +1,6 @@
 <template>
   <view class="goods-wrap">
-    <view class="screen-tab-wrap" v-if="!noFilter">
+    <view class="screen-tab-wrap" v-if="!noFilter&&isStatic">
       <view class="screen-tab">
         <view class="item" @click="goFilter">筛选</view>
         <view class="item" @click="openSort(true)">排序</view>
@@ -8,6 +8,9 @@
     </view>
     <view class="goods">
       <view class="goods-item observer_item" v-for="(item,index) in goodsList" @click="goPdp(item)" :key="index" :data-skucode="item.skus[0].code" :data-title="item.title" :data-spucode="item.code" :data-price="item.minSkuSalePrice" :data-image="item.images.length && item.images[0].url ? item.images[0].url : ''">
+        <view class="collection">
+          <text class="icon-font icon-bofang"></text>
+        </view>
         <view class="cover">
           <image :src="item.images[0].url" mode="aspectFit"></image>
         </view>
@@ -41,6 +44,10 @@ export default {
     noFilter: {
       type: Boolean,
       default: false,
+    },
+    isStatic: {
+      type: Boolean,
+      default: true,
     },
   },
   data () {
@@ -204,6 +211,7 @@ export default {
   flex-wrap: wrap;
   padding-bottom: rpx(40);
   .goods-item {
+    position: relative;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -212,6 +220,15 @@ export default {
     background-color: #fff;
     &:nth-child(odd) {
       border-right: rpx(5) solid #fff;
+    }
+    .collection {
+      position: absolute;
+      z-index: 1;
+      top: rpx(10);
+      right: rpx(10);
+      .icon-font {
+        font-size: rpx(17);
+      }
     }
     .cover {
       width: 100%;

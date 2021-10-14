@@ -10,7 +10,12 @@
       </view>
     </view>
     <view class="res-font">共{{totalCount}}个作品<text class="filter" v-if="filterKeyWord">筛选条件：{{filterKeyWord}}</text></view>
-    <goods-list :goodsList="goodsList" @updateList="updateList" @goFilter="goFilter" />
+    <view class="menu-box">
+      <scroll-view class="menu" scroll-x="true" bindscroll="scroll">
+        <view :class="['item',item.select?'active':'']" v-for="(item,index) in menuList" :key="index" @click="selectMenu(item)">{{item.name}}</view>
+      </scroll-view>
+    </view>
+    <goods-list :goodsList="goodsList" @updateList="updateList" @goFilter="goFilter" :isStatic="isStatic" />
     <!-- <view v-if="goTopFlag" class="goTop" @click="scrollToTop">
       <text class="icon-font icon-icon-yijianxiangshang"></text>
     </view> -->
@@ -49,7 +54,15 @@ export default {
     },
     goodsList: {
       type: Array,
-      default: [],
+      default: () => [],
+    },
+    menuList: {
+      type: Array,
+      default: () => [],
+    },
+    isStatic: {
+      type: Boolean,
+      default: true,
     },
   },
   components: {
@@ -62,12 +75,16 @@ export default {
     goFilter () {
       this.$emit('goFilter');
     },
+    selectMenu (e) {
+      this.$emit('selectMenu', e);
+    },
     scrollToTop () {
       this.$emit('scrollToTop')
     },
     linkSearch () {
       wx.navigateTo({ url: '/subPackages/search/pages/index' })
     },
+    scroll () { },
   },
 }
 </script>
@@ -158,6 +175,36 @@ export default {
     box-shadow: 0 6px 20px 0 rgba(102, 102, 102, .1);
     .icon-font {
       font-size: 36rpx;
+    }
+  }
+}
+.menu-box {
+  // position: sticky;
+  // z-index: 99;
+  // top: rpx(176);
+  // left: 0;
+  // width: auto;
+  background-color: #fff;
+  .menu {
+    margin-left: rpx(16);
+    white-space: nowrap;
+    .item {
+      font-family: PingFangSC, PingFangSC-Regular;
+      font-size: rpx(14);
+      font-weight: 400;
+      line-height: rpx(20);
+      display: inline-block;
+      margin-right: rpx(35);
+      padding: rpx(11) 0;
+      text-align: center;
+      color: #8e8e8e;
+      border-bottom: rpx(1) solid transparent;
+    }
+    .active {
+      font-family: PingFangSC, PingFangSC-Semibold;
+      font-weight: 600;
+      color: #1d1d1d;
+      border-color: #000;
     }
   }
 }
