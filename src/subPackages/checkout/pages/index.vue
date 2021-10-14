@@ -1,15 +1,107 @@
 <template>
-  <view class="checkout-container">
-    <custom-nav-bar
-      :head-font-color="false"
-    />
+  <view class="checkout-container" :style="{ 'padding-top': computedHeight }">
+    <custom-nav-bar :title="'订单结算'" />
+    <view class="container">
+        <view class="delivery-box">
+          <view class="addr-box">
+            <view class="title">
+              <view class="label">配送信息</view>
+              <view class="import-addr-btn" @click="handleAuthAddr">导入微信地址</view>
+            </view>
+            <view class="info-box" v-if="addressInfo">
+              <view style="margin-bottom: 10rpx">
+                <text>{{addressInfo.receiverName}}</text>
+                <text>{{addressInfo.receiverMobile}}</text>
+              </view>
+              <view>{{addressInfo.province}} {{addressInfo.city}} {{addressInfo.district}} {{addressInfo.address}}</view>
+              <view class="edit-addr-btn" @click="selectAddress"></view>
+              <view class="form-error" v-if="!addressInfo.addressVerify">该地区暂不支持配送请重新选择地址</view>
+            </view>
+            <view v-else class="select-addr-btn" @click="selectAddress">添加配送地址</view> 
+        </view>
+        <view class="field-item">
+          <view class="label">配送方式</view>
+          <view class="value">顺丰速运</view>
+        </view>
+        <view class="field-item">
+          <view class="label">支付方式</view>
+          <view class="value">微信支付</view>
+        </view>
+      </view>
+      <!-- 发票 -->
+      <view class="bill-box">
+        <view class="checkbox-item">
+          <z-checkbox
+              @checkEvent="handleBillCheck"
+              :checked="isNeedBill"
+            ></z-checkbox>
+          <text class="label">电子发票</text>
+        </view>
+        <!-- <view class="form-field">
+          <input placeholder="请输入电子邮箱" />
+          <view>个人</view>
+          <view>公司</view>
+        </view> -->
+      </view>
+      <!-- 商品摘要（这里预计要抽出一个组件来） -->
+      <view class="ps-box">
+        <view class="title">
+            订单摘要 <text class="num">（共{{totalQuantity}}件）</text>
+        </view>
+        <view class="p-list">
+          <view
+            v-for="(product, index) in productList"
+            :key="product.code"
+            :class="productList.length === index + 1 ? 'last-product' : ''">
+            <OrderProductItem  isLink :product="{...product, gaIndex: index + 1}"/>
+          </view>
+        </view>
+      </view>
+      <!-- 其他信息 -->
+      <view class="order-box">
+        <view class="price-content">
+            <view class="info-item">
+              <view>商品小计</view>
+              <view class="value">{{get(orderAmount, 'productAmount.amount') | currency}}</view>
+            </view>
+            <view class="info-item">
+              <view class="info-title">运费</view>
+              <view class="value">免费</view>
+          </view>
+        </view>
+        <view class="total-content">
+          <view>总计</view>
+          <view class="value">{{get(orderAmount, 'productAmount.amount') | currency}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="submit-btn-wrapper">
+        <view class="agreement-content" id="privacy">
+          <z-checkbox
+            @checkEvent="handleReceiverCheck"
+            :checked="isAgree"
+          ></z-checkbox>
+          <view class="privacy-txt" @click="handleReceiverCheck"> 我已阅读并接受ALAIA<view class="under-line" @click.stop="handleToRule">销售条款</view>及
+          <view class="under-line" @click.stop="handleToPrivacy">隐私政策</view>。</view>
+        </view>
+        <form report-submit="true">
+          <view class="button-container" >
+            <view class="total-price">
+              总计: {{get(orderAmount, 'productAmount.amount') | currency }}
+            </view>
+            <button class="btn-submit" form-type="submit" @click="handleCreateOrder">微信支付</button>
+          </view>
+        </form>
+      </view>
+  </view>
+
+  <!-- <view class="checkout-container">
+    <custom-nav-bar :title="'订单结算'" />
     <view id="address"></view>
     <view class="container" :style="{ 'padding-top': computedHeight }">
       <view class="form-item-block">
         <view class="form-item-title">
-          <view class="title-left">
-            1. 配送地址
-          </view>
+          <view class="title-left">配送地址</view>
           <view class="title-right"></view>
         </view>
         <view class="form-item-title sub address-row" @click="selectAddress">
@@ -152,7 +244,7 @@
               @checkEvent="handleReceiverCheck"
               :checked="isAgree"
             ></z-checkbox>
-            <view class="privacy-txt" @click="handleReceiverCheck"> 我已阅读并接受TASAKI<view class="under-line" @click.stop="handleToRule">销售条款</view>及
+            <view class="privacy-txt" @click="handleReceiverCheck"> 我已阅读并接受ALAIA<view class="under-line" @click.stop="handleToRule">销售条款</view>及
             <view class="under-line" @click.stop="handleToPrivacy">隐私政策</view>。</view>
           </view>
         </view>
@@ -161,21 +253,21 @@
             <view class="total-price">
               总计: {{get(orderAmount, 'productAmount.amount') | currency }}
             </view>
-            <button class="btn-submit" form-type="submit" @click="handleCreateOrder">立即支付</button>
+            <button class="btn-submit" form-type="submit" @click="handleCreateOrder">微信支付</button>
           </view>
         </form>
       </view>
     </view>
-  </view>
+  </view> -->
 </template>
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
-import zCheckbox from '@/components/checkbox';
+import zCheckbox from '@/components/al-checkbox';
 import navBarHeight from '@/components/common/navBarHeight';
-import OrderProductItem from '@/components/orderProductItem'
-import { trackWechatAd } from '@/service/apis'
-import utils, { priceFormat } from '@/utils/utils'
+import OrderProductItem from '@/components/al-orderProductItem';
+import { trackWechatAd } from '@/service/apis';
+import utils, { priceFormat } from '@/utils/utils';
 import { get } from '@/utils/utilityOperationHelper';
 import FormError from '../components/FormError.vue'
 import weixinSupport from './weixinSupport.mixin'
@@ -203,6 +295,7 @@ export default {
   },
   data() {
     return {
+      isNeedBill: false,
       isAgree: false,
       isSubscribe: false,
       originIsSubscribe: false,
@@ -360,6 +453,9 @@ export default {
     handleReceiverCheck() {
       this.isAgree = !this.isAgree
     },
+    handleBillCheck() {
+      this.isNeedBill = !this.isNeedBill
+    },
     // 是否同意接受产品和活动信息
     handleSubscribeCheck() {
       // 将信息存储, 方便同步到个人中的勾选项
@@ -406,7 +502,6 @@ export default {
         const taxNumberFlag = this.handleValid(this.companyInvoice.taxNumber, 'taxNumber')
         invoiceError = titleFlag || taxNumberFlag
       }
-
       // 校验地址是否支持配送
       if (this.addressInfo) {
         if (!this.addressInfo.addressVerify) {
@@ -489,7 +584,7 @@ export default {
         // 携带 用户的微信昵称，用于分销功能的BA订单展示
         params.extInfos = JSON.stringify({ ...params.receiptInfo, userNickName: get(uni.getStorageSync(WX_INFO), 'nickName') })
         // 发票信息
-        params.invoice = this.getInvoice()
+        params.invoice = null; // 跳过支付
 
         try {
           const order = await this.orderCreate(params)
