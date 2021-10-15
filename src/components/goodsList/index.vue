@@ -1,23 +1,16 @@
 <template>
-  <view>
-    <view class="screen-tab" v-if="!noFilter">
-      <view class="screen-tab-item" style="width: 450rpx;">
-        <view class="screen-item-left" style="margin-right: 100rpx;" @click="goFilter">
-          筛选
-        </view>
-        <picker @change="bindPickerChange" :value="index" :range="array">
-          <view class="screen-item-left">{{filterClickFlag?array[index]:"排序"}}</view>
-        </picker>
-      </view>
-      <view class="screen-tab-item" style="justify-content: flex-end;">
-        <view class="check-box-item" @click="changeSelected">
-          <view class="filter-check-icon" :class="selected?'filter-icon-act':''"></view>
-          <text>仅有货</text>
-        </view>
+  <view class="goods-wrap">
+    <view class="screen-tab-wrap" v-if="!noFilter&&isStatic">
+      <view class="screen-tab">
+        <view class="item" @click="goFilter">筛选</view>
+        <view class="item" @click="openSort(true)">排序</view>
       </view>
     </view>
     <view class="goods">
       <view class="goods-item observer_item" v-for="(item,index) in goodsList" @click="goPdp(item)" :key="index" :data-skucode="item.skus[0].code" :data-title="item.title" :data-spucode="item.code" :data-price="item.minSkuSalePrice" :data-image="item.images.length && item.images[0].url ? item.images[0].url : ''">
+        <view class="collection">
+          <text class="icon-font icon-bofang"></text>
+        </view>
         <view class="cover">
           <image :src="item.images[0].url" mode="aspectFit"></image>
         </view>
@@ -28,12 +21,19 @@
         </view>
       </view>
     </view>
+
+    <view class="sort-wrap" v-show="showSort" @touchmove="preventTouchMove">
+      <view class="sort-mark" @click="openSort(false)"></view>
+      <view class="sort-content">
+        <view class="title">商品排序</view>
+        <view class="item" v-for="(item,index) in arraySort" :key="index" @click="sortChange(item)">{{item.label}}<text class="icon" v-if="item.active">√</text></view>
+      </view>
+    </view>
   </view>
 </template>
 
 <script>
 import { priceFormat } from '@/utils/utils';
-import zCheckbox from '../checkbox';
 
 export default {
   props: {
@@ -45,22 +45,52 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  components: {
-    zCheckbox,
+    isStatic: {
+      type: Boolean,
+      default: true,
+    },
   },
   data () {
     return {
-      index: 0,
-      array: ['默认', '价格从低到高', '价格从高到低', '新品'],
-      filterClickFlag: false,
-      selected: false,
+      arraySort: [
+        {
+          label: '默认',
+          active: true,
+          sort: {},
+        },
+        {
+          label: '价格从低到高',
+          sort: {
+            name: 'MIN_SKU_SALE_PRICE',
+            sort: 'ASC',
+          },
+        },
+        {
+          label: '价格从高到低',
+          sort: {
+            name: 'MIN_SKU_SALE_PRICE',
+            sort: 'DESC',
+          },
+        },
+        {
+          label: '新品',
+          sort: {
+            name: 'LIST_TIME',
+            sort: 'DESC',
+          },
+        },
+        {
+          label: '畅销',
+          sort: {
+            name: 'SALES',
+            sort: 'DESC',
+          },
+        },
+      ],
+      showSort: false,
     }
   },
   watch: {
-    '$store.state.search.clearSelectFlag': function () {
-      this.selected = false;
-    },
     goodsList: {
       handler () {
         if (this._observer) {
@@ -96,50 +126,25 @@ export default {
     },
   },
   filters: {
-    formatMoney (val) {
-      if (val) {
-        return priceFormat(val);
-      }
-      return '0';
-    },
+    formatMoney: (val) => (val ? priceFormat(val) : 0),
   },
   methods: {
-    bindPickerChange (e) {
-      const index = e.target.value;
-      let sort = {};
-      switch (Number(index)) {
-        case 0:
-          sort = {};
-          break;
-        case 1:
-          sort = {
-            name: 'MIN_SKU_SALE_PRICE',
-            sort: 'ASC',
-          };
-          break;
-        case 2:
-          sort = {
-            name: 'MIN_SKU_SALE_PRICE',
-            sort: 'DESC',
-          };
-          break;
-        case 3:
-          sort = {
-            name: 'LIST_TIME',
-            sort: 'DESC',
-          };
-          break;
-      }
-      this.index = index;
-      this.filterClickFlag = true;
-      this.$emit('updateList', 1, sort);
+    preventTouchMove () {
+      return
+    },
+    openSort (e) {
+      this.showSort = e
+    },
+    sortChange (item) {
+      this.arraySort.forEach((element) => {
+        element.active = false
+      });
+      item.active = true
+      this.$emit('updateList', 1, item.sort);
+      this.openSort(false)
     },
     goFilter () {
       this.$emit('goFilter');
-    },
-    changeSelected () {
-      this.selected = !this.selected;
-      this.$emit('updateList', 2, this.selected);
     },
     goPdp (item) {
       const aData = {
@@ -171,50 +176,33 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/styles/utilities.scss';
-.screen-tab {
-  display: flex;
-  justify-content: space-between;
-  width: 680upx;
-  margin: 20upx auto 32upx;
-  .screen-tab-item {
+.goods-wrap {
+  font-size: 0;
+  position: relative;
+  padding-bottom: var(--safe-area-inset-bottom);
+}
+.screen-tab-wrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding-bottom: var(--safe-area-inset-bottom);
+  background-color: #fff;
+  .screen-tab {
     display: flex;
     align-items: center;
-    .check-box-item {
-      display: flex;
-      align-items: center;
-      .filter-check-icon {
-        width: 30upx;
-        height: 30upx;
-        border: 2upx solid #bbb;
-        border-radius: 50%;
-        background-color: #fff;
-      }
-      .filter-icon-act {
-        border: 2upx solid #1d1d1d !important;
-        background-color: #e3f0ea !important;
-      }
-      text {
-        font-size: 28rpx;
-        margin-left: 20rpx;
-        color: #1d1d1d;
-      }
-    }
-    .screen-item-left {
-      font-size: 28upx;
-      display: flex;
-      align-items: center;
-      color: #1d1d1d;
-    }
-    .screen-item-left:after {
-      position: relative;
-      display: block;
-      width: 15upx;
-      height: 15upx;
-      margin: 0 0 8upx 20upx;
-      content: '';
-      transform: rotate(224deg);
-      border-top: 3upx solid #000;
-      border-left: 3upx solid #000;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: rpx(5) rpx(50);
+    .item {
+      font-family: PingFangSC, PingFangSC-Medium;
+      font-size: rpx(14);
+      font-weight: 500;
+      line-height: rpx(20);
+      padding: rpx(10) rpx(50);
+      letter-spacing: 1px;
+      color: #fff;
+      background-color: #1d1d1d;
     }
   }
 }
@@ -223,6 +211,7 @@ export default {
   flex-wrap: wrap;
   padding-bottom: rpx(40);
   .goods-item {
+    position: relative;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -231,6 +220,15 @@ export default {
     background-color: #fff;
     &:nth-child(odd) {
       border-right: rpx(5) solid #fff;
+    }
+    .collection {
+      position: absolute;
+      z-index: 1;
+      top: rpx(10);
+      right: rpx(10);
+      .icon-font {
+        font-size: rpx(17);
+      }
     }
     .cover {
       width: 100%;
@@ -271,6 +269,61 @@ export default {
     }
     .price {
       margin-top: rpx(4);
+    }
+  }
+}
+.sort-wrap {
+  position: fixed;
+  z-index: 1002;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  .sort-mark {
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .3);
+  }
+  .sort-content {
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 rpx(16);
+    padding-bottom: var(--safe-area-inset-bottom);
+    background-color: #fff;
+    .title {
+      font-family: PingFangSC, PingFangSC-Medium;
+      font-size: rpx(18);
+      font-weight: 500;
+      line-height: rpx(25);
+      margin-bottom: rpx(21);
+      padding-top: rpx(20);
+      text-align: center;
+      letter-spacing: 1px;
+      color: #1d1d1d;
+    }
+    .item {
+      font-family: PingFangSC, PingFangSC-Regular;
+      font-size: rpx(14);
+      font-weight: 400;
+      line-height: rpx(20);
+      padding: rpx(17) 0;
+      text-align: center;
+      letter-spacing: 2px;
+      color: #1d1d1d;
+      border-bottom: 1px solid #f4f4f4;
+      &:last-child {
+        border-bottom: none;
+      }
+      .icon {
+        margin-left: rpx(11);
+      }
     }
   }
 }

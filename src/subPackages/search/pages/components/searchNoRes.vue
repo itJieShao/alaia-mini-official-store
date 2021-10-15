@@ -3,7 +3,7 @@
     <view class="search-res">抱歉，没有找到任何关于“{{keyword.name}}”的结果 </view>
     <search-input @getProduct="getProduct" />
     <view class="no-list">
-      <recently-like-products like />
+      <recently-like-products like titleLeft />
     </view>
   </view>
 </template>

@@ -267,10 +267,6 @@
 				"path": "pages/order/index"
 			},
 			{
-				"name": "搜索结果页面",
-				"path": "subPackages/searchResult/pages/index"
-			},
-			{
 				"name": "分类",
 				"path": "pages/category/index"
 			},

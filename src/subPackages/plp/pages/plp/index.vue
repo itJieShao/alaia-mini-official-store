@@ -1,9 +1,9 @@
 <template>
   <view>
-    <custom-nav-bar left-arrow="left" :head-border="isHeadBorder" :head-blank="isHeadBlank" :head-font-color="isHeaderBlackColor" />
+    <custom-nav-bar left-arrow="left" :head-border="scrollHeight>200?false:isHeadBorder" :head-blank="scrollHeight>200?false:isHeadBlank" :title="scrollHeight>200?keyWord:' '" />
     <!-- <view :style="{ 'padding-top': ktxStatusHeight }"></view> -->
     <block v-if="pageShow">
-      <search-res v-if="goodsList.length" :totalCount="totalCount" :keyWord="keyWord" :remark="remark" :filterKeyWord="filterKeyWord" :img="img" :goodsList="goodsList" @updateList="updateList" @goFilter="goFilter" @scrollToTop="scrollToTop" :goTopFlag="goTopFlag" />
+      <search-res v-if="goodsList.length" :totalCount="totalCount" :keyWord="keyWord" :remark="remark" :filterKeyWord="filterKeyWord" :img="img" :goodsList="goodsList" :menuList="menuList" @selectMenu="selectMenu" @updateList="updateList" @goFilter="goFilter" @scrollToTop="scrollToTop" :goTopFlag="goTopFlag" :isStatic="isStatic" />
       <search-no-res v-else :keyWord="keyWord" :totalCount="totalCount" />
     </block>
   </view>
@@ -29,6 +29,7 @@ export default {
       filterKeyWord: '',
       img: '',
       goodsList: [],
+      menuList: [],
       pageShow: false,
       params: {
         filters: {
@@ -49,6 +50,8 @@ export default {
       updateFlag: false,
       goTopFlag: false,
       remark: '',
+      scrollHeight: 0,
+      isStatic: true,
     };
   },
   onLoad (option) {
@@ -59,30 +62,29 @@ export default {
       remark,
     } = option;
     this.params.filters.categories = code || '';
-    // if (remark) {
-    //   this.params.filters.condition.conditions = [{
-    //     operator: 'OR',
-    //     conditions: [{
-    //       key: 'attrList.valueCode',
-    //       value: remark,
-    //       fqRule: 'EQ',
-    //     }],
-    //   },
-    //   {
-    //     operator: 'OR',
-    //     conditions: [{
-    //       key: 'attrList.valueCode',
-    //       value: name,
-    //       fqRule: 'EQ',
-    //     }],
-    //   },
-    //   ];
-    // }
-
     this.remark = remark || ''
     this.keyWord = name || '';
     this.img = img || '';
     this.getProduct();
+
+    // 三级导航
+    this.getCategoryData().then((result) => {
+      for (const [key, value] of Object.entries(result)) {
+        if (value.name === '商品分类') {
+          const pageData = value ? value.children : []
+          pageData.forEach((element) => {
+            if (element.children && element.children.length) {
+              element.children.forEach((e) => {
+                if (e.name === name) {
+                  this.menuList = e.children
+                  this.menuList.unshift({ name: '全部', select: true })
+                }
+              });
+            }
+          });
+        }
+      }
+    })
   },
   watch: {
     '$store.state.goodsFilter.fromTypeData1.goodsList': {
@@ -103,16 +105,16 @@ export default {
     '$store.state.goodsFilter.fromTypeData1.plp_params': {
       handler (newData, oldData) {
         if (newData.filters.condition.conditions.length) {
-          let keyWordString = '';
+          const keyWordString = [];
           newData.filters.condition.conditions.forEach((item) => {
             if (item.hasOwnProperty('typeIndex')) {
               if (item.value != this.keyWord) {
-                keyWordString += `、${item.value}`;
+                keyWordString.push(item.value)
               }
             }
           });
           if (keyWordString) {
-            this.filterKeyWord = keyWordString;
+            this.filterKeyWord = keyWordString.join('、');
           }
         } else {
           this.filterKeyWord = '';
@@ -124,11 +126,6 @@ export default {
   onUnload () {
     this.clearFilterData(1);
   },
-  onReachBottom () {
-    if (this.moreFlag) {
-      this.getProduct();
-    }
-  },
   onPullDownRefresh () {
     wx.stopPullDownRefresh(); // 阻止下拉刷新
   },
@@ -138,6 +135,22 @@ export default {
     } else {
       this.goTopFlag = false;
     }
+
+    // 判断浏览器滚动条上下滚动
+    if (e.scrollTop > this.scrollTop || e.scrollTop >= this.scrollHeight) {
+      this.isStatic = false
+    } else {
+      this.isStatic = true
+    }
+    // 给scrollTop重新赋值
+    this.scrollHeight = e.scrollTop
+    // 页面滚动结束
+    const timer = setTimeout(() => {
+      if (this.scrollHeight === e.scrollTop) {
+        this.isStatic = true
+        clearTimeout(timer)
+      }
+    }, 300)
   },
   onShareAppMessage (res) {
     return {
@@ -148,6 +161,7 @@ export default {
   methods: {
     ...mapMutations('goodsFilter', ['clearFilterData']),
     ...mapActions('search', ['searchProduct']),
+    ...mapActions('category', ['getCategoryData']),
     getProduct () {
       uni.showLoading({
         title: '加载中...',
@@ -239,6 +253,9 @@ export default {
       uni.pageScrollTo({
         scrollTop: 0,
       });
+    },
+    selectMenu (e) {
+      console.log(e);
     },
   },
 };

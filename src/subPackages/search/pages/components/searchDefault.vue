@@ -10,7 +10,7 @@
       </view>
     </view>
     <view class="guess-like">
-      <recently-like-products like />
+      <recently-like-products like titleLeft />
     </view>
   </view>
 </template>
@@ -26,10 +26,6 @@ export default {
   },
   props: {
     hotWords: {
-      type: Array,
-      default: [],
-    },
-    guessLike: {
       type: Array,
       default: [],
     },
