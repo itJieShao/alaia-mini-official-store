@@ -1,5 +1,9 @@
+@import '@/styles/base';
+
 .my-order {
   padding-bottom: var(--safe-area-inset-bottom);
+  padding: 0 rpx(15);
+  background: #F9F9F9;
   .my-order-content{
     .no-order{
       padding: 120rpx 0;

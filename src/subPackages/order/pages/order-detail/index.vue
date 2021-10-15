@@ -7,25 +7,11 @@
       <!-- 订单编号 -->
       <view class="order-num-status">
         <view class="order-num">订单编号：<text :userSelect="true">{{ orderData.orderCode || '' }}</text></view>
-        <view class="order-status" v-if="orderData.orderStatus === 'WAIT_PAY'"
-          >待支付</view
-        >
-        <view
-          class="order-status"
-          v-if="orderData.orderStatus === 'WAIT_DELIVERY'"
-          >待发货</view
-        >
-        <view
-          class="order-status"
-          v-if="orderData.orderStatus === ' WAIT_RECEIVE'"
-          >已发货</view
-        >
-        <view class="order-status" v-if="orderData.orderStatus === 'COMPLETED'"
-          >已完成</view
-        >
-        <view class="order-status" v-if="orderData.orderStatus === 'CANCELED'"
-          >已取消</view
-        >
+        <view class="order-status" v-if="orderData.orderStatus === 'WAIT_PAY'">待支付</view>
+        <view class="order-status" v-if="orderData.orderStatus === 'WAIT_DELIVERY'">待发货</view>
+        <view class="order-status" v-if="orderData.orderStatus === ' WAIT_RECEIVE'">已发货</view>
+        <view class="order-status" v-if="orderData.orderStatus === 'COMPLETED'">已完成</view>
+        <view class="order-status" v-if="orderData.orderStatus === 'CANCELED'">已取消</view>
       </view>
       <!-- 订单信息 -->
       <view class="order-info">
@@ -128,12 +114,6 @@
               }}</view>
             </view>
           </block>
-          <!-- <block v-else>
-            <view class="logistics-info-item" >
-              <view>快递已到达上海市</view>
-              <view class="logistics-info-time">2019.04.23 15:30:30</view>
-            </view>
-          </block> -->
         </view>
         <view
           class="logistics-view-more"

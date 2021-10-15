@@ -1,6 +1,6 @@
 <template>
   <view class="checkout-container" :style="{ 'padding-top': computedHeight }">
-    <custom-nav-bar :title="'订单结算'" />
+    <custom-nav-bar title="订单结算" />
     <view class="container">
         <view class="delivery-box">
           <view class="addr-box">

@@ -1,7 +1,7 @@
 <template>
   <view class="my-order" :style="{'padding-top':ktxStatusHeight}">
     <!-- header -->
-    <custom-nav-bar  :head-border="false" :head-font-color="false"  />
+    <custom-nav-bar title="我的订单"/>
     <!-- content -->
     <view class="my-order-content">
       <!-- 无订单 -->
@@ -17,7 +17,6 @@
       <!-- 有订单 -->
       <block v-if="isLoad && orderList.length > 0">
         <view class="order-list">
-          <view class="order-list-header">我的订单<text class="order-total-num">共{{pageInfo.totalCount}}条</text></view>
           <order-card
           v-for="(orderItem,orderIndex) in orderList"
           :key="orderIndex"
@@ -39,7 +38,6 @@ import RecentlyLikeProducts from '@/pages/shoppingCar/components/RecentlyLikePro
 import { SCREEN_NAME, trackerCommonPageView } from '@/utils/ga'
 import { formatDateNew } from '@/utils/utils'
 import orderCard from '../../components/order-card/order-card';
-import { get } from '@/utils/utilityOperationHelper';
 export default {
   name: 'order',
   components: {

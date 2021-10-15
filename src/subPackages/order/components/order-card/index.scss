@@ -1,0 +1,59 @@
+@import '@/styles/base';
+
+.order-card{
+    background-color: #fff;
+    color: #1D1D1D;
+    box-shadow: 0px 3px 7px 2px #f7f7f7; 
+    margin-bottom: rpx(20);
+    padding: rpx(20) rpx(15);
+    .order-card-header {
+      position: relative;
+      font-size: 28rpx;
+      padding-right: 100rpx;
+      box-sizing: border-box;
+      margin-bottom:46rpx;
+      font-size: rpx(14);
+      font-family: 'Lato, Lato-Regular';
+      font-weight: 400;
+      .order-status{
+        font-family: 'PingFangSC, PingFangSC-Regular';
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      .important {
+          color: #e4210d;
+      }
+      .order-num {
+        color: #1d1d1d;
+        margin-bottom: rpx(7);
+      }
+      .order-time {
+        font-size: rpx(12);
+        color: #8e8e8e;
+      }
+    }
+    .img-box {
+        margin: rpx(15) 0 rpx(30) 0;
+        .p-image {
+            display: inline-block;
+            width: rpx(100);
+            height: rpx(137);
+            margin-right: rpx(5);
+        }
+    }
+    .order-info {
+        font-size: rpx(12);
+        font-family: 'Lato, Lato-Regular';
+        font-weight: 400;
+        color: #1d1d1d;
+        display: flex;
+        justify-content: space-between;
+        .p-amount {
+            color: #8e8e8e;
+        }
+        .action {
+            display: flex;
+        }
+    }
+  }

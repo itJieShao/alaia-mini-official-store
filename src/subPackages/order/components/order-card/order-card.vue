@@ -2,38 +2,12 @@
 <template name="orderCard">
   <view class="order-card">
     <view class="order-card-content">
-      <!-- 待支付订单信息 -->
-      <view class="unpaid" v-if="orderData.node.orderStatus == 'WAIT_PAY'">
+      <view class="order-info-box">
         <view class="order-card-header">
           <view class="order-num">订单编号：<text :userSelect="true">{{orderData.node.orderCode}}</text></view>
-          <view class="order-status" v-if="cardData.countDownTime == 0">已取消</view>
-          <view class="order-status" v-else>待支付</view>
-        </view>
-        <view class="order-info" @click="goOrderDetail(orderData)">
-          <image class="prd-image" :src="orderData.node.orderLines[0].image" mode="heightFix" />
-          <view class="order-info-item">下单时间：{{orderData.orderTime}}</view>
-          <view class="order-info-item">商品数量：{{orderData.totalQuantity}}
-          </view>
-          <view class="order-info-item">订单金额：￥{{orderData.node.amount.amount  | formatMoney}}</view>
-        </view>
-        <view class="order-count-down">
-          <text class="icon-font icon-icon-shijian"></text>
-          支付剩余倒计时： {{cardData.countDownTime || 0}}
-        </view>
-        <customButton
-          v-if="cardData.countDownTime ? cardData.countDownTime!= 0 : false"
-          :btnWidth="686"
-          :btnHeight="80"
-          className="big-btn"
-          @click="goPay(orderData)"
-        >
-        立即支付</customButton>
-      </view>
-      <!--待发货，待收货，已完成，已取消 -->
-      <view class="order-info-box" v-else>
-        <view class="order-card-header">
-          <view class="order-num">订单编号：<text :userSelect="true">{{orderData.node.orderCode}}</text></view>
+          <view class="order-time">下单时间：{{orderData.orderTime}}</view>
           <view class="order-status" v-if="orderData.node.orderStatus == 'WAIT_DELIVERY'">待发货</view>
+          <view class="order-status important" v-else-if="orderData.node.orderStatus == 'WAIT_PAY'">待支付</view>
           <view class="order-status" v-else-if="orderData.node.orderStatus == 'WAIT_RECEIVE'">待收货</view>
           <view class="order-status" v-else-if="orderData.node.orderStatus == 'WAIT_EVALUATE'">已发货</view>
           <view class="order-status" v-else-if="orderData.node.orderStatus == 'COMPLETED'">已完成</view>
@@ -41,29 +15,21 @@
           <view class="order-status" v-else-if="orderData.node.orderStatus == 'AUTO_CANCEL'">自动取消</view>
           <view v-else>其它</view>
         </view>
-        <view  @click="goOrderDetail(orderData)">
-          <view class="order-info">
-            <view class="order-info-item">下单时间：{{orderData.orderTime}}</view>
-            <view class="order-info-item">商品数量：{{orderData.totalQuantity}}</view>
-            <view class="order-info-item">订单金额：￥{{orderData.node.amount.amount | formatMoney}}</view>
+        <view>
+          <view class="img-box" v-if="orderData.node.orderLines">
+              <template v-for="(item, index) in orderData.node.orderLines" >
+                <image :key="index" class="p-image" :src="item.image" mode="aspectFill" />
+              </template>
           </view>
-          <view class="order-image-list">
-            <view class="img-box" v-if="orderData.node.orderLines.length > 3 ">
-              <template v-for="(item,index) in orderData.node.orderLines.slice(0,3)" >
-                <image :key="index" class="prd-image" :src="item.image" mode="heightFix" />
-              </template>
+          <view class="order-info">
+            <view>
+              <view class="p-amount">商品数量：{{orderData.totalQuantity}}</view>
+              <view>订单金额：{{ get(orderInfo, 'node.amount.amount') | currency }}</view>
             </view>
-            <view class="img-box" v-else>
-              <template v-for="(item,index) in orderData.node.orderLines" >
-                <image :key="index" class="prd-image" :src="item.image" mode="heightFix" />
-              </template>
-            </view>
-            <view class="overflow" v-if="orderData.node.orderLines.length >3 ">
-              ...
-            </view>
-            <view class="icon-box">
-              <text class="icon-font icon-icon-youjiantou"></text>
-            </view>
+            <view class="action">
+              <customButton :btnWidth="180" className="transparent" @click="goOrderDetail(orderData)">查看详情</customButton>
+              <customButton v-if="orderData.node.orderStatus == 'WAIT_PAY'" style="margin-left: 20rpx" @click="goPay(orderData)" :btnWidth="180" className="big-btn">立即支付</customButton>
+            <view>
           </view>
          </view>
       </view>
@@ -71,7 +37,7 @@
   </view>
 </template>
 <script>
-import customButton from '@/components/button/normal.vue';
+import customButton from '@/components/al-button/normal';
 import { mapActions } from 'vuex';
 import { get } from '@/utils/utilityOperationHelper';
 import { priceFormat } from '@/utils/utils';
@@ -104,6 +70,10 @@ export default {
       }
       return '0';
     },
+    currency(value) {
+      if (!value && value !== 0) return '0';
+      return utils.currency(value);
+    }
   },
   watch: {
     orderStatus: {
@@ -130,9 +100,6 @@ export default {
     this.cardData = this.orderData
     this.cardOrderStatus = this.orderStatus
     this.loopCountDown()
-  },
-  computed: {
-
   },
   methods: {
     ...mapActions('order', ['orderPay']),
@@ -270,107 +237,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.order-card{
-  background-color: #fff;
-  color: #1D1D1D;
-  .order-card-header{
-    position: relative;
-    height: 124rpx;
-    line-height: 124rpx;
-    font-size: 28rpx;
-    padding-right: 100rpx;
-    border-bottom: 1px solid #F4F4F4;
-    box-sizing: border-box;
-    margin-bottom:46rpx;
-    .order-status{
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-  }
-  .order-card-content{
-    font-size: 28rpx;
-    line-height: 40rpx;
-    .unpaid{
-      border-bottom: 1px solid #F4F4F4;
-      padding: 0 32rpx 50rpx;
-      .order-info{
-        position: relative;
-        padding-left: 234rpx;
-        margin-bottom: 60rpx;
-        .prd-image{
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 160rpx;
-          height: 160rpx;
-        }
-        .order-info-item{
-          margin-bottom: 20rpx;
-        }
-      }
-      .order-count-down{
-        font-size: 24rpx;
-        line-height: 34rpx;
-        text-align: center;
-        margin-bottom: 40rpx;
-        .icon-font{
-          margin-right: 10rpx;
-          position: relative;
-          top: 2rpx;
-        }
-      }
-    }
-    .order-info-box{
-      padding: 0 32rpx 50rpx;
-      border-bottom: 1px solid #F4F4F4;
-      .order-info{
-        position: relative;
-        margin-bottom: 38rpx;
-        .order-info-item{
-          margin-bottom: 20rpx;
-        }
-      }
-      .order-image-list{
-        display:flex;
-        .img-box{
-          flex: 1;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          vertical-align: middle;
-          .prd-image{
-            margin-right: 28rpx;
-            width: 160rpx;
-            height: 160rpx;
-          }
-        }
-        .overflow{
-          width: 60rpx;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 36rpx;
-          color: #8E8E8E;
-          letter-spacing: 6rpx;
-        }
-        .icon-box{
-          width: 60rpx;
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          text{
-            margin-top: 10rpx;
-          }
-        }
-      }
-    }
-    .prd-image{
-      width: 160rpx;
-      height: 160rpx;
-    }
-  }
-
-}
+  @import './index';
 
 </style>
