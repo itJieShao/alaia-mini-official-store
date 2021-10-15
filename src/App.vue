@@ -15,20 +15,20 @@ export default {
   onLaunch (params) {
     log.info('App -- onLaunch');
     this.setTabSelected(0);
-    // this.loginByAuthCode().then(() => {
-    //   if (this.openId) {
-    //     this.$sr.setUser({
-    //       open_id: this.openId, // 必传，字符串类型
-    //     });
-    //   }
-    //   // gaTracker.setClientId(this.openId);
-    //   // 如果是已经注册过，并已经登陆过的用户，同步一下crm的会员信息
-    //   // if (this.userInfo.mobile) {
-    //   //   this.syncCrmMemberInfo();
-    //   // }
-    //   // 计算购物车数量
-    //   // this.queryCartInfo();
-    // });
+    this.loginByAuthCode().then(() => {
+      if (this.openId) {
+        this.$sr.setUser({
+          open_id: this.openId, // 必传，字符串类型
+        });
+      }
+      // gaTracker.setClientId(this.openId);
+      // 如果是已经注册过，并已经登陆过的用户，同步一下crm的会员信息
+      // if (this.userInfo.mobile) {
+      //   this.syncCrmMemberInfo();
+      // }
+      // 计算购物车数量
+      // this.queryCartInfo();
+    });
     // this.qyLogin();
     if (!wx.qy) {
       // this.setBAInfo(getBaInfoByShare(params));
@@ -43,20 +43,20 @@ export default {
     this.globalData.ktxStatusHeight = `${systemInfo.statusBarHeight + 44}px`;
 
     // 广告转化跟踪
-    // this.setAdvertising(params);
-    // // 有数 初始化
-    // this.srInit();
+    this.setAdvertising(params);
+    // 有数 初始化
+    this.srInit();
   },
   onShow (params) {
     // 广告转化跟踪
-    // this.setAdvertising(params);
-    // // if (wx.qy) return;
-    // const baInfo = getBaInfoByShare(params);
-    // if (baInfo && baInfo.baId && baInfo.storeCode) {
-    //   // this.setBAInfo(baInfo);
-    // }
+    this.setAdvertising(params);
+    // if (wx.qy) return;
+    const baInfo = getBaInfoByShare(params);
+    if (baInfo && baInfo.baId && baInfo.storeCode) {
+      // this.setBAInfo(baInfo);
+    }
     // 获取有数场景值开始 https://mp.zhls.qq.com/youshu-docs/develop/event/channel/chan_id.html
-    // const chan_id = this.getChanID(params);
+    const chan_id = this.getChanID(params);
     // console.log(`chan_id=${chan_id}`, params);
     // 获取有数场景值结束
   },
@@ -121,7 +121,7 @@ export default {
           open_id, // 必传，字符串类型
         });
       }
-      console.log('open_id', open_id);
+      // console.log('open_id', open_id);
     },
     // 渠道ID
     async getChanID (query) {
@@ -179,7 +179,7 @@ export default {
           weixinadinfo,
           aid,
         };
-        console.log('advertising--->', advertisingParam);
+        // console.log('advertising--->', advertisingParam);
         this.setAdvertisingParam(advertisingParam);
         wx.setStorageSync('advertisingParam', advertisingParam);
       }

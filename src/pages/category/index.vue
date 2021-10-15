@@ -37,6 +37,7 @@ export default {
       ktxStatusHeight: getApp().globalData.ktxStatusHeight,
       pageData: [],
       curIndex: null,
+      cover: 'http://scm-dam-oss-cn-cdn.baozun.com/scm-dam/2021-7-22/0.8227653865569999Aurora%E7%B3%BB%E5%88%97-750_442_.jpg',
     }
   },
   computed: {
@@ -190,7 +191,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/utilities.scss";
+@import '@/styles/utilities.scss';
 .content {
   position: relative;
   overflow-y: auto;
@@ -273,4 +274,5 @@ export default {
     }
   }
 }
+
 </style>

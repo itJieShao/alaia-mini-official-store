@@ -1,24 +1,24 @@
 <template>
   <view class="index">
     <!-- page Header -->
-    <custom-nav-bar  :left-icon="'search'" :left-text="'搜索'" :head-border="isHeadBorder" :head-blank="isHeadBlank"  :head-font-color="isHeaderBlackColor" />
+    <custom-nav-bar :left-icon="'search'" :left-text="'搜索'" :head-border="isHeadBorder" :head-blank="isHeadBlank" :head-font-color="isHeaderBlackColor" />
     <!-- page Container -->
     <view class="container">
-      <swiper class="swiper" :current="current"  easing-function="linear" :autoplay="false" :indicator-dots="false" :vertical="true" @change="swiperChange" @animationfinish="animationfinish">
+      <swiper class="swiper" :current="current" easing-function="linear" :autoplay="false" :indicator-dots="false" :vertical="true" @change="swiperChange" @animationfinish="animationfinish">
         <swiper-item class="scroll-view">
           <!-- 首页顶部swiper -->
           <home-head-swiper :pageIsShow="pageIsShow" :parentCurrent="current" :homeHeadSwiperList="homeHeadSwiperList" :isPause="isPause" :isShowDost="isShowDost" @swiperChange="homeHeaderSwiperChange"></home-head-swiper>
         </swiper-item>
-        <swiper-item >
+        <swiper-item>
           <scroll-view scroll-y class="scroll-view scroll-view-content" :style="{'paddingTop':ktxStatusHeight}" @scroll="viewScroll" :scroll-into-view="scrollToId">
             <!-- 首页产品轮播1 -->
-            <product-swiper-one  @click="handleProductClick" :productSwiperOneList="productSwiperOneList" @youshuReport="youshuReport"></product-swiper-one>
+            <product-swiper-one @click="handleProductClick" :productSwiperOneList="productSwiperOneList" @youshuReport="youshuReport"></product-swiper-one>
             <!-- 首页产品轮播2 -->
-            <product-swiper-two  @click="handleProductClick" :productSwiperTwoData="productSwiperTwoData" @youshuReport="youshuReport"></product-swiper-two>
+            <product-swiper-two @click="handleProductClick" :productSwiperTwoData="productSwiperTwoData" @youshuReport="youshuReport"></product-swiper-two>
             <!-- 首页产品轮播3 -->
-            <product-swiper-three @click="handleProductClick"  :productSwiperThreeData="productSwiperThreeData" @youshuReport="youshuReport"></product-swiper-three>
+            <product-swiper-three @click="handleProductClick" :productSwiperThreeData="productSwiperThreeData" @youshuReport="youshuReport"></product-swiper-three>
             <!-- 产品墙 -->
-            <product-wall v-for="(productWall, index) in productWallList" :key="index" :productWall="productWall" @click="handleProductClick"  @youshuReport="youshuReport" ></product-wall>
+            <product-wall v-for="(productWall, index) in productWallList" :key="index" :productWall="productWall" @click="handleProductClick" @youshuReport="youshuReport"></product-wall>
             <!-- 品牌故事 -->
             <series-story id="seriesStory" :viewScrollTop="viewScrollTop" @fullscreenchange="fullscreenchange" :isPause="!isPause"></series-story>
             <!-- 精品店 -->
@@ -59,7 +59,7 @@ export default {
     SeriesStory,
     Boutique,
   },
-  data() {
+  data () {
     return {
       ktxStatusHeight: getApp().globalData.ktxStatusHeight, // 头部的高度，用于设置样式padding-top
       isHeadBorder: false, // header border是否展示
@@ -79,15 +79,15 @@ export default {
     };
   },
   // 分享配置项
-  onShareAppMessage(res) {
+  onShareAppMessage (res) {
     return {
       title: 'TASAKI塔思琦线上旗舰店',
       path: 'pages/index/index',
       imageUrl: '',
-      success() { },
+      success () { },
     };
   },
-  onPageScroll(e) {
+  onPageScroll (e) {
     // if (e.scrollTop > 100) {
     //   this.goTop = true;
     // } else {
@@ -107,10 +107,10 @@ export default {
     // }
   },
   computed: {},
-  created() {
+  created () {
     this.getIndexPageContent();
   },
-  onShow() {
+  onShow () {
     this.pageIsShow = true;
     this.setTabSelected(0);
     console.log('首页', this.pageIsShow)
@@ -132,14 +132,14 @@ export default {
       })
     }
   },
-  onLoad() {
+  onLoad () {
 
   },
-  onHide() {
+  onHide () {
     this.pageIsShow = false;
     console.log('首页', this.pageIsShow)
   },
-  onPullDownRefresh() {
+  onPullDownRefresh () {
     wx.stopPullDownRefresh(); // 阻止下拉刷新
   },
   methods: {
@@ -149,7 +149,7 @@ export default {
     ...mapMutations('globle', ['setTabBarHide', 'setTabSelected']),
     ...mapActions('user', ['getUserInfo']),
     // 获取首页数据
-    async getIndexPageContent() {
+    async getIndexPageContent () {
       const indexContent = await this.getCategoryData();
       console.log('首页数据 ===>', indexContent[0]);
       if (indexContent) {
@@ -162,34 +162,34 @@ export default {
       }
     },
     // 点击去详情
-    handleProductClick(spuCodes) {
+    handleProductClick (spuCodes) {
       if (!spuCodes) return;
       uni.navigateTo({
         url: `/subPackages/pdp/pages/pdp/index?code=${spuCodes}`,
       });
     },
     // 轮播图滚动  作用：标题替换
-    swiperChange(e) {
+    swiperChange (e) {
       this.current = e.detail.current;
       this.isHeadBorder = this.current === 1;
       this.isHeadBlank = !(this.current === 1);
       this.isPause = this.current === 1;
     },
-    animationfinish(e) {
+    animationfinish (e) {
       this.isShowDost = this.current === 0
     },
     // 首屏轮播图 滚动时 判断标题颜色
-    homeHeaderSwiperChange(item) {
+    homeHeaderSwiperChange (item) {
       this.isHeaderBlackColor = !(item.name === '2-W');
     },
     // 去隐私协议和通用服务 帮助中心详情页
-    goHelpDetail(name, contentCode) {
+    goHelpDetail (name, contentCode) {
       uni.navigateTo({
         url: `/subPackages/help/pages/help-detail/index?name=${name}&templateCode=help_content&contentCode=${contentCode}`,
       })
     },
     // 去plp页面
-    goPlp(name, url, img = '') {
+    goPlp (name, url, img = '') {
       console.log('goPlp', name, url, img);
       if (url) {
         uni.navigateTo({
@@ -198,7 +198,7 @@ export default {
       }
     },
     // 有数
-    youshuReport(ysType, item) {
+    youshuReport (ysType, item) {
       console.log('youshuReport', ysType, item)
       this.$sr.track(ysType, {
         sku: {
@@ -216,12 +216,12 @@ export default {
         primary_image_url: item.images && item.images.length > 0 ? item.images[0].url : (item.picLink || 'https://res-tasaki.baozun.com/static/images/account/account-bg2.png'),
       });
     },
-    viewScroll(e) {
+    viewScroll (e) {
       // console.log("viewScroll",e.detail);
       this.viewScrollTop = e.detail.scrollTop;
       this.scrollToId = '';
     },
-    fullscreenchange(scrollTop, isFullScreen) {
+    fullscreenchange (scrollTop, isFullScreen) {
       console.log('isFullScreen', isFullScreen, scrollTop);
       if (!isFullScreen) {
         setTimeout(() => {
@@ -230,7 +230,7 @@ export default {
       }
       this.setTabBarHide(isFullScreen)
     },
-    async wechatTrack(clickId) {
+    async wechatTrack (clickId) {
       console.log('wechatTrack123')
       try {
         // const token = await this.getAccessToken()
@@ -264,16 +264,16 @@ export default {
 $mainColor: #e3f0ea;
 .index {
   width: 100%;
-  background: #ffffff;
   height: calc(100vh - 112rpx - var(--safe-area-inset-bottom));
+  background: #fff;
   .swiper {
     height: calc(100vh - 112rpx - var(--safe-area-inset-bottom));
     .scroll-view {
-      height:100%;
+      height: 100%;
     }
   }
-
 }
+
 </style>
 <style lang="scss">
 $mainColor: #e3f0ea;
@@ -281,7 +281,7 @@ $mainColor: #e3f0ea;
 .com-page-bottom {
   padding: 100rpx 0 80rpx;
   text-align: center;
-  color: #000000;
+  color: #000;
   .com-page-bottom-title {
     font-size: 28rpx;
     line-height: 42rpx;
@@ -289,24 +289,24 @@ $mainColor: #e3f0ea;
   .com-page-bottom-policy {
     font-size: 24rpx;
     line-height: 36rpx;
-    opacity: 0.5;
     margin-top: 40rpx;
+    opacity: .5;
     text {
-      position: relative;
-      margin: 0 10rpx;
       line-height: 36rpx;
-      height: 36rpx;
+      position: relative;
       display: inline-block;
-      &::before{
-        content: "";
+      height: 36rpx;
+      margin: 0 10rpx;
+      &::before {
         position: absolute;
         bottom: -2px;
         width: 100%;
         height: 1px;
+        content: '';
         background-color: #000;
       }
-
     }
   }
 }
+
 </style>

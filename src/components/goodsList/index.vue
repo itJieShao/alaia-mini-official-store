@@ -22,7 +22,7 @@
       </view>
     </view>
 
-    <view class="sort-wrap" v-show="showSort" @touchmove="preventTouchMove">
+    <view class="sort-wrap" v-show="showSort" catchtouchmove="preventTouchMove">
       <view class="sort-mark" @click="openSort(false)"></view>
       <view class="sort-content">
         <view class="title">商品排序</view>
@@ -129,9 +129,7 @@ export default {
     formatMoney: (val) => (val ? priceFormat(val) : 0),
   },
   methods: {
-    preventTouchMove () {
-      return
-    },
+    preventTouchMove () { },
     openSort (e) {
       this.showSort = e
     },

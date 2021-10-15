@@ -1,211 +1,131 @@
 <template>
-  <div class="product-content" :style="{ 'padding-top': computedHeight }">
-    <custom-nav-bar :head-border="false" :left-arrow="isLeftArrow" />
-    <div class="wrapper">
-      <div class="product-banner-content">
-        <div class="pdp-swiper" v-if="productData.images.length">
-          <swiper
-            class="pdp-swiper-content"
-            @change="swiperImgChange"
-            @transition="swiperTransition"
-            :current="currentIndex"
-          >
+  <view class="product-content">
+    <custom-nav-bar :left-arrow="isLeftArrow" title=' ' :head-border="isHeadBorder" :head-blank="isHeadBlank" :head-font-color="isHeaderBlackColor" />
+    <view class="wrapper">
+      <view class="wrapper-content">
+        <view class="product-banner-content">
+          <swiper class="pdp-swiper-content" @change="swiperImgChange" @transition="swiperTransition" :current="currentIndex">
             <!-- <block v-if="videoTag[0]">
               <swiper-item class="swiper-item">
-                <video
-                  id="videos"
-                  class="video"
-                  @play="vplay"
-                  @pause="vpause"
-                  :src="videoTag[0].picUrl"
-                  :controls="true"
-                  :show-play-btn="false"
-                  :enable-play-gesture="true"
-                  :enable-progress-gesture="false"
-                  @click="play"
-                >
-                  <image
-                    class="play"
-                    v-show="paused"
-                    :src="playBtn"
-                    mode="widthFix"
-                  />
-                  <image
-                    class="poster"
-                    v-show="paused"
-                    :src="
-                      videoTag[0].poster &&
-                      videoTag[0].poster +
-                        '?x-oss-process=image/resize,m_pad,w_' +
-                        $pixelRatio(300) +
-                        ',h_' +
-                        $pixelRatio(450)
-                    "
-                    mode="widthFix"
-                  />
+                <video id="videos" class="video" @play="vplay" @pause="vpause" :src="videoTag[0].picUrl" :controls="true" :show-play-btn="false" :enable-play-gesture="true" :enable-progress-gesture="false" @click="play">
+                  <image class="play" v-show="paused" :src="playBtn" mode="widthFix" />
                 </video>
               </swiper-item>
             </block> -->
-            <block v-for="(pic, index) in productData.images" :key="index">
-              <swiper-item class="swiper-item">
-                <image
-                  @click="swiperClick(pic.url, index)"
-                  :src="imgUrlReplace(pic.url, 375, 375)"
-                  mode="widthFix"
-                  class="imgs"
-                  :lazy-load="true"
-                />
-              </swiper-item>
-            </block>
+            <swiper-item v-for="(pic, index) in productData.images" :key="index">
+              <view class="swiper-item">
+                <image class="imgs" @click="swiperClick(pic.url, index)" :src="imgUrlReplace(pic.url, 284, 391)" mode="widthFix" :lazy-load="true" />
+              </view>
+            </swiper-item>
           </swiper>
-        </div>
-        <div class="view-dost" v-if="productData.images.length">
-          <div
-            class="dots-item"
-            :class="[index === currentIndex ? 'dots-item-active' : '']"
-            v-for="(item, index) in productData.images"
-            :key="index"
-          ></div>
-        </div>
-      </div>
-      <div
-        class="product-info-content"
-        :class="[!isHasSize && !isHasStyle ? 'box-margin' : '']"
-      >
-        <div class="title">{{ productData.title || "" }}</div>
-        <div class="sub-title" v-if="productData.subTitle">
-          {{ productData.subTitle }}
-        </div>
-        <div class="sku">{{ code }}</div>
-        <template v-if="productData.materialList.length">
-          <div
-            class="attr"
-            v-for="(item, index) in productData.materialList"
-            :key="index"
-          >
-            {{ item }}
-          </div>
-        </template>
-        <div class="share">
-          <button open-type="share">
-            <text class="icon-font icon-icon-fenxiang"></text>
-            <div class="text">分享</div>
-          </button>
-        </div>
-        <div class="price" v-if="productData.salePrice > 0">
-          ￥{{ productData.salePrice | formatMoney }}
-        </div>
-      </div>
-      <div class="product-size-content" v-if="isHasSize">
-        <div class="picker-wrap">
-          <sizePicker
-            class="size-picker"
-            placeholder="请选择合适的尺寸"
-            :range="sizeList"
-            @change="bindPickerChange"
-            @input="changeInput"
-          ></sizePicker>
-        </div>
-        <div class="size-guide" @click="sizeGuideClick()">
-          <div class="text">尺寸指南</div>
-        </div>
-      </div>
-      <div class="product-size-content" v-if="isHasStyle">
-        <div class="picker-wrap-style">
-          <sizePicker
-            class="size-picker"
-            placeholder="请选择款式"
-            :range="styleList"
-            @change="bindPickerChange"
-            @input="changeInput"
-          ></sizePicker>
-        </div>
-      </div>
-      <div
-        class="product-details-content"
-        v-if="productData.description.length"
-      >
-        <div
-          class="details-item"
-          v-for="(item, index) in productData.description"
-          :key="index"
-        >
+          <view class="dots-share">
+            <view class="view-dost" v-if="productData.images.length">
+              <view class="item" :class="[index === currentIndex ? 'active' : '']" v-for="(item, index) in productData.images" :key="index"></view>
+            </view>
+            <view class="share">
+              <text class="icon-font icon-icon-fenxiang"></text>
+              <button open-type="share" class="share-btn">
+                <text class="icon-font icon-icon-fenxiang"></text>
+              </button>
+            </view>
+          </view>
+        </view>
+        <view class="product-info-content" :class="[!isHasSize && !isHasStyle ? 'box-margin' : '']">
+          <view class="tag" v-if="productData.subTitle">
+            {{ productData.subTitle }}
+          </view>
+          <view class="title">{{ productData.title || "" }}</view>
+          <view class="price" v-if="productData.salePrice > 0">￥{{ productData.salePrice | formatMoney }}</view>
+        </view>
+      </view>
+      <view class="product-details-content" v-if="productData.description.length">
+        <view class="details-item" v-for="(item, index) in productData.description" :key="index">
           <image :src="item.url" mode="widthFix" :lazy-load="true" />
-        </div>
-      </div>
-      <recently-like-products />
-    </div>
-    <div class="pdp-buy-fixed">
-      <div class="pdp-buy-content">
-        <div class="add-success-content" v-if="isAddSuccess">
-          <div class="text">
-            <text class="icon-font icon-icon-chenggong2"></text>已成功加入购物袋
-          </div>
-          <div class="btn" @click.stop="toCart"><text>进入购物袋</text></div>
-        </div>
-        <div class="service-content">
-          <button
-            class="service-btn"
-            open-type="contact"
-            @click="handleContact"
-            @contact="bindContact"
-          >
-            <image
-              class="imgs"
-              mode="widthFix"
-              src="https://res-tasaki.baozun.com/static/images/icon-service-active.png"
-            ></image>
-            <div class="text">客服</div>
+        </view>
+      </view>
+
+      <view class="suit-wrap">
+        <view class="line-title">
+          <view class="line"></view>
+          <image class="triangle" src="https://res-tasaki.baozun.com/static/images/icon-my.png" mode="scaleToFill"></image>
+        </view>
+        <swiper class="suit-box">
+          <swiper-item>
+            <image class="imgs" src="https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg" mode="widthFix" :lazy-load="true" />
+            <view class="title">完成这套搭配</view>
+            <productSwiper @clickItem="handleClick" :products="productSuit" />
+          </swiper-item>
+        </swiper>
+      </view>
+      <recently-like-products recent />
+    </view>
+
+    <view class="pdp-buy-fixed">
+      <view class="pdp-style-content">
+        <view class="box-content" @click="openDialog('color')">
+          <view class="color-box">
+            <text class="color"></text>
+            <text class="txt">蓝色</text>
+          </view>
+          <text class="icon-font icon-icon-xia"></text>
+        </view>
+        <view class="box-content" @click="openDialog('size')"><text class="txt">{{currentSkuCode?sizeList[dialog.value[0]].name:'请选择尺码'}}</text><text class="icon-font icon-icon-xia"></text></view>
+      </view>
+      <view class="pdp-buy-content">
+        <view class="add-success-content" v-if="isAddSuccess">
+          <view class="txt">该商品已添加至购物袋</view>
+          <view class="to" @click.stop="toCart"><text>查看</text></view>
+        </view>
+        <view class="service-content">
+          <button class="service-btn" open-type="contact" @click="handleContact" @contact="bindContact">
+            <image class="imgs" mode="widthFix" src="https://res-tasaki.baozun.com/static/images/icon-service-active.png"></image>
+            <view class="text">客服</view>
           </button>
-        </div>
-        <div class="cart-content">
-          <div class="cart-btn" @click.stop="toCart">
-            <div class="cart-main">
-              <image
-                class="imgs"
-                mode="widthFix"
-                src="https://res-tasaki.baozun.com/static/images/icon-cart-active.png"
-              ></image>
-              <div class="cart-num" v-if="cartAmount && cartAmount > 0">
+        </view>
+        <view class="cart-content">
+          <view class="cart-btn" @click.stop="toCart">
+            <view class="cart-main">
+              <image class="imgs" mode="widthFix" src="https://res-tasaki.baozun.com/static/images/icon-cart-active.png"></image>
+              <view class="cart-num" v-if="cartAmount && cartAmount > 0">
                 {{ cartAmount }}
-              </div>
-            </div>
-            <div class="text">购物袋</div>
-          </div>
-        </div>
-        <div v-if="isSaleOut || isOffShelf" class="arrival-notice">
-          <button
-            v-if="isSaleOut && !isOffShelf"
-            class="btn btn-black-white"
-            @click="handleArrivalNotice"
-          >
-            到货通知
-          </button>
-          <button v-else class="btn btn-disabled">已下架</button>
-        </div>
-        <div class="buy-main" v-else>
-          <button
-            class="btn btn-black-white add-cart-btn"
-            @click="handleGetUserUnionId"
-            :data-type="BTN_TYPE.ADD_CART"
-          >
-            加入购物袋
-          </button>
-          <button
-            class="btn btn-primary buy-now-btn"
-            @click="handleGetUserUnionId"
-            :data-type="BTN_TYPE.BUY_NOW"
-          >
-            立即购买
-          </button>
-        </div>
-      </div>
-    </div>
-    <sizeGuide
-      :size-guide-show="sizeGuideShow"
-      @clickClose="clickClose"
-    ></sizeGuide>
-  </div>
+              </view>
+            </view>
+            <view class="text">购物袋</view>
+          </view>
+        </view>
+        <view class="arrival-notice" v-if="isSaleOut || isOffShelf">
+          <button v-if="isSaleOut && !isOffShelf" class="buy-btn" @click="handleArrivalNotice">到货通知</button>
+          <button v-else class="buy-btn btn-dis">已下架</button>
+        </view>
+        <view class="buy-main" v-else>
+          <button class="buy-btn" @click="handleGetUserUnionId" :data-type="BTN_TYPE.ADD_CART">加入购物袋</button>
+          <button class="buy-btn btn-bg" @click="handleGetUserUnionId" :data-type="BTN_TYPE.BUY_NOW">即刻购买</button>
+        </view>
+      </view>
+    </view>
+    <sizeGuide :size-guide-show="sizeGuideShow" @clickClose="clickClose"></sizeGuide>
+
+    <!-- 弹窗 -->
+    <view class="dialog-wrap" catchtouchmove="preventTouchMove" v-if="dialog.show">
+      <view class="dialog-mark" @click="openDialog()"></view>
+      <view class="dialog-content">
+        <view class="title">
+          <text class="txt none" @click="openDialog()">取消</text>
+          <view class="online">
+            <text class="other" @click="sizeGuideClick()">尺码指南</text>
+            <text class="txt" @click="changeInput()">确定</text>
+          </view>
+        </view>
+        <picker-view indicator-style="height: 63px;" style="width: 100%; height: 189px;" :value="dialog.value" @change="changeDialog">
+          <picker-view-column>
+            <block v-for="(item,index) in dialog.data" :key="index">
+              <view class="item">{{item.name}}<text v-if="item.inventory==0">-缺货</text></view>
+            </block>
+          </picker-view-column>
+        </picker-view>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
@@ -223,6 +143,7 @@ import sizePicker from '@/components/picker';
 import RecentlyLikeProducts from '@/pages/shoppingCar/components/RecentlyLikeProducts';
 import { TYPE_CODE } from '@/constants/subscribe';
 import { trackWechatAd } from '@/service/apis'
+import productSwiper from '@/components/product-swiper';
 import sizeGuide from './components/sizeGuide';
 
 export default {
@@ -230,11 +151,15 @@ export default {
   components: {
     RecentlyLikeProducts,
     sizeGuide,
-    sizePicker,
+    productSwiper,
   },
   mixins: [navBarHeight],
-  data() {
+  data () {
     return {
+      ktxStatusHeight: getApp().globalData.ktxStatusHeight, // 头部的高度，用于设置样式padding-top
+      isHeadBorder: false, // header border是否展示
+      isHeadBlank: true, // header 是否透明
+      isHeaderBlackColor: false, // header 字体颜色
       productData: {
         title: '',
         subTitle: '',
@@ -270,9 +195,30 @@ export default {
       sizeGuideShow: false,
       isDisabled: false,
       isLeftArrow: true,
+      dialog: {
+        value: [0],
+        show: false,
+      },
+      productSuit: [
+        {
+          productImg: 'https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg',
+          productName: '1111',
+          productPrice: '1111',
+        },
+        {
+          productImg: 'https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg',
+          productName: '222',
+          productPrice: '222',
+        },
+        {
+          productImg: 'https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg',
+          productName: '333',
+          productPrice: '333',
+        },
+      ],
     };
   },
-  onLoad(options) {
+  onLoad (options) {
     const { code, scene } = options;
     // try {
     //   // 埋点
@@ -289,9 +235,8 @@ export default {
     }
     this.getProductData();
   },
-  onShow() {
+  onShow () {
     const advertisingParams = uni.getStorageSync('advertisingParam') || this.advertisingParam
-    console.log('advertisingParams>>>>', advertisingParams)
     if (advertisingParams && advertisingParams.gdt_vid) {
       this.getRandom(advertisingParams.gdt_vid)
     }
@@ -302,17 +247,17 @@ export default {
       this.queryCartInfo();
     }
   },
-  onPullDownRefresh() {
-    wx.stopPullDownRefresh();
+  onPullDownRefresh () {
+    wx.stopPullDownRefresh(); // 阻止下拉刷新
   },
   computed: {
     ...mapState('shoppingCart', ['cartAmount']),
     ...mapGetters('user', ['unionId']),
     ...mapState('globle', ['advertisingParam']),
-    skus() {
+    skus () {
       return get(this.productData, 'skus') || [];
     },
-    currentSkuInfo() {
+    currentSkuInfo () {
       return this.skus.find((sku) => sku.code === this.currentSkuCode);
     },
   },
@@ -323,13 +268,34 @@ export default {
     ...mapActions('common', ['wxSubscribe', 'getAccessToken']),
     ...mapActions('shoppingCart', ['queryCartInfo']),
     ...mapActions('user', ['decryptData']),
+
+    handleClick (item) {
+      this.$sr.track('trigger_sku_component',
+        {
+          sku: {
+            sku_id: item.skuCode || item.code || 'TASAKI', // 若商品无sku_id时，可传spu_id信息
+            sku_name: item.productName || 'TASAKI', // 若商品无sku_name时，可传spu_name信息
+          },
+          spu: {
+            spu_id: item.code || item.skuCode || 'TASAKI', // 若商品无spu_id时，可传sku_id信息
+            spu_name: item.productName || 'TASAKI', // 若商品无spu_name时，可传sku_name信息
+          },
+          sale: {
+            original_price: item.productPrice || 0, // 对接智慧零售入口必传
+            current_price: item.productPrice || 0, // 对接智慧零售入口必传
+          },
+          primary_image_url: item.productImg,
+        })
+      uni.navigateTo({
+        url: `/subPackages/pdp/pages/pdp/index?code=${item.code}`,
+      })
+    },
+    preventTouchMove () { },
     // 调用广告
-    async getRandom(gdt_vid) {
-      console.log(111144);
+    async getRandom (gdt_vid) {
       try {
         // const token = await this.getAccessToken()
         const currentPage = getCurrentPages()[getCurrentPages().length - 1]
-        // console.log('tttttt>>>>', token)
         await trackWechatAd({
           user_action_set_id: 1200031323, // 事先生成的数据源ID、写死
           actions: [
@@ -352,7 +318,7 @@ export default {
       }
     },
     // 初始化
-    async getProductData() {
+    async getProductData () {
       try {
         uni.showLoading({
           title: '加载中...',
@@ -363,23 +329,11 @@ export default {
         const resultData = get(result.data.shop, 'productByCode[0]') || [];
         this.isSaleOut = !get(resultData, 'inventory') > 0;
         this.isOffShelf = !get(resultData, 'onShelves');
-        console.log(
-          !get(resultData, 'inventory') > 0,
-          '<--售罄&下架-->',
-          !get(resultData, 'onShelves'),
-        );
-        const images = get(resultData, 'images').filter(
-          (i) => i.type !== 'FIGUREIMAGE',
-        );
-        const description = get(resultData, 'images').filter(
-          (i) => i.type === 'FIGUREIMAGE',
-        );
-        const attributes = get(resultData, 'attributes').filter(
-          (i) => i.name === '具体材质&尺寸',
-        )[0].values[0].frontName;
+        const images = get(resultData, 'images').filter((i) => i.type !== 'FIGUREIMAGE');
+        const description = get(resultData, 'images').filter((i) => i.type === 'FIGUREIMAGE');
+        const attributes = get(resultData, 'attributes').filter((i) => i.name === '具体材质&尺寸')[0].values[0].frontName;
         const attributesList = attributes.split('\n');
-        const materialList = attributesList.length
-          && attributesList.filter((i, index) => index !== 0);
+        const materialList = attributesList.length && attributesList.filter((i, index) => index !== 0);
         const skuList = get(resultData, 'skus');
         this.productData = {
           ...this.productData,
@@ -423,7 +377,6 @@ export default {
           this.isHasSize = true;
         }
         this.sizeList = sizeList;
-        console.log('sizeList--->', this.sizeList);
 
         const styleList = [];
         get(resultData, 'skus').map((item) => {
@@ -445,10 +398,8 @@ export default {
           this.isHasStyle = true;
         }
         this.styleList = styleList;
-        console.log('styleList--->', this.styleList);
 
         this.$nextTick(() => {
-          console.log('productData--->', this.productData);
           // 添加最近浏览商品
           const recentBrowseItem = {
             code: resultData.code,
@@ -457,7 +408,6 @@ export default {
             salePrice: this.productData.salePrice || 0,
             skuCode: get(this.productData, 'skus[0].code'),
           };
-          // console.log(recentBrowseItem, 'recentBrowseItem');
           // 最近浏览存缓存
           const recentBrowseGoods = uni.getStorageSync('recentBrowseGoods') || [];
           const newRecentBrowseGoods = recentBrowseGoods.length
@@ -499,10 +449,8 @@ export default {
       } catch (e) {
         console.log(e);
       }
-      // 埋点
-      // trackerProductPageView(this.productData, SCREEN_NAME.PRODUCT_DETAIL);
     },
-    async handleGetUserUnionId(e, params) {
+    async handleGetUserUnionId (e, params) {
       if (this.isDisabled) return;
       this.isDisabled = true;
       const { type } = e.target.dataset;
@@ -519,7 +467,7 @@ export default {
       }
     },
     // 公共函数
-    buyCommonFunc({
+    buyCommonFunc ({
       userInfo, type, params, encryptInfo,
     } = {}) {
       if (!this.isMemberLogin || !this.isAuthorizeInfo) return;
@@ -533,7 +481,7 @@ export default {
       }
     },
     // 加入购物袋
-    async handleAddShopCart(params) {
+    async handleAddShopCart (params) {
       if (!this.currentSkuCode) {
         uni.showToast({
           title: this.isHasSize ? '请选择尺寸' : '请选择款式',
@@ -549,13 +497,11 @@ export default {
         const res = await addShopCartApi(formatParams);
         await this.queryCartInfo();
         const errors = get(res, 'errors[0]');
-        console.log('加购--->', params, errors);
         if (errors && (errors.message || errors.code)) {
           const messages = errors.message.indexOf('库存') != -1
             ? '库存不足'
             : '超过最大购买数量';
           uni.showToast({
-            // title: errors.message,
             title: messages,
             icon: 'none',
           });
@@ -582,27 +528,11 @@ export default {
         setTimeout(() => {
           this.isDisabled = false;
         }, 1000);
-      } catch (e) {
-        console.log(e);
-      }
-      // ga埋点
-      // const skuList = [];
-      // [
-      //   this.productData,
-      //   ...(get(this.productData, 'recommends') || []),
-      // ].forEach((product) => {
-      //   skuList.push(
-      //     ...(get(product, 'skus') || []).map((sku) => ({ ...product, ...sku })),
-      //   );
-      // });
-
-      // trackerAddCart(
-      //   skuList.filter((sku) => params.find((item) => item.skuCode === sku.code)),
-      // );
+      } catch (e) { }
     },
 
     // 立即购买
-    handleShopBuyNow(currentSkuCode) {
+    handleShopBuyNow (currentSkuCode) {
       if (!currentSkuCode) {
         uni.showToast({
           title: this.isHasSize ? '请选择尺寸' : '请选择款式',
@@ -626,27 +556,15 @@ export default {
       uni.navigateTo({
         url: '/subPackages/checkout/pages/index',
       });
-      // 埋点
-      // trackerProdctBuyNow(
-      //   [
-      //     {
-      //       ...this.productData,
-      //       ...((get(this.productData, 'skus') || []).find(
-      //         (sku) => sku.code === currentSkuCode,
-      //       ) || {}),
-      //     },
-      //   ],
-      //   `${SCREEN_NAME.PRODUCT_DETAIL}——立即购买按钮`,
-      // );
     },
 
-    addSuccess() {
+    addSuccess () {
       this.isAddSuccess = true;
       setTimeout(() => {
         this.isAddSuccess = false;
       }, 3000);
     },
-    handleArrivalNotice() {
+    handleArrivalNotice () {
       if (this.isDisabled) return;
       this.isDisabled = true;
       if (!this.isMemberLogin || !this.isAuthorizeInfo) {
@@ -676,16 +594,14 @@ export default {
         }, 1000);
       }
     },
-    handleContact() {
+    handleContact () {
       // 点击客服
-      // ga埋点
-      // trackerClick(EVENT_TYPE.PRODUCT_DETAIL_CUSTOMER_SERVICE);
     },
 
     // 客服返回
-    bindContact(e) {},
+    bindContact (e) { },
     // 跳购物袋
-    toCart() {
+    toCart () {
       uni.reLaunch({
         url: '/pages/shoppingCar/index',
         success: () => {
@@ -693,14 +609,11 @@ export default {
         },
       });
     },
-    /*
-     * 轮播滑动
-     * @params {object}
-     * */
-    swiperImgChange(e) {
+
+    swiperImgChange (e) {
       this.currentIndex = e.detail.current;
     },
-    swiperTransition() {
+    swiperTransition () {
       // 判断是否有视频
       // if (this.videoTag[0]) {
       //   this.pause()
@@ -709,89 +622,92 @@ export default {
     /**
      * 轮播点击
      */
-    swiperClick(pic, index) {
+    swiperClick (pic, index) {
       uni.previewImage({
         current: index,
         indicator: 'number',
         urls: this.productData.images.map((i) => i.url),
       });
     },
-    play() {
+    play () {
       this.videoContext.play();
       this.paused = false;
     },
-    pause() {
+    pause () {
       this.videoContext.pause();
     },
-    vplay(e) {},
-    vpause(e) {},
+    vplay (e) { },
+    vpause (e) { },
     // 尺码指南
-    sizeGuideClick() {
+    sizeGuideClick () {
       this.sizeGuideShow = true;
       this.isLeftArrow = false;
     },
-    clickClose() {
+    clickClose () {
       this.sizeGuideShow = false;
       this.isLeftArrow = true;
     },
+    openDialog (type) {
+      if (type === 'size') {
+        this.dialog = {
+          value: this.dialog.value,
+          show: true,
+          type,
+          data: this.sizeList,
+        }
+      } else if (type === 'color') {
+
+      } else {
+        this.dialog.show = false
+        this.dialog.data = false
+        this.dialog.type = null
+      }
+    },
     // 选择尺寸
-    bindPickerChange(e) {
+    bindPickerChange (e) {
       // console.log('picker发送选择改变，携带值为1', e, e.detail.value);
     },
-    changeInput(e) {
-      // console.log('picker发送选择改变，携带值为2', e, this.sizeList);
+    changeDialog (e) {
+      const index = e.detail.value
+      this.dialog.value = index
+    },
+    changeInput () {
+      const index = this.dialog.value[0]
+      if (this.dialog.type === 'size') {
+        const e = this.dialog.data[index]
+        this.currentSkuCode = e.code;
+        let currentSku = ''
+        if (this.sizeList.length) {
+          currentSku = this.sizeList.find((i) => i.code === e.code);
+        } else {
+          currentSku = this.styleList.find((i) => i.code === e.code);
+        }
 
-      console.log('changeInput--->', e);
-      this.currentSkuCode = e.code;
-      let currentSku = ''
-      if (this.sizeList.length) {
-        currentSku = this.sizeList.find((i) => i.code === e.code);
-      } else {
-        currentSku = this.styleList.find((i) => i.code === e.code);
+        this.isSaleOut = !(currentSku.inventory > 0)
       }
-
-      currentSku.inventory > 0
-        ? (this.isSaleOut = false)
-        : (this.isSaleOut = true);
+      this.openDialog()
     },
   },
   filters: {
-    formatMoney(val) {
+    formatMoney (val) {
       if (val) {
         return priceFormat(val);
       }
       return '0';
     },
   },
-  onShareAppMessage(res) {
-    // ga埋点
-    // const isButton = get(res, 'from') === 'button';
-    // if (isButton) {
-    //   trackerClick({
-    //     ...EVENT_TYPE.PRODUCT_DETAIL_SHARE,
-    //     label: 'Share-分享给好友',
-    //     screenName: SCREEN_NAME.PRODUCT_DETAIL,
-    //   });
-    // }
-    // 分享配置项
+  onShareAppMessage (res) {
     return {
       title: `${this.productData.title}` || 'TASAKI塔思琦线上旗舰店',
       path: `subPackages/pdp/pages/pdp/index?code=${this.code}`,
       imageUrl: get(this.productData, 'images[0].url'),
-      success() {
-        // if (isButton) {
-        //   trackerClick({
-        //     ...EVENT_TYPE.PRODUCT_DETAIL_SHARE,
-        //     label: 'Share-分享给好友-发送',
-        //     screenName: SCREEN_NAME.PRODUCT_DETAIL,
-        //   });
-        // }
-      },
+      success () { },
     };
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "./index.scss";
+@import './index.scss';
+
 </style>
