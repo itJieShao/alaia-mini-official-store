@@ -52,7 +52,7 @@
         font-weight: 400;
       .price-content {
         padding: rpx(22) 0 rpx(20) 0;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid #bbb;
         .info-item {
           display: flex;
           justify-content: space-between;

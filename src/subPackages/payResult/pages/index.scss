@@ -21,6 +21,11 @@
       background: #fff;
       padding: rpx(30) rpx(16);
       text-align: center;
+      .price {
+        font-size: rpx(18);
+        font-family: 'Lato, Lato-Bold';
+        margin: rpx(10) 0 rpx(20) 0;
+      }
       .result-icon {
         margin-bottom: rpx(16);
         image {
@@ -39,6 +44,11 @@
       .result-tips {
         font-size: rpx(14);
         color: #8e8e8e;
+      }
+      .countdown {
+        margin-top: rpx(30);
+        font-size: rpx(12);
+        font-family: 'PingFangSC, PingFangSC-Regular';
       }
     }
 
@@ -63,6 +73,7 @@
       background: #fff;
       padding: rpx(30) rpx(16);
       color: #1d1d1d;
+      border-bottom: 1px solid #f7f7f7;
       .title {
         font-size: rpx(14);
         font-family: 'Lato, Lato-Regular';

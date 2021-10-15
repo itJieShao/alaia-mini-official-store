@@ -14,6 +14,7 @@
       <!-- 支付失败的文案 -->
       <view class="result-info" v-else>
         <view class="result-msg">支付失败，重新支付</view>
+        <view class="price">{{ get(orderInfo, 'amount.amount') | currency }}</view>
         <view class="result-tips">
           请尽快完成支付，15分钟后订单将会被取消，如遇支付问题，请洽询
           <button
@@ -25,6 +26,7 @@
             <text class="text">在线客服</text>
           </button>
         </view>
+        <view class="countdown">剩余时间：14:59</view>
       </view>
       <!-- 订单号&金额&时间 信息 -->
       <view class="order-brief">
