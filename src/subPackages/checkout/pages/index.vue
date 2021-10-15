@@ -57,22 +57,9 @@
           </view>
         </view>
       </view>
-      <!-- 其他信息 -->
-      <view class="order-box">
-        <view class="price-content">
-            <view class="info-item">
-              <view>商品小计</view>
-              <view class="value">{{get(orderAmount, 'productAmount.amount') | currency}}</view>
-            </view>
-            <view class="info-item">
-              <view class="info-title">运费</view>
-              <view class="value">免费</view>
-          </view>
-        </view>
-        <view class="total-content">
-          <view>总计</view>
-          <view class="value">{{get(orderAmount, 'productAmount.amount') | currency}}</view>
-        </view>
+      <!-- 订单综合信息 -->
+      <view style="margin: -30rpx">
+        <OrderAmountInfo :orderAmount="get(orderAmount, 'productAmount.amount')" />
       </view>
     </view>
     <view class="submit-btn-wrapper">
@@ -94,171 +81,6 @@
         </form>
       </view>
   </view>
-
-  <!-- <view class="checkout-container">
-    <custom-nav-bar :title="'订单结算'" />
-    <view id="address"></view>
-    <view class="container" :style="{ 'padding-top': computedHeight }">
-      <view class="form-item-block">
-        <view class="form-item-title">
-          <view class="title-left">配送地址</view>
-          <view class="title-right"></view>
-        </view>
-        <view class="form-item-title sub address-row" @click="selectAddress">
-          <view class="title-left" v-if="!addressInfo">
-            <text class="icon-font icon-icon-dingwei"></text>
-            <text :class="{error: errorInfo.address}">
-              添加您的配送地址
-            </text>
-          </view>
-          <view class="title-left address-info" v-else>
-            <view>
-              <text v-if="addressInfo.isDefault" style="margin-right: 4rpx;">[默认]</text>
-              <text>{{addressInfo.receiverName}}</text>
-              <text class="phone-text">{{addressInfo.receiverMobile}}</text>
-            </view>
-            <view class="address-detail">{{addressInfo.province}} {{addressInfo.city}} {{addressInfo.district}} {{addressInfo.address}}</view>
-            <view class="form-error" v-if="!addressInfo.addressVerify">该地区暂不支持配送请重新选择地址</view>
-          </view>
-          <view class="title-right">
-            <text class="icon-font icon-icon-youjiantou"></text>
-          </view>
-        </view>
-        <view class="form-item-title sub center last text-28">
-          <text @click="handleAuthAddr">
-            <text class="icon-font icon-icon-weixin"></text>
-            导入微信地址
-          </text>
-        </view>
-      </view>
-      <view id="invoice"></view>
-      <view id="address"></view>
-      <view class="form-item-block">
-        <view class="form-item-title last">
-          <view class="title-left">
-            2. 配送方式
-          </view>
-          <view class="title-right">顺丰速运</view>
-        </view>
-      </view>
-      <view class="form-item-block">
-        <view class="form-item-title ">
-          <view class="title-left">
-            3. 支付方式
-          </view>
-          <view class="title-right"><text class="icon-font icon-iconweixinzhifu"></text> 微信支付</view>
-        </view>
-        <view class="form-item-title last">
-          <view class="title-left text-28">
-            电子发票
-          </view>
-          <view class="title-right text-28">
-            <text @click="handleChooseInvoice">
-              <text class="icon-font icon-icon-weixin"></text>
-                导入发票信息
-              </text>
-          </view>
-        </view>
-        <view class="form-item">
-          <view class="form-item-label">
-            <zCheckbox :checked="personalInvoiceCheckd" @checkEvent="personalInvoiceCheckd = true"></zCheckbox>
-            <text  @click="personalInvoiceCheckd = true" style="line-height: 1.5;">个人发票</text>
-          </view>
-          <view class="form-item-input" v-if="personalInvoiceCheckd" >
-            <input
-              v-model="personalInvoiceTitle"
-              @input="handleValid(personalInvoiceTitle, 'personalTitle')"
-              @blur="handleValid(personalInvoiceTitle, 'personalTitle')"
-              placeholder="请输入发票抬头"
-            />
-            <view class="error-wrap" v-show="errorInfo.personalTitle">
-              <form-error>发票抬头不能为空</form-error>
-            </view>
-          </view>
-          <view class="form-item-label">
-            <zCheckbox  :checked="!personalInvoiceCheckd" @checkEvent="personalInvoiceCheckd = false"></zCheckbox>
-            <text @click="personalInvoiceCheckd = false">
-              公司发票
-            </text>
-          </view>
-          <template v-if="!personalInvoiceCheckd">
-            <view class="form-item-input">
-              <input
-                placeholder="请输入公司名称"
-                @input="handleValid(companyInvoice.title, 'companyTitle')"
-                @blur="handleValid(companyInvoice.title, 'companyTitle')"
-                v-model="companyInvoice.title"
-              />
-              <view class="error-wrap" v-show="errorInfo.companyTitle">
-                <form-error>公司名称不能为空</form-error>
-              </view>
-            </view>
-            <view class="form-item-input">
-              <input
-                placeholder="请输入纳税人识别号/统一社会信用代码"
-                @input="handleValid(companyInvoice.taxNumber, 'taxNumber')"
-                @blur="handleValid(companyInvoice.taxNumber, 'taxNumber')"
-                v-model="companyInvoice.taxNumber"
-              />
-              <view class="error-wrap" v-show="errorInfo.taxNumber">
-                <form-error>纳税人识别号/统一社会信用代码不能为空</form-error>
-              </view>
-            </view>
-          </template>
-        </view>
-      </view>
-      <view class="form-item-block ">
-        <view class="form-item-title last">
-          <view class="title-left">
-            订单摘要 <text>（共{{totalQuantity}}件）</text>
-          </view>
-          <view class="title-right"></view>
-        </view>
-        <view class="order-product-list">
-          <view
-            v-for="(product, index) in productList"
-            :key="product.code"
-            :class="productList.length === index + 1 ? 'last-product' : ''">
-            <OrderProductItem   isLink :product="{...product, gaIndex: index + 1}"/>
-          </view>
-        </view>
-      </view>
-      <view class="order-info">
-        <view class="info-item">
-          <view class="info-title">商品金额</view>
-          <view class="value">{{get(orderAmount, 'productAmount.amount') | currency}}</view>
-        </view>
-        <view class="info-item">
-          <view class="info-title">运费</view>
-          <view class="value">免运费</view>
-        </view>
-        <view class="info-item">
-          <view class="info-title">总计</view>
-          <view class="value">{{get(orderAmount, 'productAmount.amount') | currency}}</view>
-        </view>
-      </view>
-      <view class="submit-btn-wrapper">
-        <view class="privacy-content" id="privacy">
-          <view class="content">
-            <z-checkbox
-              @checkEvent="handleReceiverCheck"
-              :checked="isAgree"
-            ></z-checkbox>
-            <view class="privacy-txt" @click="handleReceiverCheck"> 我已阅读并接受ALAIA<view class="under-line" @click.stop="handleToRule">销售条款</view>及
-            <view class="under-line" @click.stop="handleToPrivacy">隐私政策</view>。</view>
-          </view>
-        </view>
-        <form report-submit="true">
-          <view class="button-container" >
-            <view class="total-price">
-              总计: {{get(orderAmount, 'productAmount.amount') | currency }}
-            </view>
-            <button class="btn-submit" form-type="submit" @click="handleCreateOrder">微信支付</button>
-          </view>
-        </form>
-      </view>
-    </view>
-  </view> -->
 </template>
 
 <script>
@@ -266,6 +88,7 @@ import { mapActions, mapGetters, mapState } from 'vuex';
 import zCheckbox from '@/components/al-checkbox';
 import navBarHeight from '@/components/common/navBarHeight';
 import OrderProductItem from '@/components/al-orderProductItem';
+import OrderAmountInfo from '@/components/al-orderAmountInfo';
 import { trackWechatAd } from '@/service/apis';
 import utils, { priceFormat } from '@/utils/utils';
 import { get } from '@/utils/utilityOperationHelper';
@@ -291,6 +114,7 @@ export default {
   components: {
     zCheckbox,
     OrderProductItem,
+    OrderAmountInfo,
     FormError,
   },
   data() {
@@ -492,16 +316,16 @@ export default {
       })
     },
     async handleCreateOrder() {
-      // 校验发票信息
+      // 校验发票信息先暂时去掉
       let invoiceError
       // personalInvoiceCheckd from mixin
-      if (this.personalInvoiceCheckd) {
-        invoiceError = this.handleValid(this.personalInvoiceTitle, 'personalTitle')
-      } else {
-        const titleFlag = this.handleValid(this.companyInvoice.title, 'companyTitle')
-        const taxNumberFlag = this.handleValid(this.companyInvoice.taxNumber, 'taxNumber')
-        invoiceError = titleFlag || taxNumberFlag
-      }
+      // if (this.personalInvoiceCheckd) {
+      //   invoiceError = this.handleValid(this.personalInvoiceTitle, 'personalTitle')
+      // } else {
+      //   const titleFlag = this.handleValid(this.companyInvoice.title, 'companyTitle')
+      //   const taxNumberFlag = this.handleValid(this.companyInvoice.taxNumber, 'taxNumber')
+      //   invoiceError = titleFlag || taxNumberFlag
+      // }
       // 校验地址是否支持配送
       if (this.addressInfo) {
         if (!this.addressInfo.addressVerify) {
@@ -514,10 +338,10 @@ export default {
         return
       }
 
-      if (invoiceError) {
-        this.handleScrollTo('invoice')
-        return
-      }
+      // if (invoiceError) {
+      //   this.handleScrollTo('invoice')
+      //   return
+      // }
 
       // 校验隐私和销售条例是否同意
       if (!this.isAgree) {
