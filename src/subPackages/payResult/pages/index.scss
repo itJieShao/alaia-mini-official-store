@@ -18,36 +18,38 @@
       }
     }
     .result-info {
-      padding: 56rpx 32rpx !important;
+      background: #fff;
+      padding: rpx(30) rpx(16);
       text-align: center;
-      margin-bottom: 20rpx;
       .result-icon {
-        margin-bottom: 32rpx;
+        margin-bottom: rpx(16);
         image {
-          width: 60rpx;
-          height: 60rpx;
+          width: rpx(30);
+          height: rpx(30);
         }
         .icon-font {
-          font-size: 60rpx;
+          font-size: rpx(30);
         }
       }
       .result-msg {
-        margin-bottom: 48rpx;
-        font-size: 32rpx;
+        margin-bottom: rpx(24);
+        font-size: rpx(16);
         color: #1d1d1d;
       }
       .result-tips {
-        font-size: 28rpx;
+        font-size: rpx(14);
         color: #8e8e8e;
       }
     }
+
     .order-brief {
-      padding: 48rpx 32rpx !important;
-      margin-bottom: 20rpx;
+      padding: rpx(30) rpx(16);
+      background: #f9f9f9;
       .brief-item {
-        margin-bottom: 40rpx;
+        margin-bottom: rpx(10);
         color: #1d1d1d;
-        font-size: 28rpx;
+        font-size: rpx(12);
+        font-family: 'PingFangSC, PingFangSC-Regular';
         .label {
           margin-right: 8rpx;
         }
@@ -56,131 +58,39 @@
         }
       }
     }
-  
-    .last-product {
-      /deep/ .product-box {
-        padding: 0;
-        .item-box {
-          border: none;
-        }
-      }
-    }
-    .form-item-block {
+    
+    .distribution {
       background: #fff;
-      padding: 0 32rpx;
-      margin-bottom: 20rpx;
-      overflow: hidden;
-      &.distribution {
-        margin: 0;
-        .form-item-title {
-          height: 120rpx !important;
-          border: none;
-        }
-        .distribution-info {
-          font-size: 28rpx;
-          border-bottom: 2rpx solid #f4f4f4;
-          .addressee {
-            margin-bottom: 20rpx;
-            font-size: #1d1d1d;
-            .name {
-              margin-right: 30rpx;
-            }
-          }
-          .address-detail {
-            color: #616161;
-            margin-bottom: 40rpx;
-          }
-        }
+      padding: rpx(30) rpx(16);
+      color: #1d1d1d;
+      .title {
+        font-size: rpx(14);
+        font-family: 'Lato, Lato-Regular';
+        font-weight: 400;
+        margin-bottom: rpx(10);
       }
-      .form-item-title {
-        display: flex;
-        height: 132rpx;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 2rpx solid #f4f4f4;
-        font-size: 32rpx;
-        color: #252525;
-        .title-left {
-          text {
-            font-size: 28rpx;
-          }
+      .distribution-info {
+        font-size: rpx(12);
+        .d-item {
+          margin-bottom: rpx(6);
         }
-        &.sub {
-          height: 120rpx;
-        }
-        &.center {
-          justify-content: center;
-        }
-        &.last {
-          border: none;
-        }
-        &.address-row {
-          height: auto;
-          min-height: 120rpx;
-          .address-info {
-            padding: 32rpx 0;
-            font-size: 28rpx;
-            color: #1b1b1b;
-            .phone-text {
-              color: #313131;
-              margin-left: 36rpx;
-            }
-            .address-detail {
-              margin-top: 32rpx;
-            }
-            .form-error {
-              color: #e4210d;
-              margin-top: 32rpx;
-            }
-          }
-        }
-        .icon-font {
-          margin-right: 12rpx;
-          color: #bbbbbb;
-          font-size: 32rpx;
-          &.icon-icon-dingwei,
-          &.icon-icon-youjiantou {
-            color: #1d1d1d;
-          }
-        }
-  
-        .title-right {
-          font-size: 28rpx;
-        }
-      }
-      .text-28 {
-        font-size: 28rpx;
-      }
-      .form-item-label {
-        display: flex;
-        margin-bottom: 48rpx;
-      }
-      /deep/ .checkbox {
-        height: 32rpx;
-        margin-right: 20rpx;
-      }
-      .form-item-input {
-        // margin: 48rpx 0;
-        margin-bottom: 48rpx;
-        position: relative;
-        input {
-          height: 40px;
-          padding: 0 32rpx;
-          background: #f9f9f9;
-        }
-        .error-wrap {
-          position: absolute;
-          top: 100%;
-          left: 0;
-          /deep/ {
-            .form-error {
-              font-size: 24rpx;
-              margin-top: 8rpx;
-            }
-          }
+        .detail {
+          color: #616161;
         }
       }
     }
+
+    .order-summary-info {
+      background: #fff;
+      padding: rpx(20);
+      .title {
+        font-size: rpx(14);
+        .num {
+          font-size: rpx(12);
+        }
+      }
+    }
+
     .fixed-button-wrap {
       position: fixed;
       left: 0;

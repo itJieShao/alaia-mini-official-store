@@ -1,10 +1,10 @@
 <template>
   <view class="pay-result-container">
     <!-- 自定义页头 -->
-    <custom-nav-bar :head-font-color="false" />
+    <custom-nav-bar :title="'支付结果'" />
     <view class="container" :style="{ 'padding-top': computedHeight }">
       <!-- 支付成功的文案 -->
-      <view class="form-item-block result-info" v-if="isSuccess">
+      <view class="result-info" v-if="isSuccess">
         <view class="result-icon">
           <image src="https://res-tasaki.baozun.com/static/images/success-icon%402x.png" alt="">
         </view>
@@ -12,11 +12,8 @@
         <view class="result-tips">我们将尽快发货，当您收到作品时，请当面验收快递包裹后再签收。</view>
       </view>
       <!-- 支付失败的文案 -->
-      <view class="form-item-block result-info" v-else>
-        <view class="result-icon">
-          <text class="icon-font icon-icon-zhifushibai"></text>
-        </view>
-        <view class="result-msg">支付尚未成功，请重新支付</view>
+      <view class="result-info" v-else>
+        <view class="result-msg">支付失败，重新支付</view>
         <view class="result-tips">
           请尽快完成支付，15分钟后订单将会被取消，如遇支付问题，请洽询
           <button
@@ -30,7 +27,7 @@
         </view>
       </view>
       <!-- 订单号&金额&时间 信息 -->
-      <view class="form-item-block order-brief">
+      <view class="order-brief">
         <view class="brief-item">
           <text class="label">订单编号：</text>
           <text class="value">{{orderInfo.orderCode}}</text>
@@ -44,30 +41,23 @@
           <text class="value">{{get(orderInfo, 'amount.amount') | currency}}</text>
         </view>
       </view>
+
       <!-- 配送信息 -->
-      <view class="form-item-block distribution">
-        <view class="form-item-title">
-          <view class="title-left"> 配送信息 </view>
-          <view class="title-right"></view>
-        </view>
+      <view class="distribution">
+        <view class="title">配送信息 </view>
         <view class="distribution-info">
-          <view class="addressee">
-            <text class="name">{{get(orderInfo, 'receiptInfo.name')}}</text>
+          <view class="d-item">
+            <text>{{get(orderInfo, 'receiptInfo.name')}}</text>
             <text>{{get(orderInfo, 'receiptInfo.mobile')}}</text>
           </view>
-          <view class="address-detail">
+          <view class="d-item detail">
             {{addressDetail}}
           </view>
         </view>
       </view>
       <!-- 订单摘要 -->
-      <view class="form-item-block">
-        <view class="form-item-title last">
-          <view class="title-left">
-            订单摘要 <text>(共{{ totalQuantity }}件)</text>
-          </view>
-          <view class="title-right"></view>
-        </view>
+      <view class="order-summary-info">
+        <view class="title">订单摘要 <text class="num">(共{{ totalQuantity }}件)</text></view>
         <view class="order-product-list">
           <view
             v-for="(product, index) in productList"
@@ -97,7 +87,7 @@
 import { mapActions, mapMutations } from 'vuex';
 import OrderProductItem from '@/components/al-orderProductItem';
 import OrderAmountInfo from '@/components/al-orderAmountInfo';
-import customButton from '@/components/button/normal.vue';
+import customButton from '@/components/al-button/normal';
 import navBarHeight from '@/components/common/navBarHeight';
 import { get } from '@/utils/utilityOperationHelper';
 import utils from '@/utils/utils';

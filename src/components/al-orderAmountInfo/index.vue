@@ -1,5 +1,5 @@
 <template>
-    <view class="order-box">
+    <view class="order-amount-box">
         <view class="price-content">
             <view class="info-item">
               <view>商品小计</view>
@@ -43,7 +43,7 @@
 
 <style lang="scss" scoped>
     @import '@/styles/base';
-     .order-box {
+     .order-amount-box {
         background:  #f7f7f7;
         padding: 0 rpx(15);
         font-size: rpx(14);
