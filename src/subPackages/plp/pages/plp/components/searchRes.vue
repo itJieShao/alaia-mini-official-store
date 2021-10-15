@@ -10,7 +10,7 @@
       </view>
     </view>
     <view class="res-font">共{{totalCount}}个作品<text class="filter" v-if="filterKeyWord">筛选条件：{{filterKeyWord}}</text></view>
-    <view class="menu-box">
+    <view class="menu-box" :style="{ top:ktxStatusHeight }">
       <scroll-view class="menu" scroll-x="true" bindscroll="scroll">
         <view :class="['item',item.select?'active':'']" v-for="(item,index) in menuList" :key="index" @click="selectMenu(item)">{{item.name}}</view>
       </scroll-view>
@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import searchInput from '@/components/searchInput';
 import goodsList from '@/components/goodsList';
 
 export default {
@@ -67,6 +66,11 @@ export default {
   },
   components: {
     goodsList,
+  },
+  data () {
+    return {
+      ktxStatusHeight: getApp().globalData.ktxStatusHeight,
+    }
   },
   methods: {
     updateList (type, sort) {
@@ -179,11 +183,10 @@ export default {
   }
 }
 .menu-box {
-  // position: sticky;
-  // z-index: 99;
-  // top: rpx(176);
-  // left: 0;
-  // width: auto;
+  position: sticky;
+  z-index: 99;
+  left: 0;
+  width: auto;
   background-color: #fff;
   .menu {
     margin-left: rpx(16);

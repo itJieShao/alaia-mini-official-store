@@ -3,11 +3,11 @@
     <custom-nav-bar left-icon="search" left-text="搜索" title="分类" :head-border="false" :head-font-color="false" />
     <view :style="{'padding-top':ktxStatusHeight}"></view>
     <view class="content" :style="'height: calc(100vh - '+ktxStatusHeight+' - 112rpx - var(--safe-area-inset-bottom));'">
-      <view class="activity-banner">
+      <view class="activity-banner" v-if="cover">
         <image class="cover" :src="cover" mode="aspectFill"></image>
         <view class="txt">FALL WINTER 2021 COLLECTION</view>
       </view>
-      <view class="category-banner">
+      <view class="category-banner" v-if="cover">
         <image class="cover" :src="cover" mode="aspectFill"></image>
       </view>
       <view class="category">
@@ -190,7 +190,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
+@import "@/styles/utilities.scss";
 .content {
   position: relative;
   overflow-y: auto;
@@ -273,5 +273,4 @@ export default {
     }
   }
 }
-
 </style>
