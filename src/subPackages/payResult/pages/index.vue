@@ -2,14 +2,15 @@
   <view class="pay-result-container">
     <!-- 自定义页头 -->
     <custom-nav-bar :title="'支付结果'" />
-    <view class="container" :style="{ 'padding-top': computedHeight }">
+    <view class="container" :style="{ 'padding-top': computedHeight, 'padding-bottom': isSuccess && 0 }">
       <!-- 支付成功的文案 -->
       <view class="result-info" v-if="isSuccess">
-        <view class="result-icon">
+        <!-- <view class="result-icon">
           <image src="https://res-tasaki.baozun.com/static/images/success-icon%402x.png" alt="">
-        </view>
-        <view class="result-msg">支付成功，感谢您的订购</view>
-        <view class="result-tips">我们将尽快发货，当您收到作品时，请当面验收快递包裹后再签收。</view>
+        </view> -->
+        <view class="result-msg">支付成功</view>
+        <view class="result-tips success-tips">我们将尽快发货，当您收到货物时，请当面验收快递包裹后再签收。</view>
+        <customButton :btnWidth="170" className="big-btn" v-if="isSuccess" @click="handleGoBackHome">去逛逛</customButton>
       </view>
       <!-- 支付失败的文案 -->
       <view class="result-info" v-else>
@@ -76,10 +77,9 @@
       <!-- 订单金额汇总 -->
       <OrderAmountInfo :orderAmount="get(orderInfo, 'amount.amount')" />
       <!-- 处理按钮 -->
-      <view class="fixed-button-wrap">
+      <view class="fixed-button-wrap" v-if="!isSuccess">
         <view class="button-container">
-          <customButton :btnWidth="690" className="big-btn" v-if="isSuccess" @click="handleGoBackHome">去逛逛</customButton>
-          <customButton :btnWidth="690" className="big-btn" v-else @click="handleOrderPay">立即支付</customButton>
+          <customButton :btnWidth="690" className="big-btn" @click="handleOrderPay">立即支付</customButton>
         </view>
       </view>
     </view>

@@ -39,11 +39,15 @@
       .result-msg {
         margin-bottom: rpx(24);
         font-size: rpx(16);
+        font-family: 'PingFangSC, PingFangSC-Regular';
         color: #1d1d1d;
       }
       .result-tips {
         font-size: rpx(14);
         color: #8e8e8e;
+      }
+      .success-tips {
+        margin-bottom: rpx(30);
       }
       .countdown {
         margin-top: rpx(30);
@@ -114,8 +118,8 @@
         display: flex;
         align-content: center;
         justify-content: center;
-        height: 128rpx;
-        padding: 24rpx 0;
+        height: rpx(64);
+        padding: rpx(12) 0;
       }
     }
   }
