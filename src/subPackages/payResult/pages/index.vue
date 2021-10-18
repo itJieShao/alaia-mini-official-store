@@ -4,7 +4,7 @@
     <custom-nav-bar :title="'支付结果'" />
     <view class="container" :style="{ 'padding-top': computedHeight, 'padding-bottom': isSuccess && 0 }">
       <!-- 支付成功的文案 -->
-      <view class="result-info" v-if="true">
+      <view class="result-info" v-if="isSuccess">
         <text class="result-msg icon-font icon-zhifuchenggong">支付成功</text>
         <view class="result-tips success-tips">我们将尽快发货，当您收到货物时，请当面验收快递包裹后再签收。</view>
         <customButton :btnWidth="170" className="big-btn" v-if="isSuccess" @click="handleGoBackHome">去逛逛</customButton>
