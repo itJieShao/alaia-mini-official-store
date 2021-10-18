@@ -11,23 +11,16 @@
         </swiper-item>
         <swiper-item>
           <scroll-view scroll-y class="scroll-view scroll-view-content" :style="{'paddingTop':ktxStatusHeight}" @scroll="viewScroll" :scroll-into-view="scrollToId">
-            <!-- 首页产品轮播1 -->
-            <product-swiper-one @click="handleProductClick" :productSwiperOneList="productSwiperOneList" @youshuReport="youshuReport"></product-swiper-one>
-            <!-- 首页产品轮播2 -->
-            <product-swiper-two @click="handleProductClick" :productSwiperTwoData="productSwiperTwoData" @youshuReport="youshuReport"></product-swiper-two>
-            <!-- 首页产品轮播3 -->
-            <product-swiper-three @click="handleProductClick" :productSwiperThreeData="productSwiperThreeData" @youshuReport="youshuReport"></product-swiper-three>
-            <!-- 产品墙 -->
-            <product-wall v-for="(productWall, index) in productWallList" :key="index" :productWall="productWall" @click="handleProductClick" @youshuReport="youshuReport"></product-wall>
+            <product-swiper></product-swiper>
+            <product-model></product-model>
+            <product></product>
+            <view style="padding-top: 50rpx;background-color: #fff;">
+              <customButton :btnWidth="480" :btnHeight="80" className="transparent">即刻探索</customButton>
+            </view>
             <!-- 品牌故事 -->
             <series-story id="seriesStory" :viewScrollTop="viewScrollTop" @fullscreenchange="fullscreenchange" :isPause="!isPause"></series-story>
             <!-- 精品店 -->
             <boutique></boutique>
-            <!-- 隐私政策 -->
-            <view class="com-page-bottom">
-              <view class="com-page-bottom-title">TASAKI塔思琦线上旗舰店</view>
-              <view class="com-page-bottom-policy"><text @click="goHelpDetail('隐私政策','privacy')">隐私政策</text>及<text @click="goHelpDetail('销售条款','sales')">销售条款</text></view>
-            </view>
           </scroll-view>
         </swiper-item>
       </swiper>
@@ -37,14 +30,19 @@
 
 <script>
 import {
-  mapState, mapActions, mapGetters, mapMutations,
+  mapState,
+  mapActions,
+  mapGetters,
+  mapMutations,
 } from 'vuex';
-import { trackWechatAd } from '@/service/apis'
+import {
+  trackWechatAd,
+} from '@/service/apis'
+import customButton from '@/components/button/normal.vue';
 import HomeHeadSwiper from './components/homeHeadSwiper/homeHeadSwiper'; // 首页顶部swiper
-import ProductSwiperOne from './components/prodcutSwiper/productSwiperOne';
-import ProductSwiperTwo from './components/prodcutSwiper/productSwiperTwo';
-import ProductSwiperThree from './components/prodcutSwiper/productSwiperThree';
-import ProductWall from './components/productWall/productWall'; // 产品墙
+import ProductSwiper from './components/prodcutSwiper/productSwiper'; // 首页轮播
+import ProductModel from './components/productModel/productModel'; // 造型灵感
+import Product from './components/product/product'; // 精选推荐
 import SeriesStory from './components/seriesStory/seriesStory'; // 品牌故事
 import Boutique from './components/boutique/boutique'; // 精品店
 
@@ -52,12 +50,12 @@ export default {
   name: 'index',
   components: {
     HomeHeadSwiper,
-    ProductSwiperOne,
-    ProductSwiperTwo,
-    ProductSwiperThree,
-    ProductWall,
+    ProductSwiper,
+    ProductModel,
+    Product,
     SeriesStory,
     Boutique,
+    customButton,
   },
   data () {
     return {
@@ -125,7 +123,10 @@ export default {
       this.getUserInfo().then((res) => {
         if (res.accountInfo.nickname || res.accountInfo.portrait) {
           uni.setStorageSync('isAuthorizeInfo', true)
-          uni.setStorageSync('weixinInfo', { nickName: res.accountInfo.nickname, avatarUrl: res.accountInfo.portrait })
+          uni.setStorageSync('weixinInfo', {
+            nickName: res.accountInfo.nickname,
+            avatarUrl: res.accountInfo.portrait,
+          })
         } else {
           uni.setStorageSync('isAuthorizeInfo', false)
         }
@@ -213,7 +214,8 @@ export default {
           original_price: item.skus && item.skus.length > 0 ? item.skus[0].salePrice.amount : 0, // 对接智慧零售入口必传
           current_price: item.skus && item.skus.length > 0 ? item.skus[0].salePrice.amount : 0, // 对接智慧零售入口必传
         },
-        primary_image_url: item.images && item.images.length > 0 ? item.images[0].url : (item.picLink || 'https://res-tasaki.baozun.com/static/images/account/account-bg2.png'),
+        primary_image_url: item.images && item.images.length > 0 ? item.images[0].url : (item.picLink
+          || 'https://res-tasaki.baozun.com/static/images/account/account-bg2.png'),
       });
     },
     viewScroll (e) {
@@ -237,20 +239,18 @@ export default {
         const currentPage = getCurrentPages()[getCurrentPages().length - 1]
         await trackWechatAd({
           user_action_set_id: 1200031323, // 事先生成的数据源ID、写死
-          actions: [
-            {
-              url: `http://wwww.qq.com${currentPage.$page.fullPath}`,
-              action_time: parseInt((+new Date()) / 1000),
-              action_type: 'VIEW_CONTENT',
-              trace: {
-                click_id: clickId,
-              },
-              user_id: {
-                wechat_openid: uni.getStorageSync('openId'),
-                wechat_app_id: 'wxe5bd54b04e85cd62',
-              },
+          actions: [{
+            url: `http://wwww.qq.com${currentPage.$page.fullPath}`,
+            action_time: parseInt((+new Date()) / 1000),
+            action_type: 'VIEW_CONTENT',
+            trace: {
+              click_id: clickId,
             },
-          ],
+            user_id: {
+              wechat_openid: uni.getStorageSync('openId'),
+              wechat_app_id: 'wxe5bd54b04e85cd62',
+            },
+          }],
         })
       } catch (error) {
         console.error(error)
@@ -268,6 +268,7 @@ $mainColor: #e3f0ea;
   background: #fff;
   .swiper {
     height: calc(100vh - 112rpx - var(--safe-area-inset-bottom));
+    background-color: #f7f7f7;
     .scroll-view {
       height: 100%;
     }

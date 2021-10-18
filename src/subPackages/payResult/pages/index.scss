@@ -1,0 +1,99 @@
+@import '@/styles/base';
+
+.pay-result-container {
+    .container {
+      padding-bottom: calc(128rpx + var(--safe-area-inset-bottom));
+      padding-top: 178rpx;
+      background-color: #f9f9f9;
+      .service-btn {
+        display: inline;
+        background: transparent;
+        line-height: 1;
+        text {
+          margin-left: 4rpx;
+          font-size: 28rpx;
+          color: #8e8e8e;
+          text-decoration: underline;
+        }
+      }
+    }
+    .result-info {
+      background: #fff;
+      padding: rpx(30) rpx(16);
+      text-align: center;
+      .price {
+        font-size: rpx(18);
+        font-family: 'Lato, Lato-Bold';
+        margin: rpx(10) 0 rpx(20) 0;
+      }
+      .result-icon {
+        margin-bottom: rpx(16);
+        image {
+          width: rpx(30);
+          height: rpx(30);
+        }
+        .icon-font {
+          font-size: rpx(30);
+        }
+      }
+      .result-msg {
+        margin-bottom: rpx(24);
+        font-size: rpx(16);
+        font-family: 'PingFangSC, PingFangSC-Regular';
+        color: #1d1d1d;
+      }
+      .result-tips {
+        font-size: rpx(14);
+        color: #8e8e8e;
+      }
+      .success-tips {
+        margin-bottom: rpx(30);
+      }
+      .countdown {
+        margin-top: rpx(30);
+        font-size: rpx(12);
+        font-family: 'PingFangSC, PingFangSC-Regular';
+      }
+    }
+
+    .order-brief {
+      padding: rpx(30) rpx(16);
+      background: #f9f9f9;
+      .brief-item {
+        margin-bottom: rpx(10);
+        color: #1d1d1d;
+        font-size: rpx(12);
+        font-family: 'PingFangSC, PingFangSC-Regular';
+        .label {
+          margin-right: 8rpx;
+        }
+        &-last {
+          margin: 0;
+        }
+      }
+    }
+    
+    .patch-box {
+      background: #fff;
+      .patch-box-inner {
+        padding: 0 rpx(16);
+      }
+    }
+
+    .fixed-button-wrap {
+      position: fixed;
+      left: 0;
+      bottom:0;
+      width: 100%;
+      padding-bottom: var(--safe-area-inset-bottom);
+      background: #fff;
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
+      .button-container {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        height: rpx(64);
+        padding: rpx(12) 0;
+      }
+    }
+  }

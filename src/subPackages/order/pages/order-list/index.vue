@@ -1,7 +1,7 @@
 <template>
   <view class="my-order" :style="{'padding-top':ktxStatusHeight}">
     <!-- header -->
-    <custom-nav-bar  :head-border="false" :head-font-color="false"  />
+    <custom-nav-bar title="我的订单"/>
     <!-- content -->
     <view class="my-order-content">
       <!-- 无订单 -->
@@ -16,8 +16,11 @@
       </block>
       <!-- 有订单 -->
       <block v-if="isLoad && orderList.length > 0">
+        <view class="order-status-tab">
+          <text @click="changeTab(item.name)" :class="item.checked?'act':''" v-for="(item,index) in tabList"
+            :key="index">{{item.name}}</text>
+        </view>
         <view class="order-list">
-          <view class="order-list-header">我的订单<text class="order-total-num">共{{pageInfo.totalCount}}条</text></view>
           <order-card
           v-for="(orderItem,orderIndex) in orderList"
           :key="orderIndex"
@@ -39,7 +42,6 @@ import RecentlyLikeProducts from '@/pages/shoppingCar/components/RecentlyLikePro
 import { SCREEN_NAME, trackerCommonPageView } from '@/utils/ga'
 import { formatDateNew } from '@/utils/utils'
 import orderCard from '../../components/order-card/order-card';
-import { get } from '@/utils/utilityOperationHelper';
 export default {
   name: 'order',
   components: {
@@ -53,6 +55,8 @@ export default {
       orderList: [],
       isLoad: false,
       pageInfo: {},
+      tabList: ['全部', '待支付', '待发货', '待收货', '已完成']
+      .map((name, i) => ({ name, checked: i === 0 }))
     }
   },
   computed: {
@@ -77,6 +81,12 @@ export default {
     ...mapActions('order', ['getOrderList']),
     ...mapMutations('globle', ['setTabSelected']),
     formatDateNew,
+    // 切换状态
+    changeTab(name) {
+        this.tabList.forEach(t => t.checked = false);
+        const item = this.tabList.find(t => t.name === name);
+        this.$set(item, 'checked', true);
+    },
     // 点击去逛逛，去首页
     handleClick() {
       this.setTabSelected(0);

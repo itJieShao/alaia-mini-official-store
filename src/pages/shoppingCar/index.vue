@@ -1,11 +1,7 @@
 <template>
   <div class="container" :style="{ 'padding-top': computedHeight }">
     <!-- 头部 -->
-      <custom-nav-bar
-        :left-arrow="false"
-        :head-font-color="false"
-      />
-
+      <custom-nav-bar title="购物袋" />
     <!-- 商品列表 -->
     <view class="content" >
       <view class="list" v-if="list.length > 0 && isMemberLogin">
@@ -155,12 +151,7 @@ export default {
       const filterList = this.filterProduct(this.list).filter((v) => v.sku.inventory > 0 && v.sku.product.onShelves)
       console.log('filterList---', filterList)
       return filterList.length > 0 ? filterList.every((v) => v.selected) : false
-    },
-    // isMemberLogin() {
-    //   const isMemberLogin = uni.getStorageSync('isMemberLogin') || false;
-    //   const isAuthorizeInfo = uni.getStorageSync('isAuthorizeInfo') || false;
-    //   return !!(isMemberLogin && isAuthorizeInfo)
-    // },
+    }
   },
   methods: {
     get,

@@ -11,7 +11,7 @@
 .sp-item {
   position: relative;
   display: flex;
-  padding: rpx(29) rpx(15);
+  padding: rpx(29) 0;
   border-bottom: 1px solid #e8e8e8;
   .c-box {
     margin-right: rpx(19);
@@ -35,6 +35,7 @@
   .info-box {
     width: rpx(197);
     .p-name {
+      width: rpx(170);
       display: block;
       font-size: rpx(14);
       font-family: 'PingFangSC, PingFangSC-Regular';

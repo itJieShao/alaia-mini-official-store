@@ -7,6 +7,7 @@
           <block v-if="swiperItem.videoId">
             <view class="home-head-swiper-video">
               <video class="video-content" :id="'myVideo'+swiperIndex"  :src="swiperItem.videoId" :loop="false" :autoplay="swiperItem.picDes === 'auto' ? true : false" :controls="false"   object-fit ="cover" :muted="swiperItem.isMuted" :show-mute-btn="true" :show-center-play-btn="false" :show-play-btn="false" :show-fullscreen-btn="false" play-btn-position="center" :enable-progress-gesture="false" @ended="videoEnded"></video>
+              <!-- <video class="video-content" :id="'myVideo'+swiperIndex" :src="swiperItem.videoId" :loop="false" autoplay :controls="false"  object-fit ="cover" :muted="swiperItem.isMuted" :show-mute-btn="true" :show-center-play-btn="false" :show-play-btn="false" :show-fullscreen-btn="false" play-btn-position="center" :enable-progress-gesture="false"></video> -->
             </view>
             <view class="play-btn" v-if="isShowPlayBtn">
               <text class="icon-font icon-icon-bofang" @click="playVideo(swiperIndex)" :class="white? 'white':''"></text>
@@ -21,21 +22,31 @@
           <!--  -->
 
           <view class="home-head-swiper-other">
-            <view class="home-head-swiper-title" v-if="swiperItem.title"><text>{{swiperItem.title}}</text></view>
-            <customButton class="home-head-swiper-btn" @click="goPlp(swiperItem.title,swiperItem.url)" :btnWidth="280" :btnHeight="80" :className="swiperItem.name == '2-W'? 'whiteBtn' :'transparent'">{{swiperItem.btn.text || '探索此系列'}}</customButton>
+            <!-- <view class="home-head-swiper-title" v-if="swiperItem.title"><text>{{swiperItem.title}}</text></view> -->
+            <!-- <customButton class="home-head-swiper-btn" @click="goPlp(swiperItem.title,swiperItem.url)" :btnWidth="400" :btnHeight="80" :className="swiperItem.name == '2-W'? 'whiteBtn' :'transparent'">{{swiperItem.btn.text || '探索更多'}}</customButton> -->
+            <view class="home-head-swiper-title"><text>NEW COLLECTION</text></view>
+            <customButton class="home-head-swiper-btn" @click="goPlp(swiperItem.title,swiperItem.url)" :btnWidth="400" :btnHeight="80" className="whiteBtn">{{swiperItem.btn.text || '探索更多'}}</customButton>
           </view>
 
         </swiper-item>
       </block>
     </swiper>
     <!-- 滚动条 -->
-    <view class="view-dost" :class="white? 'white-dost':''" v-if="bannerList.length > 1&&isShowDost">
+    <!-- <view class="view-dost" :class="white? 'white-dost':''" v-if="bannerList.length > 1&&isShowDost">
+      <view class="swiper-dots-warp">
+        <view class="swiper-dots"  :style="{ width:dotsWidth + 'px',left:dotsLeft + 'px' }"></view>
+      </view>
+    </view> -->
+    <view class="view-dost white-dost" v-if="bannerList.length > 1&&isShowDost">
       <view class="swiper-dots-warp">
         <view class="swiper-dots"  :style="{ width:dotsWidth + 'px',left:dotsLeft + 'px' }"></view>
       </view>
     </view>
     <view class="down-arrow" v-if="bannerList.length > 0&&isShowDost">
-      <text class="icon-font icon-icon-xia" :class="white? 'white-arrow':''"></text>
+      <!-- <text class="icon-font icon-icon-xia" :class="white? 'white-arrow':''"></text>
+      <text class="icon-font icon-icon-xia" :class="white? 'white-arrow':''"></text> -->
+      <text class="icon-font icon-icon-xia white-arrow"></text>
+      <text class="icon-font icon-icon-xia white-arrow"></text>
     </view>
   </view>
 </template>
@@ -147,10 +158,10 @@ export default {
   },
   computed: {
     dotsWidth() {
-      return this.bannerList.length > 0 ? 200 / this.bannerList.length : 200;
+      return this.bannerList.length > 0 ? 240 / this.bannerList.length : 240;
     },
     dotsLeft() {
-      return this.bannerList.length > 0 ? 200 / this.bannerList.length * this.currentIndex : 0;
+      return this.bannerList.length > 0 ? 240 / this.bannerList.length * this.currentIndex : 0;
     },
 
   },
@@ -261,17 +272,18 @@ $transitionAll: all .8s;
       }
       .home-head-swiper-other {
         position: absolute;
-        bottom: 182rpx;
+        bottom: 210rpx;
         width: 100%;
-        height: 190rpx;
+        height: 200rpx;
         color: #1d1d1d;
         text-align: center;
         z-index: 10;
         .home-head-swiper-title {
-          font-size: 44rpx;
-          line-height: 66rpx;
-          letter-spacing: 1px;
-          margin-bottom: 40rpx;
+          font-size: 56rpx;
+          font-weight: bold;
+          line-height: 68rpx;
+          margin-bottom: 30rpx;
+          color: #fff;
         }
         .home-head-swiper-btn {
           position: absolute;
@@ -286,7 +298,7 @@ $transitionAll: all .8s;
    // 滚动条
   .view-dost {
     position: absolute;
-    bottom: 120rpx;
+    bottom: 140rpx;
     z-index: 10;
     width: 100%;
     margin-top: 80rpx;
@@ -295,7 +307,7 @@ $transitionAll: all .8s;
 
     .swiper-dots-warp {
       position: relative;
-      width: 200px;
+      width: 240px;
       height: 2px;
       margin: 0 auto;
       transform: scaleY(.5);
@@ -332,7 +344,9 @@ $transitionAll: all .8s;
     font-size: 18rpx;
     text-align: center;
     .icon-font{
-      height: 20rpx;
+      display: block;
+      font-size: 24rpx;
+      height: 18rpx;
       &.white-arrow{
         color: #fff;
       }
@@ -356,8 +370,8 @@ $transitionAll: all .8s;
   }
   .yingliang{
     position: absolute;
-    top: 200rpx;
-    right: 32rpx;
+    bottom: 115rpx;
+    left: 30rpx;
     font-size: 36rpx;
   }
 }

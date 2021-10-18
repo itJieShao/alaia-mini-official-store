@@ -199,6 +199,28 @@
 					}
 				}
 			]
+		},
+		{
+			"root": "subPackages/productCollocation",
+			"pages": [
+				{
+					"path": "pages/index",
+					"style": {
+						"navigationStyle": "custom"
+					}
+				}
+			]
+		},
+		{
+			"root": "subPackages/wish",
+			"pages": [
+				{
+					"path": "pages/wish/index",
+					"style": {
+						"navigationStyle": "custom"
+					}
+				}
+			]
 		}
 	],
 	"preloadRule": {

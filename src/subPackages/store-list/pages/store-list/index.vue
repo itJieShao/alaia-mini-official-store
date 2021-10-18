@@ -5,7 +5,7 @@
 
     <!-- 精品店筛选 -->
     <view class="store-screen-box" :style="{'top':ktxStatusHeight}">
-      <form>
+      <!-- <form>
         <picker
           mode="selector"
           @change="bindProvinceChange"
@@ -31,9 +31,10 @@
               <text class="icon-font icon-icon-xialahuise"></text>
             </view>
         </picker>
-      </form>
+      </form> -->
     </view>
     <!-- 精品店列表 -->
+    <image class="banner" src="" mode="widthFix" :lazy-load="true"></image>
     <view class="store-list-box" v-if="isLoad && storeList.length > 0">
       <view class="store-list-item" v-for="(storeItem,storeIndex) in storeList" :key="storeIndex">
         <!-- 店名 -->
@@ -50,27 +51,29 @@
         </view>
         <!-- 地址 -->
         <view class="store-info store-address">
-          <text class="icon-font icon-icon-dingwei"></text>
+          <!-- <text class="icon-font icon-icon-dingwei"></text> -->
           <text class="info">{{storeItem.address || '暂无地址'}}</text>
         </view>
         <!-- 电话 -->
-        <view class="store-info">
-          <text class="icon-font icon-icon-dianhua"></text>
+        <view class="store-info" style="margin-bottom: 0 !important;">
+          <!-- <text class="icon-font icon-icon-dianhua"></text> -->
           <view class="info">
-            服务热线：
-            <text v-if="storeItem.phone" class="phonenum" @click="handleMakePhoneCall(storeItem.phone)">
+            <text>服务热线</text>
+            <text v-if="storeItem.phone" class="phonenum back-font" @click="handleMakePhoneCall(storeItem.phone)">
               {{storeItem.phone}}
             </text>
-            <text v-else>暂无电话</text>
+            <text class="back-font" v-else>暂无电话</text>
           </view>
         </view>
         <!-- 营业时间 -->
         <view class="store-info">
-          <text class="icon-font icon-icon-yuyue"></text>
+          <!-- <text class="icon-font icon-icon-yuyue"></text> -->
           <view class="info">
-            营业时间：{{storeItem.businessDays[0].hoursList[0].startTime || '暂无时间'}}
-            <text v-if="storeItem.businessDays[0].hoursList[0].endTime"> - </text>
-            {{storeItem.businessDays[0].hoursList[0].endTime || ''}}
+            <text>营业时间</text>
+            <text class="back-font" v-if="storeItem.businessDays[0].hoursList[0].endTime">
+              {{storeItem.businessDays[0].hoursList[0].startTime}} - {{storeItem.businessDays[0].hoursList[0].endTime}}
+            </text>
+            <text class="back-font" v-else>暂无时间</text>
           </view>
         </view>
       </view>
@@ -78,9 +81,9 @@
     <view v-if="isLoad && storeList.length == 0" class="nodata">
       当前地区暂无店铺
     </view>
-    <view v-if="goTop" class="goTop" @click="scrollToTop">
+    <!-- <view v-if="goTop" class="goTop" @click="scrollToTop">
       <text class="icon-font icon-icon-yijianxiangshang"></text>
-    </view>
+    </view> -->
   </view>
 </template>
 
