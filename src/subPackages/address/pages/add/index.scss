@@ -15,6 +15,15 @@
         margin-top: 46rpx;
         .input-box{
             margin-bottom: 48rpx;
+			.err-tip{
+				display: block;
+				font-size: 24rpx;
+				margin-top: 20rpx;
+				color: #ff0000;
+			}
+			.red-border{
+				border: 2rpx solid #ff0000 !important;
+			}
             input{
 				border: 2rpx solid #8E8E8E;
                 height: 80rpx;

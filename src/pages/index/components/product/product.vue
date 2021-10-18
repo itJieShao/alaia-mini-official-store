@@ -1,8 +1,7 @@
 <template>
   <view class="product">
     <view class="title">
-      <text class="main-title">精选.推荐</text>
-      <text class="subtitle">YOU MAY ALSO LIKE</text>
+      <com-title title="精选.推荐" subtitle="YOU MAY ALSO LIKE" />
     </view>
     <image class="banner" src="" mode="aspectFill"></image>
     <view id="navbar" class="product-tab">
@@ -23,6 +22,7 @@
 </template>
 
 <script>
+  import ComTitle from '../comTitle/comTitle';
   import customButton from '@/components/button/normal.vue';
   export default {
     data() {
@@ -46,6 +46,7 @@
       }
     },
     components: {
+      ComTitle,
       customButton,
     },
     methods: {
@@ -67,25 +68,6 @@
 
     .title {
       padding: 122rpx 0 40rpx;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: $color;
-
-      .main-title {
-        font-size: 48rpx;
-        line-height: 66rpx;
-        letter-spacing: 2rpx;
-        font-weight: bold;
-      }
-
-      .subtitle {
-        margin-top: 14rpx;
-        font-size: 28rpx;
-        line-height: 40rpx;
-        letter-spacing: 2rpx;
-      }
     }
 
     .banner {

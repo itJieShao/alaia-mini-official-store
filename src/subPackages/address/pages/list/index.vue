@@ -15,7 +15,7 @@
             </text>
             <view class="item-btn" v-if="!code">
               <text @click="goEditPage(item.node.code)">编辑</text>
-              <text @click="deleteAddress(item.node.code)">移除</text>
+              <text @click="deleteAddress(item.node.code)">删除</text>
             </view>
           </view>
         </view>
@@ -158,7 +158,7 @@
             this.getDeliveryAddresses()
             setTimeout(() => {
               uni.showToast({
-                title: '地址移除成功',
+                title: '地址删除成功',
                 icon: 'none',
               })
             }, 200);

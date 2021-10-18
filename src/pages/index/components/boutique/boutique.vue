@@ -1,7 +1,7 @@
 <template name="boutique">
   <view class="boutique">
       <view class="title">
-        <text class="main-title">ALAÏA精品店</text>
+        <com-title title="ALAÏA精品店" />
       </view>
       <image  class="boutique-img" :src="'https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg'"  mode="widthFix" :lazy-load="true" />
       <view class="font-content">
@@ -52,25 +52,6 @@ $color: #1D1D1D;
   padding-bottom: 110rpx;
   .title {
     padding: 118rpx 0 44rpx;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: $color;
-
-    .main-title {
-      font-size: 48rpx;
-      line-height: 66rpx;
-      letter-spacing: 2rpx;
-      font-weight: bold;
-    }
-
-    .subtitle {
-      margin-top: 14rpx;
-      font-size: 28rpx;
-      line-height: 40rpx;
-      letter-spacing: 2rpx;
-    }
   }
   .boutique-img {
     width: 100%;

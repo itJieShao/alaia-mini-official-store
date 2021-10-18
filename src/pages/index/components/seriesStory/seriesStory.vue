@@ -3,7 +3,7 @@
   <view class="series-story-components">
     <view class="series-story">
       <view class="title">
-        <text class="main-title">品牌介绍</text>
+        <com-title title="品牌介绍" />
       </view>
       <video id="series-story-video" class="series-story-video"
         src="https://res-tasaki.baozun.com/static/images/home/3.MP4" :loop="false" :controls="true" object-fit="cover"
@@ -100,25 +100,6 @@
     .series-story {
       .title {
         padding: 118rpx 0 44rpx;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: $color;
-
-        .main-title {
-          font-size: 48rpx;
-          line-height: 66rpx;
-          letter-spacing: 2rpx;
-          font-weight: bold;
-        }
-
-        .subtitle {
-          margin-top: 14rpx;
-          font-size: 28rpx;
-          line-height: 40rpx;
-          letter-spacing: 2rpx;
-        }
       }
 
       // padding-bottom: 100rpx;

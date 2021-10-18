@@ -1,8 +1,7 @@
 <template>
   <view class="product-swiper">
     <view class="title">
-      <text class="main-title">2022艺术的馈赠</text>
-      <text class="subtitle">新品女士包袋</text>
+      <com-title title="2022艺术的馈赠" subtitle="新品女士包袋" />
     </view>
     <view class="swiper-container">
       <swiper class="swiper" autoplay interval="3000" :current="currentIndex" @change="swiperChange" circular>
@@ -37,6 +36,7 @@
 </template>
 
 <script>
+  import ComTitle from '../comTitle/comTitle';
   import customButton from '@/components/button/normal.vue';
   export default {
     data() {
@@ -46,6 +46,7 @@
       }
     },
     components: {
+      ComTitle,
       customButton,
     },
     computed: {
@@ -77,25 +78,6 @@
 
     .title {
       padding: 90rpx 0 60rpx;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: $color;
-
-      .main-title {
-        font-size: 48rpx;
-        line-height: 58rpx;
-        letter-spacing: 2rpx;
-        font-weight: bold;
-      }
-
-      .subtitle {
-        margin-top: 10rpx;
-        font-size: 28rpx;
-        line-height: 40rpx;
-        letter-spacing: 2rpx;
-      }
     }
 
     .swiper-container {
