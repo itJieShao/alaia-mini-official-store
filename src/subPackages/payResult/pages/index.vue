@@ -4,11 +4,8 @@
     <custom-nav-bar :title="'支付结果'" />
     <view class="container" :style="{ 'padding-top': computedHeight, 'padding-bottom': isSuccess && 0 }">
       <!-- 支付成功的文案 -->
-      <view class="result-info" v-if="isSuccess">
-        <!-- <view class="result-icon">
-          <image src="https://res-tasaki.baozun.com/static/images/success-icon%402x.png" alt="">
-        </view> -->
-        <view class="result-msg">支付成功</view>
+      <view class="result-info" v-if="true">
+        <text class="result-msg icon-font icon-zhifuchenggong">支付成功</text>
         <view class="result-tips success-tips">我们将尽快发货，当您收到货物时，请当面验收快递包裹后再签收。</view>
         <customButton :btnWidth="170" className="big-btn" v-if="isSuccess" @click="handleGoBackHome">去逛逛</customButton>
       </view>
@@ -27,7 +24,7 @@
             <text class="text">在线客服</text>
           </button>
         </view>
-        <view class="countdown">剩余时间：14:59</view>
+        <text class="countdown icon-font icon-shengyushijian">剩余时间：14:59</text>
       </view>
       <OrderDetailInfo 
         :orderCode="orderInfo.orderCode"
