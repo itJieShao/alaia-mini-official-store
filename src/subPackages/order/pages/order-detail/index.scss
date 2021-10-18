@@ -4,110 +4,41 @@
   font-size: 32rpx;
   color: #1D1D1D;
   line-height: 24px;
-  // 订单信息头部
-  .order-detail-header{
-    height: 100rpx;
-    line-height: 100rpx;
-    letter-spacing: 2px;
-    padding: 0 32rpx;
-    border-bottom: 1px solid #F4F4F4;
-    box-sizing: border-box;
+  .order-status-box {
+    background: #f9f9f9;
+    .status {
+      font-size: rpx(14);
+      font-family: 'PingFangSC, PingFangSC-Semibold';
+      font-weight: 600;
+      border-bottom: 1px solid #ddd;
+      padding: rpx(25) 0 rpx(11) rpx(26);
+      margin: 0 rpx(16);
+    }
   }
   // 订单内容
   .order-detail-content{
     padding: 0 rpx(16);
 		z-index: 1;
-    // 订单编号，订单状态
-    .order-num-status{
-      position: relative;
-      font-size: 28rpx;
-      line-height: 110rpx;
-      padding-right: 100rpx;
-      border-bottom: 1px solid #F4F4F4;
-      .order-status{
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
-    }
-    // 订单信息
-    .order-info{
-      padding: 48rpx 0; 
-      font-size: 28rpx;
-      line-height: 40rpx;
-      border-bottom: 1px solid #F4F4F4;
-     .order-info-item{
-      margin-bottom: 20rpx;
-      .title-type{
-        margin-right: 20rpx;
-      }
-     }
-     .order-orderInvoice{
-       margin-top: 0rpx;
-       margin-bottom: 30rpx;
-     }
-     .order-texNo{
-       margin-left: 141rpx;
-       margin-top: 20rpx;
-     }
-     .unpaid{
-         .order-count-down {
-           font-size: 24rpx;
-           line-height: 34rpx;
-           text-align: center;
-           margin-bottom: 40rpx;
-
-           .icon-font {
-             margin-right: 10rpx;
-             position: relative;
-             top: 2rpx;
-           }
-         }
-     }
-    }
-    // 配送信息
-    .shipping-info{
-       padding: 48rpx 0;
-       font-size: 28rpx;
-       line-height: 40rpx;
-       border-bottom: 1px solid #F4F4F4;
-       .shipping-info-address{
-         color: #616161;
-         margin-top: 10rpx;
-       }
-    }
-    // 物流信息
-    .logistics-info{
-      padding: 48rpx 0;
-      font-size: 28rpx;
-      line-height: 42rpx;
-      border-bottom: 1px solid #F4F4F4;
-
-      .tracking-num{
-        margin-bottom: 44rpx;
-      }
-      .logistics-info-list{
-        padding-left: 140rpx;
-        .logistics-info-item{
-          margin-bottom: 32rpx;
-          .logistics-info-time{
-            margin-top: 18rpx;
-            color: #BBBBBB;
-            font-size: 24rpx;
-            line-height: 34rpx;
-          }
-        }
-
-      }
-      .logistics-view-more{
+    .unpaid-action-content {
+      background: #f9f9f9;
+      margin: 0 rpx(-32);
+      margin-top: rpx(-30);
+      padding-bottom: rpx(24);
+      .order-count-down {
+        font-size: rpx(12);
+        line-height: rpx(17);
         text-align: center;
-        line-height: 40rpx;
-        .icon-font{
+        .icon-font {
+          margin-right: rpx(5);
           position: relative;
-          top: -5rpx;
-          font-size: 15rpx;
-          margin-left: 10rpx;
+          top: 2rpx;
         }
+      }
+      .action-btn-group {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: rpx(15);
       }
     }
   }

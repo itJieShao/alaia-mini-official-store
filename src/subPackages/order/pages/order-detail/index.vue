@@ -1,133 +1,42 @@
 <template>
   <view class="order-detail" :style="{ 'padding-top': ktxStatusHeight }">
     <!-- header -->
-    <custom-nav-bar  title="订单详情"/>
-    <view class="order-detail-header">订单信息</view>
-    <view class="order-detail-content" v-if="isLoading">
-      <!-- 订单编号 -->
-      <view class="order-num-status">
-        <view class="order-num">订单编号：<text :userSelect="true">{{ orderData.orderCode || '' }}</text></view>
-        <view class="order-status" v-if="orderData.orderStatus === 'WAIT_PAY'">待支付</view>
-        <view class="order-status" v-if="orderData.orderStatus === 'WAIT_DELIVERY'">待发货</view>
-        <view class="order-status" v-if="orderData.orderStatus === ' WAIT_RECEIVE'">已发货</view>
-        <view class="order-status" v-if="orderData.orderStatus === 'COMPLETED'">已完成</view>
-        <view class="order-status" v-if="orderData.orderStatus === 'CANCELED'">已取消</view>
+    <custom-nav-bar title="订单详情"/>
+    <view v-if="isLoading">
+      <view class="order-status-box">
+        <!-- tips: 需要一下图标 -->
+        <view class="status">{{ STATUS_TXT[orderData.orderStatus] }}</view>
       </view>
-      <!-- 订单信息 -->
-      <view class="order-info">
-        <view class="order-info-item order-time"
-          >下单时间：{{
-            orderData.orderTime ? orderData.orderTime.substring(0, 19) : ""
-          }}</view
-        >
-        <view class="order-info-item order-price"
-          >订单金额：￥{{ priceFormat(orderData.productAmount.amount) || '' }}</view
-        >
-        <view class="order-info-item order-invoice"
-          >发票信息：<text
-            class="title-type"
-            v-if="orderData.orderInvoice.titleType === 'PERSONAL'"
-            >个人</text
-          ><text v-else-if="orderData.orderInvoice" class="title-type">公司</text>{{ orderData.orderInvoice.title || '' }}
-          <view class="order-texNo">{{
-            orderData.orderInvoice.trackingNo !== null
-              ? orderData.orderInvoice.trackingNo
-              : ""
-          }}</view>
-          <view
-            class="order-texNo"
-            v-if="orderData.orderInvoice.eInvoiceUrl !== null"
-            ><a
-              @click="downFile()"
-              target="_blank"
-              style="text-decoration: underline"
-              >下载发票</a
-            ></view
-          >
-        </view>
-
-        <!-- 未支付展示支付按钮 -->
-        <view class="unpaid" v-if="orderData.orderStatus === 'WAIT_PAY' || orderData.orderStatus ==='AUTO_CANCEL'">
-          <view class="order-count-down">
-            <text class="icon-font icon-icon-shijian"></text>
-            支付剩余倒计时：{{ orderData.countDownTime || 0 }}
-          </view>
-          <view class="mgb40">
-            <customButton
-              :btnWidth="686"
-              :btnHeight="80"
-              className="big-btn"
-              @click="handleOrderPay"
-              v-if="
-                orderData.countDownTime ? orderData.countDownTime != 0 : false
-              "
-              >立即支付</customButton
-            >
-          </view>
+      <OrderDetailInfo 
+        :orderCode="orderData.orderCode"
+        :orderTime="orderData.orderTime ? orderData.orderTime.substring(0, 19) : ''"
+        :orderPrice="orderData.productAmount.amount" /> 
+    </view>
+    <view class="order-detail-content" v-if="isLoading">
+      <!-- 订单操作 -->
+      <view class="unpaid-action-content" v-if="orderData.orderStatus === 'WAIT_PAY' || orderData.orderStatus ==='AUTO_CANCEL'">
+        <view class="action-btn-group">
           <customButton
-            :btnWidth="686"
+            :btnWidth="330"
+            :btnHeight="80"
+            className="big-btn"
+            style="margin-right: 30rpx"
+            @click="handleOrderPay"
+            >立即支付</customButton>
+          <customButton
+            :btnWidth="330"
             :btnHeight="80"
             className="transparent"
             @click="handlecancelOrderConfirm()"
-            >取消订单</customButton
-          >
+            >取消订单</customButton>
+        </view>
+        <view class="order-count-down">
+          <text class="icon-font icon-icon-shijian"></text>
+          支付剩余倒计时：{{ orderData.countDownTime || 0 }}
         </view>
       </view>
-      <!-- 配送信息 -->
-      <view class="shipping-info">
-        <view class="sub-title">配送信息</view>
-        <view
-          ><text class="mgr40">{{ orderData.receiptInfo.name || '' }}</text
-          >{{ orderData.receiptInfo.mobile || '' }}</view
-        >
-        <view class="shipping-info-address"
-          ><text>{{ orderData.receiptInfo.province || '' }}</text
-          ><text>{{ orderData.receiptInfo.district || '' }}</text
-          ><text>{{ orderData.receiptInfo.address || '' }}</text></view
-        >
-      </view>
-      <!-- 物流信息 -->
-      <view class="logistics-info" v-if="orderData.logistics">
-        <view class="sub-title">物流信息</view>
-        <view class="tracking-num" v-if="orderData.logistics"
-          >物流单号：{{
-            orderData.logistics[0].trackingNo
-              ? orderData.logistics[0].trackingNo
-              : ""
-          }}
-          {{
-            orderData.logistics[0].logisticsProviderName
-              ? orderData.logistics[0].logisticsProviderName
-              : ""
-          }}
-        </view>
-        <view class="logistics-info-list">
-          <block v-if="viewMore">
-            <view
-              class="logistics-info-item"
-              v-for="(wlItem, index) in orderData.logisticsRoutes"
-              :key="index"
-            >
-              <view>快递已到达{{ orderData.description }}</view>
-              <view class="logistics-info-time">{{
-                wlItem.modifyTime ? wlItem.modifyTime.substring(0, 19) : ""
-              }}</view>
-            </view>
-          </block>
-        </view>
-        <view
-          class="logistics-view-more"
-          v-if="orderData.logistics.length > 1"
-          @click="logViewMore"
-        >
-          <view v-if="viewMore"
-            >收起<text class="icon-font icon-icon-shang"></text
-          ></view>
-          <view v-if="!viewMore"
-            >展开<text class="icon-font icon-icon-xia"></text
-          ></view>
-        </view>
-      </view>
+      <!-- 配送物流信息 -->
+      <OrderDeliveryInfo :orderInfo="orderData"/>
       <!-- 订单摘要 -->
       <OrderProductList :products="productList"/>
       <!-- 商品总计 -->
@@ -146,16 +55,14 @@
             :btnWidth="240"
             :btnHeight="70"
             className="big-btn"
-            @click="noMessage"
-          >
+            @click="noMessage">
             暂不取消
           </customButton>
           <customButton
             :btnWidth="240"
             :btnHeight="70"
             className="transparent"
-            @click="handleDelete"
-          >
+            @click="handleDelete">
             确认取消
           </customButton>
         </view>
@@ -167,16 +74,20 @@
 <script>
 import { mapActions } from 'vuex';
 import customButton from '@/components/al-button/normal';
+import OrderDetailInfo from '@/components/al-orderDetailInfo';
+import OrderDeliveryInfo from '@/components/al-orderDeliveryInfo';
 import OrderAmountInfo from '@/components/al-orderAmountInfo';
 import OrderProductList from '@/components/al-orderProductList';
 import { get } from '@/utils/utilityOperationHelper';
 import { priceFormat } from '@/utils/utils';
-import { OPEN_ID } from '@/constants/user';
+import { STATUS_TXT } from '@/constants/order';
 
 export default {
   name: 'order',
   components: {
     customButton,
+    OrderDetailInfo,
+    OrderDeliveryInfo,
     OrderProductList,
     OrderAmountInfo
   },
@@ -190,11 +101,11 @@ export default {
           amount: 0,
         },
       },
-      viewMore: false,
       orderId: '',
       messageVisible: false,
       countDownFn: null,
       isLoading: false,
+      STATUS_TXT
     };
   },
   computed: {
@@ -232,9 +143,6 @@ export default {
     get,
     ...mapActions('order', ['getOrderDetail', 'orderPay', 'orderCancel']),
     priceFormat,
-    logViewMore() {
-      this.viewMore = !this.viewMore;
-    },
     getOrderData(params) {
       uni.showLoading({
         title: '加载中...',
