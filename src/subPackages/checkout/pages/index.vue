@@ -44,19 +44,7 @@
         </view> -->
       </view>
       <!-- 商品摘要（这里预计要抽出一个组件来） -->
-      <view class="ps-box">
-        <view class="title">
-            订单摘要 <text class="num">（共{{totalQuantity}}件）</text>
-        </view>
-        <view class="p-list">
-          <view
-            v-for="(product, index) in productList"
-            :key="product.code"
-            :class="productList.length === index + 1 ? 'last-product' : ''">
-            <OrderProductItem  isLink :product="{...product, gaIndex: index + 1}"/>
-          </view>
-        </view>
-      </view>
+      <OrderProductList :products="productList"/>
       <!-- 订单综合信息 -->
       <view style="margin: -30rpx">
         <OrderAmountInfo :orderAmount="get(orderAmount, 'productAmount.amount')" />
@@ -87,7 +75,7 @@
 import { mapActions, mapGetters, mapState } from 'vuex';
 import zCheckbox from '@/components/al-checkbox';
 import navBarHeight from '@/components/common/navBarHeight';
-import OrderProductItem from '@/components/al-orderProductItem';
+import OrderProductList from '@/components/al-orderProductList';
 import OrderAmountInfo from '@/components/al-orderAmountInfo';
 import { trackWechatAd } from '@/service/apis';
 import utils, { priceFormat } from '@/utils/utils';
@@ -113,7 +101,7 @@ const defaultMoneyObj = {
 export default {
   components: {
     zCheckbox,
-    OrderProductItem,
+    OrderProductList,
     OrderAmountInfo,
     FormError,
   },

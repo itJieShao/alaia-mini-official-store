@@ -59,21 +59,7 @@
         </view>
       </view>
       <!-- 订单摘要 -->
-      <view class="order-summary-info">
-        <view class="title">订单摘要 <text class="num">(共{{ totalQuantity }}件)</text></view>
-        <view class="order-product-list">
-          <view
-            v-for="(product, index) in productList"
-            :key="product.code"
-            :class="productList.length === index + 1 ? 'last-product' : ''"
-          >
-            <OrderProductItem
-              isLink
-              :product="{ ...product, gaIndex: index + 1 }"
-            />
-          </view>
-        </view>
-      </view>
+      <OrderProductList :products="productList" />
       <!-- 订单金额汇总 -->
       <OrderAmountInfo :orderAmount="get(orderInfo, 'amount.amount')" />
       <!-- 处理按钮 -->

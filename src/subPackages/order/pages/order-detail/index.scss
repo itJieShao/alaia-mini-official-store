@@ -1,3 +1,5 @@
+@import '@/styles/base';
+
 .order-detail{
   font-size: 32rpx;
   color: #1D1D1D;
@@ -13,7 +15,7 @@
   }
   // 订单内容
   .order-detail-content{
-    padding: 0 32rpx 60rpx;
+    padding: 0 rpx(16);
 		z-index: 1;
     // 订单编号，订单状态
     .order-num-status{
@@ -106,104 +108,6 @@
           font-size: 15rpx;
           margin-left: 10rpx;
         }
-      }
-    }
-    // 订单摘要
-    .product-box {
-      width: 100%;
-      // padding-bottom: 30rpx;  
-    .item-box {
-      // margin-top: 15rpx;
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      // padding: 33rpx 5rpx;
-      padding-bottom: 40rpx;
-      border-bottom: 2rpx solid #F4F4F4;
-      .product-img {
-        // width: 40%;
-        image {
-          width: 280rpx;
-          height: 280rpx;
-          display: block;
-          margin-top: 36rpx;
-        }
-      }
-      .product-info {
-        // width: 60%;
-        margin-left: 66rpx;
-        flex: 1;
-        .title {
-          font-size: 28rpx;
-          font-weight: 300;
-          margin-top: 36rpx;
-          color: #252525;
-          word-break: break-word;
-        }
-        .sub-title {
-          font-size: 28rpx;
-          color: #252525;
-          font-weight: 300;
-          line-height: 50rpx;
-          word-break: break-word;
-        }
-        .ch-title {
-          font-size: 28rpx;
-          font-weight: 300;
-          margin-bottom: 26rpx;
-        }
-        .num-box {
-          margin-top: 50rpx;
-          &.number-box {
-           margin-bottom: 40rpx;
-          }
-          &.size-box {
-            margin-top: 40rpx;
-          }
-          .number {
-            font-size: 28rpx;
-            display: inline-block;
-            margin-right: 30rpx;
-            color:#1D1D1D;
-          }
-          .price {
-            font-size: 28rpx;
-            display: inline-block;
-            margin-right: 30rpx;
-            color: #252525;
-          }
-        }
-      }
-    }
-  } 
-    .title-left{
-      margin-top: 40rpx;
-    }
-    // 订单总结
-    .order-total{
-      width: calc(100vw);
-      margin-left: -32rpx;
-      padding: 60rpx 32rpx 0;
-      background: #F9F9F9;
-      font-size: 28rpx;
-      color: #000000;
-      line-height: 42rpx;
-      view{
-        overflow: hidden;        
-        margin-bottom: 44rpx;
-        text{
-          float: left;
-          &:last-child{
-            float: right;
-            text-align: right;
-          }
-        }
-      }
-      .total{
-        height: 140rpx;
-        line-height: 140rpx;
-        border-top: 1px solid #BBBBBB;
-        margin-bottom: 0;
       }
     }
   }

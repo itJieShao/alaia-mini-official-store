@@ -1,7 +1,7 @@
 <template>
   <view class="order-detail" :style="{ 'padding-top': ktxStatusHeight }">
     <!-- header -->
-    <custom-nav-bar :head-border="false" :head-font-color="false" />
+    <custom-nav-bar  title="订单详情"/>
     <view class="order-detail-header">订单信息</view>
     <view class="order-detail-content" v-if="isLoading">
       <!-- 订单编号 -->
@@ -129,59 +129,10 @@
         </view>
       </view>
       <!-- 订单摘要 -->
-      <view class="form-item-block">
-        <view class="form-item-title last">
-          <view class="title-left">
-            订单摘要 <text>(共{{ totalQuantity }}件)</text>
-          </view>
-          <view class="title-right"></view>
-        </view>
-        <view class="product-box">
-          <view
-            class="item-box"
-            v-for="(product, orderIndex) in productList"
-            :key="orderIndex"
-          >
-            <view class="product-img">
-              <image :src="product.image" />
-            </view>
-            <view class="product-info">
-              <view class="title">{{ product.name }}</view>
-              <text class="sub-title">{{ product.material }}</text>
-              <view class="num-box size-box">
-                <text class="price" v-if="product.size !== '00' && product.size"
-                  >尺寸: {{ product.size }}</text
-                >
-                <text class="price" v-if="product.style"
-                  >款式: {{ product.style }}</text
-                >
-              </view>
-              <view class="num-box number-box">
-                <text class="number">数量: {{ product.quantity }}</text>
-              </view>
-              <view class="num-box">
-                <text class="price"
-                  >￥{{ priceFormat(product.salePrice.amount) }}</text
-                >
-              </view>
-            </view>
-          </view>
-        </view>
-      </view>
+      <OrderProductList :products="productList"/>
       <!-- 商品总计 -->
-      <view class="order-total">
-        <view>
-          <text>商品金额</text>
-          <text>￥{{ priceFormat(orderData.productAmount.amount) }}</text>
-        </view>
-        <view>
-          <text>运费</text>
-          <text>免运费</text>
-        </view>
-        <view class="total">
-          <text>总计</text>
-          <text>￥{{ priceFormat(orderData.productAmount.amount) }}</text>
-        </view>
+      <view style="margin: -30rpx">
+        <OrderAmountInfo :orderAmount="priceFormat(orderData.productAmount.amount)" />
       </view>
     </view>
     <!--取消订单二次确认 -->
@@ -215,7 +166,9 @@
 
 <script>
 import { mapActions } from 'vuex';
-import customButton from '@/components/button/normal.vue';
+import customButton from '@/components/al-button/normal';
+import OrderAmountInfo from '@/components/al-orderAmountInfo';
+import OrderProductList from '@/components/al-orderProductList';
 import { get } from '@/utils/utilityOperationHelper';
 import { priceFormat } from '@/utils/utils';
 import { OPEN_ID } from '@/constants/user';
@@ -224,6 +177,8 @@ export default {
   name: 'order',
   components: {
     customButton,
+    OrderProductList,
+    OrderAmountInfo
   },
   data() {
     return {
@@ -243,9 +198,6 @@ export default {
     };
   },
   computed: {
-    totalQuantity() {
-      return this.productList.reduce((total, v) => total + v.quantity, 0);
-    },
     productList() {
       return (this.orderData.orderLines || []).map((order) => {
         let extObj;
@@ -289,7 +241,6 @@ export default {
       });
       this.getOrderDetail(params)
         .then((res) => {
-          //  console.log(res,'qqqqqqqqqqqqq')
           this.orderData = res;
           this.loopCountDown();
           uni.hideLoading();
