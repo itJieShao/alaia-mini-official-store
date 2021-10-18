@@ -120,8 +120,9 @@
     }
     .icon-font {
       font-size: rpx(14);
+      line-height: 1;
       position: absolute;
-      top: rpx(-4);
+      top: rpx(-3);
       left: 50%;
       display: inline-block;
       width: rpx(31);
@@ -129,6 +130,7 @@
       padding: 0 rpx(7);
       transform: translate(-50%, 0);
       color: #1d1d1d;
+      background-color: #fff;
     }
   }
   .suit-box {
@@ -263,14 +265,15 @@
     .cart-btn,
     .service-btn {
       font-size: 0;
-      line-height: 0;
+      line-height: 1;
+      margin: 0;
       padding: 0;
       text-align: center;
       background: transparent;
     }
-    .imgs {
-      font-size: rpx(18);
-      width: rpx(24);
+    .icon-font {
+      font-size: rpx(22);
+      color: #1d1d1d;
     }
     .text {
       font-family: Lato, Lato-Bold;
@@ -294,7 +297,6 @@
         right: rpx(-2);
         width: rpx(12);
         height: rpx(12);
-        text-align: center;
         text-align: center;
         color: #fff;
         border-radius: 50%;
