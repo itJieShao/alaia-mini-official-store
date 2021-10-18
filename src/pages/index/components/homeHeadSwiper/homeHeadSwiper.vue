@@ -48,6 +48,13 @@
       <text class="icon-font icon-icon-xia white-arrow"></text>
       <text class="icon-font icon-icon-xia white-arrow"></text>
     </view>
+    <view class="news-toast">
+      <swiper class="news-toast-swiper" autoplay interval="3000">
+        <swiper-item>
+          <text>2021年秋冬系列，隆重登场</text>
+        </swiper-item>
+      </swiper>
+    </view>
   </view>
 </template>
 
@@ -374,6 +381,30 @@ $transitionAll: all .8s;
     bottom: 115rpx;
     left: 30rpx;
     font-size: 36rpx;
+  }
+
+  .news-toast{
+    position: absolute;
+    bottom: 22rpx;
+    left: 20rpx;
+    width: 710rpx;
+    height: 80rpx;
+    background-color: rgba(0,0,0,.6); 
+    .news-toast-swiper{
+      width: 100%;
+      height: 100%;
+      swiper-item{
+        line-height: 80rpx;
+        text{
+          font-size: 24rpx;
+          line-height: 30rpx;
+          letter-spacing: 2rpx;
+          color: #fff;
+          text-decoration: underline;
+          text-align: center;
+        }
+      }
+    }
   }
 }
 </style>

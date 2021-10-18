@@ -52,4 +52,8 @@
         color: #252525;
       }
     }
+    &:last-child {
+      border: none;
+      padding-bottom: 0;
+    }
   }

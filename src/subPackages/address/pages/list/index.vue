@@ -3,8 +3,8 @@
     <custom-nav-bar :head-font-color="false" />
     <view :style="{'padding-top':ktxStatusHeight}">
       <view class="list" v-if="addressList.length">
-        <view class="item-box" v-for="(item,index) in addressList" :key="index">
-          <view class="item" @click="checkboxChange(item)">
+        <view @click="checkboxChange(item)" class="item-box" v-for="(item,index) in addressList" :key="index">
+          <view class="item">
             <view class="item-name">
               <text>{{item.node.receiverName}}</text>
               <text v-if="item.node.isDefault">[默认]</text>
