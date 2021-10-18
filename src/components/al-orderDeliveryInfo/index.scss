@@ -1,0 +1,62 @@
+@import '@/styles/base';
+
+
+.distribution-info {
+    background: #fff;
+    padding: rpx(30) 0;
+    color: #1d1d1d;
+    border-bottom: 1px solid #f7f7f7;
+    .title {
+      font-size: rpx(14);
+      font-family: 'Lato, Lato-Regular';
+      font-weight: 400;
+      margin-bottom: rpx(10);
+    }
+    .distribution-detail {
+      font-size: rpx(12);
+      .name {
+          margin-right: rpx(5);
+      }
+      .d-item {
+        margin-bottom: rpx(6);
+      }
+      .detail {
+        color: #616161;
+      }
+    }
+  }
+
+  // 物流信息
+  .logistics-info{
+    padding: rpx(24) 0;
+    font-size: rpx(14);
+    line-height: rpx(21);
+    border-bottom: 1px solid #F4F4F4;
+
+    .tracking-num{
+      margin-bottom: rpx(22);
+    }
+    .logistics-info-list{
+      padding-left: rpx(70);
+      .logistics-info-item{
+        margin-bottom: rpx(16);
+        .logistics-info-time{
+          margin-top: rpx(9);
+          color: #BBBBBB;
+          font-size: rpx(12);
+          line-height: rpx(17);
+        }
+      }
+
+    }
+    .logistics-view-more{
+      text-align: center;
+      line-height: rpx(20);
+      .icon-font{
+        position: relative;
+        top: -5rpx;
+        font-size: 15rpx;
+        margin-left: 10rpx;
+      }
+    }
+  }
