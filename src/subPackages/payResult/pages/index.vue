@@ -73,7 +73,7 @@
 </template>
 <script>
 import { mapActions, mapMutations } from 'vuex';
-import OrderProductItem from '@/components/al-orderProductItem';
+import OrderProductList from '@/components/al-orderProductList';
 import OrderAmountInfo from '@/components/al-orderAmountInfo';
 import customButton from '@/components/al-button/normal';
 import navBarHeight from '@/components/common/navBarHeight';
@@ -81,7 +81,7 @@ import { get } from '@/utils/utilityOperationHelper';
 import utils from '@/utils/utils';
 
 export default {
-  components: { OrderProductItem, OrderAmountInfo, customButton },
+  components: { OrderProductList, OrderAmountInfo, customButton },
   name: 'PayResult',
   mixins: [navBarHeight],
   data() {

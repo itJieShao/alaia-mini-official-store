@@ -2,34 +2,36 @@
 <template name="orderCard">
   <view class="order-card">
     <view class="order-card-content">
-      <view class="order-info-box">
-        <view class="order-card-header">
-          <view class="order-num">订单编号：<text :userSelect="true">{{orderData.node.orderCode}}</text></view>
-          <view class="order-time">下单时间：{{orderData.orderTime}}</view>
-          <view class="order-status" v-if="orderData.node.orderStatus == 'WAIT_DELIVERY'">待发货</view>
-          <view class="order-status important" v-else-if="orderData.node.orderStatus == 'WAIT_PAY'">待支付</view>
-          <view class="order-status" v-else-if="orderData.node.orderStatus == 'WAIT_RECEIVE'">待收货</view>
-          <view class="order-status" v-else-if="orderData.node.orderStatus == 'WAIT_EVALUATE'">已发货</view>
-          <view class="order-status" v-else-if="orderData.node.orderStatus == 'COMPLETED'">已完成</view>
-          <view class="order-status" v-else-if="orderData.node.orderStatus == 'CANCELED'">已取消</view>
-          <view class="order-status" v-else-if="orderData.node.orderStatus == 'AUTO_CANCEL'">自动取消</view>
-          <view v-else>其它</view>
-        </view>
-        <view>
-          <view class="img-box" v-if="orderData.node.orderLines">
-              <template v-for="(item, index) in orderData.node.orderLines" >
-                <image :key="index" class="p-image" :src="item.image" mode="aspectFill" />
-              </template>
-          </view>
-          <view class="order-info">
-            <view>
-              <view class="p-amount">商品数量：{{orderData.totalQuantity}}</view>
-              <view>订单金额：￥{{ orderData.node.amount.amount }}</view>
+          <view class="order-info-box">
+            <view class="order-card-header">
+              <view class="order-num">订单编号：<text :userSelect="true">{{orderData.node.orderCode}}</text></view>
+              <view class="order-time">下单时间：{{orderData.orderTime}}</view>
+              <view class="order-status" v-if="orderData.node.orderStatus == 'WAIT_DELIVERY'">待发货</view>
+              <view class="order-status important" v-else-if="orderData.node.orderStatus == 'WAIT_PAY'">待支付</view>
+              <view class="order-status" v-else-if="orderData.node.orderStatus == 'WAIT_RECEIVE'">待收货</view>
+              <view class="order-status" v-else-if="orderData.node.orderStatus == 'WAIT_EVALUATE'">已发货</view>
+              <view class="order-status" v-else-if="orderData.node.orderStatus == 'COMPLETED'">已完成</view>
+              <view class="order-status" v-else-if="orderData.node.orderStatus == 'CANCELED'">已取消</view>
+              <view class="order-status" v-else-if="orderData.node.orderStatus == 'AUTO_CANCEL'">自动取消</view>
+              <view v-else>其它</view>
             </view>
-            <view class="action">
-              <customButton :btnWidth="180" className="transparent" @click="goOrderDetail(orderData)">查看详情</customButton>
-              <customButton v-if="orderData.node.orderStatus == 'WAIT_PAY'" style="margin-left: 20rpx" @click="goPay(orderData)" :btnWidth="180" className="big-btn">立即支付</customButton>
             <view>
+              <view class="img-box" v-if="orderData.node.orderLines">
+                  <template v-for="(item, index) in orderData.node.orderLines" >
+                    <image :key="index" class="p-image" :src="item.image" mode="aspectFill" />
+                  </template>
+              </view>
+              <view class="order-info">
+                <view>
+                  <view class="p-amount">商品数量：{{orderData.totalQuantity}}</view>
+                  <view>订单金额：￥{{ orderData.node.amount.amount }}</view>
+                </view>
+                <view class="action">
+                  <customButton :btnWidth="180" className="transparent" @click="goOrderDetail(orderData)">查看详情</customButton>
+                  <customButton v-if="orderData.node.orderStatus == 'WAIT_PAY'" style="margin-left: 20rpx" @click="goPay(orderData)" :btnWidth="180" className="big-btn">立即支付</customButton>
+                <view>
+              </view>
+            </view>
           </view>
         </view>
       </view>
