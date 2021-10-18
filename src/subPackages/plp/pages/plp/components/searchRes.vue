@@ -5,7 +5,7 @@
       <view class="keyword" v-if="keyWord">{{keyWord}}</view>
       <view class="remark" v-if="remark">{{remark}}</view>
       <view class="search-box" @click="linkSearch">
-        <image class="icon icon-search" src="https://res-tasaki.baozun.com/static/images/icon-search.png" mode="widthFix"></image>
+        <text class="icon-font icon-search"></text>
         <text class="txt">搜索商品</text>
       </view>
     </view>
@@ -135,7 +135,7 @@ export default {
   padding: rpx(6) rpx(16);
   border: rpx(1) solid #f7f7f7;
   border-radius: rpx(15);
-  .icon {
+  .icon-font {
     width: rpx(14);
     height: rpx(14);
     margin-right: rpx(8);

@@ -150,7 +150,7 @@ export default {
         this.isStatic = true
         clearTimeout(timer)
       }
-    }, 300)
+    }, 10000)
   },
   onShareAppMessage (res) {
     return {

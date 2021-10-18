@@ -6,10 +6,10 @@
       { 'nav-bar-font-color': headFontColor },
     ]" :style="styles">
     <view class="nav-bar-left" v-if="leftArrow" @click="onClickLeft(leftIcon)">
-      <label class="icon-font" :class="[
-          leftIcon === 'left' ? 'icon-icon-zuo' : '',
-          leftIcon === 'search' ? 'icon-icon-sousuo' : '',
-        ]"></label>
+      <text class="icon-font" :class="[
+          leftIcon === 'left' ? 'icon-zuoyoujiantou' : '',
+          leftIcon === 'search' ? 'icon-search' : '',
+        ]"></text>
       <text v-if="!$slots.left && leftText" class="nav-bar-text">
         {{ leftText }}
       </text>
@@ -17,7 +17,7 @@
     </view>
     <view class="nav-bar-title">
       <block v-if="!$slots.title && title == 'logo'">
-        <label class="icon-font icon-icon-logo"></label>
+        <text class="icon-font icon-logo-alaia_000"></text>
       </block>
       <block v-else-if="!$slots.title">{{ title }}</block>
       <slot v-else name="title" />

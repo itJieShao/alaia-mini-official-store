@@ -118,15 +118,17 @@
     .line {
       border-top: 1px solid #1d1d1d;
     }
-    .triangle {
+    .icon-font {
+      font-size: rpx(14);
       position: absolute;
-      top: 0;
+      top: rpx(-4);
       left: 50%;
+      display: inline-block;
       width: rpx(31);
       height: rpx(4);
       padding: 0 rpx(7);
       transform: translate(-50%, 0);
-      background-color: #fff;
+      color: #1d1d1d;
     }
   }
   .suit-box {

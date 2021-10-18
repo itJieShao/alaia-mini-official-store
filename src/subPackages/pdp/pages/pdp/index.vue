@@ -23,9 +23,9 @@
               <view class="item" :class="[index === currentIndex ? 'active' : '']" v-for="(item, index) in productData.images" :key="index"></view>
             </view>
             <view class="share">
-              <text class="icon-font icon-icon-fenxiang"></text>
+              <text class="icon-font icon-PDPshoucang"></text>
               <button open-type="share" class="share-btn">
-                <text class="icon-font icon-icon-fenxiang"></text>
+                <text class="icon-font icon-a-iconPDPzhuanfa"></text>
               </button>
             </view>
           </view>
@@ -47,7 +47,7 @@
       <view class="suit-wrap">
         <view class="line-title">
           <view class="line"></view>
-          <image class="triangle" src="https://res-tasaki.baozun.com/static/images/icon-my.png" mode="scaleToFill"></image>
+          <text class="icon-font icon-icon-tuxingxingzhuang"></text>
         </view>
         <swiper class="suit-box">
           <swiper-item>
@@ -67,9 +67,9 @@
             <text class="color"></text>
             <text class="txt">蓝色</text>
           </view>
-          <text class="icon-font icon-icon-xia"></text>
+          <text class="icon-font icon-xiala"></text>
         </view>
-        <view class="box-content" @click="openDialog('size')"><text class="txt">{{currentSkuCode?sizeList[dialog.value[0]].name:'请选择尺码'}}</text><text class="icon-font icon-icon-xia"></text></view>
+        <view class="box-content" @click="openDialog('size')"><text class="txt">{{currentSkuCode&&sizeList.length?sizeList[dialog.value[0]].name:'请选择尺码'}}</text><text class="icon-font icon-xiala"></text></view>
       </view>
       <view class="pdp-buy-content">
         <view class="add-success-content" v-if="isAddSuccess">
