@@ -83,7 +83,7 @@ export default {
     margin-bottom: rpx(30);
     .line {
       margin-bottom: rpx(31);
-      border: 1px solid #1d1d1d;
+      border-top: 1px solid #1d1d1d;
     }
     .triangle {
       position: absolute;

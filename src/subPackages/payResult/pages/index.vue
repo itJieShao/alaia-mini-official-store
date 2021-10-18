@@ -29,49 +29,16 @@
         </view>
         <view class="countdown">剩余时间：14:59</view>
       </view>
-      <!-- 订单号&金额&时间 信息 -->
-      <view class="order-brief">
-        <view class="brief-item">
-          <text class="label">订单编号：</text>
-          <text class="value">{{orderInfo.orderCode}}</text>
-        </view>
-        <view class="brief-item">
-          <text class="label">下单时间：</text>
-          <text class="value">{{orderTime}}</text>
-        </view>
-        <view class="brief-item brief-item-last">
-          <text class="label">订单金额：</text>
-          <text class="value">{{get(orderInfo, 'amount.amount') | currency}}</text>
-        </view>
-      </view>
-
-      <!-- 配送信息 -->
-      <view class="distribution">
-        <view class="title">配送信息 </view>
-        <view class="distribution-info">
-          <view class="d-item">
-            <text>{{get(orderInfo, 'receiptInfo.name')}}</text>
-            <text>{{get(orderInfo, 'receiptInfo.mobile')}}</text>
-          </view>
-          <view class="d-item detail">
-            {{addressDetail}}
-          </view>
-        </view>
-      </view>
-      <!-- 订单摘要 -->
-      <view class="order-summary-info">
-        <view class="title">订单摘要 <text class="num">(共{{ totalQuantity }}件)</text></view>
-        <view class="order-product-list">
-          <view
-            v-for="(product, index) in productList"
-            :key="product.code"
-            :class="productList.length === index + 1 ? 'last-product' : ''"
-          >
-            <OrderProductItem
-              isLink
-              :product="{ ...product, gaIndex: index + 1 }"
-            />
-          </view>
+      <OrderDetailInfo 
+        :orderCode="orderInfo.orderCode"
+        :orderTime="orderInfo.orderTime"
+        :orderPrice="get(orderInfo, 'amount.amount')" /> 
+      <view class="patch-box">
+        <view class="patch-box-inner">
+        <!-- 配送信息 -->
+        <OrderDeliveryInfo :orderInfo="orderInfo"/>
+        <!-- 订单摘要 -->
+        <OrderProductList :products="productList" />
         </view>
       </view>
       <!-- 订单金额汇总 -->
@@ -87,7 +54,9 @@
 </template>
 <script>
 import { mapActions, mapMutations } from 'vuex';
-import OrderProductItem from '@/components/al-orderProductItem';
+import OrderProductList from '@/components/al-orderProductList';
+import OrderDetailInfo from '@/components/al-orderDetailInfo';
+import OrderDeliveryInfo from '@/components/al-orderDeliveryInfo';
 import OrderAmountInfo from '@/components/al-orderAmountInfo';
 import customButton from '@/components/al-button/normal';
 import navBarHeight from '@/components/common/navBarHeight';
@@ -95,7 +64,9 @@ import { get } from '@/utils/utilityOperationHelper';
 import utils from '@/utils/utils';
 
 export default {
-  components: { OrderProductItem, OrderAmountInfo, customButton },
+  components: { OrderProductList,
+   OrderDetailInfo, OrderAmountInfo, OrderDeliveryInfo,
+   customButton },
   name: 'PayResult',
   mixins: [navBarHeight],
   data() {

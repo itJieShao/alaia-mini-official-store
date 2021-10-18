@@ -2,38 +2,20 @@
   <view class="tab-bar-container" v-if="!tabBarHide">
     <view class="tab-bar">
       <view class="tab-bar-wrap">
-        <view
-          v-for="(nav, index) in menuList"
-          :key="index"
-          :class="['tab-item', tabSelected == index ? 'tab-item-selected' : '']"
-          @tap="handleTap(nav, index)"
-        >
-          <button
-            class="item-con"
-            open-type="contact"
-            @contact="bindContact"
-            v-if="nav.icon == 'icon-service'"
-          >
+        <view v-for="(nav, index) in menuList" :key="index" :class="['tab-item', tabSelected == index ? 'tab-item-selected' : '']" @tap="handleTap(nav, index)">
+          <button class="item-con" open-type="contact" @contact="bindContact" v-if="nav.icon == 'icon-service'">
             <view :class="['icon', nav.icon]">
-              <image
-                class="icon-img"
-                mode="widthFix"
-                :src="
+              <image class="icon-img" mode="widthFix" :src="
                   tabSelected == index ? nav.selectedIconPath : nav.iconPath
-                "
-              ></image>
+                "></image>
             </view>
             <view class="text">{{ nav.label }}</view>
           </button>
           <view class="item-con" v-else>
             <view :class="['icon', nav.icon]">
-              <image
-                class="icon-img"
-                mode="widthFix"
-                :src="
+              <image class="icon-img" mode="widthFix" :src="
                   tabSelected == index ? nav.selectedIconPath : nav.iconPath
-                "
-              ></image>
+                "></image>
               <!-- 购物车需要显示商品数量 -->
               <!-- <template v-if="nav.icon === 'icon-cart'">
                 <view class="num-box" v-if="cartNumber > 0">
@@ -62,7 +44,7 @@ export default {
   components: {
     service,
   },
-  data() {
+  data () {
     return {
       isShowService: false,
       defaultColor: '#BBBBBB',
@@ -72,7 +54,7 @@ export default {
   computed: {
     ...mapState('globle', ['tabSelected', 'sessionFrom', 'tabBarHide']),
     ...mapGetters('shoppingCart', ['cartNumber']),
-    menuList() {
+    menuList () {
       return [
         {
           url: '/pages/index/index',
@@ -125,7 +107,7 @@ export default {
   methods: {
     ...mapMutations('globle', ['setTabSelected']),
     // ...mapActions('search', ['setMenuName']),
-    handleTap(menu, index) {
+    handleTap (menu, index) {
       // 点击客服不跳转
       if (index !== 3) {
         this.setTabSelected(index);
@@ -147,94 +129,85 @@ export default {
       //   screenName: 'tab-bar',
       // });
     },
-    handleCloseMenu() {
+    handleCloseMenu () {
       this.isShowService = false;
     },
-    bindContact(e) {},
+    bindContact (e) { },
   },
 };
 </script>
 
 <style lang="scss">
-@import "@/styles/utilities.scss";
-
+@import '@/styles/utilities.scss';
 .tab-bar {
+  font-size: rpx(0);
   position: fixed;
-  left: 0;
+  z-index: 1000;
   bottom: 0;
+  left: 0;
   width: 100vw;
   height: calc(112rpx + var(--safe-area-inset-bottom));
-  z-index: 1000;
-  font-size: rpx(0);
-  background-color: #fff;
-  border-top: 1rpx solid #fff;
-  box-shadow: 0 rpx(2) rpx(4) 0 #dddddd;
   padding: 0 rpx(12);
-
+  border-top: 1rpx solid #fff;
+  background-color: #fff;
+  box-shadow: 0 rpx(2) rpx(4) 0 #ddd;
   .tab-bar-wrap {
-    width: 100%;
-    height: rpx(56);
     font-size: rpx(12);
     display: flex;
-    justify-content: space-between;
     flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: rpx(56);
     background-color: #fff;
   }
-
   .tab-item {
     position: relative;
     width: 25%;
-
     .item-con {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 100%;
       display: flex;
       align-items: center;
       flex-wrap: wrap;
       justify-content: center;
+      width: 100%;
       transform: translate(-50%, -50%);
       background: transparent;
     }
-
     .text {
-      letter-spacing: rpx(1);
+      font-size: rpx(12);
       line-height: rpx(14);
-      color: #bbbbbb;
       width: 100%;
       text-align: center;
-      font-size: rpx(12);
+      letter-spacing: rpx(1);
+      color: #bbb;
     }
-
     .icon {
-      margin-bottom: rpx(3);
       position: relative;
       width: rpx(27);
       height: rpx(27);
-
+      margin-bottom: rpx(3);
       .icon-img {
         width: rpx(27);
       }
     }
-
     .num-box {
-      width: 32rpx;
-      height: 32rpx;
-      border-radius: 50%;
-      background-color: #2e3235;
-      border: 1rpx solid #fff;
-      color: #fff;
+      font-size: 20rpx;
       position: absolute;
       top: -4rpx;
       right: -14rpx;
-      box-sizing: border-box;
-      font-size: 20rpx;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      width: 32rpx;
+      height: 32rpx;
+      color: #fff;
+      border: 1rpx solid #fff;
+      border-radius: 50%;
+      background-color: #2e3235;
     }
-
     &.tab-item-selected {
       .text {
         color: #1d1d1d;
@@ -242,4 +215,5 @@ export default {
     }
   }
 }
+
 </style>

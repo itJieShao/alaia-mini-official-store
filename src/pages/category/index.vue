@@ -3,11 +3,11 @@
     <custom-nav-bar left-icon="search" left-text="搜索" title="分类" :head-border="false" :head-font-color="false" />
     <view :style="{'padding-top':ktxStatusHeight}"></view>
     <view class="content" :style="'height: calc(100vh - '+ktxStatusHeight+' - 112rpx - var(--safe-area-inset-bottom));'">
-      <view class="activity-banner">
+      <view class="activity-banner" v-if="cover">
         <image class="cover" :src="cover" mode="aspectFill"></image>
         <view class="txt">FALL WINTER 2021 COLLECTION</view>
       </view>
-      <view class="category-banner">
+      <view class="category-banner" v-if="cover">
         <image class="cover" :src="cover" mode="aspectFill"></image>
       </view>
       <view class="category">
@@ -37,6 +37,7 @@ export default {
       ktxStatusHeight: getApp().globalData.ktxStatusHeight,
       pageData: [],
       curIndex: null,
+      cover: 'http://scm-dam-oss-cn-cdn.baozun.com/scm-dam/2021-7-22/0.8227653865569999Aurora%E7%B3%BB%E5%88%97-750_442_.jpg',
     }
   },
   computed: {
@@ -267,6 +268,7 @@ export default {
           font-weight: 400;
           line-height: rpx(18);
           position: relative;
+          padding: rpx(11) rpx(10);
           color: #616161;
         }
       }

@@ -1,7 +1,7 @@
 <template>
   <div class="container" :style="{ 'padding-top': computedHeight }">
     <!-- 头部 -->
-      <custom-nav-bar :left-arrow="false" title="购物袋" />
+      <custom-nav-bar title="购物袋" />
     <!-- 商品列表 -->
     <view class="content" >
       <view class="list" v-if="list.length > 0 && isMemberLogin">

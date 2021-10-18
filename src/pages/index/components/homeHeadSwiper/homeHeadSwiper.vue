@@ -389,15 +389,16 @@ $transitionAll: all .8s;
     left: 20rpx;
     width: 710rpx;
     height: 80rpx;
-    background-color: rgba(0,0,0,.6); 
+    background-color: rgba(0,0,0,.6);
     .news-toast-swiper{
       width: 100%;
       height: 100%;
       swiper-item{
         line-height: 80rpx;
         text{
+          display: block;
           font-size: 24rpx;
-          line-height: 30rpx;
+          line-height: 80rpx;
           letter-spacing: 2rpx;
           color: #fff;
           text-decoration: underline;

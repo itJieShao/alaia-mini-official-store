@@ -1,0 +1,18 @@
+@import '@/styles/base';
+
+.order-brief {
+  padding: rpx(30) rpx(16);
+  background: #f9f9f9;
+  .brief-item {
+    margin-bottom: rpx(10);
+    color: #1d1d1d;
+    font-size: rpx(12);
+    font-family: 'PingFangSC, PingFangSC-Regular';
+    .label {
+      margin-right: 8rpx;
+    }
+    &-last {
+      margin: 0;
+    }
+  }
+}

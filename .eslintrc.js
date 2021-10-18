@@ -35,12 +35,7 @@ module.exports = {
     "linebreak-style": "off",
     "space-before-function-paren": "off",
     "no-unused-vars": "off",
-    "max-len": [
-      "warn",
-      {
-        code: 150
-      }
-    ],
+    eqeqeq: "off",
     "no-shadow": "off"
   },
   parserOptions: {
