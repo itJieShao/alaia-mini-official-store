@@ -642,6 +642,7 @@ export default {
     sizeGuideClick () {
       this.sizeGuideShow = true;
       this.isLeftArrow = false;
+      this.dialog.show = false
     },
     clickClose () {
       this.sizeGuideShow = false;
@@ -708,6 +709,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './index.scss';
-
+@import "./index.scss";
 </style>
