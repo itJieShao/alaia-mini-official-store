@@ -73,25 +73,10 @@
       }
     }
     
-    .distribution {
+    .patch-box {
       background: #fff;
-      padding: rpx(30) rpx(16);
-      color: #1d1d1d;
-      border-bottom: 1px solid #f7f7f7;
-      .title {
-        font-size: rpx(14);
-        font-family: 'Lato, Lato-Regular';
-        font-weight: 400;
-        margin-bottom: rpx(10);
-      }
-      .distribution-info {
-        font-size: rpx(12);
-        .d-item {
-          margin-bottom: rpx(6);
-        }
-        .detail {
-          color: #616161;
-        }
+      .patch-box-inner {
+        padding: 0 rpx(16);
       }
     }
 

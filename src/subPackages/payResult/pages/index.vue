@@ -29,37 +29,18 @@
         </view>
         <view class="countdown">剩余时间：14:59</view>
       </view>
-      <!-- 订单号&金额&时间 信息 -->
-      <view class="order-brief">
-        <view class="brief-item">
-          <text class="label">订单编号：</text>
-          <text class="value">{{orderInfo.orderCode}}</text>
-        </view>
-        <view class="brief-item">
-          <text class="label">下单时间：</text>
-          <text class="value">{{orderTime}}</text>
-        </view>
-        <view class="brief-item brief-item-last">
-          <text class="label">订单金额：</text>
-          <text class="value">{{get(orderInfo, 'amount.amount') | currency}}</text>
+      <OrderDetailInfo 
+        :orderCode="orderInfo.orderCode"
+        :orderTime="orderInfo.orderTime"
+        :orderPrice="get(orderInfo, 'amount.amount')" /> 
+      <view class="patch-box">
+        <view class="patch-box-inner">
+        <!-- 配送信息 -->
+        <OrderDeliveryInfo :orderInfo="orderInfo"/>
+        <!-- 订单摘要 -->
+        <OrderProductList :products="productList" />
         </view>
       </view>
-
-      <!-- 配送信息 -->
-      <view class="distribution">
-        <view class="title">配送信息 </view>
-        <view class="distribution-info">
-          <view class="d-item">
-            <text>{{get(orderInfo, 'receiptInfo.name')}}</text>
-            <text>{{get(orderInfo, 'receiptInfo.mobile')}}</text>
-          </view>
-          <view class="d-item detail">
-            {{addressDetail}}
-          </view>
-        </view>
-      </view>
-      <!-- 订单摘要 -->
-      <OrderProductList :products="productList" />
       <!-- 订单金额汇总 -->
       <OrderAmountInfo :orderAmount="get(orderInfo, 'amount.amount')" />
       <!-- 处理按钮 -->
@@ -74,6 +55,8 @@
 <script>
 import { mapActions, mapMutations } from 'vuex';
 import OrderProductList from '@/components/al-orderProductList';
+import OrderDetailInfo from '@/components/al-orderDetailInfo';
+import OrderDeliveryInfo from '@/components/al-orderDeliveryInfo';
 import OrderAmountInfo from '@/components/al-orderAmountInfo';
 import customButton from '@/components/al-button/normal';
 import navBarHeight from '@/components/common/navBarHeight';
@@ -81,7 +64,9 @@ import { get } from '@/utils/utilityOperationHelper';
 import utils from '@/utils/utils';
 
 export default {
-  components: { OrderProductList, OrderAmountInfo, customButton },
+  components: { OrderProductList,
+   OrderDetailInfo, OrderAmountInfo, OrderDeliveryInfo,
+   customButton },
   name: 'PayResult',
   mixins: [navBarHeight],
   data() {
