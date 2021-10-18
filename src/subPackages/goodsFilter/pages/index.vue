@@ -11,7 +11,7 @@
         <view class="filter-check" :style="metallicProperty.toggle?'display:flex;':'display:none;'">
           <view :class="['item',item.checked?'check-item':'']" v-for="(item,index) in metallicProperty.values" :key="index" @click="checkedOption('metallicProperty',3,item.frontName,index,'MetallicProperty')">
             <text class="title">{{item.key}}</text>
-            <text class="icon" v-if="item.checked">√</text>
+            <text class="icon-font icon-gouxuanchenggong" v-if="item.checked"></text>
           </view>
         </view>
       </view>
@@ -267,15 +267,19 @@ export default {
       letter-spacing: 2px;
       color: #1d1d1d;
     }
-    .icon {
+    .icon-font {
+      font-size: rpx(12);
       position: absolute;
       top: rpx(10);
       right: rpx(21);
+      color: #1d1d1d;
     }
   }
   .check-item {
-    font-family: PingFangSC, PingFangSC-Medium;
     border-color: #1d1d1d;
+    .title {
+      font-family: PingFangSC, PingFangSC-Medium;
+    }
   }
 }
 .btn-box {

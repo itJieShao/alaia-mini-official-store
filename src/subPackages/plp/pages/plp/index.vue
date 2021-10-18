@@ -1,6 +1,6 @@
 <template>
   <view>
-    <custom-nav-bar left-arrow="left" :head-border="scrollHeight>200?false:isHeadBorder" :head-blank="scrollHeight>200?false:isHeadBlank" :title="scrollHeight>200?keyWord:' '" />
+    <custom-nav-bar left-arrow="left" :head-border="scrollHeight>168?false:isHeadBorder" :head-blank="scrollHeight>168?false:isHeadBlank" :title="scrollHeight>168?keyWord:' '" />
     <!-- <view :style="{ 'padding-top': ktxStatusHeight }"></view> -->
     <block v-if="pageShow">
       <search-res v-if="goodsList.length" :totalCount="totalCount" :keyWord="keyWord" :remark="remark" :filterKeyWord="filterKeyWord" :img="img" :goodsList="goodsList" :menuList="menuList" @selectMenu="selectMenu" @updateList="updateList" @goFilter="goFilter" @scrollToTop="scrollToTop" :goTopFlag="goTopFlag" :isStatic="isStatic" />
@@ -150,7 +150,7 @@ export default {
         this.isStatic = true
         clearTimeout(timer)
       }
-    }, 300)
+    }, 10000)
   },
   onShareAppMessage (res) {
     return {

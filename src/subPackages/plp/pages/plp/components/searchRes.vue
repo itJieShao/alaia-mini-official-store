@@ -5,12 +5,12 @@
       <view class="keyword" v-if="keyWord">{{keyWord}}</view>
       <view class="remark" v-if="remark">{{remark}}</view>
       <view class="search-box" @click="linkSearch">
-        <image class="icon icon-search" src="https://res-tasaki.baozun.com/static/images/icon-search.png" mode="widthFix"></image>
+        <text class="icon-font icon-search"></text>
         <text class="txt">搜索商品</text>
       </view>
     </view>
     <view class="res-font">共{{totalCount}}个作品<text class="filter" v-if="filterKeyWord">筛选条件：{{filterKeyWord}}</text></view>
-    <view class="menu-box">
+    <view class="menu-box" :style="{ top:ktxStatusHeight }">
       <scroll-view class="menu" scroll-x="true" bindscroll="scroll">
         <view :class="['item',item.select?'active':'']" v-for="(item,index) in menuList" :key="index" @click="selectMenu(item)">{{item.name}}</view>
       </scroll-view>
@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import searchInput from '@/components/searchInput';
 import goodsList from '@/components/goodsList';
 
 export default {
@@ -68,6 +67,11 @@ export default {
   components: {
     goodsList,
   },
+  data () {
+    return {
+      ktxStatusHeight: getApp().globalData.ktxStatusHeight,
+    }
+  },
   methods: {
     updateList (type, sort) {
       this.$emit('updateList', type, sort)
@@ -93,6 +97,7 @@ export default {
 @import '@/styles/utilities.scss';
 .res-wrap {
   font-size: 0;
+  width: 100%;
 }
 .banner {
   width: 100%;
@@ -130,7 +135,7 @@ export default {
   padding: rpx(6) rpx(16);
   border: rpx(1) solid #f7f7f7;
   border-radius: rpx(15);
-  .icon {
+  .icon-font {
     width: rpx(14);
     height: rpx(14);
     margin-right: rpx(8);
@@ -179,14 +184,13 @@ export default {
   }
 }
 .menu-box {
-  // position: sticky;
-  // z-index: 99;
-  // top: rpx(176);
-  // left: 0;
-  // width: auto;
+  position: sticky;
+  z-index: 99;
+  left: 0;
+  width: auto;
   background-color: #fff;
   .menu {
-    margin-left: rpx(16);
+    padding-left: rpx(16);
     white-space: nowrap;
     .item {
       font-family: PingFangSC, PingFangSC-Regular;

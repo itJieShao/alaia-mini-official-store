@@ -1,7 +1,7 @@
 <template>
   <view class="search-input">
     <input :disabled="disabled" type="text" placeholder="搜索关键词" placeholder-style="color:#616161" @confirm="searchClick" @blur="searchClick" v-model="keyword" />
-    <image class="icon-search" src="https://res-tasaki.baozun.com/static/images/icon-search.png" mode="widthFix"></image>
+    <text class="icon-font icon-search"></text>
   </view>
 </template>
 
@@ -45,9 +45,9 @@ export default {
   margin-top: rpx(43);
   padding-bottom: rpx(10);
   border-bottom: rpx(1) solid #1d1d1d;
-  image {
-    width: rpx(16);
-    height: rpx(16);
+  .icon-font {
+    font-size: rpx(16);
+    color: #1d1d1d;
   }
   input {
     font-family: PingFangSC, PingFangSC-Regular;

@@ -1,21 +1,15 @@
 <template>
-  <view
-    :class="[
+  <view :class="[
       classes,
       { 'nav-bar-border': headBorder },
       { 'nav-bar-blank': headBlank },
       { 'nav-bar-font-color': headFontColor },
-    ]"
-    :style="styles"
-  >
+    ]" :style="styles">
     <view class="nav-bar-left" v-if="leftArrow" @click="onClickLeft(leftIcon)">
-      <label
-        class="icon-font"
-        :class="[
-          leftIcon === 'left' ? 'icon-icon-zuo' : '',
-          leftIcon === 'search' ? 'icon-icon-sousuo' : '',
-        ]"
-      ></label>
+      <text class="icon-font" :class="[
+          leftIcon === 'left' ? 'icon-zuoyoujiantou' : '',
+          leftIcon === 'search' ? 'icon-search' : '',
+        ]"></text>
       <text v-if="!$slots.left && leftText" class="nav-bar-text">
         {{ leftText }}
       </text>
@@ -23,7 +17,7 @@
     </view>
     <view class="nav-bar-title">
       <block v-if="!$slots.title && title == 'logo'">
-        <label class="icon-font icon-icon-logo"></label>
+        <text class="icon-font icon-logo-alaia_000"></text>
       </block>
       <block v-else-if="!$slots.title">{{ title }}</block>
       <slot v-else name="title" />
@@ -51,17 +45,16 @@ export default {
     headFontColor: { type: Boolean, default: false }, // 设置header字体颜色（黑白）
   },
   computed: {
-    classes() {
+    classes () {
       return bem('nav-bar', { fixed: this.fixed });
     },
-    styles() {
-      return `z-index: ${this.zIndex};${
-        this.safeAreaInsetTop ? `padding-top: ${this.statusBarHeight}px;` : ''
-      }${this.customStyle}`;
+    styles () {
+      return `z-index: ${this.zIndex};${this.safeAreaInsetTop ? `padding-top: ${this.statusBarHeight}px;` : ''
+        }${this.customStyle}`;
     },
   },
   methods: {
-    onClickLeft(icon) {
+    onClickLeft (icon) {
       this.$emit('click-left');
       const curPages = getCurrentPages();
       console.log('点击header按钮--->', icon, curPages);
@@ -80,16 +73,15 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../styles/utilities";
+@import '../../styles/utilities';
 .nav-bar {
-  position: relative;
-  height: 44px;
   line-height: 44px;
+  position: relative;
+  box-sizing: content-box;
+  height: 44px;
+  user-select: none;
   text-align: center;
   background-color: #fff;
-  user-select: none;
-  box-sizing: content-box;
-
   &-fixed {
     position: fixed;
     top: 0;
@@ -97,51 +89,44 @@ export default {
     width: 100%;
     padding-top: 20px;
   }
-
   &.nav-bar-border {
-    border-bottom: rpx(1) solid #F4F4F4;
+    border-bottom: rpx(1) solid #f4f4f4;
   }
-
   &-title {
-    max-width: 60%;
-    height: 100%;
-    margin: 0 auto;
     font-size: rpx(18);
-    color: #1d1d1d;
+    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-
+    max-width: 60%;
+    height: 100%;
+    margin: 0 auto;
+    color: #1d1d1d;
     .icon-font {
       font-size: rpx(20);
     }
   }
-
   &-left {
+    font-size: rpx(12);
     position: absolute;
     bottom: 0;
-    font-size: rpx(12);
     display: flex;
     min-width: 12%;
     padding-left: rpx(16);
     color: #1d1d1d;
-
     .nav-bar-text {
       margin-left: rpx(6);
       letter-spacing: rpx(1);
     }
-
     .icon-font {
       font-size: rpx(20);
+      color: #1d1d1d;
     }
-
     .icon-icon-zuo {
       font-size: rpx(16);
       margin-left: rpx(-4);
     }
   }
-
   &.nav-bar-blank {
     background: transparent;
     // background: linear-gradient(
@@ -155,7 +140,6 @@ export default {
       color: #fff;
     }
   }
-
   &.nav-bar-font-color {
     .nav-bar-left,
     .nav-bar-title {
@@ -163,4 +147,5 @@ export default {
     }
   }
 }
+
 </style>
