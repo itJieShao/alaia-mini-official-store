@@ -2,7 +2,6 @@
 
 .my-order {
   padding-bottom: var(--safe-area-inset-bottom);
-  padding: 0 rpx(15);
   background: #F9F9F9;
   .my-order-content{
     .no-order{
@@ -23,9 +22,36 @@
       }
 
     }
+    .order-status-tab {
+      position: fixed;
+      top: 65px;
+      z-index: 10;
+      width: 100%;
+      height: rpx(40);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background-color: #fff;
+      margin-bottom: rpx(5);
+      text {
+        display: block;
+        height: 100%;
+        line-height: rpx(40);
+        color: #8E8E8E;
+        font-size: rpx(14);
+        padding: 0 rpx(10);
+      }
+      .act {
+        color: #1d1d1d;
+        font-weight: bold;
+        border-bottom: 2rpx solid #1d1d1d;
+      }
+    } 
     .order-list{
         color: #1D1D1D;
-        padding-bottom: 60rpx;
+        padding-top: rpx(45);
+        padding-bottom: rpx(30);
+        margin: 0 rpx(15);     
       .order-list-header{
         height: 92rpx;
         line-height: 92rpx;

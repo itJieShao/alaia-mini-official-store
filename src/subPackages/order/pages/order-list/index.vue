@@ -16,6 +16,10 @@
       </block>
       <!-- 有订单 -->
       <block v-if="isLoad && orderList.length > 0">
+        <view class="order-status-tab">
+          <text @click="changeTab(item.name)" :class="item.checked?'act':''" v-for="(item,index) in tabList"
+            :key="index">{{item.name}}</text>
+        </view>
         <view class="order-list">
           <order-card
           v-for="(orderItem,orderIndex) in orderList"
@@ -51,6 +55,8 @@ export default {
       orderList: [],
       isLoad: false,
       pageInfo: {},
+      tabList: ['全部', '待支付', '待发货', '待收货', '已完成']
+      .map((name, i) => ({ name, checked: i === 0 }))
     }
   },
   computed: {
@@ -75,6 +81,12 @@ export default {
     ...mapActions('order', ['getOrderList']),
     ...mapMutations('globle', ['setTabSelected']),
     formatDateNew,
+    // 切换状态
+    changeTab(name) {
+        this.tabList.forEach(t => t.checked = false);
+        const item = this.tabList.find(t => t.name === name);
+        this.$set(item, 'checked', true);
+    },
     // 点击去逛逛，去首页
     handleClick() {
       this.setTabSelected(0);

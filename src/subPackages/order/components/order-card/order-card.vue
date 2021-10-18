@@ -24,14 +24,14 @@
           <view class="order-info">
             <view>
               <view class="p-amount">商品数量：{{orderData.totalQuantity}}</view>
-              <view>订单金额：{{ get(orderInfo, 'node.amount.amount') | currency }}</view>
+              <view>订单金额：￥{{ orderData.node.amount.amount }}</view>
             </view>
             <view class="action">
               <customButton :btnWidth="180" className="transparent" @click="goOrderDetail(orderData)">查看详情</customButton>
               <customButton v-if="orderData.node.orderStatus == 'WAIT_PAY'" style="margin-left: 20rpx" @click="goPay(orderData)" :btnWidth="180" className="big-btn">立即支付</customButton>
             <view>
           </view>
-         </view>
+        </view>
       </view>
     </view>
   </view>
@@ -69,10 +69,6 @@ export default {
         return priceFormat(val);
       }
       return '0';
-    },
-    currency(value) {
-      if (!value && value !== 0) return '0';
-      return utils.currency(value);
     }
   },
   watch: {
@@ -89,7 +85,6 @@ export default {
       immediate: true,
       handler(n, o) {
         this.cardData = n;
-        // console.log('watch',this.cardData)
       },
     },
   },
