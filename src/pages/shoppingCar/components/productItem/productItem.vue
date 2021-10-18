@@ -53,7 +53,7 @@
       </view>
       <!-- 删除按钮 -->
       <view class="delete-btn" v-if="!productData.bonusProduct" @tap="deleteEventer">
-        <text class="icon-font icon-icon-guanbi"></text>
+        <text class="icon-font icon-guanbi"></text>
       </view>
   </view>
 </template>

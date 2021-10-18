@@ -69,6 +69,11 @@ $textColor: #1D1D1D;
   text-align: center;
   color: $textColor;
 }
+
+.container .content .no-list .logo {
+  font-size: rpx(40);
+}
+
 .container .content .no-list .desc {
   margin-bottom: 70rpx;
   padding: 120rpx 30rpx  0;
@@ -77,17 +82,22 @@ $textColor: #1D1D1D;
   font-weight: 500rela;
   letter-spacing: 4rpx;
 }
+.container .content .no-list .go-button {
+  margin-bottom: rpx(78);
+}
+
 .container .content .no-list .desc text {
   display: block;
   &.empty {
-    font-size: 32rpx;
-    margin-bottom: 34rpx;
+    font-size: rpx(18);
+    margin-bottom: rpx(20);
+    margin-top: rpx(5);
   }
   &.tip-text {
-    font-size: 24rpx;
+    font-size: rpx(14);
+    font-weight: 400;
+    color: #8e8e8e;
   }
-  // border-bottom: 1px solid #4e5153;
-  // line-height: 180rpx;
 }
 .container .content .no-list .relation .rela-title {
   font-size: 45rpx;
