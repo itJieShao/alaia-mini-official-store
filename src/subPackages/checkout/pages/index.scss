@@ -26,10 +26,18 @@
           padding: rpx(20) 0;
           .label {
             @extend .basic-txt;
+            &:before {
+              margin-right: rpx(10);
+            }
           }
           .import-addr-btn {
             font-size: rpx(12);
             color: #8E8E8E;
+            &:before {
+              margin-right: rpx(6);
+              border: 1px dashed #8E8E8E;
+              padding: rpx(2);
+            }
           }
         }
         .select-addr-btn {
@@ -65,11 +73,22 @@
         overflow: hidden;
         padding: rpx(16) 0;
         border-bottom: 1px solid #e8e8e8;
+        &:last-child {
+          .label {
+            &::before {
+              margin-right: rpx(7);
+            }
+          }
+        }
         .label {
           float: left;
-          padding-left: rpx(24);
+          font-size: rpx(14);
+          &::before {
+            margin-right: rpx(10);
+          }
         }
         .value {
+          font-size: rpx(14);
           float: right;
         }
       }

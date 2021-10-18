@@ -22,7 +22,8 @@
       </view>
       <view class="no-list" v-else-if="!cartLoading || !isMemberLogin">
         <view class="desc">
-          <text class="empty">您的购物袋为空</text>
+          <text class="icon-font icon-logo-alaia_000 logo"></text>
+          <text class="empty">购物袋为空</text>
           <text class="tip-text">您可以将喜欢的商品加入购物袋</text>
         </view>
         <div class="go-button">
@@ -469,9 +470,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.go-button {
-  margin-bottom: 200rpx;
-}
-
-@import "./index";
+  @import "./index";
 </style>
