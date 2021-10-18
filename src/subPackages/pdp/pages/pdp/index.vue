@@ -106,7 +106,7 @@
     <sizeGuide :size-guide-show="sizeGuideShow" @clickClose="clickClose"></sizeGuide>
 
     <!-- 弹窗 -->
-    <view class="dialog-wrap" catchtouchmove="preventTouchMove" v-if="dialog.show">
+    <view class="dialog-wrap" catchtouchmove="true" v-if="dialog.show">
       <view class="dialog-mark" @click="openDialog()"></view>
       <view class="dialog-content">
         <view class="title">
@@ -290,7 +290,6 @@ export default {
         url: `/subPackages/pdp/pages/pdp/index?code=${item.code}`,
       })
     },
-    preventTouchMove () { },
     // 调用广告
     async getRandom (gdt_vid) {
       try {
@@ -709,5 +708,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./index.scss";
+@import './index.scss';
+
 </style>

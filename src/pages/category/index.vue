@@ -268,6 +268,7 @@ export default {
           font-weight: 400;
           line-height: rpx(18);
           position: relative;
+          padding: rpx(11) rpx(10);
           color: #616161;
         }
       }

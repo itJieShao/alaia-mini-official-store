@@ -1,11 +1,5 @@
 <template>
   <view class="goods-wrap">
-    <view class="screen-tab-wrap" v-if="!noFilter&&isStatic">
-      <view class="screen-tab">
-        <view class="item" @click="goFilter">筛选</view>
-        <view class="item" @click="openSort(true)">排序</view>
-      </view>
-    </view>
     <view class="goods">
       <view class="goods-item observer_item" v-for="(item,index) in goodsList" @click="goPdp(item)" :key="index" :data-skucode="item.skus[0].code" :data-title="item.title" :data-spucode="item.code" :data-price="item.minSkuSalePrice" :data-image="item.images.length && item.images[0].url ? item.images[0].url : ''">
         <view class="collection">
@@ -21,8 +15,14 @@
         </view>
       </view>
     </view>
+    <view class="screen-tab-wrap" v-if="!noFilter&&isStatic">
+      <view class="screen-tab">
+        <view class="item" @click="goFilter">筛选</view>
+        <view class="item" @click="openSort(true)">排序</view>
+      </view>
+    </view>
 
-    <view class="sort-wrap" v-show="showSort" catchtouchmove="preventTouchMove">
+    <view class="sort-wrap" v-show="showSort" catchtouchmove="true">
       <view class="sort-mark" @click="openSort(false)"></view>
       <view class="sort-content">
         <view class="title">商品排序</view>
@@ -119,7 +119,7 @@ export default {
               },
               primary_image_url: dataset.image,
             }
-            this.$sr.track('expose_sku_component', aData)
+            // this.$sr.track('expose_sku_component', aData)
           })
       },
       immediate: true,
@@ -129,7 +129,6 @@ export default {
     formatMoney: (val) => (val ? priceFormat(val) : 0),
   },
   methods: {
-    preventTouchMove () { },
     openSort (e) {
       this.showSort = e
     },
@@ -163,7 +162,7 @@ export default {
       if (item.images.length && item.images[0].url) {
         aData.primary_image_url = item.images[0].url;
       }
-      this.$sr.track('trigger_sku_component', aData)
+      // this.$sr.track('trigger_sku_component', aData)
       uni.navigateTo({
         url: `/subPackages/pdp/pages/pdp/index?code=${item.code}`,
       });
@@ -177,11 +176,13 @@ export default {
 .goods-wrap {
   font-size: 0;
   position: relative;
+  box-sizing: border-box;
+  width: 100%;
   padding-bottom: var(--safe-area-inset-bottom);
 }
 .screen-tab-wrap {
   position: fixed;
-  z-index: 1;
+  z-index: 99;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -208,6 +209,7 @@ export default {
 .goods {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
   padding-bottom: rpx(40);
   .goods-item {
     position: relative;
@@ -276,7 +278,7 @@ export default {
   z-index: 1002;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   .sort-mark {
     position: absolute;

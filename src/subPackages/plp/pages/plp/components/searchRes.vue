@@ -97,6 +97,7 @@ export default {
 @import '@/styles/utilities.scss';
 .res-wrap {
   font-size: 0;
+  width: 100%;
 }
 .banner {
   width: 100%;
@@ -189,7 +190,7 @@ export default {
   width: auto;
   background-color: #fff;
   .menu {
-    margin-left: rpx(16);
+    padding-left: rpx(16);
     white-space: nowrap;
     .item {
       font-family: PingFangSC, PingFangSC-Regular;
