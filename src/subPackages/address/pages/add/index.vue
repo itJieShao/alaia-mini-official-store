@@ -5,23 +5,27 @@
     <view class="form-box">
       <form @submit="formSubmit" @reset="formReset">
         <view class="input-box">
-          <input v-model="formData.name" name="name" placeholder="收件人姓名" />
+          <input :class="showEerTip && !formData.name?'red-border':''" v-model="formData.name" name="name" placeholder="收件人姓名" />
+          <text v-if="showEerTip && !formData.name" class="err-tip">请输入收件人姓名</text>
         </view>
         <view class="input-box">
-          <input v-model="formData.phone" name="phone" placeholder="手机号码" />
+          <input :class="showEerTip && !formData.name?'red-border':''" v-model="formData.phone" name="phone" placeholder="手机号码" />
+          <text v-if="showEerTip && !formData.phone" class="err-tip">请输入手机号码</text>
         </view>
         <view class="input-box">
           <picker mode="multiSelector" :range="multiArray" range-key="name" :value="valueIndex" @change="handleChange"
             @columnchange="handleColumnChange">
-            <view class="area">
+            <view class="area" :class="showEerTip && !formData.name?'red-border':''">
               <text class="area-placeholder" v-if="!formData.area">所在地区</text>
               <text class="area-text" v-else>{{formData.area}}</text>
               <text class="icon-font icon-icon-xia"></text>
             </view>
           </picker>
+          <text v-if="showEerTip && !formData.area" class="err-tip">请选择所在地区</text>
         </view>
         <view class="input-box">
-          <input v-model="formData.address" name="address" placeholder="详细地址" />
+          <input :class="showEerTip && !formData.name?'red-border':''" v-model="formData.address" name="address" placeholder="详细地址" />
+          <text v-if="showEerTip && !formData.address" class="err-tip">请输入详细地址</text>
         </view>
         <view class="check-box">
           <view class="icon" @click="checkboxChange(item)">
@@ -67,7 +71,8 @@
         valueIndex: [0, 0, 0],
         ktxStatusHeight: getApp().globalData.ktxStatusHeight,
         code: '',
-        saveDisabled: false
+        saveDisabled: false,
+        showEerTip:false,
       }
     },
     computed: {
@@ -188,12 +193,13 @@
           defaultAddress
         } = this.formData
         if (!name || !phone || !area || !address) {
-          uni.showToast({
-            title: '请完善信息！',
-            icon: 'none',
-          })
-          return
+          // uni.showToast({
+          //   title: '请完善信息！',
+          //   icon: 'none',
+          // })
+          return this.showEerTip = true;
         }
+        this.showEerTip = false;
         if (!utils.isPhone(phone)) {
           uni.showToast({
             title: '请填写正确的手机号！',

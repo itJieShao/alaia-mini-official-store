@@ -284,6 +284,7 @@ $transitionAll: all .8s;
           line-height: 68rpx;
           margin-bottom: 30rpx;
           color: #fff;
+          font-family: Lato;
         }
         .home-head-swiper-btn {
           position: absolute;

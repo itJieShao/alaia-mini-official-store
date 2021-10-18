@@ -1,3 +1,4 @@
+@import "@/styles/base.scss";
 page{
    background-color: #FFFFFF;
  }
@@ -92,4 +93,60 @@ $textColor: #1D1D1D;
   }
 }
 
-
+.no-login{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: calc(100vh - 112rpx - var(--safe-area-inset-bottom));
+	.bg{
+		width: 100%;
+		height: 100%;
+	}
+	.no-login-con{
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		.desc1{
+			text-align: center;
+			font-weight: bold;
+			color: #fff;
+			font-size: rpx(24);
+		}
+		.desc2{
+			text-align: center;
+			color: #fff;
+			font-size: rpx(12);
+			margin-top: rpx(10);
+		}
+		.login-btn{
+			width: rpx(290);
+			height: rpx(42);
+			background-color: #fff;
+			font-size: rpx(14);
+			color: #1D1D1D;
+			border: none;
+			text-align: center;
+			line-height: rpx(42);
+			margin-top: rpx(35);
+		}
+		.agreement-content {
+	      margin-top: rpx(17);
+		  display: flex;
+		  font-size: rpx(12);
+		  font-family: 'PingFangSC';
+		  color: #BBBBBB;
+		  .under-line {
+		    margin-left: 0rpx;
+		    text-decoration: underline;
+		    color: #BBBBBB;
+		    font-weight: normal;
+		    display: inline-block;
+		  }
+		  .privacy-txt {
+		    margin-left: rpx(12);
+		  }
+		}
+	}
+}
