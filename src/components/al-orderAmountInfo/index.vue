@@ -18,27 +18,24 @@
 </template>
 
 <script>
-    import { get } from '@/utils/utilityOperationHelper';
-    import utils from '@/utils/utils';
+import { get } from '@/utils/utilityOperationHelper';
+import { currency } from '@/filters';
 
-    export default {
-        name: 'OrderInfoContent',
-        props: {
-            orderAmount: {
-                type: Number,
-                default: 0
-            }
-        },
-        methods: {
-            get
-        },
-        filters: {
-            currency(value) {
-            if (!value && value !== 0) return '0';
-            return utils.currency(value);
-            }
-        },
+export default {
+  name: 'OrderInfoContent',
+  props: {
+    orderAmount: {
+        type: Number,
+        default: 0
     }
+  },
+  methods: {
+    get
+  },
+  filters: {
+    currency
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -29,7 +29,8 @@
       <OrderDetailInfo 
         :orderCode="orderInfo.orderCode"
         :orderTime="orderInfo.orderTime"
-        :orderPrice="get(orderInfo, 'amount.amount')" /> 
+        :orderPrice="get(orderInfo, 'amount.amount')"
+        :billInfo="orderInfo.orderInvoice" /> 
       <view class="patch-box">
         <view class="patch-box-inner">
         <!-- 配送信息 -->
