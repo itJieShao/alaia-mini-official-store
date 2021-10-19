@@ -208,9 +208,7 @@ export default {
           primary_image_url: get(this.skuData, 'product.images[0].url'),
       })
       uni.navigateTo({
-        url: `/subPackages/pdp/pages/pdp/index?code=${this.skuData.product.code}
-        &skuSizeCode=${ this.sizeOptions[this.sizeIndex].skuCode || '' }&skuStyleCode=
-        ${ this.styleOptions[this.styleIndex].skuCode || '' }`,
+        url: `/subPackages/pdp/pages/pdp/index?code=${this.skuData.product.code}&skuCode=${ get(this.skuData, 'code') || '' }`,
       });
     },
     bindPickerChange(e) {
