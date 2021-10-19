@@ -232,9 +232,7 @@ export default {
     };
   },
   onLoad (options) {
-    const {
-      code, scene, skuCode,
-    } = options;
+    const { code, scene, skuCode } = options;
     // try {
     //   // 埋点
     //   setTrackerParams(options);
