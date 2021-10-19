@@ -97,7 +97,7 @@ export default function handlePainterJson(params) {
       },
       {
         type: 'text',
-        text: 'tasaki',
+        text: 'alaia',
         css: {
           fontSize: '40px',
           color: '#fff',

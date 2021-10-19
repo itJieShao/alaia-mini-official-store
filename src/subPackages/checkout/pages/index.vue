@@ -5,8 +5,8 @@
         <view class="delivery-box">
           <view class="addr-box">
             <view class="title">
-              <view class="label">配送信息</view>
-              <view class="import-addr-btn" @click="handleAuthAddr">导入微信地址</view>
+              <text class="label icon-font icon-peisongxinxi">配送信息</text>
+              <text class="import-addr-btn icon-font icon-weixindizhijifapiaoxinxi" @click="handleAuthAddr">导入微信地址</text>
             </view>
             <view class="info-box" v-if="addressInfo">
               <view style="margin-bottom: 10rpx">
@@ -20,11 +20,11 @@
             <view v-else class="select-addr-btn" @click="selectAddress">添加配送地址</view> 
         </view>
         <view class="field-item">
-          <view class="label">配送方式</view>
+          <text class="label icon-font icon-peisongfangshi">配送方式</text>
           <view class="value">顺丰速运</view>
         </view>
         <view class="field-item">
-          <view class="label">支付方式</view>
+          <text class="label icon-font icon-zhifufangshi">支付方式</text>
           <view class="value">微信支付</view>
         </view>
       </view>

@@ -15,7 +15,7 @@
             </text>
             <view class="item-btn" v-if="!code">
               <text @click="goEditPage(item.node.code)">编辑</text>
-              <text @click="deleteAddress(item.node.code)">移除</text>
+              <text @click="deleteAddress(item.node.code)">删除</text>
             </view>
           </view>
         </view>
@@ -25,6 +25,7 @@
         </view>
       </view>
       <view class="no-list" v-if="!isLoading && !addressList.length">
+        <text class="icon-font icon-logo-alaia_000 logo"></text>
         <text class="empty">地址簿为空</text>
         <text class="tip-text">请添加您的新地址，以便收取您心爱的商品</text>
         <view style="margin-top: 100rpx;">
@@ -158,7 +159,7 @@
             this.getDeliveryAddresses()
             setTimeout(() => {
               uni.showToast({
-                title: '地址移除成功',
+                title: '地址删除成功',
                 icon: 'none',
               })
             }, 200);

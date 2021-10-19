@@ -26,21 +26,16 @@
         font-family: 'Lato, Lato-Bold';
         margin: rpx(10) 0 rpx(20) 0;
       }
-      .result-icon {
-        margin-bottom: rpx(16);
-        image {
-          width: rpx(30);
-          height: rpx(30);
-        }
-        .icon-font {
-          font-size: rpx(30);
-        }
-      }
       .result-msg {
+        display: block;
         margin-bottom: rpx(24);
-        font-size: rpx(16);
+        font-size: rpx(18);
         font-family: 'PingFangSC, PingFangSC-Regular';
         color: #1d1d1d;
+        &::before {
+          margin-right: rpx(10);
+          color: #000;
+        }
       }
       .result-tips {
         font-size: rpx(14);
@@ -50,9 +45,13 @@
         margin-bottom: rpx(30);
       }
       .countdown {
+        display: block;
         margin-top: rpx(30);
         font-size: rpx(12);
         font-family: 'PingFangSC, PingFangSC-Regular';
+        &::before {
+          margin-right: rpx(9);
+        }
       }
     }
 

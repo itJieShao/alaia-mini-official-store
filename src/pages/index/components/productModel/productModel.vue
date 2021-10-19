@@ -1,12 +1,14 @@
 <template>
   <view class="product-model">
     <view class="title">
-      <text class="main-title">造型.灵感</text>
-      <text class="subtitle">Shop the Look</text>
+      <com-title title="造型.灵感" subtitle="Shop the Look" />
     </view>
     <view class="product">
       <view class="product-item" v-for="i in 6" :key="i" @click="goDetail">
         <image class="product-img" src="" mode="aspectFit"></image>
+        <view class="shopbag">
+          <text class="icon-font icon-shopbag"></text>
+        </view>
       </view>
     </view>
     <view class="change-model">
@@ -16,11 +18,15 @@
 </template>
 
 <script>
+  import ComTitle from '../comTitle/comTitle';
   export default {
     data(){
       return{
-        
+
       }
+    },
+    components: {
+      ComTitle
     },
     methods:{
       goDetail(){
@@ -39,26 +45,6 @@
     background-color: #fff;
     .title {
       padding: 100rpx 0 40rpx;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: $color;
-      background-color: #fff;
-
-      .main-title {
-        font-size: 48rpx;
-        line-height: 66rpx;
-        letter-spacing: 2rpx;
-        font-weight: bold;
-      }
-
-      .subtitle {
-        margin-top: 14rpx;
-        font-size: 28rpx;
-        line-height: 40rpx;
-        letter-spacing: 2rpx;
-      }
     }
 
     .product {
@@ -67,6 +53,7 @@
       flex-wrap: wrap;
 
       .product-item {
+        position: relative;
         width: 50%;
         height: 516rpx;
 
@@ -74,6 +61,23 @@
           display: block;
           width: 100%;
           height: 100%;
+        }
+        .shopbag{
+          position: absolute;
+          left: 19rpx;
+          bottom: 19rpx;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 56rpx;
+          height: 56rpx;
+          background-color: rgba(0,0,0,.1);
+          border: 2rpx solid #fff;
+          border-radius: 50%;
+          .icon-shopbag{
+            font-size: 44rpx;
+            color: #fff;
+          }
         }
       }
     }
