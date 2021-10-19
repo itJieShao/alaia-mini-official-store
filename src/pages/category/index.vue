@@ -11,7 +11,7 @@
         <image class="cover" :src="cover" mode="aspectFill"></image>
       </view>
       <view class="category">
-        <view class="item" v-for="(item,index) in pageData" :key="item">
+        <view class="item" v-for="(item,index) in pageData" :key="item.code">
           <view class="title" @click="cutItem(index)">{{item.name}}</view>
           <view class="children" v-show="curIndex==index">
             <view class="c-item" v-for="li in item.children" :key="li">
