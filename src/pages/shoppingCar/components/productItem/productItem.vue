@@ -209,7 +209,8 @@ export default {
       })
       uni.navigateTo({
         url: `/subPackages/pdp/pages/pdp/index?code=${this.skuData.product.code}
-        &SkuSizeCode=${ this.currentSize || '' }&SkuStyleCode=${ this.currentStyle || '' }`,
+        &skuSizeCode=${ this.sizeOptions[this.sizeIndex].skuCode || '' }&skuStyleCode=
+        ${ this.styleOptions[this.styleIndex].skuCode || '' }`,
       });
     },
     bindPickerChange(e) {

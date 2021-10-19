@@ -86,9 +86,10 @@ export default {
           },
           primary_image_url: get(this.product, 'image'),
         })
+      // 这里要修改一下
       uni.navigateTo({
         url: `/subPackages/pdp/pages/pdp/index?code=${get(this.product, 'code') || get(this.product, 'spuCode')}
-        &SkuSizeCode=${ get(this.product, 'size') || '' }&SkuStyleCode=${ get(this.product, 'style') || '' }`,
+        &skuSizeCode=${ get(this.product, 'skuCode') || '' }&skuStyleCode=`,
       })
     },
   },
