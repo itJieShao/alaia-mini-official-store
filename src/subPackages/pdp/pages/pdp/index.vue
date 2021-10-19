@@ -63,13 +63,26 @@
     <view class="pdp-buy-fixed">
       <view class="pdp-style-content">
         <view class="box-content" @click="openDialog('color')">
-          <view class="color-box">
-            <text class="color"></text>
-            <text class="txt">蓝色</text>
-          </view>
+          <block v-if=" currentSkuInfo.options">
+            <block v-for="(item,index) in currentSkuInfo.options" :key="index">
+              <view class="color-box" v-if="item.originCode=='Metallic Property'">
+                <image class="color" :src="item.value.images[0].url"></image>
+                <text class="txt">{{item.value.name}}</text>
+              </view>
+            </block>
+          </block>
+          <text class="txt" v-else>请选择款式</text>
           <text class="icon-font icon-xiala"></text>
         </view>
-        <view class="box-content" @click="openDialog('size')"><text class="txt">{{currentSkuCode&&sizeList.length?sizeList[dialog.value[0]].name:'请选择尺码'}}</text><text class="icon-font icon-xiala"></text></view>
+        <view class="box-content" @click="openDialog('size')">
+          <block v-if="currentSkuInfo.options">
+            <block v-for="(item,index) in currentSkuInfo.options" :key="index">
+              <text class="txt" v-if="item.originCode=='customSize'">{{item.value.name}}</text>
+            </block>
+          </block>
+          <text class="txt" v-else>请选择尺码</text>
+          <text class="icon-font icon-xiala"></text>
+        </view>
       </view>
       <view class="pdp-buy-content">
         <view class="add-success-content" v-if="isAddSuccess">
@@ -113,7 +126,7 @@
           <text class="txt none" @click="openDialog()">取消</text>
           <view class="online">
             <text class="other" @click="sizeGuideClick()">尺码指南</text>
-            <text class="txt" @click="changeInput()">确定</text>
+            <text class="txt" @click="changeInput(dialog.value)">确定</text>
           </view>
         </view>
         <picker-view indicator-style="height: 63px;" style="width: 100%; height: 189px;" :value="dialog.value" @change="changeDialog">
@@ -219,7 +232,9 @@ export default {
     };
   },
   onLoad (options) {
-    const { code, scene } = options;
+    const {
+      code, scene, sku,
+    } = options;
     // try {
     //   // 埋点
     //   setTrackerParams(options);
@@ -228,6 +243,9 @@ export default {
     // }
     if (code) {
       this.code = code;
+    }
+    if (sku) {
+      this.currentSkuCode = sku
     }
     if (scene) {
       const paramsArr = (scene || '').split(ENCODE_SPLIT_SIGN);
@@ -345,29 +363,18 @@ export default {
             salePrice: get(skuList, '[0].salePrice.amount'),
           },
         };
-        const skusLength = get(resultData, 'skus').length;
-        if (skusLength < 2) {
-          // this.isHasSize = true;
-          // this.isHasStyle = true;
-          const valueName = get(resultData, 'skus')[0].options.find(
-            (i) => i.originCode === 'customSize',
-          ).value.name;
-          if (valueName == '00') {
-            this.currentSkuCode = get(resultData, 'skus')[0].code;
-          }
-        }
+
         const sizeList = [];
         get(resultData, 'skus').map((item) => {
-          const sizeName = get(item, 'options').find(
-            (i) => i.originCode === 'customSize',
-          );
+          const sizeName = get(item, 'options').find((i) => i.originCode === 'customSize');
           if (sizeName.value.name != '00') {
             const items = {
               code: item.code,
-              name: sizeName.value.name, // get(item, 'options[0].value.name')
+              name: sizeName.value.name,
               inventory: item.inventory,
               isEnabled: item.isEnabled,
             };
+
             sizeList.push(items);
           }
         });
@@ -379,24 +386,35 @@ export default {
 
         const styleList = [];
         get(resultData, 'skus').map((item) => {
-          const styleName = get(item, 'showAttrList').find(
-            (i) => i.originCode === 'customSizeDesc',
-          );
-          if (styleName && styleName.attrValueList[0].frontName) {
+          const styleName = get(item, 'options').find((i) => i.originCode === 'Metallic Property');
+          if (styleName.value.name != '00') {
             const items = {
               code: item.code,
-              name: styleName.attrValueList[0].frontName, // get(item, 'options[0].value.name')
+              name: styleName.value.name,
               inventory: item.inventory,
               isEnabled: item.isEnabled,
             };
+
             styleList.push(items);
           }
         });
         styleList.sort((a, b) => a.name - b.name)
-        if (styleList.length > 1) {
-          this.isHasStyle = true;
+        if (styleList.length > 1 || (styleList.length == 1 && styleList.some((item) => item.name != '00'))) {
+          this.isHasSize = true;
         }
-        this.styleList = styleList;
+        this.styleList = [...new Set(styleList)];
+
+        const skusLength = get(resultData, 'skus').length;
+        if (skusLength < 2) {
+          // this.isHasSize = true;
+          // this.isHasStyle = true;
+          const valueName = get(resultData, 'skus')[0].options.find(
+            (i) => i.originCode === 'customSize',
+          ).value.name;
+          if (valueName == '00') {
+            this.currentSkuCode = get(resultData, 'skus')[0].code;
+          }
+        }
 
         this.$nextTick(() => {
           // 添加最近浏览商品
@@ -656,7 +674,12 @@ export default {
           data: this.sizeList,
         }
       } else if (type === 'color') {
-
+        this.dialog = {
+          value: this.dialog.value,
+          show: true,
+          type,
+          data: this.styleList,
+        }
       } else {
         this.dialog.show = false
         this.dialog.data = false
@@ -671,20 +694,16 @@ export default {
       const index = e.detail.value
       this.dialog.value = index
     },
-    changeInput () {
-      const index = this.dialog.value[0]
-      if (this.dialog.type === 'size') {
-        const e = this.dialog.data[index]
-        this.currentSkuCode = e.code;
-        let currentSku = ''
-        if (this.sizeList.length) {
-          currentSku = this.sizeList.find((i) => i.code === e.code);
-        } else {
-          currentSku = this.styleList.find((i) => i.code === e.code);
-        }
-
-        this.isSaleOut = !(currentSku.inventory > 0)
+    changeInput (index) {
+      const e = this.dialog.data[index]
+      this.currentSkuCode = e.code;
+      let currentSku = ''
+      if (this.sizeList.length) {
+        currentSku = this.sizeList.find((i) => i.code === e.code);
+      } else {
+        currentSku = this.styleList.find((i) => i.code === e.code);
       }
+      this.isSaleOut = !(currentSku.inventory > 0)
       this.openDialog()
     },
   },
