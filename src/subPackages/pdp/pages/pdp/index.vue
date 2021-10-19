@@ -23,9 +23,9 @@
               <view class="item" :class="[index === currentIndex ? 'active' : '']" v-for="(item, index) in productData.images" :key="index"></view>
             </view>
             <view class="share">
-              <text class="icon-font icon-PDPshoucang"></text>
+              <text class="icon-font icon-icon-shoucang"></text>
               <button open-type="share" class="share-btn">
-                <text class="icon-font icon-a-iconPDPzhuanfa"></text>
+                <text class="icon-font icon-icon-fenxiang"></text>
               </button>
             </view>
           </view>
@@ -78,14 +78,14 @@
         </view>
         <view class="service-content">
           <button class="service-btn" open-type="contact" @click="handleContact" @contact="bindContact">
-            <image class="imgs" mode="widthFix" src="https://res-tasaki.baozun.com/static/images/icon-service-active.png"></image>
+            <text class="icon-font icon-kefu"></text>
             <view class="text">客服</view>
           </button>
         </view>
         <view class="cart-content">
           <view class="cart-btn" @click.stop="toCart">
             <view class="cart-main">
-              <image class="imgs" mode="widthFix" src="https://res-tasaki.baozun.com/static/images/icon-cart-active.png"></image>
+              <text class="icon-font icon-shopbag"></text>
               <view class="cart-num" v-if="cartAmount && cartAmount > 0">
                 {{ cartAmount }}
               </view>

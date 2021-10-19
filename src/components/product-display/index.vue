@@ -3,7 +3,7 @@
     <view class="label" v-if="titleLeft">{{title}}</view>
     <view class="line-title" v-else>
       <view class="line"></view>
-      <image class="triangle" src="https://res-tasaki.baozun.com/static/images/icon-my.png" mode="scaleToFill"></image>
+      <text class="icon-font icon-icon-tuxingxingzhuang"></text>
       <view class="title">{{title}}</view>
     </view>
     <productSwiper @clickItem="handleClick" :products="products" />
@@ -85,14 +85,18 @@ export default {
       margin-bottom: rpx(31);
       border-top: 1px solid #1d1d1d;
     }
-    .triangle {
+    .icon-font {
+      font-size: rpx(14);
+      line-height: 1;
       position: absolute;
-      top: 0;
+      top: rpx(-3);
       left: 50%;
+      display: inline-block;
       width: rpx(31);
       height: rpx(4);
       padding: 0 rpx(7);
       transform: translate(-50%, 0);
+      color: #1d1d1d;
       background-color: #fff;
     }
     .title {

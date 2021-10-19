@@ -5,6 +5,7 @@
       <image class="bg" src="https://res-tasaki.baozun.com/static/images/authorize-dialog-bg1.jpg" mode="scaleToFill">
       </image>
       <view class="no-login-con">
+        <text class="icon-font icon-logo-alaia_000 logo"></text>
         <block v-if="!isGetUserInfo && isAuthorizeInfo == false">
           <text class="desc1">欢迎加入</text>
           <text class="desc2">授权我们获取您的手机号即可完成注册流程</text>
@@ -219,6 +220,16 @@
       },
       handleReceiverCheck() {
         this.isAgreeYSXY = !this.isAgreeYSXY
+      },
+      handleToRule() {
+        uni.navigateTo({
+          url: '/subPackages/help/pages/help-detail/index?name=销售条款&templateCode=help_content&contentCode=sales',
+        });
+      },
+      handleToPrivacy() {
+        uni.navigateTo({
+          url: '/subPackages/help/pages/help-detail/index?name=隐私政策&templateCode=help_content&contentCode=privacy',
+        });
       },
       async doLogin(e, params) {
         const { type } = e.target.dataset;
