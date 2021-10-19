@@ -125,7 +125,7 @@
         <view class="title">
           <text class="txt none" @click="openDialog()">取消</text>
           <view class="online">
-            <text class="other" @click="sizeGuideClick()">尺码指南</text>
+            <text class="other" @click="sizeGuideClick()" v-if="dialog.type=='size'">尺码指南</text>
             <text class="txt" @click="changeInput(dialog.value)">确定</text>
           </view>
         </view>
