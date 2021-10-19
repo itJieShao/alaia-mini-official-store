@@ -57,10 +57,11 @@
 </template>
 
 <script>
-import utils, { imgUrlReplace } from '@/utils/utils';
+import { imgUrlReplace } from '@/utils/utils';
 import { getProductDetailsAction } from '@/service/apis/pdp';
 import zCheckbox from '../../../../components/al-checkbox';
 import { get } from '../../../../utils/utilityOperationHelper';
+import { currency } from '@/filters';
 
 import { getCategory, getDescription, getSizeBySkuInfo } from '../../../../utils/product'
 
@@ -290,11 +291,8 @@ export default {
   },
 
   filters: {
-    currency(value) {
-      if (!value && value !== 0) return '';
-      return utils.currency(value);
-    },
-  },
+    currency
+  }
 };
 </script>
 

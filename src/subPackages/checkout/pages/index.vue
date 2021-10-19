@@ -158,6 +158,8 @@ import { getCategory, getSizeBySkuInfo } from '../../../utils/product'
 import {
   CURRENCY_CODE, PRODUCT_TYPE, INVOICE_TITLE_TYPE, INVOICE_CARRIER, SKU_SPLIT,
 } from '../../../constants/order'
+import { currency } from '@/filters';
+
 
 const defaultMoneyObj = {
   amount: 0,
@@ -639,10 +641,7 @@ export default {
     },
   },
   filters: {
-    currency(value) {
-      if (!value && value !== 0) return '0';
-      return utils.currency(value);
-    },
+    currency
   },
 };
 </script>

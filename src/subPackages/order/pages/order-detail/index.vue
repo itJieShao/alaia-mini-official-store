@@ -16,8 +16,9 @@
       </view>
       <OrderDetailInfo 
         :orderCode="orderData.orderCode"
-        :orderTime="orderData.orderTime ? orderData.orderTime.substring(0, 19) : ''"
-        :orderPrice="orderData.productAmount.amount" /> 
+        :orderTime="orderData.orderTime"
+        :orderPrice="orderData.productAmount.amount"
+        :billInfo="orderData.orderInvoice" /> 
     </view>
     <view class="order-detail-content" v-if="isLoading">
       <!-- 订单操作 -->
