@@ -26,23 +26,21 @@
         <view class="select-attr-field">
           <text class="label">颜色:</text>
           <view class="content" :class="{ 'no-bg': !isInventory }">
-             <!-- todo：后面需要有颜色的列表  -->
-            <picker @change="bindNumPickerChange" :value="numIndex" :range="numOptions" v-if="isInventory">
-                <text class="value">红色</text>
+            <picker @change="bindStylePickerChange" :value="styleIndex" :range="styleOptions" range-key="frontName" v-if="isInventory">
+                <text class="value">{{ currentStyle }}</text>
                 <view class="arrow-icon"></view>
             </picker>
-            <text class="value" v-else>红色</text>
+            <text class="value" v-else>{{ currentStyle }}</text>
           </view>
         </view>
         <view class="select-attr-field">
           <text class="label">尺寸:</text>
           <view class="content" :class="{ 'no-bg': !isInventory }">
-            <!-- todo：后面需要有颜色的尺寸  -->
-            <picker @change="bindNumPickerChange" :value="numIndex" :range="numOptions"  v-if="isInventory">
-                <text class="value">38</text>
+            <picker @change="bindStylePickerChange" :value="sizeIndex" :range="sizeOptions" range-key="frontName" v-if="isInventory">
+                <text class="value">{{ currentSize }}</text>
                 <view class="arrow-icon"></view>
             </picker>
-            <text class="value" v-else>38</text>
+            <text class="value" v-else>{{ currentSize }}</text>
           </view>
         </view>
         
@@ -196,21 +194,22 @@ export default {
       this.$sr.track('trigger_sku_component',
         {
           sku: {
-            sku_id: this.trackProductData.skuCode || this.trackProductData.spuCode || 'TASAKI', // 若商品无sku_id时，可传spu_id信息
-            sku_name: this.trackProductData.skuName || 'TASAKI', // 若商品无sku_name时，可传spu_name信息
+            sku_id: this.trackProductData.skuCode || this.trackProductData.spuCode || 'ALAIA', // 若商品无sku_id时，可传spu_id信息
+            sku_name: this.trackProductData.skuName || 'ALAIA', // 若商品无sku_name时，可传spu_name信息
           },
           spu: {
-            spu_id: this.trackProductData.spuCode || 'TASAKI', // 若商品无spu_id时，可传sku_id信息
-            spu_name: this.trackProductData.skuName || 'TASAKI', // 若商品无spu_name时，可传sku_name信息
+            spu_id: this.trackProductData.spuCode || 'ALAIA', // 若商品无spu_id时，可传sku_id信息
+            spu_name: this.trackProductData.skuName || 'ALAIA', // 若商品无spu_name时，可传sku_name信息
           },
           sale: {
             original_price: this.trackProductData.amount || 0, // 对接智慧零售入口必传
             current_price: this.trackProductData.amount || 0, // 对接智慧零售入口必传
           },
           primary_image_url: get(this.skuData, 'product.images[0].url'),
-        })
+      })
       uni.navigateTo({
-        url: `/subPackages/pdp/pages/pdp/index?code=${this.skuData.product.code}`,
+        url: `/subPackages/pdp/pages/pdp/index?code=${this.skuData.product.code}
+        &SkuSizeCode=${ this.currentSize || '' }&SkuStyleCode=${ this.currentStyle || '' }`,
       });
     },
     bindPickerChange(e) {

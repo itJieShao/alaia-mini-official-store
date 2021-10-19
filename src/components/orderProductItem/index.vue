@@ -83,12 +83,12 @@ export default {
       this.$sr.track('trigger_sku_component',
         {
           sku: {
-            sku_id: this.product.skuCode || this.product.code || this.product.spuCode || 'TASAKI', // 若商品无sku_id时，可传spu_id信息
-            sku_name: this.product.title || this.product.name || 'TASAKI', // 若商品无sku_name时，可传spu_name信息
+            sku_id: this.product.skuCode || this.product.code || this.product.spuCode || 'ALAIA', // 若商品无sku_id时，可传spu_id信息
+            sku_name: this.product.title || this.product.name || 'ALAIA', // 若商品无sku_name时，可传spu_name信息
           },
           spu: {
-            spu_id: this.product.spuCode || this.product.code || this.product.skuCode || 'TASAKI', // 若商品无spu_id时，可传sku_id信息
-            spu_name: this.product.title || this.product.name || 'TASAKI', // 若商品无spu_name时，可传sku_name信息
+            spu_id: this.product.spuCode || this.product.code || this.product.skuCode || 'ALAIA', // 若商品无spu_id时，可传sku_id信息
+            spu_name: this.product.title || this.product.name || 'ALAIA', // 若商品无spu_name时，可传sku_name信息
           },
           sale: {
             original_price: get(this.product, 'amount.amount') || get(this.product, 'salePrice.amount') || 0, // 对接智慧零售入口必传
