@@ -89,7 +89,7 @@ export default {
       // 这里要修改一下
       uni.navigateTo({
         url: `/subPackages/pdp/pages/pdp/index?code=${get(this.product, 'code') || get(this.product, 'spuCode')}
-        &skuSizeCode=${ get(this.product, 'skuCode') || '' }&skuStyleCode=`,
+        &skuCode=${ get(this.product, 'skuCode') || '' }`,
       })
     },
   },
