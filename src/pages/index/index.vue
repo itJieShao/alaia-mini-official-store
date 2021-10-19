@@ -118,20 +118,20 @@ export default {
     }
 
     // 判断是否授权用户信息
-    const isAuthorizeInfo = uni.getStorageSync('isAuthorizeInfo')
-    if (!isAuthorizeInfo) {
-      this.getUserInfo().then((res) => {
-        if (res.accountInfo.nickname || res.accountInfo.portrait) {
-          uni.setStorageSync('isAuthorizeInfo', true)
-          uni.setStorageSync('weixinInfo', {
-            nickName: res.accountInfo.nickname,
-            avatarUrl: res.accountInfo.portrait,
-          })
-        } else {
-          uni.setStorageSync('isAuthorizeInfo', false)
-        }
-      })
-    }
+    // const isAuthorizeInfo = uni.getStorageSync('isAuthorizeInfo')
+    // if (!isAuthorizeInfo) {
+    //   this.getUserInfo().then((res) => {
+    //     if (res.accountInfo.nickname || res.accountInfo.portrait) {
+    //       uni.setStorageSync('isAuthorizeInfo', true)
+    //       uni.setStorageSync('weixinInfo', {
+    //         nickName: res.accountInfo.nickname,
+    //         avatarUrl: res.accountInfo.portrait,
+    //       })
+    //     } else {
+    //       uni.setStorageSync('isAuthorizeInfo', false)
+    //     }
+    //   })
+    // }
   },
   onLoad () {
 
