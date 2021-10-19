@@ -2,7 +2,7 @@
   <view class="wish">
     <custom-nav-bar :head-font-color="false" />
     <view :style="{'padding-top':ktxStatusHeight}">
-      <view class="list">
+      <view class="list" v-if="flase">
         <view class="goods-item" v-for="it in 8" :key="it">
           <image src="" mode="aspectFit" :lazy-load="true"></image>
           <view class="goods-label">
@@ -12,7 +12,8 @@
           <text class="goods-price">￥27,000</text>
         </view>
       </view>
-      <view class="no-list" v-if="flase">
+      <view class="no-list">
+        <text class="icon-font icon-logo-alaia_000 logo"></text>
         <text class="empty">心愿单为空</text>
         <text class="tip-text">挑选您喜欢的商品加入心愿单</text>
         <div class="go-button">
@@ -109,6 +110,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    .icon-font{
+      margin: 60rpx auto 30rpx;
+      font-size: 80rpx;
+      color: #1D1D1D;
+    }
 
     .empty {
       font-size: 36rpx;

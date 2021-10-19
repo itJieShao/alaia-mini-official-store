@@ -108,6 +108,13 @@ $textColor: #1D1D1D;
 		display: flex;
 		flex-direction: column;
 		position: absolute;
+		margin-top: 100rpx;
+		.icon-font{
+			font-size: 120rpx;
+			text-align: center;
+			color: #fff;
+			margin-bottom: 80rpx;
+		}
 		.desc1{
 			text-align: center;
 			font-weight: bold;

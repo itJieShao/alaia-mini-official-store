@@ -9,11 +9,11 @@
               <video class="video-content" :id="'myVideo'+swiperIndex"  :src="swiperItem.videoId" :loop="false" :autoplay="swiperItem.picDes === 'auto' ? true : false" :controls="false"   object-fit ="cover" :muted="swiperItem.isMuted" :show-mute-btn="true" :show-center-play-btn="false" :show-play-btn="false" :show-fullscreen-btn="false" play-btn-position="center" :enable-progress-gesture="false" @ended="videoEnded"></video>
               <!-- <video class="video-content" :id="'myVideo'+swiperIndex" :src="swiperItem.videoId" :loop="false" autoplay :controls="false"  object-fit ="cover" :muted="swiperItem.isMuted" :show-mute-btn="true" :show-center-play-btn="false" :show-play-btn="false" :show-fullscreen-btn="false" play-btn-position="center" :enable-progress-gesture="false"></video> -->
             </view>
-            <view class="play-btn" v-if="isShowPlayBtn">
+            <!-- <view class="play-btn" v-if="isShowPlayBtn">
               <text class="icon-font icon-icon-bofang" @click="playVideo(swiperIndex)" :class="white? 'white':''"></text>
             </view>
             <text class="icon-font yingliang icon-bofangguanbi"  :class="white? 'white':''" @click="mutedChange(swiperItem)" v-if="swiperItem.isMuted"></text>
-            <text class="icon-font yingliang icon-bofang" :class="white? 'white':''"  @click="mutedChange(swiperItem)" v-if="!swiperItem.isMuted"></text>
+            <text class="icon-font yingliang icon-bofang" :class="white? 'white':''"  @click="mutedChange(swiperItem)" v-if="!swiperItem.isMuted"></text> -->
           </block>
           <!-- 图片 -->
           <block v-else>
@@ -48,10 +48,11 @@
       <text class="icon-font icon-icon-xia white-arrow"></text>
       <text class="icon-font icon-icon-xia white-arrow"></text>
     </view>
-    <view class="news-toast">
-      <swiper class="news-toast-swiper" autoplay interval="3000">
-        <swiper-item>
-          <text>2021年秋冬系列，隆重登场</text>
+    <view class="news-toast" :style="newsShow?'opacity:1;':'opacity:0;'">
+      <text class="icon-font icon-guanbi" @click="newsShow = false"></text>
+      <swiper class="news-toast-swiper" circular autoplay interval="3000">
+        <swiper-item v-for="i in 2" :key="i">
+          <view>2021年秋冬系列，隆重登场</view>
         </swiper-item>
       </swiper>
     </view>
@@ -161,6 +162,7 @@ export default {
       isShowPlayBtn: false,
       isMuted: false, // 是否静音播放
       videoContext: '',
+      newsShow: true,
     };
   },
   computed: {
@@ -390,18 +392,30 @@ $transitionAll: all .8s;
     width: 710rpx;
     height: 80rpx;
     background-color: rgba(0,0,0,.6);
+    transition: 0.3s;
+    .icon-font{
+      position: absolute;
+      color: #fff;
+      top: 26rpx;
+      right: 30rpx;
+      font-size: 24rpx;
+    }
     .news-toast-swiper{
-      width: 100%;
+      width: 80%;
       height: 100%;
+      margin: 0 auto;
       swiper-item{
-        line-height: 80rpx;
-        text{
-          display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        view{
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           font-size: 24rpx;
-          line-height: 80rpx;
           letter-spacing: 2rpx;
           color: #fff;
-          text-decoration: underline;
+          border-bottom: 2rpx solid #fff;
           text-align: center;
         }
       }
