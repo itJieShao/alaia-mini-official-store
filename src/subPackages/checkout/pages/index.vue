@@ -37,13 +37,79 @@
             ></z-checkbox>
           <text class="label">电子发票</text>
         </view>
-        <!-- <view class="form-field">
-          <input placeholder="请输入电子邮箱" />
-          <view>个人</view>
-          <view>公司</view>
-        </view> -->
+        <view class="field-form" :style="{ display: isNeedBill ? 'block' : 'none' }">
+            <view class="radio-box">
+              <view class="radio-group">
+                <view class="radio-item" @click="personalInvoiceCheckd = true">
+                  <view class="radio" :class="{ 'checked': personalInvoiceCheckd }"></view>
+                  <text>个人</text>
+                </view>
+                <view class="radio-item" @click="personalInvoiceCheckd = false">
+                  <view class="radio" :class="{ 'checked': !personalInvoiceCheckd }"></view>
+                  <text>公司</text>
+                </view>
+              </view>
+              <text class="import-bill-btn icon-font icon-weixindizhijifapiaoxinxi">导入发票信息</text>
+            </view>
+            <template v-if="personalInvoiceCheckd">
+              <view class="form-item-input">
+                <input
+                  v-model="personalInvoiceTitle"
+                  @input="handleValid(personalInvoiceTitle, 'personalTitle')"
+                  @blur="handleValid(personalInvoiceTitle, 'personalTitle')"
+                  placeholder="请输入发票抬头"
+                />
+                <view class="error-wrap" v-show="errorInfo.personalTitle">
+                  <form-error>发票抬头不能为空</form-error>
+                </view>
+              </view>
+          </template>
+          <template v-else>
+            <view class="form-item-input">
+              <input
+                placeholder="请输入公司名称"
+                @input="handleValid(companyInvoice.title, 'companyTitle')"
+                @blur="handleValid(companyInvoice.title, 'companyTitle')"
+                v-model="companyInvoice.title"
+              />
+              <view class="error-wrap" v-show="errorInfo.companyTitle">
+                <form-error>公司名称不能为空</form-error>
+              </view>
+            </view>
+            <view class="form-item-input">
+              <input
+                placeholder="请输入纳税人识别号/统一社会信用代码"
+                @input="handleValid(companyInvoice.taxNumber, 'taxNumber')"
+                @blur="handleValid(companyInvoice.taxNumber, 'taxNumber')"
+                v-model="companyInvoice.taxNumber"
+              />
+              <view class="error-wrap" v-show="errorInfo.taxNumber">
+                <form-error>纳税人识别号/统一社会信用代码不能为空</form-error>
+              </view>
+            </view>
+            <view :style="{ display: isFold ? 'none' : 'block' }">
+              <view class="form-title">公司其他信息</view>
+              <view class="form-item-input">
+                <input placeholder="注册地址（选填）" />
+              </view>
+              <view class="form-item-input">
+                <input placeholder="注册电话（选填）" />
+              </view>
+              <view class="form-item-input">
+                <input placeholder="开户银行（选填）" />
+              </view>
+              <view class="form-item-input">
+                <input placeholder="开户账号（选填）" />
+              </view>
+            </view>
+            <view class="handle-icon" @click="isFold = !isFold">
+              {{ isFold ? '展开' : '收起' }}
+              <text class="icon-font icon-zhankai" :class="{ 'rotate': !isFold }"></text>
+            </view>
+          </template>
+        </view>
       </view>
-      <!-- 商品摘要（这里预计要抽出一个组件来） -->
+      <!-- 商品摘要 -->
       <OrderProductList :products="productList"/>
       <!-- 订单综合信息 -->
       <view style="margin: -30rpx">
@@ -147,6 +213,7 @@ export default {
         title: '',
         taxNumber: '',
       },
+      isFold: true
     };
   },
   mixins: [weixinSupport, navBarHeight],
@@ -304,16 +371,15 @@ export default {
       })
     },
     async handleCreateOrder() {
-      // 校验发票信息先暂时去掉
-      let invoiceError
+      let invoiceError = null
       // personalInvoiceCheckd from mixin
-      // if (this.personalInvoiceCheckd) {
-      //   invoiceError = this.handleValid(this.personalInvoiceTitle, 'personalTitle')
-      // } else {
-      //   const titleFlag = this.handleValid(this.companyInvoice.title, 'companyTitle')
-      //   const taxNumberFlag = this.handleValid(this.companyInvoice.taxNumber, 'taxNumber')
-      //   invoiceError = titleFlag || taxNumberFlag
-      // }
+      if (this.personalInvoiceCheckd) {
+        invoiceError = this.handleValid(this.personalInvoiceTitle, 'personalTitle')
+      } else {
+        const titleFlag = this.handleValid(this.companyInvoice.title, 'companyTitle')
+        const taxNumberFlag = this.handleValid(this.companyInvoice.taxNumber, 'taxNumber')
+        invoiceError = titleFlag || taxNumberFlag
+      }
       // 校验地址是否支持配送
       if (this.addressInfo) {
         if (!this.addressInfo.addressVerify) {
@@ -326,10 +392,10 @@ export default {
         return
       }
 
-      // if (invoiceError) {
-      //   this.handleScrollTo('invoice')
-      //   return
-      // }
+      if (invoiceError && this.isNeedBill) {
+        this.handleScrollTo('invoice')
+        return
+      }
 
       // 校验隐私和销售条例是否同意
       if (!this.isAgree) {
@@ -396,7 +462,7 @@ export default {
         // 携带 用户的微信昵称，用于分销功能的BA订单展示
         params.extInfos = JSON.stringify({ ...params.receiptInfo, userNickName: get(uni.getStorageSync(WX_INFO), 'nickName') })
         // 发票信息
-        params.invoice = null; // 跳过支付
+        params.invoice = (this.isNeedBill && this.getInvoice()) || null; // 跳过支付
 
         try {
           const order = await this.orderCreate(params)
