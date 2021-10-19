@@ -45,8 +45,8 @@
     <view class="down-arrow" v-if="bannerList.length > 0&&isShowDost">
       <!-- <text class="icon-font icon-icon-xia" :class="white? 'white-arrow':''"></text>
       <text class="icon-font icon-icon-xia" :class="white? 'white-arrow':''"></text> -->
-      <text class="icon-font icon-icon-xia white-arrow"></text>
-      <text class="icon-font icon-icon-xia white-arrow"></text>
+      <text class="icon-font icon-zhankai white-arrow"></text>
+      <text class="icon-font icon-zhankai white-arrow"></text>
     </view>
     <view class="news-toast" :style="newsShow?'opacity:1;':'opacity:0;'">
       <text class="icon-font icon-guanbi" @click="newsShow = false"></text>
@@ -348,14 +348,14 @@ $transitionAll: all .8s;
     width: 100%;
     height: 20rpx;
     position: absolute;
-    bottom: 36rpx;
+    bottom: 38rpx;
     color: #1d1d1d;
     line-height: 20rpx;
     font-size: 18rpx;
     text-align: center;
     .icon-font{
       display: block;
-      font-size: 24rpx;
+      font-size: 30rpx;
       height: 18rpx;
       &.white-arrow{
         color: #fff;

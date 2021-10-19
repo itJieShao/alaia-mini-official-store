@@ -1,6 +1,6 @@
 <template>
   <view class="wish">
-    <custom-nav-bar :head-font-color="false" />
+    <custom-nav-bar title="心愿单" :head-font-color="false" />
     <view :style="{'padding-top':ktxStatusHeight}">
       <view class="list" v-if="flase">
         <view class="goods-item" v-for="it in 8" :key="it">
