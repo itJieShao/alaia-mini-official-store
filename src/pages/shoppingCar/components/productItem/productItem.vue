@@ -207,9 +207,9 @@ export default {
           },
           primary_image_url: get(this.skuData, 'product.images[0].url'),
       })
+      console.log();
       uni.navigateTo({
-        url: `/subPackages/pdp/pages/pdp/index?code=${this.skuData.product.code}
-        &skuCode=${ get(this.skuData, 'code') || '' }`,
+        url: `/subPackages/pdp/pages/pdp/index?code=${this.skuData.product.code}&skuCode=${ get(this.skuData, 'code') || '' }`,
       });
     },
     bindPickerChange(e) {
