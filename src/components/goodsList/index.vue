@@ -149,12 +149,12 @@ export default {
     goPdp (item) {
       const aData = {
         sku: {
-          sku_id: item.skus[0].code || item.code || 'TASAKI', // 若商品无sku_id时，可传spu_id信息
-          sku_name: item.title || 'TASAKI', // 若商品无sku_name时，可传spu_name信息
+          sku_id: item.skus[0].code || item.code || 'ALAIA', // 若商品无sku_id时，可传spu_id信息
+          sku_name: item.title || 'ALAIA', // 若商品无sku_name时，可传spu_name信息
         },
         spu: {
-          spu_id: item.code || item.skus[0].code || 'TASAKI', // 若商品无spu_id时，可传sku_id信息
-          spu_name: item.title || 'TASAKI', // 若商品无spu_name时，可传sku_name信息
+          spu_id: item.code || item.skus[0].code || 'ALAIA', // 若商品无spu_id时，可传sku_id信息
+          spu_name: item.title || 'ALAIA', // 若商品无spu_name时，可传sku_name信息
         },
         sale: {
           original_price: item.minSkuSalePrice || 0, // 对接智慧零售入口必传

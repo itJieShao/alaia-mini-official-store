@@ -203,12 +203,12 @@ export default {
       console.log('youshuReport', ysType, item)
       this.$sr.track(ysType, {
         sku: {
-          sku_id: item.code || 'TASAKI', // 若商品无sku_id时，可传spu_id信息
-          sku_name: item.title || item.name || 'TASAKI', // 若商品无sku_name时，可传spu_name信息
+          sku_id: item.code || 'ALAIA', // 若商品无sku_id时，可传spu_id信息
+          sku_name: item.title || item.name || 'ALAIA', // 若商品无sku_name时，可传spu_name信息
         },
         spu: {
-          spu_id: item.code || 'TASAKI', // 若商品无spu_id时，可传sku_id信息
-          spu_name: item.title || item.name || 'TASAKI', // 若商品无spu_name时，可传sku_name信息
+          spu_id: item.code || 'ALAIA', // 若商品无spu_id时，可传sku_id信息
+          spu_name: item.title || item.name || 'ALAIA', // 若商品无spu_name时，可传sku_name信息
         },
         sale: {
           original_price: item.skus && item.skus.length > 0 ? item.skus[0].salePrice.amount : 0, // 对接智慧零售入口必传

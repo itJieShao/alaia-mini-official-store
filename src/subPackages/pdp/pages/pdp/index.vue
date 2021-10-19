@@ -273,12 +273,12 @@ export default {
       this.$sr.track('trigger_sku_component',
         {
           sku: {
-            sku_id: item.skuCode || item.code || 'TASAKI', // 若商品无sku_id时，可传spu_id信息
-            sku_name: item.productName || 'TASAKI', // 若商品无sku_name时，可传spu_name信息
+            sku_id: item.skuCode || item.code || 'ALAIA', // 若商品无sku_id时，可传spu_id信息
+            sku_name: item.productName || 'ALAIA', // 若商品无sku_name时，可传spu_name信息
           },
           spu: {
-            spu_id: item.code || item.skuCode || 'TASAKI', // 若商品无spu_id时，可传sku_id信息
-            spu_name: item.productName || 'TASAKI', // 若商品无spu_name时，可传sku_name信息
+            spu_id: item.code || item.skuCode || 'ALAIA', // 若商品无spu_id时，可传sku_id信息
+            spu_name: item.productName || 'ALAIA', // 若商品无spu_name时，可传sku_name信息
           },
           sale: {
             original_price: item.productPrice || 0, // 对接智慧零售入口必传

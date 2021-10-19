@@ -21,4 +21,4 @@ export const CURRENT_ENV = ENV;
 
 export const CURRENT_GA = GA[ENV]
 
-export const TITLE = 'TASAKI'
+export const TITLE = 'ALAIA'

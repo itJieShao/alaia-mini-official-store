@@ -164,11 +164,11 @@ export default {
         sku: {
           sku_id: item.skus && item.skus.length && item.skus[0].code ? item.skus[0].code
             : item.code, // 若商品无sku_id时，可传spu_id信息
-          sku_name: item.title || 'TASAKI', // 若商品无sku_name时，可传spu_name信息
+          sku_name: item.title || 'ALAIA', // 若商品无sku_name时，可传spu_name信息
         },
         spu: {
-          spu_id: item.code || 'TASAKI', // 若商品无spu_id时，可传sku_id信息
-          spu_name: item.title || 'TASAKI', // 若商品无spu_name时，可传sku_name信息
+          spu_id: item.code || 'ALAIA', // 若商品无spu_id时，可传sku_id信息
+          spu_name: item.title || 'ALAIA', // 若商品无spu_name时，可传sku_name信息
         },
         sale: {
           original_price: item.skus && item.skus.length && item.skus[0].salePrice.amount ? item.skus[0].salePrice
