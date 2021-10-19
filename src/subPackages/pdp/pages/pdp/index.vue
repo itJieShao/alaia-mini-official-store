@@ -233,7 +233,7 @@ export default {
   },
   onLoad (options) {
     const {
-      code, scene, sku,
+      code, scene, skuCode,
     } = options;
     // try {
     //   // 埋点
@@ -244,8 +244,8 @@ export default {
     if (code) {
       this.code = code;
     }
-    if (sku) {
-      this.currentSkuCode = sku
+    if (skuCode) {
+      this.currentSkuCode = skuCode
     }
     if (scene) {
       const paramsArr = (scene || '').split(ENCODE_SPLIT_SIGN);
