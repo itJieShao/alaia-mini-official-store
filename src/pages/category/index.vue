@@ -1,8 +1,7 @@
 <template>
-  <view style="padding-bottom: 100upx;">
-    <custom-nav-bar left-icon="search" left-text="搜索" title="分类" :head-border="false" :head-font-color="false" />
-    <view :style="{'padding-top':ktxStatusHeight}"></view>
-    <view class="content" :style="'height: calc(100vh - '+ktxStatusHeight+' - 112rpx - var(--safe-area-inset-bottom));'">
+  <view>
+    <custom-nav-bar left-icon="search" left-text="搜索" title="分类" :head-border="true" :head-font-color="false" />
+    <view class="content" :style="{ 'padding-top':ktxStatusHeight }">
       <view class="activity-banner" v-if="cover">
         <image class="cover" :src="cover" mode="aspectFill"></image>
         <view class="txt">FALL WINTER 2021 COLLECTION</view>
@@ -195,7 +194,6 @@ export default {
 .content {
   position: relative;
   overflow-y: auto;
-  padding-top: rpx(3);
 }
 .activity-banner {
   position: relative;
