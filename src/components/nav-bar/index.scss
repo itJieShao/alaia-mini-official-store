@@ -1,0 +1,74 @@
+@import '@/styles/utilities';
+@import '@/styles/base';
+
+.nav-bar {
+  line-height: 44px;
+  position: relative;
+  box-sizing: content-box;
+  height: 44px;
+  user-select: none;
+  text-align: center;
+  background-color: #fff;
+  &-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-top: 20px;
+  }
+  &.nav-bar-border {
+    border-bottom: 1px solid #E8E8E8;
+  }
+  &-title {
+    font-size: rpx(18);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 60%;
+    height: 100%;
+    margin: 0 auto;
+    color: #1d1d1d;
+    .icon-font {
+      font-size: rpx(32);
+      margin-bottom: -4px;
+    }
+  }
+  &-left {
+    font-size: rpx(12);
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    min-width: 12%;
+    padding-left: rpx(16);
+    color: #1d1d1d;
+    .nav-bar-text {
+      font-size: rpx(14);
+      font-family: 'Lato, Lato-Regular';
+      margin-left: rpx(6);
+      letter-spacing: rpx(1);
+    }
+    .icon-font {
+      font-size: rpx(14);
+      color: #1d1d1d;
+    }
+    .icon-icon-zuo {
+      font-size: rpx(14);
+      margin-left: rpx(-4);
+    }
+  }
+  &.nav-bar-blank {
+    background: transparent;
+    .nav-bar-left,
+    .nav-bar-title {
+      font-size: rpx(14);
+      color: #fff;
+    }
+  }
+  &.nav-bar-font-color {
+    .nav-bar-left,
+    .nav-bar-title {
+      color: #1d1d1d;
+    }
+  }
+}
