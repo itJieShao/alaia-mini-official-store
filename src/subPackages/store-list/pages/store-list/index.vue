@@ -43,7 +43,7 @@
           <!-- 距离 -->
           <view class="store-distance">
             <view v-if="storeItem.distance" @click="toMap(storeItem)">
-              <text class="icon-font icon-icon-dingdian"></text>
+              <text class="icon-font icon-fangwei"></text>
               <text class="distance">{{storeItem.distance}}km</text>
             </view>
             <!-- <view class="distance" v-else>暂无</view> -->
