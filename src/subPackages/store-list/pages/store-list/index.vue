@@ -1,6 +1,6 @@
 <template>
   <view class="store-list">
-    <custom-nav-bar :head-font-color="false"  />
+    <custom-nav-bar title="精品店" :head-font-color="false"  />
     <view :style="{'padding-top':ktxStatusHeight}"></view>
 
     <!-- 精品店筛选 -->

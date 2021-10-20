@@ -1,6 +1,6 @@
 <template>
   <view class="address-container">
-    <custom-nav-bar :head-font-color="false" />
+    <custom-nav-bar title="地址薄" :head-font-color="false" />
     <view :style="{'padding-top':ktxStatusHeight}">
       <view class="list" v-if="addressList.length">
         <view @click="checkboxChange(item)" class="item-box" v-for="(item,index) in addressList" :key="index">
