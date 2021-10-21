@@ -6,21 +6,22 @@
     </view>
     <view class="brief-item">
       <text class="label">下单时间：</text>
-      <text class="value">{{ orderTime }}</text>
+      <text class="value">{{ orderTime | dateFormat }}</text>
     </view>
     <view class="brief-item">
       <text class="label">订单金额：</text>
       <text class="value">{{ orderPrice | currency }}</text>
     </view>
     <view v-if="billInfo" class="brief-item">
-      <text class="label">发票信息</text>
-      <text class="value">{{ billInfo }}</text>
+      <text class="label">发票信息：</text>
+      <text class="value">{{ billInfo.titleType === INVOICE_TITLE_TYPE.COMPANY ? '公司' : '个人' }} {{ billInfo.title || ''  }} {{ billInfo.taxNo || '' }}</text>
     </view>
   </view>
 </template>
 
 <script>
-import utils from '@/utils/utils';
+import { currency, dateFormat } from '@/filters';
+import { INVOICE_TITLE_TYPE } from '@/constants/order';
 
 export default {
   name: 'OrderDetailInfo',
@@ -42,11 +43,14 @@ export default {
       default: () => null,
     }
   },
+  data() {
+    return {
+      INVOICE_TITLE_TYPE
+    }
+  },
   filters: {
-    currency(value) {
-      if (!value && value !== 0) return '0';
-      return utils.currency(value);
-    },
+    currency,
+    dateFormat
   }
 }
 </script>

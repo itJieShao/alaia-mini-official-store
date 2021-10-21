@@ -55,7 +55,7 @@
           <view class="account-entrance-box">
             <view class="accout-entrance-item" v-for="(accountItem,index) in accountList" :key="index"
               @click="goNextPage(accountItem.path)">
-              <image :src="accountItem.imageUrl" mode="widthFix" />
+              <text :class="['icon-font',accountItem.icon]"></text>
               <view class="ent-name">{{accountItem.name}}</view>
             </view>
           </view>
@@ -98,32 +98,32 @@
         custName: '',
         accountList: [{
             name: '我的订单',
-            imageUrl: 'https://res-tasaki.baozun.com/static/images/icon-dingdan.png',
+            icon: 'icon-wodedingdan',
             path: '/subPackages/order/pages/order-list/index',
           },
           {
             name: '心愿单',
-            imageUrl: 'https://res-tasaki.baozun.com/static/images/icon-dingdan.png',
+            icon: 'icon-xinyuandan',
             path: '/subPackages/wish/pages/wish/index',
           },
           {
             name: '精品店',
-            imageUrl: 'https://res-tasaki.baozun.com/static/images/icon-jingpindian.png',
+            icon: 'icon-jingpindian',
             path: '/subPackages/store-list/pages/store-list/index',
           },
           {
             name: '我的地址',
-            imageUrl: 'https://res-tasaki.baozun.com/static/images/icon-icon-dizhibu.png',
+            icon: 'icon-wodedizhi',
             path: '/subPackages/address/pages/list/index',
           },
           {
             name: '个人信息',
-            imageUrl: 'https://res-tasaki.baozun.com/static/images/icon-icon-dizhibu.png',
+            icon: 'icon-gerenxinxi',
             path: '/subPackages/editAccount/pages/index',
           },
           {
             name: '帮助中心',
-            imageUrl: 'https://res-tasaki.baozun.com/static/images/icon-bangzhuzhongxin.png',
+            icon: 'icon-bangzhuzhongxin',
             path: '/subPackages/help/pages/help/index',
           },
         ],

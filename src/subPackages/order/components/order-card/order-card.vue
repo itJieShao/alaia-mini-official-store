@@ -24,7 +24,7 @@
               <view class="order-info">
                 <view>
                   <view class="p-amount">商品数量：{{orderData.totalQuantity}}</view>
-                  <view>订单金额：￥{{ orderData.node.amount.amount }}</view>
+                  <view>订单金额：{{ orderData.node.amount.amount | currency }}</view>
                 </view>
                 <view class="action">
                   <customButton :btnWidth="180" className="transparent" @click="goOrderDetail(orderData)">查看详情</customButton>
@@ -43,6 +43,7 @@ import customButton from '@/components/al-button/normal';
 import { mapActions } from 'vuex';
 import { get } from '@/utils/utilityOperationHelper';
 import { priceFormat } from '@/utils/utils';
+import { currency } from '@/filters';  
 
 export default {
   name: 'orderCard',
@@ -66,12 +67,7 @@ export default {
     };
   },
   filters: {
-    formatMoney(val) {
-      if (val) {
-        return priceFormat(val);
-      }
-      return '0';
-    }
+    currency
   },
   watch: {
     orderStatus: {

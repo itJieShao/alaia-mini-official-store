@@ -5,12 +5,20 @@
     <view v-if="isLoading">
       <view class="order-status-box">
         <!-- tips: 需要一下图标 -->
-        <view class="status">{{ STATUS_TXT[orderData.orderStatus] }}</view>
+        <view class="status icon-font" :class="{ 
+          'icon-yiquxiao': orderData.orderStatus === STATUS_CODE.AUTO_CANCEL || orderData.orderStatus === STATUS_CODE.CANCELED,
+          'icon-daifahuo': orderData.orderStatus === STATUS_CODE.WAIT_DELIVERY || orderData.orderStatus === STATUS_CODE.PARTIAL_PAID,
+          'icon-shengyushijian': orderData.orderStatus === STATUS_CODE.WAIT_PAY || orderData.orderStatus === STATUS_CODE.WAIT_RECEIVE ||
+          orderData.orderStatus === STATUS_CODE.WAIT_EVALUATE || orderData.orderStatus === STATUS_CODE.PARTIAL_SHIPPED ||
+          orderData.orderStatus === STATUS_CODE.PARTIAL_RECEIVED,
+          'icon-zhifuchenggong': orderData.orderStatus === STATUS_CODE.COMPLETED
+        }">{{ STATUS_TXT[orderData.orderStatus] }}</view>
       </view>
       <OrderDetailInfo 
         :orderCode="orderData.orderCode"
-        :orderTime="orderData.orderTime ? orderData.orderTime.substring(0, 19) : ''"
-        :orderPrice="orderData.productAmount.amount" /> 
+        :orderTime="orderData.orderTime"
+        :orderPrice="orderData.productAmount.amount"
+        :billInfo="orderData.orderInvoice" /> 
     </view>
     <view class="order-detail-content" v-if="isLoading">
       <!-- 订单操作 -->
@@ -31,7 +39,7 @@
             >取消订单</customButton>
         </view>
         <view class="order-count-down">
-          <text class="icon-font icon-icon-shijian"></text>
+          <text class="icon-font icon-shengyushijian"></text>
           支付剩余倒计时：{{ orderData.countDownTime || 0 }}
         </view>
       </view>
@@ -41,7 +49,7 @@
       <OrderProductList :products="productList"/>
       <!-- 商品总计 -->
       <view style="margin: -30rpx">
-        <OrderAmountInfo :orderAmount="priceFormat(orderData.productAmount.amount)" />
+        <OrderAmountInfo :orderAmount="orderData.productAmount.amount" />
       </view>
     </view>
     <!--取消订单二次确认 -->
@@ -80,7 +88,7 @@ import OrderAmountInfo from '@/components/al-orderAmountInfo';
 import OrderProductList from '@/components/al-orderProductList';
 import { get } from '@/utils/utilityOperationHelper';
 import { priceFormat } from '@/utils/utils';
-import { STATUS_TXT } from '@/constants/order';
+import { STATUS_TXT, STATUS_CODE } from '@/constants/order';
 
 export default {
   name: 'order',
@@ -105,7 +113,8 @@ export default {
       messageVisible: false,
       countDownFn: null,
       isLoading: false,
-      STATUS_TXT
+      STATUS_TXT,
+      STATUS_CODE
     };
   },
   computed: {

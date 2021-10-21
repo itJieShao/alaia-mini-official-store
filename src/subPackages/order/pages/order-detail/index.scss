@@ -11,8 +11,11 @@
       font-family: 'PingFangSC, PingFangSC-Semibold';
       font-weight: 600;
       border-bottom: 1px solid #ddd;
-      padding: rpx(25) 0 rpx(11) rpx(26);
+      padding: rpx(25) 0 rpx(11) 0;
       margin: 0 rpx(16);
+      &::before {
+        margin-right: rpx(10);
+      }
     }
   }
   // 订单内容

@@ -123,21 +123,24 @@
         }
 
         .goods-label {
+          font-family: PingFangSC, PingFangSC-Medium;
           font-size: 24rpx;
           line-height: 28rpx;
           padding: 8rpx;
           border: 2rpx solid $color;
           margin-top: 30rpx;
         }
-
+        
         .goods-title {
+          font-family: PingFangSC, PingFangSC-Regular;
           display: block;
           font-size: 28rpx;
           line-height: 28rpx;
           margin: 24rpx auto;
         }
-
+        
         .goods-price {
+          font-family: PingFangSC, PingFangSC-Regular;
           font-size: 28rpx;
           line-height: 28rpx;
         }

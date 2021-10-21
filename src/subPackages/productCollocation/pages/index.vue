@@ -1,9 +1,6 @@
 <template>
   <view>
-    <custom-nav-bar
-      title=" "
-      :head-font-color="false"
-    />
+    <custom-nav-bar title=" " :head-font-color="false" :head-border="false" />
     <view class="swiper-container">
       <swiper class="swiper" :current="currentIndex" @change="swiperChange" circular>
         <swiper-item class="swiper-item" v-for="i in 3" :key="i">
@@ -18,7 +15,7 @@
       </view>
     </view>
     <view class="product">
-      <view class="product-item" v-for="i in list" :key="i">
+      <view class="product-item" :class="item.bgClass?'product-bg':''" v-for="(item,index) in list" :key="index">
         <image src="" mode="aspectFit"></image>
         <text class="goods-title">镂空饺子包</text>
         <text class="goods-price">￥27,000</text>
@@ -31,7 +28,12 @@
     data() {
       return {
         currentIndex: 0,
-        list: [1,2,3,4],
+        list: [{bgClass:false},{bgClass:false},{bgClass:false},{bgClass:false}],
+      }
+    },
+    onLoad() {
+      for (let i = 0; i < this.list.length; i += 3) {
+        this.list[i].bgClass = true;
       }
     },
     methods: {
@@ -101,7 +103,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
 
-    .p-bg {
+    .product-bg{
       background: linear-gradient(#F7F7F7, #EEEEEE);
     }
 
