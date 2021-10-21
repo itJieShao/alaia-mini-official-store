@@ -1,6 +1,6 @@
 <template>
   <view class="product-content">
-    <custom-nav-bar :left-arrow="isLeftArrow" title=' ' :head-border="isHeadBorder" :head-blank="isHeadBlank" :head-font-color="isHeaderBlackColor" />
+    <custom-nav-bar :left-arrow="isLeftArrow" title=' ' :head-border="isHeadBorder" :head-blank="scrollTop<500" :head-font-color="isHeaderBlackColor" />
     <view class="wrapper">
       <view class="wrapper-content">
         <view class="product-banner-content">
@@ -38,12 +38,28 @@
           <view class="price" v-if="productData.salePrice > 0">￥{{ productData.salePrice | formatMoney }}</view>
         </view>
       </view>
+
       <view class="product-details-content" v-if="productData.description.length">
-        <view class="details-item" v-for="(item, index) in productData.description" :key="index">
+        <!-- <view class="details-item" v-for="(item, index) in productData.description" :key="index">
           <image :src="item.url" mode="widthFix" :lazy-load="true" />
+        </view> -->
+        <view class="item" v-for="(li,index) in description" :key="li">
+          <view class="title-box" @click="cutDescription(li)">
+            <text class="title">描述{{index}}</text>
+            <text class="icon-font icon-jiahao" v-if="true"></text>
+            <text class="icon-font icon-jianhao" v-else></text>
+          </view>
+          <view class="content" v-show="li.open">
+            <view class="txt">这款短款气球连衣裙采用褶皱设计。它具有合身的腰身，构造像带骨的紧身胸衣。它的圆形钩眼 正面的扣件凸显了其内衣灵感。</view>
+            <view class="title">细节</view>
+            <view class="txt">材质：62% 羊毛，32% 真丝，6% 聚酰胺 缺口领口正面有圆形钩眼扣意大利制造 产品编号：AA9R0966CT396 颜色：黑色</view>
+            <view class="title">尺码和合身</view>
+            <view class="txt">腰部喇叭形短款气球式剪裁紧身胸衣结构模特身高 180 厘米，所穿单品尺码为 38（美国 6 码）</view>
+          </view>
         </view>
       </view>
 
+      <!-- 搭配 -->
       <view class="suit-wrap">
         <view class="line-title">
           <view class="line"></view>
@@ -60,6 +76,7 @@
       <recently-like-products recent />
     </view>
 
+    <!-- 购买 -->
     <view class="pdp-buy-fixed">
       <view class="pdp-style-content">
         <view class="box-content" @click="openDialog('color')">
@@ -116,7 +133,7 @@
         </view>
       </view>
     </view>
-    <sizeGuide :size-guide-show="sizeGuideShow" @clickClose="clickClose"></sizeGuide>
+    <!-- <sizeGuide :size-guide-show="sizeGuideShow" @clickClose="clickClose"></sizeGuide> -->
 
     <!-- 弹窗 -->
     <view class="dialog-wrap" catchtouchmove="true" v-if="dialog.show">
@@ -171,7 +188,6 @@ export default {
     return {
       ktxStatusHeight: getApp().globalData.ktxStatusHeight, // 头部的高度，用于设置样式padding-top
       isHeadBorder: false, // header border是否展示
-      isHeadBlank: true, // header 是否透明
       isHeaderBlackColor: false, // header 字体颜色
       productData: {
         title: '',
@@ -212,6 +228,7 @@ export default {
         value: [0],
         show: false,
       },
+      scrollTop: 0,
       productSuit: [
         {
           productImg: 'https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg',
@@ -229,7 +246,21 @@ export default {
           productPrice: '333',
         },
       ],
+      description: [
+        {
+          open: false,
+        },
+        {
+          open: false,
+        },
+        {
+          open: false,
+        },
+      ],
     };
+  },
+  onPageScroll (e) {
+    this.scrollTop = e.scrollTop
   },
   onLoad (options) {
     const { code, scene, skuCode } = options;
@@ -655,9 +686,10 @@ export default {
     vpause (e) { },
     // 尺码指南
     sizeGuideClick () {
-      this.sizeGuideShow = true;
-      this.isLeftArrow = false;
+      // this.sizeGuideShow = true;
+      // this.isLeftArrow = false;
       this.dialog.show = false
+      uni.navigateTo({ url: '/subPackages/sizeGuide/pages/index' })
     },
     clickClose () {
       this.sizeGuideShow = false;
@@ -703,6 +735,9 @@ export default {
       }
       this.isSaleOut = !(currentSku.inventory > 0)
       this.openDialog()
+    },
+    cutDescription (item) {
+      item.open = !item.open
     },
   },
   filters: {

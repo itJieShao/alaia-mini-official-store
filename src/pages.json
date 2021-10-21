@@ -45,6 +45,17 @@
 			]
 		},
 		{
+			"root": "subPackages/sizeGuide",
+			"pages": [
+				{
+					"path": "pages/index",
+					"style": {
+						"navigationStyle": "custom"
+					}
+				}
+			]
+		},
+		{
 			"root": "subPackages/plp",
 			"pages": [
 				{
