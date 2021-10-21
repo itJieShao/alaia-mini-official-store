@@ -298,7 +298,7 @@ query orders($pageInput: PageInput, $months: Int = 999) {
           orderTime
           cancelReason
           scheduleCancelTime
-          paySurplusTime
+          # paySurplusTime
           receivedAmount {
             amount
             currencyCode
