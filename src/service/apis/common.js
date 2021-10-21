@@ -1,9 +1,7 @@
 import apollo from '../apollo';
 import fetch from '../apollo/fetch'
 import { CURRENT_HOST, WECHAT_TRACK_URL } from '../../constants/env'
-import {
-  subscribeGql, menuGql, likeGoodsGql, helpListGql, helpDetailGql,
-} from '../gqls'
+import { subscribeGql, menuGql } from '../gqls'
 
 export const subscribe = (payload) => apollo.mutate({
   mutation: subscribeGql,
@@ -14,29 +12,6 @@ export const subscribe = (payload) => apollo.mutate({
 
 export const menusList = () => apollo.query({
   query: menuGql,
-})
-
-export const queryGuessLikeGoods = (payload) => apollo.query({
-  query: likeGoodsGql,
-  variables: {
-    ...payload,
-  },
-})
-
-// 帮助中心列表
-export const getHelpList = (payload) => apollo.query({
-  query: helpListGql,
-  variables: {
-    ...payload,
-  },
-})
-
-// 帮助中心详情
-export const getHelpDetail = (payload) => apollo.query({
-  query: helpDetailGql,
-  variables: {
-    ...payload,
-  },
 })
 
 export const getAccessToken = () => new Promise((resolve, reject) => {

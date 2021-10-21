@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { getHelpList } from '@/service/apis';
+import { getCmsContent } from '@/service/apis';
 import { get, debounce } from '@/utils/utilityOperationHelper';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import searchDefault from './components/searchDefault';
@@ -256,7 +256,7 @@ export default {
     // 获取HOT热词
     async getHelpList () {
       try {
-        const res = await getHelpList({
+        const res = await getCmsContent({
           templateCode: 'hot',
           contentCode: 'hot',
         });

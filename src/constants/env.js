@@ -2,7 +2,7 @@ const ENV = "uat";
 
 const HOST = {
   sit: "https://tasaki-backend-uat.baozun.com",
-  uat: "https://tasaki-backend-uat.baozun.com",
+  uat: "https://alaia-uat.baozun.com",
   prod: "https://tasaki-backend.baozun.com"
 };
 

@@ -79,7 +79,7 @@ export default {
   // 分享配置项
   onShareAppMessage (res) {
     return {
-      title: 'TASAKI塔思琦线上旗舰店',
+      title: 'ALAIA',
       path: 'pages/index/index',
       imageUrl: '',
       success () { },
@@ -150,17 +150,17 @@ export default {
     ...mapMutations('globle', ['setTabBarHide', 'setTabSelected']),
     ...mapActions('user', ['getUserInfo']),
     // 获取首页数据
-    async getIndexPageContent () {
-      const indexContent = await this.getCategoryData();
-      console.log('首页数据 ===>', indexContent[0]);
-      if (indexContent) {
-        this.homeHeadSwiperList = indexContent[0].children[0].children; // 第一屏轮播图数据
-        this.isHeaderBlackColor = indexContent[0].children[0].children[0].name !== '2-W';
-        this.productSwiperOneList = indexContent[0].children[1].children; // 产品轮播第一屏
-        this.productSwiperTwoData = indexContent[0].children[2]; // 产品轮播第二屏
-        this.productSwiperThreeData = indexContent[0].children[3]; // 产品轮播第三屏
-        this.productWallList = indexContent[0].children[4].children || [];
-      }
+    getIndexPageContent () {
+      // const indexContent = await this.getCategoryData();
+      // console.log('首页数据 ===>', indexContent[0]);
+      // if (indexContent) {
+      //   this.homeHeadSwiperList = indexContent[0].children[0].children; // 第一屏轮播图数据
+      //   this.isHeaderBlackColor = indexContent[0].children[0].children[0].name !== '2-W';
+      //   this.productSwiperOneList = indexContent[0].children[1].children; // 产品轮播第一屏
+      //   this.productSwiperTwoData = indexContent[0].children[2]; // 产品轮播第二屏
+      //   this.productSwiperThreeData = indexContent[0].children[3]; // 产品轮播第三屏
+      //   this.productWallList = indexContent[0].children[4].children || [];
+      // }
     },
     // 点击去详情
     handleProductClick (spuCodes) {

@@ -11,8 +11,9 @@
 </template>
 
 <script>
-import { getHelpList } from '@/service/apis';
+import { getCmsContent } from '@/service/apis';
 import { get } from '@/utils/utilityOperationHelper';
+import { HELP_LIST_CMS_CONFIG } from '@/constants/cms';
 
 export default {
   name: 'help',
@@ -47,11 +48,8 @@ export default {
     // 获取帮助中心list
     async getHelpList() {
       try {
-        const res = await getHelpList({
-          templateCode: 'help_index',
-          contentCode: 'help_index',
-        });
-        const cmsContent = JSON.parse(get(res, 'data.shop.cmsContent', null)) || {};
+        const res = await getCmsContent({ ...HELP_LIST_CMS_CONFIG });
+        const cmsContent = JSON.parse(get(res, 'data.shop.templateData', null)) || {};
         const helpList = get(cmsContent, 'content.zh_CN.help_index.modelContents', [])
           .map((v) => ({
             templateCode: v.groupContents.index[0].fieldContents.target_tid,
@@ -59,7 +57,6 @@ export default {
             value: v.groupContents.index[0].fieldContents.title,
           }))
         this.helpList = helpList;
-        console.log('帮助中心列表', helpList);
       } catch (error) {
         console.error(error)
       }

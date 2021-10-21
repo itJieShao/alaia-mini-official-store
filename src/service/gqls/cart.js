@@ -61,36 +61,6 @@ export const cartGql = gql`
                       }
                     }
                   }
-                  replaceableSkus {
-                    inventory
-                    code
-                    options {
-                      code
-                      frontName
-                      originCode
-                      name
-                      value {
-                        code
-                        name
-                        displayName
-                        frontName
-                      }
-                    }
-                    showAttrList{
-                      code
-                      enable
-                      name
-                      sort
-                      attrType
-                      originCode
-                      attrValueList{
-                        code
-                        attrCode
-                        originCode
-                        frontName
-                      }
-                    }
-                  }
                   options {
                     code
                     frontName

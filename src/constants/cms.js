@@ -9,3 +9,6 @@ export const CMS_MODULE = {
   PLP_TITLE_PRODUCT: 'LP_titles_product',
   PLP_BANNER: 'LP_PLP_banner',
 }
+
+
+export const HELP_LIST_CMS_CONFIG = {  templateCode: 'help_index', contentCode: 'help_index' }
