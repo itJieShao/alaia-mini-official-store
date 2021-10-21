@@ -103,6 +103,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             width: 330rpx;
             color: $color;
 
@@ -113,6 +114,7 @@
             }
 
             .goods-label {
+              font-family: PingFangSC, PingFangSC-Medium;
               font-size: 24rpx;
               line-height: 28rpx;
               padding: 8rpx;
@@ -121,6 +123,7 @@
             }
 
             .goods-title {
+              font-family: PingFangSC, PingFangSC-Regular;
               display: block;
               font-size: 28rpx;
               line-height: 28rpx;
@@ -128,6 +131,7 @@
             }
 
             .goods-price {
+              font-family: PingFangSC, PingFangSC-Regular;
               font-size: 28rpx;
               line-height: 28rpx;
             }
