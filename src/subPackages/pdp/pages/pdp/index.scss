@@ -190,17 +190,20 @@
         font-size: rpx(12);
         font-weight: 400;
         line-height: rpx(15);
-        margin-top: rpx(10);
+        margin-bottom: rpx(20);
         text-align: left;
         letter-spacing: 1px;
         color: #8e8e8e;
+        &:last-child {
+          margin-bottom: 0;
+        }
       }
       .title {
         font-family: PingFangSC, PingFangSC-Regular;
         font-size: rpx(14);
         font-weight: 400;
         line-height: rpx(20);
-        margin-top: rpx(20);
+        margin-bottom: rpx(10);
         text-align: left;
         letter-spacing: 1px;
         color: #1d1d1d;

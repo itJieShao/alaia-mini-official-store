@@ -46,8 +46,8 @@
         <view class="item" v-for="(li,index) in description" :key="li">
           <view class="title-box" @click="cutDescription(li)">
             <text class="title">描述{{index}}</text>
-            <text class="icon-font icon-jiahao" v-if="true"></text>
-            <text class="icon-font icon-jianhao" v-else></text>
+            <text class="icon-font icon-jianhao" v-if="li.open"></text>
+            <text class="icon-font icon-jiahao" v-else></text>
           </view>
           <view class="content" v-show="li.open">
             <view class="txt">这款短款气球连衣裙采用褶皱设计。它具有合身的腰身，构造像带骨的紧身胸衣。它的圆形钩眼 正面的扣件凸显了其内衣灵感。</view>
