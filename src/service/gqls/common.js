@@ -44,24 +44,3 @@ query menus {
     }
   }
 }`
-
-export const likeGoodsGql = gql`
-query likeGoods($templateCode: String!, $contentCode: String!) {
-  shop{
-    cmsContent(templateCode:$templateCode, contentCode:$contentCode)
-  }
-}`
-
-export const helpListGql = gql`
-query helpIndex($templateCode: String!, $contentCode: String!) {
-  shop{
-    cmsContent(templateCode:$templateCode, contentCode:$contentCode)
-  }
-}`
-
-export const helpDetailGql = gql`
-query helpContent($templateCode: String!, $contentCode: String!) {
-  shop{
-    cmsContent(templateCode:$templateCode, contentCode:$contentCode)
-  }
-}`

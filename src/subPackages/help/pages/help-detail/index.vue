@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getHelpDetail } from '@/service/apis';
+import { getCmsContent } from '@/service/apis';
 import { get } from '@/utils/utilityOperationHelper';
 
 export default {
@@ -58,7 +58,7 @@ export default {
   methods: {
     async getHelpDetail() {
       try {
-        const res = await getHelpDetail({
+        const res = await getCmsContent({
           templateCode: this.templateCode,
           contentCode: this.contentCode,
         });

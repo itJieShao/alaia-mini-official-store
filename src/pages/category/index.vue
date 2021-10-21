@@ -51,12 +51,12 @@ export default {
     },
   },
   async onLoad () {
-    const res = await this.getCategoryData();
-    for (const [key, value] of Object.entries(res)) {
-      if (value.name === '商品分类') {
-        this.pageData = value ? value.children : []
-      }
-    }
+    // const res = await this.getCategoryData();
+    // for (const [key, value] of Object.entries(res)) {
+    //   if (value.name === '商品分类') {
+    //     this.pageData = value ? value.children : []
+    //   }
+    // }
   },
   onShow () {
     this.setTabSelected(1);

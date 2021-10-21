@@ -12,3 +12,10 @@ query getViewData($input: ViewDataQueryInput!) {
   }
 }
 `
+
+export const cmsContentGql = gql`
+query getCmsContent ($templateCode: String!, $contentCode: String!) {
+  shop {
+    templateData(templateCode:$templateCode, contentCode:$contentCode)
+  }
+}`

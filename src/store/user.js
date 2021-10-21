@@ -81,7 +81,7 @@ const actions = {
     })
   },
   loginByAuthCode({ commit }, showLoading = true) {
-    showLoading && uni.showLoading({ mask: true, title: '加载中...' });
+    // showLoading && uni.showLoading({ mask: true, title: '加载中...' });
     if (loginInstance) return loginInstance
     // 多次调用此接口，都返回同一个实例，防止重复发起请求
     loginInstance = new Promise((resolve, reject) => {
