@@ -224,7 +224,7 @@
             current_price: item.skus && item.skus.length > 0 ? item.skus[0].salePrice.amount : 0, // 对接智慧零售入口必传
           },
           primary_image_url: item.images && item.images.length > 0 ? item.images[0].url : (item.picLink ||
-            'https://res-tasaki.baozun.com/static/images/account/account-bg2.png'),
+            'https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.20207557526373865%E4%BD%8D%E5%9B%BE.jpg'),
         });
       },
       viewScroll(e) {

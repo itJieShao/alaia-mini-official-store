@@ -2,12 +2,13 @@
   <view>
     <custom-nav-bar left-icon="search" left-text="搜索" title="分类" :head-border="true" :head-font-color="false" />
     <view class="content" :style="{ 'padding-top':ktxStatusHeight }">
-      <view class="activity-banner" v-if="cover">
+      <!-- <view class="activity-banner" v-if="cover">
         <image class="cover" :src="cover" mode="aspectFill"></image>
         <view class="txt">FALL WINTER 2021 COLLECTION</view>
-      </view>
+      </view> -->
       <view class="category-banner" v-if="cover">
         <image class="cover" :src="cover" mode="aspectFill"></image>
+        <view class="txt">WS22 COLLECTION</view>
       </view>
       <view class="category">
         <view class="item" v-for="(item,index) in pageData" :key="item.code">
@@ -36,7 +37,7 @@ export default {
       ktxStatusHeight: getApp().globalData.ktxStatusHeight,
       pageData: [],
       curIndex: null,
-      cover: 'http://scm-dam-oss-cn-cdn.baozun.com/scm-dam/2021-7-22/0.8227653865569999Aurora%E7%B3%BB%E5%88%97-750_442_.jpg',
+      cover: 'https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.45073679062264826%E4%BD%8D%E5%9B%BE%E5%A4%87%E4%BB%BD%2010.jpg',
     }
   },
   computed: {
@@ -195,12 +196,9 @@ export default {
   position: relative;
   overflow-y: auto;
 }
-.activity-banner {
-  position: relative;
-  z-index: 1;
+.category-banner {
   width: 100%;
   height: rpx(175);
-  margin-bottom: rpx(10);
   .cover {
     width: 100%;
     height: 100%;
@@ -219,14 +217,6 @@ export default {
     text-align: center;
     letter-spacing: 2px;
     color: #fff;
-  }
-}
-.category-banner {
-  width: 100%;
-  height: rpx(175);
-  .cover {
-    width: 100%;
-    height: 100%;
   }
 }
 .category {
