@@ -2,8 +2,6 @@
 <template>
   <view>
     <view class="no-login" v-if="!(isLogin && isUserInfo)">
-      <image class="bg" src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.8128166725597985%E7%99%BB%E5%BD%95%E8%83%8C%E6%99%AF%E5%9B%BE.jpg" mode="scaleToFill">
-      </image>
       <view class="no-login-con">
         <text class="icon-font icon-logo-alaia_000 logo"></text>
         <block v-if="!isGetUserInfo && isAuthorizeInfo == false">
@@ -38,7 +36,7 @@
         <!-- account header -->
         <view class="account-header" @click="goNextPage('/subPackages/editAccount/pages/index')">
           <!-- 背景图片 -->
-          <image class="account-bg" :src="`https://res-tasaki.baozun.com/static/images/account/account-bg2.png`"
+          <image class="account-bg" :src="`https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.20207557526373865%E4%BD%8D%E5%9B%BE.jpg`"
             mode="widthFix" :lazy-load="true" />
           <!-- 头像 -->
           <view class="account-head-photo-box">

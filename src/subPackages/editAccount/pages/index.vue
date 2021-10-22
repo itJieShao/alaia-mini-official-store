@@ -3,7 +3,7 @@
     <custom-nav-bar :head-font-color="false" />
     <view :style="{'padding-top':ktxStatusHeight}"></view>
     <view class="account-top">
-      <image class="bg" :src="`https://res-tasaki.baozun.com/static/images/account/account-bg2.png`" mode="widthFix">
+      <image class="bg" :src="`https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.20207557526373865%E4%BD%8D%E5%9B%BE.jpg`" mode="widthFix">
       </image>
       <view class="photo-box">
         <image :src="avatarUrl" mode="aspectFill" />
