@@ -2,7 +2,7 @@
 <template>
   <view>
     <view class="no-login" v-if="!(isLogin && isUserInfo)">
-      <image class="bg" src="https://res-tasaki.baozun.com/static/images/authorize-dialog-bg1.jpg" mode="scaleToFill">
+      <image class="bg" src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.8128166725597985%E7%99%BB%E5%BD%95%E8%83%8C%E6%99%AF%E5%9B%BE.jpg" mode="scaleToFill">
       </image>
       <view class="no-login-con">
         <text class="icon-font icon-logo-alaia_000 logo"></text>
@@ -16,8 +16,10 @@
         <block v-if="isGetUserInfo || isAuthorizeInfo == true">
           <text class="desc1">欢迎加入</text>
           <text class="desc2">授权我们获取您的手机号即可完成注册流程</text>
-          <button class="login-btn" open-type="getPhoneNumber" :disabled="!isAgreeYSXY"
-            @getphonenumber="getPhoneNumber">
+          <button class="login-btn" v-if="isAgreeYSXY" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">
+            授权手机号
+          </button>
+          <button class="login-btn" v-else @click="showAgreeTip">
             授权手机号
           </button>
           <view class="agreement-content">
@@ -70,7 +72,9 @@
     mapActions,
     mapMutations
   } from 'vuex';
-  import { get } from '@/utils/utilityOperationHelper';
+  import {
+    get
+  } from '@/utils/utilityOperationHelper';
   import {
     MOBILE,
     IS_MEMBER_LOGIN,
@@ -175,7 +179,7 @@
     methods: {
       get,
       ...mapMutations('globle', ['setTabSelected']),
-      ...mapActions('user', ['getUserInfo','editAccountInfo','bindMobileByEncryptedData']),
+      ...mapActions('user', ['getUserInfo', 'editAccountInfo', 'bindMobileByEncryptedData']),
       // 判断是否登录
       async judgeLogin(callback) {
         if (!this.isLogin || !this.isUserInfo) {
@@ -199,7 +203,7 @@
           url: '/subPackages/login/pages/login/index',
         })
       },
-      pageReLoad(){
+      pageReLoad() {
         const {
           accountInfo
         } = uni.getStorageSync(USER_INFO) || {};
@@ -232,7 +236,9 @@
         });
       },
       async doLogin(e, params) {
-        const { type } = e.target.dataset;
+        const {
+          type
+        } = e.target.dataset;
         if (!this.canIUseGetUserProfile && !this.isAuthorizeInfo) {
           wx.getUserInfo({
             success: (res) => {
@@ -293,6 +299,12 @@
         }
         // await this.getUnionId(e);
       },
+      showAgreeTip() {
+        uni.showToast({
+          title: '请勾选接受ALAÏA销售条款及隐私政策',
+          icon: 'none',
+        });
+      },
       async getPhoneNumber(e) {
         if (e.detail.errMsg !== 'getPhoneNumber:ok') {
           uni.showToast({
@@ -336,7 +348,10 @@
         this.pageReLoad();
       },
       // 公共函数
-      buyCommonFunc({ userInfo, encryptInfo } = {}) {
+      buyCommonFunc({
+        userInfo,
+        encryptInfo
+      } = {}) {
         uni.setStorageSync(WX_INFO, JSON.parse(userInfo || '{}'));
         if (userInfo && userInfo.indexOf('nickName') != -1) {
           const info = JSON.parse(userInfo || '{}')
@@ -357,7 +372,9 @@
       // 显示错误信息
       showMessage(msg, errCode) {
         if (errCode && errorCode[errCode]) {
-          const { message } = errorCode[errCode];
+          const {
+            message
+          } = errorCode[errCode];
           if (message) {
             msg = message;
           }
