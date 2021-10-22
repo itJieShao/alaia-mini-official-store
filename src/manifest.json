@@ -1,5 +1,5 @@
 {
-  "name": "TASAKI",
+  "name": "ALAIA",
   "appid": "",
   "description": "",
   "versionName": "1.0.0",
@@ -45,7 +45,7 @@
   "quickapp": {},
   "mp-weixin": {
     "usingComponents": true,
-    "appid": "wxe5bd54b04e85cd62",
+    "appid": "wxf1cf2466825c34fb",
     "permission": {
       "scope.userLocation": {
         "desc": "你的位置信息将用于小程序位置接口的效果展示"

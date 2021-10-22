@@ -4,7 +4,7 @@
     <view class="help-list">
       <view class="help-list-item" v-for="(item ,index ) in helpList" :key="index" @click="goHelpDetail(item)">
         <text>{{item.value}}</text>
-        <text class="icon-font icon-icon-youjiantou"></text>
+        <text class="icon-font icon-youjiantou"></text>
       </view>
     </view>
   </view>
@@ -20,14 +20,7 @@ export default {
   data() {
     return {
       ktxStatusHeight: getApp().globalData.ktxStatusHeight,
-      helpList: [
-        { name: '养护建议' },
-        { name: '售后、保修服务' },
-        { name: '常见问题' },
-        { name: '服务条款' },
-        { name: '隐私政策' },
-        { name: '销售条款销售条款' },
-      ],
+      helpList: [],
     }
   },
   created() {
