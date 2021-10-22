@@ -1,29 +1,32 @@
+@import '@/styles/base';
+
 .help-center{
-  .help-center-title{
-    padding:  0 32rpx;
+  .help-center-title {
+    padding:  0 rpx(16);
     box-sizing: border-box;
-    height: 92rpx;
-    font-size: 32rpx;
+    height: rpx(46);
+    font-size: rpx(16);
     color: #1D1D1D;
-    line-height: 92rpx;
+    line-height: rpx(46);
     letter-spacing: 2rpx;
     border-bottom: 1px solid #EFF2F4;
   }
-  .help-list{
-    padding: 0 32rpx;
-    .help-list-item{
+  .help-list {
+    padding: 0 rpx(16);
+    .help-list-item {
       position: relative;
       box-sizing: border-box;
-      height: 120rpx;
-      font-size: 28rpx;
+      height: rpx(60);
+      font-size: rpx(14);
       font-weight: normal;
       color: #1D1D1D;
-      line-height: 120rpx;
+      line-height: rpx(60);
       border-bottom: 1px solid #F4F4F4;
       .icon-font{
         position: absolute;
         right: 0;
-        font-size: 28rpx;
+        font-size: rpx(14);
+        transform: rotate(180deg);
       }
     }
   }

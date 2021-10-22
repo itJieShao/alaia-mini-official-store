@@ -4,7 +4,7 @@
     <view class="help-list">
       <view class="help-list-item" v-for="(item ,index ) in helpList" :key="index" @click="goHelpDetail(item)">
         <text>{{item.value}}</text>
-        <text class="icon-font icon-youjiantou"></text>
+        <text class="icon-font icon-zuoyoujiantou"></text>
       </view>
     </view>
   </view>
@@ -43,7 +43,7 @@ export default {
       try {
         const res = await getCmsContent({ ...HELP_LIST_CMS_CONFIG });
         const cmsContent = JSON.parse(get(res, 'data.shop.templateData', null)) || {};
-        const helpList = get(cmsContent, 'content.zh_CN.help_index.modelContents', [])
+        const helpList = get(cmsContent, 'zh_CN.help_index.modelContents', [])
           .map((v) => ({
             templateCode: v.groupContents.index[0].fieldContents.target_tid,
             contentCode: v.groupContents.index[0].fieldContents.target_id,
