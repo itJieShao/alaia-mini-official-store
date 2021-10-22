@@ -4,29 +4,23 @@
     <view class="help-list">
       <view class="help-list-item" v-for="(item ,index ) in helpList" :key="index" @click="goHelpDetail(item)">
         <text>{{item.value}}</text>
-        <text class="icon-font icon-icon-youjiantou"></text>
+        <text class="icon-font icon-zuoyoujiantou"></text>
       </view>
     </view>
   </view>
 </template>
 
 <script>
-import { getHelpList } from '@/service/apis';
-import { get } from '@/utils/utilityOperationHelper';
+import { getCmsContent } from '@/service/apis';
+import { parseCmsContent } from '@/utils/cms';
+import { HELP_LIST_CMS_CONFIG } from '@/constants/cms';
 
 export default {
   name: 'help',
   data() {
     return {
       ktxStatusHeight: getApp().globalData.ktxStatusHeight,
-      helpList: [
-        { name: '养护建议' },
-        { name: '售后、保修服务' },
-        { name: '常见问题' },
-        { name: '服务条款' },
-        { name: '隐私政策' },
-        { name: '销售条款销售条款' },
-      ],
+      helpList: [],
     }
   },
   created() {
@@ -46,20 +40,15 @@ export default {
     },
     // 获取帮助中心list
     async getHelpList() {
+      const { moduleCode, ...rest } = HELP_LIST_CMS_CONFIG;
       try {
-        const res = await getHelpList({
-          templateCode: 'help_index',
-          contentCode: 'help_index',
-        });
-        const cmsContent = JSON.parse(get(res, 'data.shop.cmsContent', null)) || {};
-        const helpList = get(cmsContent, 'content.zh_CN.help_index.modelContents', [])
-          .map((v) => ({
-            templateCode: v.groupContents.index[0].fieldContents.target_tid,
-            contentCode: v.groupContents.index[0].fieldContents.target_id,
-            value: v.groupContents.index[0].fieldContents.title,
-          }))
-        this.helpList = helpList;
-        console.log('帮助中心列表', helpList);
+        const res = await getCmsContent({ ...rest });
+        const helpList = parseCmsContent(res, rest.templateCode, moduleCode);
+        this.helpList = helpList.map((item) => ({ 
+          templateCode: item.target_tid, 
+          contentCode: item.target_id,
+          value: item.title
+        }));
       } catch (error) {
         console.error(error)
       }

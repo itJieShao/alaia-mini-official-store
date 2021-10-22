@@ -326,7 +326,7 @@ export const deliveryAddressesGql = gql`
             address
             receiverName
             receiverMobile
-            addressVerify
+            # addressVerify
           }
         }
       }

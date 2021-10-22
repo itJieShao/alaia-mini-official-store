@@ -5,22 +5,25 @@
   background: #F9F9F9;
   .my-order-content{
     .no-order{
-      padding: 120rpx 0;
+      padding: rpx(40) 0 rpx(60);
       color: #1D1D1D;
       text-align: center;
-      .no-order-text{
-        font-size:32rpx;
-        line-height: 8rpx;
-        letter-spacing: 2rpx;
+      .icon-font {
+        display: block;
+        margin-bottom: rpx(18);
+        font-size: rpx(40);
+        color: #1D1D1D;
+      }
+      .no-order-text {
+        font-size:rpx(18);
         margin-bottom: 34rpx;
       }
-      .no-order-tip{
-        font-size: 24rpx;
+      
+      .no-order-tip {
+        font-size: rpx(14);
         font-weight: normal;
-        line-height: 36rpx;
-        margin-bottom: 70rpx;
+        margin: rpx(20) 0 rpx(40) 0;
       }
-
     }
     .order-status-tab {
       position: fixed;

@@ -41,6 +41,36 @@ export const cartGql = gql`
                     frontName
                   }
                 }
+                # replaceableSkus {
+                #     inventory
+                #     code
+                #     options {
+                #       code
+                #       frontName
+                #       originCode
+                #       name
+                #       value {
+                #         code
+                #         name
+                #         displayName
+                #         frontName
+                #       }
+                #     }
+                #     showAttrList{
+                #       code
+                #       enable
+                #       name
+                #       sort
+                #       attrType
+                #       originCode
+                #       attrValueList{
+                #         code
+                #         attrCode
+                #         originCode
+                #         frontName
+                #       }
+                #     }
+                #   }
                 product{
                   code
                   title
@@ -57,36 +87,6 @@ export const cartGql = gql`
                         code
                         name
                         displayName
-                        frontName
-                      }
-                    }
-                  }
-                  replaceableSkus {
-                    inventory
-                    code
-                    options {
-                      code
-                      frontName
-                      originCode
-                      name
-                      value {
-                        code
-                        name
-                        displayName
-                        frontName
-                      }
-                    }
-                    showAttrList{
-                      code
-                      enable
-                      name
-                      sort
-                      attrType
-                      originCode
-                      attrValueList{
-                        code
-                        attrCode
-                        originCode
                         frontName
                       }
                     }

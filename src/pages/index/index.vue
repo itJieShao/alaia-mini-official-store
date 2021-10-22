@@ -7,7 +7,7 @@
       <swiper class="swiper" :current="current" easing-function="linear" :autoplay="false" :indicator-dots="false" :vertical="true" @change="swiperChange" @animationfinish="animationfinish">
         <swiper-item class="scroll-view">
           <!-- 首页顶部swiper -->
-          <home-head-swiper :pageIsShow="pageIsShow" :parentCurrent="current" :homeHeadSwiperList="homeHeadSwiperList" :isPause="isPause" :isShowDost="isShowDost" @swiperChange="homeHeaderSwiperChange"></home-head-swiper>
+          <home-head-swiper :pageIsShow="pageIsShow" :parentCurrent="current" :isPause="isPause" :isShowDost="isShowDost" @swiperChange="homeHeaderSwiperChange"></home-head-swiper>
         </swiper-item>
         <swiper-item>
           <scroll-view scroll-y class="scroll-view scroll-view-content" :style="{'paddingTop':ktxStatusHeight}" @scroll="viewScroll" :scroll-into-view="scrollToId">
@@ -39,7 +39,7 @@ import {
   trackWechatAd,
 } from '@/service/apis'
 import customButton from '@/components/button/normal.vue';
-import HomeHeadSwiper from './components/homeHeadSwiper/homeHeadSwiper'; // 首页顶部swiper
+import HomeHeadSwiper from './components/homeHeadSwiper'; // 首页顶部swiper
 import ProductSwiper from './components/prodcutSwiper/productSwiper'; // 首页轮播
 import ProductModel from './components/productModel/productModel'; // 造型灵感
 import Product from './components/product/product'; // 精选推荐
@@ -79,7 +79,7 @@ export default {
   // 分享配置项
   onShareAppMessage (res) {
     return {
-      title: 'TASAKI塔思琦线上旗舰店',
+      title: 'ALAIA',
       path: 'pages/index/index',
       imageUrl: '',
       success () { },
@@ -150,17 +150,17 @@ export default {
     ...mapMutations('globle', ['setTabBarHide', 'setTabSelected']),
     ...mapActions('user', ['getUserInfo']),
     // 获取首页数据
-    async getIndexPageContent () {
-      const indexContent = await this.getCategoryData();
-      console.log('首页数据 ===>', indexContent[0]);
-      if (indexContent) {
-        this.homeHeadSwiperList = indexContent[0].children[0].children; // 第一屏轮播图数据
-        this.isHeaderBlackColor = indexContent[0].children[0].children[0].name !== '2-W';
-        this.productSwiperOneList = indexContent[0].children[1].children; // 产品轮播第一屏
-        this.productSwiperTwoData = indexContent[0].children[2]; // 产品轮播第二屏
-        this.productSwiperThreeData = indexContent[0].children[3]; // 产品轮播第三屏
-        this.productWallList = indexContent[0].children[4].children || [];
-      }
+    getIndexPageContent () {
+      // const indexContent = await this.getCategoryData();
+      // console.log('首页数据 ===>', indexContent[0]);
+      // if (indexContent) {
+      //   this.homeHeadSwiperList = indexContent[0].children[0].children; // 第一屏轮播图数据
+      //   this.isHeaderBlackColor = indexContent[0].children[0].children[0].name !== '2-W';
+      //   this.productSwiperOneList = indexContent[0].children[1].children; // 产品轮播第一屏
+      //   this.productSwiperTwoData = indexContent[0].children[2]; // 产品轮播第二屏
+      //   this.productSwiperThreeData = indexContent[0].children[3]; // 产品轮播第三屏
+      //   this.productWallList = indexContent[0].children[4].children || [];
+      // }
     },
     // 点击去详情
     handleProductClick (spuCodes) {

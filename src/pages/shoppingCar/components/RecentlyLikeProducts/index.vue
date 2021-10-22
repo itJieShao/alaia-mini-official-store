@@ -8,7 +8,7 @@
 <script>
 import { mapActions } from 'vuex'
 import productDisplay from '@/components/product-display';
-import { queryGuessLikeGoods } from '@/service/apis'
+import { getCmsContent } from '@/service/apis'
 import { get } from '@/utils/utilityOperationHelper'
 
 const placeholderImg = 'https://res-tasaki.baozun.com/static/images/empty.png'
@@ -39,7 +39,7 @@ export default {
     };
   },
   created () {
-    this.getGuessLike()
+    // this.getGuessLike()
     this.getRecentProducts()
   },
   methods: {
@@ -47,10 +47,7 @@ export default {
     ...mapActions('product', ['getProductList']),
     async getGuessLike () {
       try {
-        const res = await queryGuessLikeGoods({
-          templateCode: 'P001',
-          contentCode: 'guess',
-        })
+        const res = await getCmsContent({ templateCode: 'P001', contentCode: 'guess' })
         const cmsContent = JSON.parse(get(res, 'data.shop.cmsContent', null)) || {}
         const skuCodes = get(cmsContent, 'content.zh_CN.A1.modelContents[0].groupContents.A001', [])
           .map((v) => ({ key: 'spuCode', value: v.fieldContents.SKUCODE }))

@@ -1,3 +1,5 @@
+@import '@/styles/base';
+
 .help-detail {
   background-color: #fff;
   padding-top: 40rpx;
@@ -6,7 +8,7 @@
     margin-bottom: 70rpx;
     margin-top: 60rpx;
     .icon-font {
-      font-size: 20rpx;
+      font-size: rpx(24);
     }
     .help-detail-title-name {
       position: relative;
@@ -17,16 +19,6 @@
       letter-spacing: 2rpx;
       margin-top: 34rpx;
       box-sizing: border-box;
-      &::before {
-        position: absolute;
-        top: -28rpx;
-        left: 50%;
-        transform: translateX(-50%);
-        content: '';
-        width: 144rpx;
-        height: 8rpx;
-        background-color: #e3f0ea;
-      }
     }
   }
   .help-detail-content {
@@ -54,7 +46,6 @@
           left: -30rpx;
           width: 16rpx;
           height: 16rpx;
-          background-color: #e3f0ea;
           border-radius: 50%;
         }
       }
