@@ -59,6 +59,9 @@
   }
   &.nav-bar-blank {
     background: transparent;
+	.icon-font{
+		color: #fff;
+	}
     .nav-bar-left,
     .nav-bar-title {
       font-size: rpx(14);

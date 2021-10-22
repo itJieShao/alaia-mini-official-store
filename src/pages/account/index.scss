@@ -56,8 +56,8 @@ $textColor: #1D1D1D;
   }
   .account-content{    
     .account-entrance-box{
-	  margin-top: 36rpx;
-      padding: 58rpx 60rpx 0;
+	  margin: 36rpx auto 0;
+      padding: 58rpx 25rpx 0;
 	  border-top: 2rpx solid #E8E8E8;
       overflow: hidden;
 	  display: flex;
@@ -67,13 +67,12 @@ $textColor: #1D1D1D;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-        width: 300rpx;
+        width: 50%;
         height: 148rpx;
         background-color: #fff;
         margin-bottom: 98rpx;
         
         &:nth-child(2n-1){
-          margin-right: 28rpx;
 		  border-right: 4rpx solid #DDDDDD;
         }
         .icon-font{
