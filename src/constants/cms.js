@@ -13,6 +13,7 @@ export const CMS_MODULE = {
 // cmscode 
 //首页
 export const HOME_MAIN_SWIPER_CONFIG = {  moduleCode: 'swiper', templateCode: 'swiper_group', contentCode: 'home_main_swiper' }
+export const HOME_STORE_CONFIG = {  moduleCode: 'swiper', templateCode: 'section_content', contentCode: 'home_store' }
 
 // 帮助页cms
 export const HELP_LIST_CMS_CONFIG = {  moduleCode: 'index', templateCode: 'help_index', contentCode: 'help_index' }

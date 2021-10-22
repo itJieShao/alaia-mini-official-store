@@ -22,3 +22,5 @@ export const CURRENT_ENV = ENV;
 export const CURRENT_GA = GA[ENV];
 
 export const TITLE = "ALAIA";
+
+export const OSS_URL = "https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam";

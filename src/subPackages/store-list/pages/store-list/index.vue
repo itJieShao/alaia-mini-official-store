@@ -2,39 +2,9 @@
   <view class="store-list">
     <custom-nav-bar title="精品店" :head-font-color="false"  />
     <view :style="{'padding-top':ktxStatusHeight}"></view>
-
-    <!-- 精品店筛选 -->
-    <view class="store-screen-box" :style="{'top':ktxStatusHeight}">
-      <!-- <form>
-        <picker
-          mode="selector"
-          @change="bindProvinceChange"
-          :range="regionsList"
-          range-key="name"
-        >
-          <view class="store-screen-item">
-            <text v-if="provinceIndex !== null">{{regionsList[provinceIndex].name}}</text>
-            <text v-else>省份</text>
-            <text class="icon-font icon-icon-xialahuise"></text>
-          </view>
-        </picker>
-        <picker
-          mode="selector"
-          @change="bindCityChange"
-          :range="cityList"
-          range-key="name"
-          :value="cityIndex"
-          >
-            <view class="store-screen-item">
-              <text v-if="cityIndex !== null">{{cityList[cityIndex].name}}</text>
-              <text v-else>城市</text>
-              <text class="icon-font icon-icon-xialahuise"></text>
-            </view>
-        </picker>
-      </form> -->
-    </view>
     <!-- 精品店列表 -->
-    <image class="banner" src="" mode="widthFix" :lazy-load="true"></image>
+    <image class="banner" src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.5941669535944558%E7%B2%BE%E5%93%81%E5%BA%97.jpg"
+     mode="aspectFill" :lazy-load="true"></image>
     <view class="store-list-box" v-if="isLoad && storeList.length > 0">
       <view class="store-list-item" v-for="(storeItem,storeIndex) in storeList" :key="storeIndex">
         <!-- 店名 -->

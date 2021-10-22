@@ -1,3 +1,5 @@
+@import "@/styles/base";
+
 .store-list{
   .store-screen-box{
     background-color: #fff;
@@ -27,9 +29,10 @@
       }
     }
   }
-	.banner{
+	.banner {
 		display: block;
-		width: 750rpx;
+		width: 100%;
+    height: rpx(210);
 	}
   .store-list-box{
     padding: 0 32rpx 60rpx;
