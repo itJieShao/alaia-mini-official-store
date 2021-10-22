@@ -7,12 +7,13 @@
       <!-- 无订单 -->
       <block v-if="isLoad && orderList.length == 0">
         <view class="no-order" >
+          <text class="icon-font icon-logo-alaia_000 logo"></text>
           <view class="no-order-text">暂无订单记录</view>
-          <view class="no-order-tip">未查询到购买记录，快下单喜欢的商品吧</view>
+          <view class="no-order-tip">未查询到订单记录，快下单喜欢的商品吧</view>
           <customButton :btnWidth="280" :btnHeight="80" className="big-btn" @click="handleClick">去逛逛</customButton>
         </view>
-        <!-- 无订单时展示 猜你喜欢 & 最近浏览 -->
-        <recently-like-products/>
+        <!-- 无订单时展示 猜你喜欢 & 最近浏览 --暂时去掉 -->
+        <!-- <recently-like-products/> -->
       </block>
       <!-- 有订单 -->
       <block v-if="isLoad && orderList.length > 0">
@@ -37,7 +38,7 @@
 
 <script>
 import { mapActions, mapMutations, mapGetters } from 'vuex'
-import customButton from '@/components/button/normal.vue';
+import customButton from '@/components/al-button/normal';
 import RecentlyLikeProducts from '@/pages/shoppingCar/components/RecentlyLikeProducts'
 import { SCREEN_NAME, trackerCommonPageView } from '@/utils/ga'
 import { formatDateNew } from '@/utils/utils'
