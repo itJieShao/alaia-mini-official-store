@@ -4,7 +4,7 @@
     <view class="help-list">
       <view class="help-list-item" v-for="(item ,index ) in helpList" :key="index" @click="goHelpDetail(item)">
         <text>{{item.value}}</text>
-        <text class="icon-font icon-youjiantou"></text>
+        <text class="icon-font icon-zuoyoujiantou"></text>
       </view>
     </view>
   </view>
@@ -12,7 +12,7 @@
 
 <script>
 import { getCmsContent } from '@/service/apis';
-import { get } from '@/utils/utilityOperationHelper';
+import { parseCmsContent } from '@/utils/cms';
 import { HELP_LIST_CMS_CONFIG } from '@/constants/cms';
 
 export default {
@@ -40,16 +40,15 @@ export default {
     },
     // 获取帮助中心list
     async getHelpList() {
+      const { moduleCode, ...rest } = HELP_LIST_CMS_CONFIG;
       try {
-        const res = await getCmsContent({ ...HELP_LIST_CMS_CONFIG });
-        const cmsContent = JSON.parse(get(res, 'data.shop.templateData', null)) || {};
-        const helpList = get(cmsContent, 'content.zh_CN.help_index.modelContents', [])
-          .map((v) => ({
-            templateCode: v.groupContents.index[0].fieldContents.target_tid,
-            contentCode: v.groupContents.index[0].fieldContents.target_id,
-            value: v.groupContents.index[0].fieldContents.title,
-          }))
-        this.helpList = helpList;
+        const res = await getCmsContent({ ...rest });
+        const helpList = parseCmsContent(res, rest.templateCode, moduleCode);
+        this.helpList = helpList.map((item) => ({ 
+          templateCode: item.target_tid, 
+          contentCode: item.target_id,
+          value: item.title
+        }));
       } catch (error) {
         console.error(error)
       }

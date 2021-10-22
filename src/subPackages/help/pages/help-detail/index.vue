@@ -3,7 +3,7 @@
     <custom-nav-bar :head-border="false"  :head-font-color="false"  />
     <!-- help title & logo -->
     <view class="help-detail-title">
-      <text class="icon-font icon-icon-logo"></text>
+      <text class="icon-font icon-logo-alaia_000"></text>
       <view class="help-detail-title-name">{{helpTitle}}</view>
     </view>
     <view class="help-detail-content">
@@ -57,25 +57,25 @@ export default {
   },
   methods: {
     async getHelpDetail() {
-      try {
-        const res = await getCmsContent({
-          templateCode: this.templateCode,
-          contentCode: this.contentCode,
-        });
-        const cmsContent = JSON.parse(get(res, 'data.shop.cmsContent', null)) || {};
-        this.helpTitle = cmsContent.contentName;
-        console.log('cmsContent ===>', cmsContent);
-        const helpContent = get(cmsContent, 'content.zh_CN.content.modelContents', [])
-          .map((v) => ({ content: v.groupContents.content[0].fieldContents.content, type: v.groupContents.content[0].fieldContents.type, fontWeight: v.groupContents.content[0].fieldContents['special requirements'] == '["bold"]' ? 'bold': ''}))
-        console.log('helpContent ===>', helpContent);
-        this.helpContent = helpContent;
-      } catch (error) {
-        console.error(error)
-      }
+      // try {
+      //   const res = await getCmsContent({
+      //     templateCode: this.templateCode,
+      //     contentCode: this.contentCode,
+      //   });
+      //   const cmsContent = JSON.parse(get(res, 'data.shop.cmsContent', null)) || {};
+      //   this.helpTitle = cmsContent.contentName;
+      //   console.log('cmsContent ===>', cmsContent);
+      //   const helpContent = get(cmsContent, 'zh_CN.content.modelContents', [])
+      //     .map((v) => ({ content: v.groupContents.content[0].fieldContents.content, type: v.groupContents.content[0].fieldContents.type, fontWeight: v.groupContents.content[0].fieldContents['special requirements'] == '["bold"]' ? 'bold': ''}))
+      //   console.log('helpContent ===>', helpContent);
+      //   this.helpContent = helpContent;
+      // } catch (error) {
+      //   console.error(error)
+      // }
     },
   },
 }
 </script>
 <style lang="scss" scoped>
-  @import './index.scss';
+  @import './index';
 </style>

@@ -7,7 +7,7 @@
       <swiper class="swiper" :current="current" easing-function="linear" :autoplay="false" :indicator-dots="false" :vertical="true" @change="swiperChange" @animationfinish="animationfinish">
         <swiper-item class="scroll-view">
           <!-- 首页顶部swiper -->
-          <home-head-swiper :pageIsShow="pageIsShow" :parentCurrent="current" :homeHeadSwiperList="homeHeadSwiperList" :isPause="isPause" :isShowDost="isShowDost" @swiperChange="homeHeaderSwiperChange"></home-head-swiper>
+          <home-head-swiper :pageIsShow="pageIsShow" :parentCurrent="current" :isPause="isPause" :isShowDost="isShowDost" @swiperChange="homeHeaderSwiperChange"></home-head-swiper>
         </swiper-item>
         <swiper-item>
           <scroll-view scroll-y class="scroll-view scroll-view-content" :style="{'paddingTop':ktxStatusHeight}" @scroll="viewScroll" :scroll-into-view="scrollToId">
@@ -39,7 +39,7 @@ import {
   trackWechatAd,
 } from '@/service/apis'
 import customButton from '@/components/button/normal.vue';
-import HomeHeadSwiper from './components/homeHeadSwiper/homeHeadSwiper'; // 首页顶部swiper
+import HomeHeadSwiper from './components/homeHeadSwiper'; // 首页顶部swiper
 import ProductSwiper from './components/prodcutSwiper/productSwiper'; // 首页轮播
 import ProductModel from './components/productModel/productModel'; // 造型灵感
 import Product from './components/product/product'; // 精选推荐

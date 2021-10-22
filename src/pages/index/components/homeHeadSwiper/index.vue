@@ -61,6 +61,9 @@
 
 <script>
 import customButton from '@/components/button/normal.vue';
+import { getCmsContent } from '@/service/apis';
+import { parseCmsContent } from '@/utils/cms';
+import { HOME_MAIN_SWIPER_CONFIG } from '@/constants/cms';
 
 export default {
   name: 'homeHeadSwiper',
@@ -88,7 +91,6 @@ export default {
       type: Boolean,
       default: true,
     },
-
   },
   watch: {
     parentCurrent: {
@@ -172,9 +174,21 @@ export default {
     dotsLeft() {
       return this.bannerList.length > 0 ? 240 / this.bannerList.length * this.currentIndex : 0;
     },
-
+  },
+  mounted() {
+    this.getMainSwiper();
   },
   methods: {
+    async getMainSwiper() {
+      const { moduleCode, ...rest } = HOME_MAIN_SWIPER_CONFIG;
+      try {
+        const res = await getCmsContent({ ...rest });
+        const mainSwiperData = parseCmsContent(res, moduleCode, moduleCode);
+        console.log('mainSwiperData------>', mainSwiperData);
+      } catch (error) {
+        console.error(error)
+      }
+    },
     swiperChange(e) {
       console.log('swiperChange ====>', e, this.currentIndex);
       const that = this;
@@ -237,189 +251,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$mainColor: #e3f0ea;
-$transitionAll: all .8s;
-// 首页顶部swiper
-.home-head-swiper {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 112rpx - var(--safe-area-inset-bottom));
-  .swiper{
-    width: 100%;
-    height: 100%;
-    .home-head-swiper-item{
-      position: relative;
-      width: 100%;
-      height: 100%;
-      &.fontWhite{
-        .home-head-swiper-other{
-          color: #fff;
-          .normal{
-            .default-btn.btn{
-              border-color:#fff !important;
-              color: #fff !important;
-
-            }
-          }
-        }
-      }
-      .home-head-swiper-img {
-        position: relative;
-        height: 100%;
-        width: 100%;
-        z-index: 1;
-      }
-      .home-head-swiper-video {
-        position: relative;
-        height: 100%;
-        width: 100%;
-        z-index:-1 !important;
-        .video-content{
-          height: 100%;
-          width: 100%;
-        }
-      }
-      .home-head-swiper-other {
-        position: absolute;
-        bottom: 210rpx;
-        width: 100%;
-        height: 200rpx;
-        color: #1d1d1d;
-        text-align: center;
-        z-index: 10;
-        .home-head-swiper-title {
-          font-size: 56rpx;
-          font-weight: bold;
-          line-height: 68rpx;
-          margin-bottom: 30rpx;
-          color: #fff;
-          font-family: Lato;
-        }
-        .home-head-swiper-btn {
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          transform: translateX(-50%);
-        }
-      }
-    }
-  }
-
-   // 滚动条
-  .view-dost {
-    position: absolute;
-    bottom: 140rpx;
-    z-index: 10;
-    width: 100%;
-    margin-top: 80rpx;
-    text-align: center;
-    word-wrap: break-word;
-
-    .swiper-dots-warp {
-      position: relative;
-      width: 240px;
-      height: 2px;
-      margin: 0 auto;
-      transform: scaleY(.5);
-      background: #d8d8d8;
-
-      .swiper-dots {
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 32px;
-        height: 3px;
-        transition: $transitionAll;
-        transform: translateY(-50%);
-        text-align: center;
-        background: #1d1d1d;
-      }
-    }
-    &.white-dost{
-      .swiper-dots-warp{
-        .swiper-dots{
-          background: #fff;
-        }
-      }
-
-    }
-  }
-  .down-arrow{
-    width: 100%;
-    height: 20rpx;
-    position: absolute;
-    bottom: 38rpx;
-    color: #1d1d1d;
-    line-height: 20rpx;
-    font-size: 18rpx;
-    text-align: center;
-    .icon-font{
-      display: block;
-      font-size: 30rpx;
-      height: 18rpx;
-      &.white-arrow{
-        color: #fff;
-      }
-    }
-
-  }
-  .play-btn{
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    margin: -27px 0 0 8px;
-    color: #1d1d1d;
-    text-align: center;
-    z-index: 10;
-    .icon-font{
-      font-size:100rpx;
-    }
-  }
-  .white{
-    color: #fff !important;
-  }
-  .yingliang{
-    position: absolute;
-    bottom: 115rpx;
-    left: 30rpx;
-    font-size: 36rpx;
-  }
-
-  .news-toast{
-    position: absolute;
-    bottom: 22rpx;
-    left: 20rpx;
-    width: 710rpx;
-    height: 80rpx;
-    background-color: rgba(0,0,0,.6);
-    transition: 0.3s;
-    .icon-font{
-      position: absolute;
-      color: #fff;
-      top: 26rpx;
-      right: 30rpx;
-      font-size: 24rpx;
-    }
-    .news-toast-swiper{
-      width: 80%;
-      height: 100%;
-      margin: 0 auto;
-      swiper-item{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        view{
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          font-size: 24rpx;
-          letter-spacing: 2rpx;
-          color: #fff;
-          border-bottom: 2rpx solid #fff;
-          text-align: center;
-        }
-      }
-    }
-  }
-}
+  @import './index';
 </style>
