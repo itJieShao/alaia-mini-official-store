@@ -34,7 +34,7 @@
         </view>
       </view>
 
-      <view class="use-wechat" @tap="handleAuthAddr">
+      <view v-if="(!isLoading && !addressList.length) || addressList.length"  class="use-wechat" @tap="handleAuthAddr">
         <text class="icon-font icon-icon-weixin"></text>
         使用微信地址
       </view>
