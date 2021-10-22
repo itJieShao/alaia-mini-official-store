@@ -84,7 +84,6 @@ export default {
       try {
         const res = await getCmsContent({ ...rest });
         const mainSwiperData = parseCmsContent(res, moduleCode, moduleCode);
-        console.log('mainSwiperData------>', mainSwiperData);
         mainSwiperData.forEach(item => {
           if (item.source_url) {
             const re = new RegExp("^(http|https)://");

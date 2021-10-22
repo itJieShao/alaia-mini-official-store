@@ -1,25 +1,25 @@
 <template name="boutique">
   <view class="boutique">
       <view class="title">
-        <com-title title="ALAÏA精品店" />
+        <com-title :title="storeInfo.title" />
       </view>
-      <image  class="boutique-img" :src="'https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg'"  mode="widthFix" :lazy-load="true" />
+      <image v-if="storeInfo.source_type ==='image'" class="boutique-img" :src="storeInfo.source_url"  mode="widthFix" :lazy-load="true" />
       <view class="font-content">
-        <text>
-          在世界各地寻找我们的精品店，在 Alaïa 商店体验
-        </text>
-        <text>
-          独特的体验。
-        </text>
+        <text> {{ storeInfo.sub_title }} </text>
       </view>
-      <view class="home-more-btn">
-        <customButton :btnWidth="280" :btnHeight="80" className="transparent" @click="goStoreList">即刻查找</customButton>
+      <view class="home-more-btn" v-if="storeInfo.has_button">
+        <customButton :btnWidth="280" :btnHeight="80" className="transparent" @click="goStoreList">{{ storeInfo.button_txt }}</customButton>
       </view>
   </view>
 </template>
 <script>
-import customButton from '@/components/button/normal.vue';
+import customButton from '@/components/al-button/normal';
+import { getCmsContent } from '@/service/apis';
+import { parseCmsContent } from '@/utils/cms';
+import { OSS_URL } from '@/constants/env';
+import { HOME_STORE_CONFIG } from '@/constants/cms';
 import ComTitle from '../comTitle/comTitle';
+import { get } from '@/utils/utilityOperationHelper';
 
 export default {
   name: 'boutique',
@@ -27,18 +27,30 @@ export default {
     ComTitle,
     customButton,
   },
-  props: {
-
-  },
   data() {
-    return {};
+    return {
+      storeInfo: {}
+    };
+  },
+  mounted () {
+    this.getStoreData();
   },
   methods: {
     goStoreList() {
-      uni.navigateTo({
-        url: '/subPackages/store-list/pages/store-list/index',
-      })
+      uni.navigateTo({ url: this.storeInfo.link })
     },
+    async getStoreData() {
+      const { moduleCode, ...rest } = HOME_STORE_CONFIG;
+      try {
+        const res = await getCmsContent({ ...rest });
+        const cmsContentData = parseCmsContent(res, rest.templateCode, moduleCode);
+        let storeInfo = cmsContentData.shift();
+        if (storeInfo.source_url) { storeInfo.source_url = `${OSS_URL}${storeInfo.source_url}`  }
+        this.storeInfo = storeInfo;
+      } catch (error) {
+        console.error(error)
+      }
+  },
   },
 };
 </script>
