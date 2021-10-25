@@ -1,5 +1,5 @@
 <template name="sectionContent">
-  <view class="home-section-content">
+  <view class="home-section-content" v-if="infoData">
       <view class="title">
         <com-title :title="infoData.title" />
       </view>
@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-      infoData: {}
+      infoData: null
     };
   },
   mounted () {
