@@ -31,11 +31,11 @@
       <text class="icon-font icon-zhankai white-arrow"></text>
       <text class="icon-font icon-zhankai white-arrow"></text>
     </view>
-    <view class="news-toast" :style="newsShow?'opacity:1;':'opacity:0;'">
+    <view v-if="notifyList.length > 0" class="news-toast" :style="newsShow?'opacity:1;':'opacity:0;'">
       <text class="icon-font icon-guanbi" @click="newsShow = false"></text>
       <swiper class="news-toast-swiper" circular autoplay interval="3000">
-        <swiper-item v-for="i in 2" :key="i">
-          <view>2021年秋冬系列，隆重登场</view>
+        <swiper-item @click="() => navigateTo(notify.link)" v-for="(notify, i) in notifyList" :key="i">
+          <view >{{ notify.title }}</view>
         </swiper-item>
       </swiper>
     </view>
@@ -46,7 +46,8 @@
 import customButton from '@/components/button/normal.vue';
 import { getCmsContent } from '@/service/apis';
 import { parseCmsContent } from '@/utils/cms';
-import { HOME_MAIN_SWIPER_CONFIG } from '@/constants/cms';
+import { navigateTo } from '@/utils/utils';
+import { HOME_MAIN_SWIPER_CONFIG, HOME_TOP_NOTIFY_CONFIG } from '@/constants/cms';
 import { OSS_URL } from '@/constants/env';
 
 export default {
@@ -54,16 +55,11 @@ export default {
   components: {
     customButton,
   },
-  props: {
-
-  },
-  watch: {
-
-  },
   data() {
     return {
       ktxStatusHeight: getApp().globalData.ktxStatusHeight, // 头部的高度，用于设置样式padding-top
       bannerList: [], // 轮播图数据
+      notifyList: [],
       currentIndex: 0, // 轮播图所属下标
       newsShow: true,
     };
@@ -77,11 +73,13 @@ export default {
     },
   },
   mounted() {
-    this.getMainSwiper();
+    this.getCmsContentData(HOME_MAIN_SWIPER_CONFIG, 'bannerList');
+    this.getCmsContentData(HOME_TOP_NOTIFY_CONFIG, 'notifyList');
   },
   methods: {
-    async getMainSwiper() {
-      const { moduleCode, ...rest } = HOME_MAIN_SWIPER_CONFIG;
+    navigateTo,
+    async getCmsContentData (config, paramsName) {
+      const { moduleCode, ...rest } = config;
       try {
         const res = await getCmsContent({ ...rest });
         const mainSwiperData = parseCmsContent(res, moduleCode, moduleCode);
@@ -91,7 +89,7 @@ export default {
             item.source_url = `${OSS_URL}${source_url}`                  
           }
         })
-        this.bannerList = mainSwiperData;
+        this[paramsName] = mainSwiperData;
       } catch (error) {
         console.error(error)
       }
