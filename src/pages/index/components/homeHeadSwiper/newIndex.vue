@@ -47,6 +47,7 @@ import customButton from '@/components/button/normal.vue';
 import { getCmsContent } from '@/service/apis';
 import { parseCmsContent } from '@/utils/cms';
 import { HOME_MAIN_SWIPER_CONFIG } from '@/constants/cms';
+import { OSS_URL } from '@/constants/env';
 
 export default {
   name: 'homeHeadSwiper',
@@ -85,11 +86,9 @@ export default {
         const res = await getCmsContent({ ...rest });
         const mainSwiperData = parseCmsContent(res, moduleCode, moduleCode);
         mainSwiperData.forEach(item => {
-          if (item.source_url) {
-            const re = new RegExp("^(http|https)://");
-            if (!re.test(item.source_url)) {
-              item.source_url = "https://" + item.source_url
-            }
+          const { source_url } = item;
+          if (source_url && !/^(http|https)/.test(source_url)) { 
+            item.source_url = `${OSS_URL}${source_url}`                  
           }
         })
         this.bannerList = mainSwiperData;

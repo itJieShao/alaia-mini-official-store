@@ -3,12 +3,10 @@
     <custom-nav-bar left-icon="search" left-text="搜索" title="分类" :head-border="true" :head-font-color="false" />
     <view class="content" :style="{ 'padding-top':ktxStatusHeight }">
       <!-- 分类顶部活动 -->
-      <!-- <view class="activity-banner" v-if="cover">
-        <image class="cover" :src="cover" mode="aspectFill"></image>
-        <view class="txt">FALL WINTER 2021 COLLECTION</view>
-      </view> -->
-      <view class="category-banner" v-if="cover">
-        <image class="cover" :src="cover" mode="aspectFill"></image>
+      <activity-content :config="CATEGORY_ACTIVITY_CONFIG"></activity-content>
+      <view class="category-banner">
+        <image class="cover" src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.45073679062264826%E4%BD%8D%E5%9B%BE%E5%A4%87%E4%BB%BD%2010.jpg" 
+        mode="aspectFill"></image>
         <view class="txt">WS22 COLLECTION</view>
       </view>
       <view class="category">
@@ -30,15 +28,18 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { priceFormat, imgUrlReplace } from '@/utils/utils';
+import ActivityContent from './components/activityContent';
+import { CATEGORY_ACTIVITY_CONFIG } from '@/constants/cms';
 
 export default {
+  components: { ActivityContent },
   data () {
     return {
       type: 2,
       ktxStatusHeight: getApp().globalData.ktxStatusHeight,
       pageData: [],
       curIndex: null,
-      cover: 'https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.45073679062264826%E4%BD%8D%E5%9B%BE%E5%A4%87%E4%BB%BD%2010.jpg',
+      CATEGORY_ACTIVITY_CONFIG
     }
   },
   computed: {
