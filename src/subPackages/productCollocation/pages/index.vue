@@ -1,10 +1,10 @@
 <template>
   <view>
-    <custom-nav-bar title=" " :head-font-color="false" :head-border="false" />
+    <custom-nav-bar title=" " :head-font-color="false" :head-border="false" :head-blank="true" />
     <view class="swiper-container">
       <swiper class="swiper" :current="currentIndex" @change="swiperChange" circular>
         <swiper-item class="swiper-item" v-for="i in 3" :key="i">
-          <image src="" mode="aspectFit"></image>
+          <image src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.45073679062264826%E4%BD%8D%E5%9B%BE%E5%A4%87%E4%BB%BD%2010.jpg" mode="aspectFill"></image>
         </swiper-item>
       </swiper>
       <view class="left-side" @click="changeLeftSide">
@@ -50,6 +50,7 @@
   }
 </script>
 <style lang="scss" scoped>
+  @import '@/styles/utilities.scss';
   $color: #1D1D1D;
 
   .swiper-container {

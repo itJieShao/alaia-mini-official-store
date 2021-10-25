@@ -29,7 +29,9 @@
             <!-- <series-story id="seriesStory" :viewScrollTop="viewScrollTop" @fullscreenchange="fullscreenchange"
               :isPause="!isPause"></series-story> -->
             <!-- 精品店 -->
-            <section-content :config="HOME_STORE_CONFIG"></section-content>
+            <view style="padding-bottom: 110rpx;background-color: #fff;">
+              <section-content :config="HOME_STORE_CONFIG"></section-content>
+            </view>
             <!-- <boutique></boutique> -->
           </scroll-view>
         </swiper-item>
