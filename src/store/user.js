@@ -1,23 +1,43 @@
 import {
-  syncCrmMemberInfo, decryptData, queryCustomer, bindMobileByVerifyCode, bindMobileByEncryptedData,
-  updateAccountInfo, editAccountInfo,
+  syncCrmMemberInfo,
+  decryptData,
+  queryCustomer,
+  bindMobileByVerifyCode,
+  bindMobileByEncryptedData,
+  updateAccountInfo,
+  editAccountInfo,
 } from '../service/apis/account'
-import { shopApi } from '../service/apis/shop'
-import { get } from '../utils/utilityOperationHelper'
 import {
-  visitorLoginApi, loginByAuthCodeApi,
-  deliveryAddressCreateApi, deliveryAddressUpdateApi,
-  deliveryAddressesApi, removeAddressApi, getAccountInfoApi,
+  shopApi
+} from '../service/apis/shop'
+import {
+  get
+} from '../utils/utilityOperationHelper'
+import {
+  visitorLoginApi,
+  loginByAuthCodeApi,
+  deliveryAddressCreateApi,
+  deliveryAddressUpdateApi,
+  deliveryAddressesApi,
+  removeAddressApi,
+  getAccountInfoApi,
 } from '../service/apis/user'
 
 import {
-  IS_MEMBER_LOGIN, USER_INFO, ANONYMOUS_AUTH_TOKEN, UNION_ID,
+  IS_MEMBER_LOGIN,
+  USER_INFO,
+  ANONYMOUS_AUTH_TOKEN,
+  UNION_ID,
   AUTH_TOKEN,
   OPEN_ID,
+  WX_INFO,
   MOBILE
 } from '../constants/user'
 
-import { trackerClick, EVENT_TYPE } from '../utils/ga'
+import {
+  trackerClick,
+  EVENT_TYPE
+} from '../utils/ga'
 import userAction from './userAction'
 
 const state = {
@@ -26,8 +46,10 @@ const state = {
   userInfo: {},
   openId: null,
   mobile: null,
+  isAuthorizeInfo:false,
 };
 const getters = {
+  isAuthorizeInfo: (state) => state.isAuthorizeInfo,
   isLogin: () => uni.getStorageSync(IS_MEMBER_LOGIN),
   userInfo: (state) => (Object.keys(state.userInfo) === 0 ? uni.getStorageSync(USER_INFO) || {} : state.userInfo),
   unionId: (state) => state.unionId || uni.getStorageSync(UNION_ID),
@@ -39,10 +61,74 @@ const getters = {
 let loginInstance;
 
 const actions = {
+  // 授权登陆（微信用户信息）
+  authorizeLogin({
+    dispatch
+  }, params) {
+    const {
+      type
+    } = params.target.dataset;
+    const canIUseGetUserProfile = wx.getUserProfile;
+    if (canIUseGetUserProfile) {
+      wx.getUserProfile({
+        desc: '完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+        success: (res) => {
+          uni.setStorageSync('isAuthorizeInfo', true);
+          uni.setStorageSync(WX_INFO, JSON.parse(res.rawData || '{}'));
+          dispatch("buyCommonFunc", {
+            userInfo: res.rawData,
+            type,
+            params,
+            encryptInfo: res,
+          })
+        },
+      });
+    } else {
+      wx.getUserInfo({
+        success: (res) => {
+          if (res.errMsg === 'getUserInfo:ok') {
+            uni.setStorageSync('isAuthorizeInfo', true);
+            uni.setStorageSync(WX_INFO, JSON.parse(res.rawData || '{}'));
+            dispatch("buyCommonFunc", {
+              userInfo: res.rawData,
+              type,
+              params,
+              encryptInfo: res,
+            })
+          }
+        },
+      });
+    }
+  },
+  // 公共函数
+  buyCommonFunc({commit,dispatch},{
+    userInfo,
+    encryptInfo
+  } = {}) {
+    uni.setStorageSync(WX_INFO, JSON.parse(userInfo || '{}'));
+    if (userInfo && userInfo.indexOf('nickName') != -1) {
+      const info = JSON.parse(userInfo || '{}')
+      const params = {
+        nickname: info.nickName,
+        portrait: info.avatarUrl,
+      };
+      dispatch("editAccountInfo",{input: params})
+    }
+    const isMemberLogin = uni.getStorageSync('isMemberLogin');
+    if (isMemberLogin) {
+      commit("setAuthorizeInfo")
+    } else {
+      uni.navigateTo({
+        url:"/subPackages/login/pages/login/index"
+      })
+    }
+  },
   syncCrmMemberInfo(_) {
     return syncCrmMemberInfo().then()
   },
-  visitorLogin({ getters }) {
+  visitorLogin({
+    getters
+  }) {
     if (getters.isLogin) {
       return Promise.resolve()
     }
@@ -52,7 +138,9 @@ const actions = {
       return token
     })
   },
-  decryptData({ commit }, params) {
+  decryptData({
+    commit
+  }, params) {
     return decryptData(params).then((res) => {
       const userInfo = JSON.parse(get(res, 'data.decryptData') || '{}')
       commit('setUnionId', userInfo.unionId)
@@ -60,17 +148,23 @@ const actions = {
     })
   },
   // 绑定手机号,根据微信加密数据
-  bindMobileByEncryptedData({ commit }, params) {
+  bindMobileByEncryptedData({
+    commit
+  }, params) {
     return bindMobileByEncryptedData(params).then((res) => {
       const userInfo = JSON.parse(get(res, 'data.bindMobileByEncryptedData') || '{}')
       commit('setUnionId', userInfo.unionId)
       return userInfo
     })
   },
-  setIsNeedToThirdProgram({ commit }, value) {
+  setIsNeedToThirdProgram({
+    commit
+  }, value) {
     commit('setIsNeedToThirdProgram', value)
   },
-  getUserInfo({ commit }) {
+  getUserInfo({
+    commit
+  }) {
     return queryCustomer().then((res) => {
       const customer = get(res, 'data.customer');
       customer.accountInfo = customer.accountInfo || {};
@@ -80,38 +174,40 @@ const actions = {
       return customer
     })
   },
-  loginByAuthCode({ commit }, showLoading = true) {
+  loginByAuthCode({
+    commit
+  }, showLoading = true) {
     // showLoading && uni.showLoading({ mask: true, title: '加载中...' });
     if (loginInstance) return loginInstance
     // 多次调用此接口，都返回同一个实例，防止重复发起请求
     loginInstance = new Promise((resolve, reject) => {
       uni.login().then((res) => {
-        const code = get(res, '1.code');
-        uni.setStorageSync(IS_MEMBER_LOGIN, false);
-        return loginByAuthCodeApi(code);
-      }).then((res) => {
-        const userErrors = get(res, 'data.miniProgramLogin.userErrors');
-        if (!userErrors) {
-          return Promise.reject(Error(get(userErrors, '0.message')));
-        }
-        const customer = get(res, 'data.miniProgramLogin.customer');
-        // const weixinInfo = uni.getStorageSync('weixinInfo')
-        console.log('customer',customer)
-        // console.log('weixinInfo',uni.getStorageSync('weixinInfo'))
-        const token = get(res, 'data.miniProgramLogin.token');
-        customer.accountInfo = customer.accountInfo || {};
-        customer.crmMemberInfo = customer.crmMemberInfo || {};
-        uni.setStorageSync(AUTH_TOKEN, token);
-        commit('setUserInfo', customer)
-        commit('setOpenId', get(customer, 'openId'))
-        commit('setUnionId', get(customer, 'unionId'))
-        if (!customer.mobile) {
+          const code = get(res, '1.code');
           uni.setStorageSync(IS_MEMBER_LOGIN, false);
-        } else {
-          uni.setStorageSync(IS_MEMBER_LOGIN, true);
-        }
-        resolve(customer);
-      }).catch((err) => reject(Error(err)))
+          return loginByAuthCodeApi(code);
+        }).then((res) => {
+          const userErrors = get(res, 'data.miniProgramLogin.userErrors');
+          if (!userErrors) {
+            return Promise.reject(Error(get(userErrors, '0.message')));
+          }
+          const customer = get(res, 'data.miniProgramLogin.customer');
+          // const weixinInfo = uni.getStorageSync('weixinInfo')
+          console.log('customer', customer)
+          // console.log('weixinInfo',uni.getStorageSync('weixinInfo'))
+          const token = get(res, 'data.miniProgramLogin.token');
+          customer.accountInfo = customer.accountInfo || {};
+          customer.crmMemberInfo = customer.crmMemberInfo || {};
+          uni.setStorageSync(AUTH_TOKEN, token);
+          commit('setUserInfo', customer)
+          commit('setOpenId', get(customer, 'openId'))
+          commit('setUnionId', get(customer, 'unionId'))
+          if (!customer.mobile) {
+            uni.setStorageSync(IS_MEMBER_LOGIN, false);
+          } else {
+            uni.setStorageSync(IS_MEMBER_LOGIN, true);
+          }
+          resolve(customer);
+        }).catch((err) => reject(Error(err)))
         .finally(() => {
           uni.hideLoading()
           loginInstance = null
@@ -129,7 +225,10 @@ const actions = {
       // 如果在CRM注册成功之后，需要发送GA埋点信息
       if (data.find((item) => item === 'CRM_REGISTER_SUCCESS')) {
         // 做GA的处理
-        trackerClick({ ...EVENT_TYPE.REGISTER_USER_EVENT, screenName: '用户注册' })
+        trackerClick({
+          ...EVENT_TYPE.REGISTER_USER_EVENT,
+          screenName: '用户注册'
+        })
       }
       return res
     })
@@ -172,6 +271,9 @@ const mutations = {
   setOpenId(state, value) {
     uni.setStorageSync(OPEN_ID, value)
     state.openId = value
+  },
+  setAuthorizeInfo(state) {
+    state.isAuthorizeInfo = true
   },
 };
 export default {

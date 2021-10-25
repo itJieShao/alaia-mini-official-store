@@ -8,16 +8,16 @@
       </template>
       <template v-if="infoData.source_type ==='video'">
         <video class="home-section-content-media"
-        :src="infoData.source_url" :loop="false" :controls="true" object-fit ="cover"  
-        :show-mute-btn="true" :show-center-play-btn="true" 
-        :show-play-btn="true" :show-fullscreen-btn="true" 
+        :src="infoData.source_url" :loop="false" :controls="true" object-fit ="cover"
+        :show-mute-btn="true" :show-center-play-btn="true"
+        :show-play-btn="true" :show-fullscreen-btn="true"
         play-btn-position="center" :enable-progress-gesture="false"></video>
       </template>
       <view class="font-content">
         <text> {{ infoData.sub_title }} </text>
       </view>
       <view class="home-more-btn" v-if="infoData.has_button">
-        <customButton :btnWidth="280" :btnHeight="80" className="transparent" @click="() => navigateTo(infoData.link)">{{ infoData.button_txt }}</customButton>
+        <customButton :btnWidth="480" :btnHeight="80" className="transparent" @click="() => navigateTo(infoData.link)">{{ infoData.button_txt }}</customButton>
       </view>
   </view>
 </template>
@@ -75,7 +75,6 @@ $color: #1D1D1D;
 
 .home-section-content {
   background-color: #fff;
-  padding-bottom: 110rpx;
   .title {
     padding: 118rpx 0 44rpx;
   }
@@ -86,8 +85,11 @@ $color: #1D1D1D;
     padding: 60rpx 0 52rpx;
     text{
       display: block;
+      width: 80%;
+      margin: 0 auto;
+      letter-spacing: 4rpx;
       font-size: 28rpx;
-      line-height: 34rpx;
+      line-height: 40rpx;
       color: $color;
       text-align: center;
     }

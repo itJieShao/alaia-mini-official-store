@@ -27,7 +27,9 @@
             <!-- 品牌故事 -->
             <section-content :config="HOME_BRAND_INTRO_CONFIG"></section-content>
             <!-- 精品店 -->
-            <section-content :config="HOME_STORE_CONFIG"></section-content>
+            <view style="padding-bottom: 110rpx;">
+              <section-content :config="HOME_STORE_CONFIG"></section-content>
+            </view>
           </scroll-view>
         </swiper-item>
       </swiper>
