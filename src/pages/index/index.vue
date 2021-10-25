@@ -25,10 +25,12 @@
               <customButton :btnWidth="480" :btnHeight="80" className="transparent">即刻探索</customButton>
             </view>
             <!-- 品牌故事 -->
-            <series-story id="seriesStory" :viewScrollTop="viewScrollTop" @fullscreenchange="fullscreenchange"
-              :isPause="!isPause"></series-story>
+            <section-content :config="HOME_BRAND_INTRO_CONFIG"></section-content>
+            <!-- <series-story id="seriesStory" :viewScrollTop="viewScrollTop" @fullscreenchange="fullscreenchange"
+              :isPause="!isPause"></series-story> -->
             <!-- 精品店 -->
-            <boutique></boutique>
+            <section-content :config="HOME_STORE_CONFIG"></section-content>
+            <!-- <boutique></boutique> -->
           </scroll-view>
         </swiper-item>
       </swiper>
@@ -37,22 +39,16 @@
 </template>
 
 <script>
-  import {
-    mapState,
-    mapActions,
-    mapGetters,
-    mapMutations,
-  } from 'vuex';
-  import {
-    trackWechatAd,
-  } from '@/service/apis'
+  import { mapState, mapActions, mapMutations } from 'vuex';
+  import { trackWechatAd } from '@/service/apis'
   import customButton from '@/components/button/normal.vue';
   import HomeHeadSwiper from './components/homeHeadSwiper/newIndex'; // 首页顶部swiper
   import ProductSwiper from './components/prodcutSwiper/productSwiper'; // 首页轮播
   import ProductModel from './components/productModel/productModel'; // 造型灵感
   import Product from './components/product/product'; // 精选推荐
-  import SeriesStory from './components/seriesStory/seriesStory'; // 品牌故事
-  import Boutique from './components/boutique/boutique'; // 精品店
+  import SectionContent from './components/sectionContent'; // 精品店
+  import { HOME_STORE_CONFIG, HOME_BRAND_INTRO_CONFIG } from '@/constants/cms';
+
 
   export default {
     name: 'index',
@@ -61,9 +57,8 @@
       ProductSwiper,
       ProductModel,
       Product,
-      SeriesStory,
-      Boutique,
       customButton,
+      SectionContent
     },
     data() {
       return {
@@ -74,14 +69,12 @@
         productWallList: [], // 产品墙数据
         current: 0, // swiper 当前下表
         isPause: false, // 是否要暂停首页视频
-        homeHeadSwiperList: [], // 第一屏轮播图数据
-        productSwiperOneList: [], // 产品轮播第一屏
-        productSwiperTwoData: {}, // 产品轮播第二屏
-        productSwiperThreeData: {}, // 产品轮播第三屏
         viewScrollTop: '',
         scrollToId: '',
         pageIsShow: false,
         isShowDost: true,
+        HOME_STORE_CONFIG,
+        HOME_BRAND_INTRO_CONFIG
       };
     },
     // 分享配置项
@@ -93,29 +86,6 @@
         success() {},
       };
     },
-    onPageScroll(e) {
-      // if (e.scrollTop > 100) {
-      //   this.goTop = true;
-      // } else {
-      //   this.goTop = false;
-      // }
-      // // 获取当前窗口滚动条顶部所在的像素值 并取整
-      // const topScroll = Math.floor(e.scrollTop);
-      // // 设置滚动多少像素后出背景色
-      // const scrollDist = 180;
-      // // 定义滚动条在向下滚动180像素后
-      // if (topScroll <= scrollDist) {
-      //   this.isHeadBorder = false;
-      //   this.isHeadBlank = true;
-      // } else {
-      //   this.isHeadBorder = true;
-      //   this.isHeadBlank = false;
-      // }
-    },
-    computed: {},
-    created() {
-      this.getIndexPageContent();
-    },
     onShow() {
       this.pageIsShow = true;
       this.setTabSelected(0);
@@ -124,22 +94,6 @@
       if (advertising && advertising.gdt_vid) {
         this.wechatTrack(advertising.gdt_vid);
       }
-
-      // 判断是否授权用户信息
-      // const isAuthorizeInfo = uni.getStorageSync('isAuthorizeInfo')
-      // if (!isAuthorizeInfo) {
-      //   this.getUserInfo().then((res) => {
-      //     if (res.accountInfo.nickname || res.accountInfo.portrait) {
-      //       uni.setStorageSync('isAuthorizeInfo', true)
-      //       uni.setStorageSync('weixinInfo', {
-      //         nickName: res.accountInfo.nickname,
-      //         avatarUrl: res.accountInfo.portrait,
-      //       })
-      //     } else {
-      //       uni.setStorageSync('isAuthorizeInfo', false)
-      //     }
-      //   })
-      // }
     },
     onLoad() {
 
@@ -157,19 +111,6 @@
       ...mapState('globle', ['advertisingParam']),
       ...mapMutations('globle', ['setTabBarHide', 'setTabSelected']),
       ...mapActions('user', ['getUserInfo']),
-      // 获取首页数据
-      getIndexPageContent() {
-        // const indexContent = await this.getCategoryData();
-        // console.log('首页数据 ===>', indexContent[0]);
-        // if (indexContent) {
-        //   this.homeHeadSwiperList = indexContent[0].children[0].children; // 第一屏轮播图数据
-        //   this.isHeaderBlackColor = indexContent[0].children[0].children[0].name !== '2-W';
-        //   this.productSwiperOneList = indexContent[0].children[1].children; // 产品轮播第一屏
-        //   this.productSwiperTwoData = indexContent[0].children[2]; // 产品轮播第二屏
-        //   this.productSwiperThreeData = indexContent[0].children[3]; // 产品轮播第三屏
-        //   this.productWallList = indexContent[0].children[4].children || [];
-        // }
-      },
       // 点击去详情
       handleProductClick(spuCodes) {
         if (!spuCodes) return;
