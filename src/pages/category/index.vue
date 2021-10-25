@@ -67,7 +67,7 @@ export default {
   },
   onShareAppMessage (res) {
     return {
-      title: 'TASAKI塔思琦线上旗舰店',
+      title: 'ALAIA线上旗舰店',
       path: '/pages/category/index',
     }
   },

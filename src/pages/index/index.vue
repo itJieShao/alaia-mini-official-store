@@ -26,11 +26,8 @@
             </view>
             <!-- 品牌故事 -->
             <section-content :config="HOME_BRAND_INTRO_CONFIG"></section-content>
-            <!-- <series-story id="seriesStory" :viewScrollTop="viewScrollTop" @fullscreenchange="fullscreenchange"
-              :isPause="!isPause"></series-story> -->
             <!-- 精品店 -->
             <section-content :config="HOME_STORE_CONFIG"></section-content>
-            <!-- <boutique></boutique> -->
           </scroll-view>
         </swiper-item>
       </swiper>
