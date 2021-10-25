@@ -13,6 +13,15 @@
             </view>
             <view class="text">{{ nav.label }}</view>
           </button>
+          <button class="item-con" open-type="getUserInfo" @tap.stop="e => authorizeLogin(e)" v-else-if="nav.icon == 'icon-wode'  && !authorizeInfo">
+            <view class="icon">
+              <!-- <image class="icon-img" mode="widthFix" :src="
+                  tabSelected == index ? nav.selectedIconPath : nav.iconPath
+                "></image> -->
+              <text :class="['icon-font', nav.icon]" :style="tabSelected == index ? 'color:#1D1D1D;' : 'color:#BBBBBB;'"></text>
+            </view>
+            <view class="text">{{ nav.label }}</view>
+          </button>
           <view class="item-con" v-else>
             <view class="icon">
               <!-- <image class="icon-img" mode="widthFix" :src="
@@ -62,7 +71,11 @@
     },
     computed: {
       ...mapState('globle', ['tabSelected', 'sessionFrom', 'tabBarHide']),
+      ...mapGetters('user', ['isAuthorizeInfo']),
       ...mapGetters('shoppingCart', ['cartNumber']),
+      authorizeInfo(){
+        return uni.getStorageSync('isAuthorizeInfo') || this.isAuthorizeInfo
+      },
       menuList() {
         return [{
             url: '/pages/index/index',
@@ -104,20 +117,27 @@
     },
     methods: {
       ...mapMutations('globle', ['setTabSelected']),
+      ...mapActions('user', ['authorizeLogin']),
       // ...mapActions('search', ['setMenuName']),
       handleTap(menu, index) {
         // 点击客服不跳转
         if (index !== 3) {
-          this.setTabSelected(index);
-          console.log('tabbarClick--->', menu, index);
-          if (menu && menu.url) {
-            this.isShowService = false;
-            uni.switchTab({
-              url: menu.url,
-            });
-          } else {
-            this.isShowService = true;
-            // this.setMenuName();
+          if (index === 4 && !uni.getStorageSync('isMemberLogin') && uni.getStorageSync('isAuthorizeInfo')){
+            uni.navigateTo({
+              url:"/subPackages/login/pages/login/index"
+            })
+          }else {
+            this.setTabSelected(index);
+            console.log('tabbarClick--->', menu, index);
+            if (menu && menu.url) {
+              this.isShowService = false;
+              uni.switchTab({
+                url: menu.url,
+              });
+            } else {
+              this.isShowService = true;
+              // this.setMenuName();
+            }
           }
         }
         // ga埋点
