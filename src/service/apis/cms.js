@@ -1,5 +1,5 @@
 import apollo from '../apollo';
-import { viewDataGql, cmsContentGql } from '../gqls'
+import { viewDataGql, cmsContentGql, cmsContentListGql } from '../gqls'
 
 export const getViewData = (payload) => apollo.mutate({
   mutation: viewDataGql,
@@ -14,4 +14,9 @@ export const getCmsContent = (payload) => apollo.query({
   variables: {
     ...payload,
   },
+})
+
+export const getCmsContentListApi = (payload) => apollo.query({
+  query: cmsContentListGql,
+  variables: { ...payload }
 })

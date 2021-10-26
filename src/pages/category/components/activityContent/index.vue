@@ -19,7 +19,7 @@
   </swiper>
 </template>
 <script>
-import { getCmsContent } from '@/service/apis';
+import { mapActions } from 'vuex';
 import { parseCmsContent } from '@/utils/cms';
 import { OSS_URL } from '@/constants/env';
 import { navigateTo } from '@/utils/utils';
@@ -41,11 +41,13 @@ export default {
     this.getInfoListData();
   },
   methods: {
+    ...mapActions('cms', ['getCmsContentMapData']),
     navigateTo,
     async getInfoListData() {
       const { moduleCode, ...rest } = this.config;
       try {
-        const res = await getCmsContent({ ...rest });
+        const cmsContentMap = await this.getCmsContentMapData();
+        const res = cmsContentMap[rest.contentCode];
         const cmsContentData = parseCmsContent(res, moduleCode, moduleCode);
         this.infoDataList = cmsContentData.map(info => {
             const { source_url } = info;

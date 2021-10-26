@@ -22,8 +22,9 @@
   </view>
 </template>
 <script>
+
+import { mapActions, mapGetters } from 'vuex';
 import customButton from '@/components/al-button/normal';
-import { getCmsContent } from '@/service/apis';
 import { parseCmsContent } from '@/utils/cms';
 import { OSS_URL } from '@/constants/env';
 import { navigateTo } from '@/utils/utils';
@@ -41,20 +42,19 @@ export default {
       default: () => {},
     }
   },
+  computed: {
+    ...mapGetters('cms', ['cmsContentMap']),
+  },
   data() {
     return {
       infoData: null
     };
   },
-  mounted () {
-    this.getInfoData();
-  },
-  methods: {
-    navigateTo,
-    async getInfoData() {
+  watch: {
+    cmsContentMap (newValue) {
       const { moduleCode, ...rest } = this.config;
       try {
-        const res = await getCmsContent({ ...rest });
+        const res = newValue[rest.contentCode];
         const cmsContentData = parseCmsContent(res, rest.templateCode, moduleCode);
         let infoData = cmsContentData.shift();
         if (infoData.source_url && !/^(http|https)/.test(infoData.source_url)) { 
@@ -65,6 +65,10 @@ export default {
         console.error(error)
       }
     }
+  },
+  methods: {
+    ...mapActions('cms', ['getCmsContentMapData']),
+    navigateTo
   }
 };
 </script>

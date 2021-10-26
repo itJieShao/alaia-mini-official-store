@@ -21,3 +21,13 @@ export const CATEGORY_ACTIVITY_CONFIG = { moduleCode: 'swiper', templateCode: 's
 
 // 帮助页cms
 export const HELP_LIST_CMS_CONFIG = {  moduleCode: 'index', templateCode: 'help_index', contentCode: 'help_index' }
+
+
+export const CMS_CONFIG_LIST = [
+  HOME_MAIN_SWIPER_CONFIG,
+  HOME_TOP_NOTIFY_CONFIG,
+  HOME_STORE_CONFIG,
+  HOME_BRAND_INTRO_CONFIG,
+  CATEGORY_ACTIVITY_CONFIG,
+  HELP_LIST_CMS_CONFIG
+]

@@ -1,0 +1,52 @@
+$mainColor: #e3f0ea;
+
+  .index {
+    width: 100%;
+    height: calc(100vh - 112rpx - var(--safe-area-inset-bottom));
+    background: #fff;
+
+    .swiper {
+      height: calc(100vh - 112rpx - var(--safe-area-inset-bottom));
+      background-color: #f7f7f7;
+
+      .scroll-view {
+        height: 100%;
+      }
+    }
+  }
+
+  // 底部隐私协议部分
+  .com-page-bottom {
+    padding: 100rpx 0 80rpx;
+    text-align: center;
+    color: #000;
+
+    .com-page-bottom-title {
+      font-size: 28rpx;
+      line-height: 42rpx;
+    }
+
+    .com-page-bottom-policy {
+      font-size: 24rpx;
+      line-height: 36rpx;
+      margin-top: 40rpx;
+      opacity: .5;
+
+      text {
+        line-height: 36rpx;
+        position: relative;
+        display: inline-block;
+        height: 36rpx;
+        margin: 0 10rpx;
+
+        &::before {
+          position: absolute;
+          bottom: -2px;
+          width: 100%;
+          height: 1px;
+          content: '';
+          background-color: #000;
+        }
+      }
+    }
+  }

@@ -43,8 +43,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import customButton from '@/components/button/normal.vue';
-import { getCmsContent } from '@/service/apis';
 import { parseCmsContent } from '@/utils/cms';
 import { navigateTo } from '@/utils/utils';
 import { HOME_MAIN_SWIPER_CONFIG, HOME_TOP_NOTIFY_CONFIG } from '@/constants/cms';
@@ -65,6 +65,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('cms', ['cmsContentMap']),
     dotsWidth() {
       return this.bannerList.length > 0 ? 240 / this.bannerList.length : 240;
     },
@@ -72,16 +73,18 @@ export default {
       return this.bannerList.length > 0 ? 240 / this.bannerList.length * this.currentIndex : 0;
     },
   },
-  mounted() {
-    this.getCmsContentData(HOME_MAIN_SWIPER_CONFIG, 'bannerList');
-    this.getCmsContentData(HOME_TOP_NOTIFY_CONFIG, 'notifyList');
+  watch: {
+    cmsContentMap (newValue) {
+      this.getCmsContentData(newValue, HOME_MAIN_SWIPER_CONFIG, 'bannerList');
+      this.getCmsContentData(newValue, HOME_TOP_NOTIFY_CONFIG, 'notifyList');
+    }
   },
   methods: {
     navigateTo,
-    async getCmsContentData (config, paramsName) {
-      const { moduleCode, ...rest } = config;
+    async getCmsContentData (cmsContentMap, config, paramsName) {
+      const { moduleCode, contentCode } = config;
       try {
-        const res = await getCmsContent({ ...rest });
+        const res = cmsContentMap[contentCode];
         const mainSwiperData = parseCmsContent(res, moduleCode, moduleCode);
         mainSwiperData.forEach(item => {
           const { source_url } = item;
