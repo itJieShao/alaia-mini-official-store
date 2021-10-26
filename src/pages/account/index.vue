@@ -17,7 +17,7 @@
         <!-- 昵称 & 编辑资料入口 -->
         <view class="login-entrance">
           <view class="login-entrance-btn">{{ custName || nickName || ''}}</view>
-          <text class="icon-font icon-icon-shezhi" @click="goNextPage('/subPackages/editAccount/pages/index')"></text>
+          <text class="icon-font icon-bianji" @click="goNextPage('/subPackages/editAccount/pages/index')"></text>
         </view>
         <!-- 我的订单等入口 -->
         <view class="account-content">
