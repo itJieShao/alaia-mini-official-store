@@ -15,7 +15,7 @@
           </button>
           <view class="agreement-content">
             <z-checkbox @checkEvent="handleReceiverCheck" :checked="isAgreeYSXY"></z-checkbox>
-            <view class="privacy-txt" @click="handleReceiverCheck"> 我已阅读并接受ALAIA<view class="under-line"
+            <view class="privacy-txt" @click="handleReceiverCheck"> 我已阅读并接受ALAÏA<view class="under-line"
                 @click.stop="handleToRule">销售条款</view>及
               <view class="under-line" @click.stop="handleToPrivacy">隐私政策</view>。
             </view>
@@ -208,15 +208,19 @@
       }
 
       .login-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
         width: rpx(290);
         height: rpx(42);
+        line-height: rpx(20);
         background-color: #fff;
         font-size: rpx(14);
         color: #1D1D1D;
         border: none;
-        text-align: center;
-        line-height: rpx(42);
         margin-top: rpx(35);
+        line-height:inherit;
       }
 
       .agreement-content {
@@ -229,13 +233,14 @@
         .under-line {
           margin-left: 0rpx;
           text-decoration: underline;
-          color: #BBBBBB;
+          color: #FFFFFF;
           font-weight: normal;
           display: inline-block;
         }
 
         .privacy-txt {
           margin-left: rpx(12);
+          letter-spacing: 2rpx;
         }
       }
     }

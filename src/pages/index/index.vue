@@ -16,6 +16,10 @@
             @scroll="viewScroll" :scroll-into-view="scrollToId">
             <product-swiper></product-swiper>
             <product-model></product-model>
+            <product showTab ></product>
+            <view style="padding-top: 50rpx;background-color: #fff;">
+              <customButton :btnWidth="480" :btnHeight="80" className="transparent">即刻探索</customButton>
+            </view>
             <product></product>
             <view style="padding-top: 50rpx;background-color: #fff;">
               <customButton :btnWidth="480" :btnHeight="80" className="transparent">即刻探索</customButton>

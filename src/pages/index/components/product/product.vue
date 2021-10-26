@@ -4,7 +4,7 @@
       <com-title title="精选.推荐" subtitle="YOU MAY ALSO LIKE" />
     </view>
     <image class="banner" src="" mode="aspectFill"></image>
-    <view id="navbar" class="product-tab">
+    <view v-if="showTab" class="product-tab">
       <text @click="changeTab(index)" :class="item.checked?'act':''" v-for="(item,index) in tabList"
         :key="index">{{item.name}}</text>
     </view>
@@ -25,6 +25,12 @@
   import ComTitle from '../comTitle/comTitle';
   import customButton from '@/components/button/normal.vue';
   export default {
+    props:{
+      showTab:{
+        type:Boolean,
+        default:false,
+      }
+    },
     data() {
       return {
         tabList: [{
@@ -85,7 +91,7 @@
       align-items: center;
       justify-content: space-around;
       background-color: #fff;
-      
+
       text {
         display: block;
         height: 100%;
@@ -130,7 +136,7 @@
           border: 2rpx solid $color;
           margin-top: 30rpx;
         }
-        
+
         .goods-title {
           font-family: PingFangSC, PingFangSC-Regular;
           display: block;
@@ -138,7 +144,7 @@
           line-height: 28rpx;
           margin: 24rpx auto;
         }
-        
+
         .goods-price {
           font-family: PingFangSC, PingFangSC-Regular;
           font-size: 28rpx;

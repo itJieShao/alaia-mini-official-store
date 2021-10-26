@@ -124,6 +124,7 @@ export default {
         const shop = await this.shopApi(params);
         uni.hideLoading()
         this.isLoad = true
+        this.storeList = []
         shop.data.shop.storeLocations.map(item => {
           if(item.storeStatus){
             this.storeList.push(item);
