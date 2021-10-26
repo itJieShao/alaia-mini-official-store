@@ -1,6 +1,6 @@
 <template>
   <view class="address-add">
-    <custom-nav-bar :title="code?'编辑地址':'添加新地址'" :head-font-color="false" :head-border="false" />
+    <custom-nav-bar :title="code?'编辑地址':'添加新地址'" :head-font-color="false" />
     <view :style="{'padding-top':ktxStatusHeight}"></view>
     <view class="form-box">
       <form @submit="formSubmit" @reset="formReset">

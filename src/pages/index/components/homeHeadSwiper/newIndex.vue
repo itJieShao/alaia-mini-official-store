@@ -1,6 +1,6 @@
 <template name="homeHeadSwiper">
   <view class="home-head-swiper">
-    <swiper class="swiper" :circular="true">
+    <swiper class="swiper" @change="swiperChange" :circular="true">
       <block v-for="(swiperItem,swiperIndex) in bannerList" :key="swiperIndex">
         <swiper-item class="home-head-swiper-item fontWhite">
           <!-- 图片 -->
@@ -31,7 +31,7 @@
       <text class="icon-font icon-zhankai white-arrow"></text>
       <text class="icon-font icon-zhankai white-arrow"></text>
     </view>
-    <view class="news-toast" :style="newsShow?'opacity:1;':'opacity:0;'">
+    <view class="news-toast" v-if="newsShow">
       <text class="icon-font icon-guanbi" @click="newsShow = false"></text>
       <swiper class="news-toast-swiper" circular autoplay interval="3000">
         <swiper-item v-for="i in 2" :key="i">
@@ -99,7 +99,7 @@ export default {
     },
     swiperChange(e) {
       this.currentIndex = e.detail.current;
-      this.$emit('swiperChange', this.bannerList[this.currentIndex]);
+      // this.$emit('swiperChange', this.bannerList[this.currentIndex]);
     },
     // 去plp页面
     goPlp(name, url) {
