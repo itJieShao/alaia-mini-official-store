@@ -1,5 +1,5 @@
 <template name="sectionContent">
-  <view class="home-section-content">
+  <view class="home-section-content" v-if="infoData">
       <view class="title">
         <com-title :title="infoData.title" />
       </view>
@@ -17,15 +17,17 @@
         <text> {{ infoData.sub_title }} </text>
       </view>
       <view class="home-more-btn" v-if="infoData.has_button">
-        <customButton :btnWidth="480" :btnHeight="80" className="transparent" @click="goToLink">{{ infoData.button_txt }}</customButton>
+        <customButton :btnWidth="480" :btnHeight="80" className="transparent" @click="() => navigateTo(infoData.link)">{{ infoData.button_txt }}</customButton>
       </view>
   </view>
 </template>
 <script>
+
+import { mapActions, mapGetters } from 'vuex';
 import customButton from '@/components/al-button/normal';
-import { getCmsContent } from '@/service/apis';
 import { parseCmsContent } from '@/utils/cms';
 import { OSS_URL } from '@/constants/env';
+import { navigateTo } from '@/utils/utils';
 import ComTitle from '../comTitle/comTitle';
 
 export default {
@@ -40,35 +42,33 @@ export default {
       default: () => {},
     }
   },
+  computed: {
+    ...mapGetters('cms', ['cmsContentMap']),
+  },
   data() {
     return {
-      infoData: {}
+      infoData: null
     };
   },
-  mounted () {
-    this.getInfoData();
-  },
-  methods: {
-    goToLink () {
-      if (!this.infoData.link) return;
-      if (/^\/pages/.test(this.infoData.link)) {
-          uni.switchTab({ url: this.infoData.link });
-      } else {
-          uni.navigateTo({ url: this.infoData.link })
-      }
-    },
-    async getInfoData() {
+  watch: {
+    cmsContentMap (newValue) {
       const { moduleCode, ...rest } = this.config;
       try {
-        const res = await getCmsContent({ ...rest });
+        const res = newValue[rest.contentCode];
         const cmsContentData = parseCmsContent(res, rest.templateCode, moduleCode);
         let infoData = cmsContentData.shift();
-        if (infoData.source_url) { infoData.source_url = `${OSS_URL}${infoData.source_url}`  }
+        if (infoData.source_url && !/^(http|https)/.test(infoData.source_url)) { 
+          infoData.source_url = `${OSS_URL}${infoData.source_url}`  
+        }
         this.infoData = infoData;
       } catch (error) {
         console.error(error)
       }
     }
+  },
+  methods: {
+    ...mapActions('cms', ['getCmsContentMapData']),
+    navigateTo
   }
 };
 </script>

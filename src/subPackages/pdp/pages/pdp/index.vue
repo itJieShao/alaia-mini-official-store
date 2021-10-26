@@ -750,7 +750,7 @@ export default {
   },
   onShareAppMessage (res) {
     return {
-      title: `${this.productData.title}` || 'TASAKI塔思琦线上旗舰店',
+      title: `${this.productData.title}` || 'ALAIA线上旗舰店',
       path: `subPackages/pdp/pages/pdp/index?code=${this.code}`,
       imageUrl: get(this.productData, 'images[0].url'),
       success () { },

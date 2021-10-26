@@ -1,58 +1,41 @@
 <template name="homeHeadSwiper">
   <view class="home-head-swiper">
-    <swiper class="swiper"  :autoplay="parentCurrent === 0 && swiperAutoplay" :circular="true" @change="swiperChange">
+    <swiper class="swiper" :circular="true">
       <block v-for="(swiperItem,swiperIndex) in bannerList" :key="swiperIndex">
-        <swiper-item class="home-head-swiper-item" :class="swiperItem.name == '2-W' ? 'fontWhite' :''">
-          <!-- 视频 -->
-          <block v-if="swiperItem.videoId">
-            <view class="home-head-swiper-video">
-              <video class="video-content" :id="'myVideo'+swiperIndex"  :src="swiperItem.videoId" :loop="false" :autoplay="swiperItem.picDes === 'auto' ? true : false" :controls="false"   object-fit ="cover" :muted="swiperItem.isMuted" :show-mute-btn="true" :show-center-play-btn="false" :show-play-btn="false" :show-fullscreen-btn="false" play-btn-position="center" :enable-progress-gesture="false" @ended="videoEnded"></video>
-              <!-- <video class="video-content" :id="'myVideo'+swiperIndex" :src="swiperItem.videoId" :loop="false" autoplay :controls="false"  object-fit ="cover" :muted="swiperItem.isMuted" :show-mute-btn="true" :show-center-play-btn="false" :show-play-btn="false" :show-fullscreen-btn="false" play-btn-position="center" :enable-progress-gesture="false"></video> -->
-            </view>
-            <!-- <view class="play-btn" v-if="isShowPlayBtn">
-              <text class="icon-font icon-icon-bofang" @click="playVideo(swiperIndex)" :class="white? 'white':''"></text>
-            </view>
-            <text class="icon-font yingliang icon-bofangguanbi"  :class="white? 'white':''" @click="mutedChange(swiperItem)" v-if="swiperItem.isMuted"></text>
-            <text class="icon-font yingliang icon-bofang" :class="white? 'white':''"  @click="mutedChange(swiperItem)" v-if="!swiperItem.isMuted"></text> -->
-          </block>
+        <swiper-item class="home-head-swiper-item fontWhite">
           <!-- 图片 -->
-          <block v-else>
-            <image class="home-head-swiper-img" v-if="swiperItem.picLink" :src="swiperItem.picLink" mode="aspectFill" :lazy-load="true" />
+          <block v-if="swiperItem.source_type === 'image'">
+            <image class="home-head-swiper-img" v-if="swiperItem.source_url" :src="swiperItem.source_url" mode="aspectFill" :lazy-load="true" />
           </block>
-          <!--  -->
+          <!-- 视频 -->
+          <block v-else>
+            <view class="home-head-swiper-video">
+              <video class="video-content" v-if="swiperItem.source_url" :id="'myVideo'+swiperIndex" :src="swiperItem.source_url" :loop="false" autoplay :controls="false" object-fit ="cover"  :show-mute-btn="true" :show-center-play-btn="false" :show-play-btn="false" :show-fullscreen-btn="false" play-btn-position="center" :enable-progress-gesture="false"></video>
+            </view>
+          </block>
 
           <view class="home-head-swiper-other">
-            <!-- <view class="home-head-swiper-title" v-if="swiperItem.title"><text>{{swiperItem.title}}</text></view> -->
-            <!-- <customButton class="home-head-swiper-btn" @click="goPlp(swiperItem.title,swiperItem.url)" :btnWidth="400" :btnHeight="80" :className="swiperItem.name == '2-W'? 'whiteBtn' :'transparent'">{{swiperItem.btn.text || '探索更多'}}</customButton> -->
-            <view class="home-head-swiper-title"><text>NEW COLLECTION</text></view>
-            <customButton class="home-head-swiper-btn" @click="goPlp(swiperItem.title,swiperItem.url)" :btnWidth="400" :btnHeight="80" className="whiteBtn">{{swiperItem.btn.text || '探索更多'}}</customButton>
+            <view class="home-head-swiper-title" v-if="swiperItem.title"><text>{{swiperItem.title}}</text></view>
+            <customButton class="home-head-swiper-btn" v-if="swiperItem.has_button" @click="goPlp(swiperItem.title,swiperItem.link)" :btnWidth="400" :btnHeight="80" className="whiteBtn">{{swiperItem.button_txt || '探索更多'}}</customButton>
           </view>
 
         </swiper-item>
       </block>
     </swiper>
-    <!-- 滚动条 -->
-    <!-- <view class="view-dost" :class="white? 'white-dost':''" v-if="bannerList.length > 1&&isShowDost">
-      <view class="swiper-dots-warp">
-        <view class="swiper-dots"  :style="{ width:dotsWidth + 'px',left:dotsLeft + 'px' }"></view>
-      </view>
-    </view> -->
-    <view class="view-dost white-dost" v-if="bannerList.length > 1&&isShowDost">
+    <view class="view-dost white-dost" v-if="bannerList.length > 1">
       <view class="swiper-dots-warp">
         <view class="swiper-dots"  :style="{ width:dotsWidth + 'px',left:dotsLeft + 'px' }"></view>
       </view>
     </view>
-    <view class="down-arrow" v-if="bannerList.length > 0&&isShowDost">
-      <!-- <text class="icon-font icon-icon-xia" :class="white? 'white-arrow':''"></text>
-      <text class="icon-font icon-icon-xia" :class="white? 'white-arrow':''"></text> -->
+    <view class="down-arrow" v-if="bannerList.length > 0">
       <text class="icon-font icon-zhankai white-arrow"></text>
       <text class="icon-font icon-zhankai white-arrow"></text>
     </view>
-    <view class="news-toast" :style="newsShow?'opacity:1;':'opacity:0;'">
+    <view v-if="notifyList.length > 0" class="news-toast" :style="newsShow?'opacity:1;':'opacity:0;'">
       <text class="icon-font icon-guanbi" @click="newsShow = false"></text>
       <swiper class="news-toast-swiper" circular autoplay interval="3000">
-        <swiper-item v-for="i in 2" :key="i">
-          <view>2021年秋冬系列，隆重登场</view>
+        <swiper-item @click="() => navigateTo(notify.link)" v-for="(notify, i) in notifyList" :key="i">
+          <view >{{ notify.title }}</view>
         </swiper-item>
       </swiper>
     </view>
@@ -60,114 +43,29 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import customButton from '@/components/button/normal.vue';
-import { getCmsContent } from '@/service/apis';
 import { parseCmsContent } from '@/utils/cms';
-import { HOME_MAIN_SWIPER_CONFIG } from '@/constants/cms';
+import { navigateTo } from '@/utils/utils';
+import { HOME_MAIN_SWIPER_CONFIG, HOME_TOP_NOTIFY_CONFIG } from '@/constants/cms';
+import { OSS_URL } from '@/constants/env';
 
 export default {
   name: 'homeHeadSwiper',
   components: {
     customButton,
   },
-  props: {
-    parentCurrent: {
-      type: Number,
-      default: 0,
-    },
-    homeHeadSwiperList: {
-      type: Array,
-      default: () => [],
-    },
-    pageIsShow: {
-      type: Boolean,
-      default: false,
-    },
-    isPause: {
-      type: Boolean,
-      default: false,
-    },
-    isShowDost: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  watch: {
-    parentCurrent: {
-      immediate: true,
-      handler(n, o) {
-        console.log('parentCurrent', n);
-      },
-    },
-    homeHeadSwiperList: {
-      immediate: true,
-      deep: true,
-      handler(n, o) {
-        console.log('homeHeadSwiperList', n);
-        const ts = /\.mov/g;
-        if (n && n.length > 0) {
-          n.forEach((element) => {
-            if (/\.mov/g.test(element.picLink) || /\.mp4/g.test(element.picLink)) {
-              console.log('视频：', element.picLink)
-              element.videoId = element.picLink;
-              element.isMuted = element.subTitle === 'mute'
-            }
-          });
-          this.bannerList = JSON.parse(JSON.stringify(n));
-          this.swiperAutoplay = !this.bannerList[0].videoId;
-          this.white = this.bannerList[0].name === '2-W';
-          this.isShowPlayBtn = this.bannerList[0].picDes !== 'auto';
-        } else {
-          this.bannerList = [];
-        }
-      },
-    },
-    pageIsShow: {
-      immediate: true,
-      handler(n) {
-        console.log('pageIsShow', n);
-        this.swiperAutoplay = n;
-        if (n) { //
-          if (this.videoContext) {
-            this.videoContext.play;
-          }
-        } else if (this.videoContext) {
-          this.videoContext.pause();
-        }
-      },
-    },
-    isPause: {
-      handler(n) {
-        console.log('isPause', n);
-        const that = this;
-        this.swiperAutoplay = !n;
-
-        this.videoContext = null
-        this.videoContext = wx.createVideoContext(`myVideo${this.currentIndex}`, that)
-
-        if (n) {
-          if (this.videoContext) {
-            this.videoContext.pause();
-            this.isShowPlayBtn = true;
-          }
-        }
-      },
-    },
-  },
   data() {
     return {
       ktxStatusHeight: getApp().globalData.ktxStatusHeight, // 头部的高度，用于设置样式padding-top
       bannerList: [], // 轮播图数据
+      notifyList: [],
       currentIndex: 0, // 轮播图所属下标
-      swiperAutoplay: true, // 轮播图是否滚动
-      white: false,
-      isShowPlayBtn: false,
-      isMuted: false, // 是否静音播放
-      videoContext: '',
       newsShow: true,
     };
   },
   computed: {
+    ...mapGetters('cms', ['cmsContentMap']),
     dotsWidth() {
       return this.bannerList.length > 0 ? 240 / this.bannerList.length : 240;
     },
@@ -175,63 +73,33 @@ export default {
       return this.bannerList.length > 0 ? 240 / this.bannerList.length * this.currentIndex : 0;
     },
   },
-  mounted() {
-    this.getMainSwiper();
+  watch: {
+    cmsContentMap (newValue) {
+      this.getCmsContentData(newValue, HOME_MAIN_SWIPER_CONFIG, 'bannerList');
+      this.getCmsContentData(newValue, HOME_TOP_NOTIFY_CONFIG, 'notifyList');
+    }
   },
   methods: {
-    async getMainSwiper() {
-      const { moduleCode, ...rest } = HOME_MAIN_SWIPER_CONFIG;
+    navigateTo,
+    async getCmsContentData (cmsContentMap, config, paramsName) {
+      const { moduleCode, contentCode } = config;
       try {
-        const res = await getCmsContent({ ...rest });
+        const res = cmsContentMap[contentCode];
         const mainSwiperData = parseCmsContent(res, moduleCode, moduleCode);
-        console.log('mainSwiperData------>', mainSwiperData);
+        mainSwiperData.forEach(item => {
+          const { source_url } = item;
+          if (source_url && !/^(http|https)/.test(source_url)) { 
+            item.source_url = `${OSS_URL}${source_url}`                  
+          }
+        })
+        this[paramsName] = mainSwiperData;
       } catch (error) {
         console.error(error)
       }
     },
     swiperChange(e) {
-      console.log('swiperChange ====>', e, this.currentIndex);
-      const that = this;
-      if (this.bannerList[this.currentIndex].videoId) {
-        this.videoContext = null
-        this.videoContext = wx.createVideoContext(`myVideo${this.currentIndex}`, that)
-        this.videoContext && this.videoContext.pause();
-        this.swiperAutoplay = true;
-        this.isShowPlayBtn = true;
-      } else {
-        this.videoContext = null;
-      }
-
       this.currentIndex = e.detail.current;
-
-      if (this.bannerList[this.currentIndex].videoId) {
-        this.videoContext = null
-        this.videoContext = wx.createVideoContext(`myVideo${this.currentIndex}`, that)
-        if (this.bannerList[this.currentIndex].picDes === 'auto') {
-          this.videoContext && this.videoContext.play();
-          this.swiperAutoplay = false;
-          this.isShowPlayBtn = false;
-        }
-      } else {
-        this.videoContext = null;
-      }
-      this.white = this.bannerList[this.currentIndex].name === '2-W';
       this.$emit('swiperChange', this.bannerList[this.currentIndex]);
-    },
-    // 视频播放完毕，轮播
-    videoEnded(e) {
-      console.log('播放完毕');
-      this.isShowPlayBtn = true;
-      this.swiperAutoplay = true;
-    },
-    playVideo(index) {
-      console.log(index);
-      const that = this;
-      let videoContext = null
-      videoContext = wx.createVideoContext(`myVideo${index}`, that)
-      videoContext && videoContext.play();
-      this.swiperAutoplay = false;
-      this.isShowPlayBtn = false;
     },
     // 去plp页面
     goPlp(name, url) {
@@ -241,10 +109,6 @@ export default {
           url: `/subPackages/plp/pages/plp/index?name=${name}&code=${url}&img=`,
         })
       }
-    },
-    mutedChange(swiperItem) {
-      // this.isMuted = !this.isMuted;
-      this.$set(swiperItem, 'isMuted', !swiperItem.isMuted)
     },
   },
 };

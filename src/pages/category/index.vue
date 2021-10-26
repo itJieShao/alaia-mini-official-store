@@ -2,12 +2,11 @@
   <view>
     <custom-nav-bar left-icon="search" left-text="搜索" title="分类" :head-border="true" :head-font-color="false" />
     <view class="content" :style="{ 'padding-top':ktxStatusHeight }">
-      <!-- <view class="activity-banner" v-if="cover">
-        <image class="cover" :src="cover" mode="aspectFill"></image>
-        <view class="txt">FALL WINTER 2021 COLLECTION</view>
-      </view> -->
-      <view class="category-banner" v-if="cover">
-        <image class="cover" :src="cover" mode="aspectFill"></image>
+      <!-- 分类顶部活动 -->
+      <activity-content :config="CATEGORY_ACTIVITY_CONFIG"></activity-content>
+      <view class="category-banner">
+        <image class="cover" src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.45073679062264826%E4%BD%8D%E5%9B%BE%E5%A4%87%E4%BB%BD%2010.jpg" 
+        mode="aspectFill"></image>
         <view class="txt">WS22 COLLECTION</view>
       </view>
       <view class="category">
@@ -29,15 +28,18 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { priceFormat, imgUrlReplace } from '@/utils/utils';
+import ActivityContent from './components/activityContent';
+import { CATEGORY_ACTIVITY_CONFIG } from '@/constants/cms';
 
 export default {
+  components: { ActivityContent },
   data () {
     return {
       type: 2,
       ktxStatusHeight: getApp().globalData.ktxStatusHeight,
       pageData: [],
       curIndex: null,
-      cover: 'https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.45073679062264826%E4%BD%8D%E5%9B%BE%E5%A4%87%E4%BB%BD%2010.jpg',
+      CATEGORY_ACTIVITY_CONFIG
     }
   },
   computed: {
@@ -52,12 +54,12 @@ export default {
     },
   },
   async onLoad () {
-    // const res = await this.getCategoryData();
-    // for (const [key, value] of Object.entries(res)) {
-    //   if (value.name === '商品分类') {
-    //     this.pageData = value ? value.children : []
-    //   }
-    // }
+    const res = await this.getCategoryData();
+    for (const [key, value] of Object.entries(res)) {
+      if (value.name === '分类') {
+        this.pageData = value ? value.children : []
+      }
+    }
   },
   onShow () {
     this.setTabSelected(1);
@@ -67,7 +69,7 @@ export default {
   },
   onShareAppMessage (res) {
     return {
-      title: 'TASAKI塔思琦线上旗舰店',
+      title: 'ALAIA线上旗舰店',
       path: '/pages/category/index',
     }
   },
@@ -191,77 +193,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
-.content {
-  position: relative;
-  overflow-y: auto;
-}
-.category-banner {
-  width: 100%;
-  height: rpx(175);
-  .cover {
-    width: 100%;
-    height: 100%;
-  }
-  .txt {
-    font-family: Lato, Lato-Bold;
-    font-size: rpx(16);
-    font-weight: 700;
-    line-height: rpx(19);
-    position: absolute;
-    z-index: 2;
-    bottom: rpx(17);
-    left: 0;
-    width: 100%;
-    padding: 0 rpx(12);
-    text-align: center;
-    letter-spacing: 2px;
-    color: #fff;
-  }
-}
-.category {
-  padding-top: rpx(10);
-  background-color: #fff;
-  .item {
-    width: 100%;
-    .title {
-      font-family: PingFangSC, PingFangSC-Medium;
-      font-size: rpx(16);
-      font-weight: 500;
-      line-height: rpx(22);
-      padding: rpx(10);
-      text-align: center;
-      letter-spacing: 1px;
-      color: #1d1d1d;
-    }
-    .children {
-      background: #f7f7f7;
-      .c-item {
-        position: relative;
-        padding: rpx(11) rpx(10);
-        text-align: center;
-        &:first-child {
-          padding-top: rpx(15);
-        }
-        .mark {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-        }
-        .txt {
-          font-family: PingFangSC, PingFangSC-Regular;
-          font-size: rpx(13);
-          font-weight: 400;
-          line-height: rpx(18);
-          position: relative;
-          padding: rpx(11) rpx(10);
-          color: #616161;
-        }
-      }
-    }
-  }
-}
-
+  @import "./index";
 </style>

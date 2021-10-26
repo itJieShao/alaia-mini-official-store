@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { getCmsContent } from '@/service/apis';
+import { mapActions } from 'vuex';
 import { parseCmsContent } from '@/utils/cms';
 import { HELP_LIST_CMS_CONFIG } from '@/constants/cms';
 
@@ -31,19 +31,20 @@ export default {
     wx.stopPullDownRefresh();
   },
   methods: {
+    ...mapActions('cms', ['getCmsContentMapData']),
     // 去帮助中心详情页
     goHelpDetail(item) {
-      console.log(item);
       uni.navigateTo({
         url: `/subPackages/help/pages/help-detail/index?name=${item.value}&templateCode=${item.templateCode}&contentCode=${item.contentCode}`,
       })
     },
     // 获取帮助中心list
     async getHelpList() {
-      const { moduleCode, ...rest } = HELP_LIST_CMS_CONFIG;
+      const { moduleCode, contentCode, templateCode } = HELP_LIST_CMS_CONFIG;
       try {
-        const res = await getCmsContent({ ...rest });
-        const helpList = parseCmsContent(res, rest.templateCode, moduleCode);
+        const cmsContentMap = await this.getCmsContentMapData();
+        const res = cmsContentMap[contentCode];
+        const helpList = parseCmsContent(res, templateCode, moduleCode);
         this.helpList = helpList.map((item) => ({ 
           templateCode: item.target_tid, 
           contentCode: item.target_id,

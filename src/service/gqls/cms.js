@@ -19,3 +19,15 @@ query getCmsContent ($templateCode: String!, $contentCode: String!) {
     templateData(templateCode:$templateCode, contentCode:$contentCode)
   }
 }`
+
+
+export const cmsContentListGql = gql`
+query getCmsContentList ($templateWithContentCodes: String!) {
+  shop {
+    templateDataList (templateWithContentCodes: $templateWithContentCodes) {
+      templateCode
+      contentCode
+      content
+    }
+  }
+}`
