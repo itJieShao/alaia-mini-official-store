@@ -1,8 +1,5 @@
 <template>
   <view class="index">
-    <!-- page Header -->
-    <!-- <custom-nav-bar :left-icon="'search'" :left-text="'搜索'" :head-border="isHeadBorder" :head-blank="isHeadBlank"
-      :head-font-color="isHeaderBlackColor" /> -->
     <custom-nav-bar :left-icon="'search'" :left-text="'搜索'" :head-border="false" :head-blank="isHeadBlank"
       :head-font-color="isHeaderBlackColor" />
     <!-- page Container -->
@@ -13,7 +10,6 @@
           <!-- 首页顶部swiper -->
           <home-head-swiper :pageIsShow="pageIsShow" :parentCurrent="current" :isPause="isPause"
             :isShowDost="isShowDost"></home-head-swiper>
-          <!--      <home-head-swiper :pageIsShow="pageIsShow" :parentCurrent="current" :isPause="isPause" :isShowDost="isShowDost" @swiperChange="homeHeaderSwiperChange"></home-head-swiper> -->
         </swiper-item>
         <swiper-item>
           <scroll-view scroll-y class="scroll-view scroll-view-content" :style="{'paddingTop':ktxStatusHeight}"
@@ -88,14 +84,13 @@
     onShow() {
       this.pageIsShow = true;
       this.setTabSelected(0);
-      console.log('首页', this.pageIsShow)
       const advertising = uni.getStorageSync('advertisingParam') || this.advertisingParam;
       if (advertising && advertising.gdt_vid) {
         this.wechatTrack(advertising.gdt_vid);
       }
     },
-    onLoad() {
-
+    async onLoad() {
+      await this.getCmsContentMapData();
     },
     onHide() {
       this.pageIsShow = false;
@@ -105,6 +100,7 @@
       wx.stopPullDownRefresh(); // 阻止下拉刷新
     },
     methods: {
+      ...mapActions('cms', ['getCmsContentMapData']),
       ...mapActions('category', ['getCategoryData']),
       ...mapActions('common', ['getAccessToken']),
       ...mapState('globle', ['advertisingParam']),
@@ -210,59 +206,5 @@
 </script>
 
 <style lang="scss" scoped>
-  $mainColor: #e3f0ea;
-
-  .index {
-    width: 100%;
-    height: calc(100vh - 112rpx - var(--safe-area-inset-bottom));
-    background: #fff;
-
-    .swiper {
-      height: calc(100vh - 112rpx - var(--safe-area-inset-bottom));
-      background-color: #f7f7f7;
-
-      .scroll-view {
-        height: 100%;
-      }
-    }
-  }
-</style>
-<style lang="scss">
-  $mainColor: #e3f0ea;
-
-  // 底部隐私协议部分
-  .com-page-bottom {
-    padding: 100rpx 0 80rpx;
-    text-align: center;
-    color: #000;
-
-    .com-page-bottom-title {
-      font-size: 28rpx;
-      line-height: 42rpx;
-    }
-
-    .com-page-bottom-policy {
-      font-size: 24rpx;
-      line-height: 36rpx;
-      margin-top: 40rpx;
-      opacity: .5;
-
-      text {
-        line-height: 36rpx;
-        position: relative;
-        display: inline-block;
-        height: 36rpx;
-        margin: 0 10rpx;
-
-        &::before {
-          position: absolute;
-          bottom: -2px;
-          width: 100%;
-          height: 1px;
-          content: '';
-          background-color: #000;
-        }
-      }
-    }
-  }
+  @import './index';
 </style>
