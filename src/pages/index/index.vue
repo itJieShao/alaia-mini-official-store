@@ -85,15 +85,13 @@
         success() {},
       };
     },
-    onShow() {
+    async onShow() {
       this.pageIsShow = true;
       this.setTabSelected(0);
       const advertising = uni.getStorageSync('advertisingParam') || this.advertisingParam;
       if (advertising && advertising.gdt_vid) {
         this.wechatTrack(advertising.gdt_vid);
       }
-    },
-    async onLoad() {
       await this.getCmsContentMapData();
     },
     onHide() {

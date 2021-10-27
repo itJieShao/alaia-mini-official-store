@@ -13,7 +13,7 @@
           <customButton :btnWidth="280" :btnHeight="80" className="big-btn" @click="handleClick">去逛逛</customButton>
         </view>
         <!-- 无订单时展示 猜你喜欢 & 最近浏览 --暂时去掉 -->
-        <!-- <recently-like-products/> -->
+        <recently-like-products :config="GUESS_LIKE_CAET_CONFIG"/>
       </block>
       <!-- 有订单 -->
       <block v-if="isLoad && orderList.length > 0">
@@ -39,10 +39,12 @@
 <script>
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 import customButton from '@/components/al-button/normal';
-import RecentlyLikeProducts from '@/pages/shoppingCar/components/RecentlyLikeProducts'
+import RecentlyLikeProducts from '@/components/al-recentlyLikeProducts';
 import { SCREEN_NAME, trackerCommonPageView } from '@/utils/ga'
+import { GUESS_LIKE_CAET_CONFIG } from '@/constants/cms';
 import { formatDateNew } from '@/utils/utils'
 import orderCard from '../../components/order-card/order-card';
+
 export default {
   name: 'order',
   components: {
@@ -57,7 +59,8 @@ export default {
       isLoad: false,
       pageInfo: {},
       tabList: ['全部', '待支付', '待发货', '待收货', '已完成']
-      .map((name, i) => ({ name, checked: i === 0 }))
+      .map((name, i) => ({ name, checked: i === 0 })),
+      GUESS_LIKE_CAET_CONFIG
     }
   },
   computed: {

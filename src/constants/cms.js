@@ -18,7 +18,11 @@ export const HOME_STORE_CONFIG = {  moduleCode: 'swiper', templateCode: 'section
 export const HOME_BRAND_INTRO_CONFIG = {  moduleCode: 'swiper', templateCode: 'section_content', contentCode: 'home_brand_intro' }
 // 分类页
 export const CATEGORY_ACTIVITY_CONFIG = { moduleCode: 'swiper', templateCode: 'swiper_group', contentCode: 'category_activity' }
-
+// 猜你喜欢
+export const GUESS_LIKE_SEARCH_CONFIG = { moduleCode: 'product_sku', templateCode: 'guess_like_template', contentCode: 'guess_like_search' }
+export const GUESS_LIKE_CAET_CONFIG = { moduleCode: 'product_sku', templateCode: 'guess_like_template', contentCode: 'guess_like_cart' }
+export const GUESS_LIKE_PLP_CONFIG = { moduleCode: 'product_sku',  templateCode: 'guess_like_template', contentCode: 'guess_like_plp' }
+export const GUESS_LIKE_FAVORITE_CONFIG = { moduleCode: 'product_sku', templateCode: 'guess_like_template', contentCode: 'guess_like_favorite' }
 // 帮助页cms
 export const HELP_LIST_CMS_CONFIG = {  moduleCode: 'index', templateCode: 'help_index', contentCode: 'help_index' }
 
@@ -29,5 +33,9 @@ export const CMS_CONFIG_LIST = [
   HOME_STORE_CONFIG,
   HOME_BRAND_INTRO_CONFIG,
   CATEGORY_ACTIVITY_CONFIG,
-  HELP_LIST_CMS_CONFIG
+  HELP_LIST_CMS_CONFIG,
+  GUESS_LIKE_SEARCH_CONFIG,
+  GUESS_LIKE_CAET_CONFIG,
+  GUESS_LIKE_PLP_CONFIG,
+  GUESS_LIKE_FAVORITE_CONFIG
 ]

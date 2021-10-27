@@ -10,19 +10,25 @@
       </view>
     </view>
     <view class="guess-like">
-      <recently-like-products like titleLeft />
+      <recently-like-products :config="GUESS_LIKE_SEARCH_CONFIG" />
     </view>
   </view>
 </template>
 
 <script>
 import searchInput from '@/components/searchInput';
-import RecentlyLikeProducts from '@/pages/shoppingCar/components/RecentlyLikeProducts'
+import { GUESS_LIKE_SEARCH_CONFIG } from '@/constants/cms';
+import RecentlyLikeProducts from '@/components/al-recentlyLikeProducts'
 
 export default {
   components: {
     searchInput,
     RecentlyLikeProducts,
+  },
+  data () {
+    return {
+      GUESS_LIKE_SEARCH_CONFIG
+    }
   },
   props: {
     hotWords: {
