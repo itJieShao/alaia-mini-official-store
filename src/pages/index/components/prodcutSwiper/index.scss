@@ -1,0 +1,122 @@
+$color: #1D1D1D;
+
+.product-swiper {
+
+.title {
+    padding: 90rpx 0 60rpx;
+}
+
+.swiper-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .swiper {
+    width: 674rpx;
+    height: 700rpx;
+
+    .oneItem{
+        justify-content: center;
+    }
+    .twoItem{
+        justify-content: space-between;
+    }
+    .swiper-item {
+        width: 100%;
+        display: flex;
+        .goods-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 330rpx;
+        color: $color;
+
+        image {
+            display: block;
+            width: 100%;
+            height: 456rpx;
+        }
+
+        .goods-label {
+            font-family: PingFangSC, PingFangSC-Medium;
+            font-size: 24rpx;
+            line-height: 28rpx;
+            padding: 8rpx;
+            border: 2rpx solid $color;
+            margin-top: 30rpx;
+        }
+
+        .goods-title {
+            font-family: PingFangSC, PingFangSC-Regular;
+            display: block;
+            font-size: 28rpx;
+            line-height: 28rpx;
+            margin: 24rpx auto;
+        }
+
+        .goods-price {
+            font-family: PingFangSC, PingFangSC-Regular;
+            font-size: 28rpx;
+            line-height: 28rpx;
+        }
+        }
+    }
+    }
+
+    .left-side {
+    position: absolute;
+    top: 250rpx;
+    left: 10rpx;
+    z-index: 2;
+    image{
+        width: 36rpx;
+        height: 36rpx;
+    }
+    }
+
+    .right-side {
+    position: absolute;
+    top: 250rpx;
+    right: 10rpx;
+    z-index: 2;
+    image{
+        width: 36rpx;
+        height: 36rpx;
+    }
+    }
+
+    // 滚动条
+    .view-dost {
+    width: 100%;
+    text-align: center;
+    word-wrap: break-word;
+
+    .swiper-dots-warp {
+        position: relative;
+        width: 160px;
+        height: 2px;
+        margin: 0 auto;
+        transform: scaleY(.5);
+        background: #d8d8d8;
+
+        .swiper-dots {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 32px;
+        height: 3px;
+        transition: all .8s;
+        transform: translateY(-50%);
+        text-align: center;
+        background: #1d1d1d;
+        }
+    }
+    }
+
+    .home-more-btn {
+    padding: 60rpx 0 90rpx;
+    }
+}
+}

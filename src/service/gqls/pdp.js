@@ -32,6 +32,7 @@ query productByCode ($codes: [String!]!) {
               code
               name
               frontName
+              originCode
               values {
                 code
                 displayName
