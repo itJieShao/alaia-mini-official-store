@@ -1,48 +1,58 @@
 <template>
   <view class="product-swiper">
     <view class="title">
-      <com-title title="2022艺术的馈赠" subtitle="新品女士包袋" />
+      <com-title :title="content.title" :subtitle="content.sub_title" />
     </view>
     <view class="swiper-container">
       <swiper class="swiper" autoplay interval="3000" :current="currentIndex" @change="swiperChange" circular>
-        <swiper-item class="swiper-item twoItem" v-for="i in 3" :key="i">
-          <view class="goods-item" v-for="it in 2" :key="it">
-          <!-- <view class="goods-item"> -->
-            <image src="" mode="aspectFit" :lazy-load="true"></image>
+        <swiper-item class="swiper-item" :class="content.per_view == 2?'twoItem':'oneItem'"
+          v-for="(item,index) in swiperList" :key="index">
+          <view class="goods-item" :style="content.per_view == 2?'width: 330rpx;':'width: 430rpx;'" v-for="(it,itd) in item" :key="itd">
+            <image :src="it.images[0].url" mode="aspectFit" :lazy-load="true"></image>
             <view class="goods-label">
               新品
             </view>
-            <text class="goods-title">镂空饺子包</text>
-            <text class="goods-price">￥27,000</text>
+            <text class="goods-title" v-if="it.title">{{it.title}}</text>
+            <text class="goods-price" v-if="it.skus &&　it.skus.length>0 &&　it.skus[0].salePrice.amount">¥ {{it.skus[0].salePrice.amount  | formatMoney}}</text>
           </view>
         </swiper-item>
       </swiper>
-      <view class="left-side" @click="changeLeftSide">
+      <!-- <view class="left-side" @click="changeLeftSide">
         <image src="http://res-tasaki.baozun.com/static/images/shopping-car/arrow_left.png"></image>
       </view>
       <view class="right-side" @click="changeRightSide">
         <image src="http://res-tasaki.baozun.com/static/images/shopping-car/arrow_right.png"></image>
-      </view>
+      </view> -->
       <view class="view-dost">
         <view class="swiper-dots-warp">
           <view class="swiper-dots" :style="{ width:dotsWidth + 'px',left:dotsLeft + 'px' }"></view>
         </view>
       </view>
       <view class="home-more-btn">
-        <customButton :btnWidth="480" :btnHeight="80" className="transparent">即刻探索</customButton>
+        <customButton v-if="content.has_button" :btnWidth="480" :btnHeight="80" className="transparent">
+          {{content.button_txt?content.button_txt:'即刻探索'}}</customButton>
       </view>
     </view>
   </view>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+  import {
+    mapGetters,
+    mapActions
+  } from 'vuex';
   import ComTitle from '../comTitle/comTitle';
   import customButton from '@/components/button/normal.vue';
-  import { HOME_SUB_SWIPER_CONFIG } from '@/constants/cms';
-  import { parseCmsContent } from '@/utils/cms';
-  import { navigateTo } from '@/utils/utils';
-
+  import {
+    HOME_SUB_SWIPER_CONFIG
+  } from '@/constants/cms';
+  import {
+    parseCmsContent
+  } from '@/utils/cms';
+  import {
+    navigateTo,
+    priceFormat
+  } from '@/utils/utils';
   export default {
     data() {
       return {
@@ -64,21 +74,42 @@
       },
       ...mapGetters('cms', ['cmsContentMap'])
     },
+    filters: {
+      formatMoney(val) {
+        if (val) {
+          return priceFormat(val);
+        }
+        return '0';
+      },
+    },
     watch: {
-      cmsContentMap (newValue) {
+      cmsContentMap(newValue) {
         // todo : 需要绑定数据
-        this.content = this.getCmsContentData(newValue, HOME_SUB_SWIPER_CONFIG, 'content');
+        const content = this.getCmsContentData(newValue, HOME_SUB_SWIPER_CONFIG, 'content')[0];
+        const swiperList = this.getCmsContentData(newValue, HOME_SUB_SWIPER_CONFIG, 'swiper_group');
+        const codes = swiperList.map(item => item.sku_code);
+        this.getProductList(codes).then((res) => {
+          const arr = [];
+          for (let i = 0; i < res.length; i += content.per_view) {
+            arr.push(res.slice(i, i + content.per_view));
+          }
+          this.swiperList = arr;
+          console.log('swiperList-------> ', this.swiperList);
+        })
+        this.content = content;
         console.log('content-------> ', this.content);
-        this.swiperList = this.getCmsContentData(newValue, HOME_SUB_SWIPER_CONFIG, 'swiper_group');
-        console.log('swiperList-------> ', this.swiperList);
       }
     },
     methods: {
       navigateTo,
-      getCmsContentData (resData, config, name) {
-        const { moduleCode, contentCode } = config;
+      ...mapActions('product', ['getProductList']),
+      getCmsContentData(resData, config, name) {
+        const {
+          moduleCode,
+          contentCode
+        } = config;
         try {
-         return parseCmsContent(resData[contentCode], name, moduleCode);
+          return parseCmsContent(resData[contentCode], name, moduleCode);
         } catch (error) {
           console.error(error)
         }

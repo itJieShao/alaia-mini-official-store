@@ -691,7 +691,8 @@ export default {
       // this.sizeGuideShow = true;
       // this.isLeftArrow = false;
       this.dialog.show = false
-      uni.navigateTo({ url: '/subPackages/sizeGuide/pages/index' })
+      uni.navigateTo({ url: '/subPackages/sizeGuide/pages/size/index' })
+      // uni.navigateTo({ url: '/subPackages/sizeGuide/pages/clothes/index' })
     },
     clickClose () {
       this.sizeGuideShow = false;

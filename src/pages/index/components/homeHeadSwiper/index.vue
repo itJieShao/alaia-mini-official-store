@@ -1,6 +1,6 @@
 <template name="homeHeadSwiper">
   <view class="home-head-swiper">
-    <swiper class="swiper" :circular="true">
+    <swiper class="swiper" @change="swiperChange" :circular="true">
       <block v-for="(swiperItem,swiperIndex) in bannerList" :key="swiperIndex">
         <swiper-item class="home-head-swiper-item fontWhite">
           <!-- 图片 -->

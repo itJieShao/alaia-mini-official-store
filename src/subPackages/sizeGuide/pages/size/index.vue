@@ -6,7 +6,7 @@
         <view class="txt">此换算表中为估计值，可以帮助您找到合适的尺码。</view>
         <view class="txt">如果您已经购买了我们品牌的商品，建议您继续选择产品标签上所示的尺码。</view>
         <div class="details">
-          <image mode="widthFix" :lazy-load="true" src="https://res-tasaki.baozun.com/static/images/size-1.png"></image>
+          <image mode="widthFix" :lazy-load="true" src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-27/0.21355871886147204size-02.jpg"></image>
         </div>
         <view class="txt">联系我们</view>
         <view class="txt tip">中国时间，周一至周五，早9点至晚11点</view>
@@ -43,9 +43,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
+@import "@/styles/utilities.scss";
 .size-guide {
   padding: rpx(30) rpx(16);
+  font-size: 0;
   .txt {
     font-family: PingFangSC, PingFangSC-Regular;
     font-size: rpx(14);
@@ -54,6 +55,12 @@ export default {
     margin-bottom: rpx(16);
     text-align: left;
     color: #272727;
+  }
+  .details {
+    margin: 0 rpx(-16);
+    image {
+      width: 100%;
+    }
   }
   .icon-tips {
     margin-bottom: rpx(9);
@@ -69,5 +76,4 @@ export default {
     color: #000;
   }
 }
-
 </style>
