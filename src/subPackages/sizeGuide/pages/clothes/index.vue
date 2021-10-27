@@ -15,7 +15,7 @@
         <view class="module-l2 gap-top">
           <view class="txt">尺码表</view>
           <div class="details gap-top">
-            <image mode="widthFix" :lazy-load="true" src="https://res-tasaki.baozun.com/static/images/size-1.png"></image>
+            <image mode="widthFix" :lazy-load="true" src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-27/0.6595602497161128size-03.jpg"></image>
           </div>
           <view class="txt tip">此换算表中为估计值，可以帮助您找到合适的尺码。</view>
           <view class="txt tip">如果您已经购买了我们品牌的商品，建议您继续选择产品标签上所示的尺码。</view>
@@ -36,11 +36,24 @@
             <view :class="['txt',company=='cm'?'active':'']" @click="company='cm'">厘米</view>
           </view>
           <div class="size gap-top">
-            <image mode="widthFix" :lazy-load="true" :src="sizeList[active][company]"></image>
+            <view class="box box1">
+              <view class="f">F.170</view>
+              <view class="b">B.80</view>
+              <view class="g">G.170</view>
+              <view class="c">C.170</view>
+              <view class="d">D.170</view>
+            </view>
+            <view class="box box2">
+              <view class="a">A.170</view>
+              <view class="e">E.170</view>
+              <view class="i">I.170</view>
+              <view class="h">H.170</view>
+            </view>
+            <image mode="widthFix" :lazy-load="true" src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-27/0.9895252805302546size-01.jpg"></image>
           </div>
         </view>
 
-        <view class="gap-top">
+        <view class="tips-box">
           <view class="txt">下方所列是我们使用的主要测量依据。为帮助您选择最合适的尺码，建议您将每一项数值与您自己的情况进行比较。</view>
           <view class="txt">A. 身高 — 净身高</view>
           <view class="txt">B. 胸围 — 最大胸围。</view>
@@ -73,28 +86,18 @@ export default {
       sizeList: [
         {
           label: '36',
-          inch: 'https://res-tasaki.baozun.com/static/images/size-1.png',
-          cm: 'https://res-tasaki.baozun.com/static/images/size-1.png',
         },
         {
           label: '38',
-          inch: 'https://res-tasaki.baozun.com/static/images/size-1.png',
-          cm: 'https://res-tasaki.baozun.com/static/images/size-1.png',
         },
         {
           label: '42',
-          inch: 'https://res-tasaki.baozun.com/static/images/size-1.png',
-          cm: 'https://res-tasaki.baozun.com/static/images/size-1.png',
         },
         {
           label: '44',
-          inch: 'https://res-tasaki.baozun.com/static/images/size-1.png',
-          cm: 'https://res-tasaki.baozun.com/static/images/size-1.png',
         },
         {
           label: '46',
-          inch: 'https://res-tasaki.baozun.com/static/images/size-1.png',
-          cm: 'https://res-tasaki.baozun.com/static/images/size-1.png',
         },
       ],
       active: 1,
@@ -132,11 +135,8 @@ export default {
     text-align: left;
     color: #272727;
   }
-  .details {
-    margin: 0 rpx(-16);
-    image {
-      width: 100%;
-    }
+  image {
+    width: 100%;
   }
   .icon-tips {
     margin-bottom: rpx(9);
@@ -181,6 +181,9 @@ export default {
       margin-top: rpx(16);
 
       gap: rpx(25);
+      .txt {
+        margin-bottom: 0;
+      }
     }
     .txt {
       display: flex;
@@ -202,12 +205,56 @@ export default {
       color: #272727;
     }
     .size {
-      margin-top: rpx(-2);
+      position: relative;
+      margin-top: rpx(30);
       padding: 0 rpx(48);
+      text-align: center;
       image {
-        width: 100%;
+        width: rpx(220);
+        margin-left: rpx(41);
+      }
+      .box {
+        position: absolute;
+        view {
+          font-size: rpx(12);
+          font-weight: 400;
+          line-height: rpx(17);
+          text-align: left;
+          letter-spacing: 1px;
+          color: #272727;
+        }
+      }
+      .box1 {
+        top: rpx(115);
+        left: rpx(40);
+        .c {
+          margin-top: rpx(20);
+        }
+        .d {
+          margin-top: rpx(32.5);
+        }
+      }
+      .box2 {
+        top: 100%;
+        right: rpx(22);
+        margin-top: rpx(16);
+        view {
+          display: inline-block;
+        }
+        .a {
+          margin-right: rpx(54);
+        }
+        .e {
+          margin-right: rpx(50);
+        }
+        .i {
+          margin-right: rpx(10);
+        }
       }
     }
+  }
+  .tips-box {
+    margin-top: rpx(64);
   }
   .gap-top {
     margin-top: rpx(32);
