@@ -73,7 +73,7 @@
           </swiper-item>
         </swiper>
       </view>
-      <recently-like-products recent />
+      <recently-like-products :config="GUESS_LIKE_PLP_CONFIG" />
     </view>
 
     <!-- 购买 -->
@@ -170,8 +170,9 @@ import { ORDER_INFO, WX_INFO } from '@/constants/user';
 import { ENCODE_SPLIT_SIGN } from '@/constants/share';
 import { BTN_TYPE } from '@/constants/product';
 import sizePicker from '@/components/picker';
-import RecentlyLikeProducts from '@/pages/shoppingCar/components/RecentlyLikeProducts';
+import RecentlyLikeProducts from '@/components/al-recentlyLikeProducts';
 import { TYPE_CODE } from '@/constants/subscribe';
+import { GUESS_LIKE_PLP_CONFIG } from '@/constants/cms';
 import { trackWechatAd } from '@/service/apis'
 import productSwiper from '@/components/product-swiper';
 import sizeGuide from './components/sizeGuide';
@@ -186,6 +187,7 @@ export default {
   mixins: [navBarHeight],
   data () {
     return {
+      GUESS_LIKE_PLP_CONFIG,
       ktxStatusHeight: getApp().globalData.ktxStatusHeight, // 头部的高度，用于设置样式padding-top
       isHeadBorder: false, // header border是否展示
       isHeaderBlackColor: false, // header 字体颜色

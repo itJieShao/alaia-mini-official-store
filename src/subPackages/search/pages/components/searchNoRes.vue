@@ -3,19 +3,25 @@
     <view class="search-res">抱歉，没有找到任何关于“{{keyword.name}}”的结果 </view>
     <search-input @getProduct="getProduct" />
     <view class="no-list">
-      <recently-like-products like titleLeft />
+      <recently-like-products :config="GUESS_LIKE_SEARCH_CONFIG" />
     </view>
   </view>
 </template>
 
 <script>
 import searchInput from '@/components/searchInput';
-import RecentlyLikeProducts from '@/pages/shoppingCar/components/RecentlyLikeProducts'
+import { GUESS_LIKE_SEARCH_CONFIG } from '@/constants/cms';
+import RecentlyLikeProducts from '@/components/al-recentlyLikeProducts'
 
 export default {
   components: {
     searchInput,
     RecentlyLikeProducts,
+  },
+  data () {
+    return {
+      GUESS_LIKE_SEARCH_CONFIG
+    }
   },
   props: {
     keyword: {

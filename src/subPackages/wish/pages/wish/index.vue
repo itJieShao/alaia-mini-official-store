@@ -19,19 +19,17 @@
         <view class="go-button">
           <customButton :btnWidth="340" className="big-btn" @click="handleGoHome">去逛逛</customButton>
         </view>
-        <recently-like-products />
+        <recently-like-products :config="GUESS_LIKE_FAVORITE_CONFIG"/>
       </view>
     </view>
   </view>
 </template>
 
 <script>
-  import {
-    mapActions,
-    mapGetters
-  } from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
   import customButton from '@/components/al-button/normal.vue';
-  import RecentlyLikeProducts from '@/pages/shoppingCar/components/RecentlyLikeProducts';
+  import RecentlyLikeProducts from '@/components/al-recentlyLikeProducts';
+  import { GUESS_LIKE_FAVORITE_CONFIG } from '@/constants/cms';
   export default {
     name: 'wish',
     components: {
@@ -41,6 +39,7 @@
     data() {
       return {
         ktxStatusHeight: getApp().globalData.ktxStatusHeight,
+        GUESS_LIKE_FAVORITE_CONFIG
       }
     },
     computed: {
