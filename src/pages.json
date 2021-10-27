@@ -48,7 +48,13 @@
 			"root": "subPackages/sizeGuide",
 			"pages": [
 				{
-					"path": "pages/index",
+					"path": "pages/size/index",
+					"style": {
+						"navigationStyle": "custom"
+					}
+				},
+				{
+					"path": "pages/clothes/index",
 					"style": {
 						"navigationStyle": "custom"
 					}

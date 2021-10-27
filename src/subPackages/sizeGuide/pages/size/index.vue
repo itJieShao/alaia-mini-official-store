@@ -43,9 +43,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
+@import "@/styles/utilities.scss";
 .size-guide {
   padding: rpx(30) rpx(16);
+  font-size: 0;
   .txt {
     font-family: PingFangSC, PingFangSC-Regular;
     font-size: rpx(14);
@@ -54,6 +55,12 @@ export default {
     margin-bottom: rpx(16);
     text-align: left;
     color: #272727;
+  }
+  .details {
+    margin: 0 rpx(-16);
+    image {
+      width: 100%;
+    }
   }
   .icon-tips {
     margin-bottom: rpx(9);
@@ -69,5 +76,4 @@ export default {
     color: #000;
   }
 }
-
 </style>
