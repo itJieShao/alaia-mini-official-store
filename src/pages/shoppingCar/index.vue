@@ -29,7 +29,7 @@
         <div class="go-button">
           <customButton :btnWidth="280" className="big-btn" @click="handleGoHome" >去逛逛</customButton>
         </div>
-        <recently-like-products/>
+        <recently-like-products :config="GUESS_LIKE_CAET_CONFIG"/>
       </view>
     </view>
 
@@ -93,7 +93,7 @@
 import {
   mapActions, mapGetters, mapMutations,
 } from 'vuex';
-import RecentlyLikeProducts from '@/pages/shoppingCar/components/RecentlyLikeProducts'
+import RecentlyLikeProducts from '@/components/al-recentlyLikeProducts';
 import navBarHeight from '@/components/common/navBarHeight';
 import { addShopCartApi } from '@/service/apis/pdp';
 import utils from '../../utils/utils';
@@ -106,6 +106,7 @@ import {
   cartUpdateNum,
   cartSkuStatusUpdate,
 } from '../../service/apis/cart';
+import { GUESS_LIKE_CAET_CONFIG } from '@/constants/cms';
 import { ORDER_INFO } from '../../constants/user'
 import { BUY_MAX_NUM } from '../../constants/product'
 import { LOACK_OF_INVENTORY } from '../../constants/errorCode'
@@ -131,6 +132,7 @@ export default {
       // 导购信息
       guideInfo: null,
       isMemberLogin: true,
+      GUESS_LIKE_CAET_CONFIG
     };
   },
   async onShow() {

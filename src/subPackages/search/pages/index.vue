@@ -101,7 +101,7 @@ export default {
     }
   },
   created () {
-    this.getHelpList()
+
   },
   methods: {
     ...mapMutations('search', ['clearKeyWord', 'clearSelect']),
@@ -254,25 +254,8 @@ export default {
     },
 
     // 获取HOT热词
-    async getHelpList () {
-      try {
-        const res = await getCmsContent({
-          templateCode: 'hot',
-          contentCode: 'hot',
-        });
-        const cmsContent = JSON.parse(get(res, 'data.shop.cmsContent', null)) || {};
-        console.log('搜索页面 ===>', cmsContent);
-        const helpList = get(cmsContent, 'content.zh_CN.hot.modelContents', [])
-          .map((v) => ({
-            search_type: v.groupContents.hot1[0].fieldContents.search_type,
-            search_value: v.groupContents.hot1[0].fieldContents.search_value,
-            name: v.groupContents.hot1[0].fieldContents.show,
-          }))
-        this.hotWords = helpList;
-        console.log('hotWords', this.hotWords);
-      } catch (error) {
-        console.error(error)
-      }
+    async getHotWordList () {
+
     },
   },
 }

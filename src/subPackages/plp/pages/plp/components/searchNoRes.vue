@@ -9,14 +9,16 @@
       </customButton>
     </view>
     <view class="no-list">
-      <recently-like-products />
+      <recently-like-products :config="GUESS_LIKE_PLP_CONFIG"/>
     </view>
   </view>
 </template>
 
 <script>
   import customButton from '@/components/button/normal.vue'
-  import RecentlyLikeProducts from '@/pages/shoppingCar/components/RecentlyLikeProducts'
+  import RecentlyLikeProducts from '@/components/al-recentlyLikeProducts'
+  import { GUESS_LIKE_PLP_CONFIG } from '@/constants/cms'
+
   export default {
     props: {
       keyWord: {
@@ -30,7 +32,7 @@
     },
     data() {
       return {
-
+        GUESS_LIKE_PLP_CONFIG
       }
     },
     methods: {

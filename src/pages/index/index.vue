@@ -42,7 +42,7 @@
   import { trackWechatAd } from '@/service/apis'
   import customButton from '@/components/button/normal.vue';
   import HomeHeadSwiper from './components/homeHeadSwiper/index'; // 首页顶部swiper
-  import ProductSwiper from './components/prodcutSwiper/productSwiper'; // 首页轮播
+  import ProductSwiper from './components/prodcutSwiper/index'; // 首页轮播
   import ProductModel from './components/productModel/productModel'; // 造型灵感
   import Product from './components/product/product'; // 精选推荐
   import SectionContent from './components/sectionContent'; // 精品店
@@ -85,15 +85,13 @@
         success() {},
       };
     },
-    onShow() {
+    async onShow() {
       this.pageIsShow = true;
       this.setTabSelected(0);
       const advertising = uni.getStorageSync('advertisingParam') || this.advertisingParam;
       if (advertising && advertising.gdt_vid) {
         this.wechatTrack(advertising.gdt_vid);
       }
-    },
-    async onLoad() {
       await this.getCmsContentMapData();
     },
     onHide() {
