@@ -12,11 +12,11 @@
       <view class="category">
         <view class="item" v-for="(item,index) in pageData" :key="item.code">
           <view class="title" @click="cutItem(index)">{{item.name}}</view>
-          <view class="children" v-show="curIndex==index">
-            <view class="c-item" v-for="li in item.children" :key="li">
+          <view class="children" v-show="curIndex == index">
+            <view class="c-item" v-for="sItem in item.children" :key="sItem.name">
               <!-- 点击空白收起部分 -->
               <view class="mark" @click="cutItem(null)"></view>
-              <text class="txt" @click="goPlp(li.name,li.url,li.icon,li.remark)">{{li.name}}</text>
+              <text class="txt" @click="goPlp(sItem)">{{ sItem.name }}</text>
             </view>
           </view>
         </view>
@@ -148,7 +148,8 @@ export default {
           })
       }, 200)
     },
-    goPlp (name, url, img, remark) {
+    goPlp (item) {
+      const { name, url, img, remark } = item;
       if (url) {
         if (remark) {
           uni.navigateTo({
