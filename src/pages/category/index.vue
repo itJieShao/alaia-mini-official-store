@@ -149,18 +149,26 @@ export default {
       }, 200)
     },
     goPlp (item) {
-      const { name, url, img, remark } = item;
-      if (url) {
-        if (remark) {
-          uni.navigateTo({
-            url: `/subPackages/plp/pages/plp/index?name=${name}&code=${url}&img=${img}&remark=${remark}`,
-          })
-        } else {
-          uni.navigateTo({
-            url: `/subPackages/plp/pages/plp/index?name=${name}&code=${url}&img=${img}`,
-          })
-        }
+      // tips：这里用的spucode但plp并没有数据
+      const { name, spuCodes: [ spuCode ] } = item;
+      if (spuCode && name) {
+        uni.navigateTo({
+          url: `/subPackages/plp/pages/plp/index?name=${name}&code=${spuCode}`,
+        })
       }
+      // const { name, url, img, remark, spuCodes: [ spuCode ] } = item;
+      // console.log('spuCodes', spuCodes[0]);
+      // if (url) {
+      //   if (remark) {
+      //     uni.navigateTo({
+      //       url: `/subPackages/plp/pages/plp/index?name=${name}&code=${url}&img=${img}&remark=${remark}`,
+      //     })
+      //   } else {
+      //     uni.navigateTo({
+      //       url: `/subPackages/plp/pages/plp/index?name=${name}&code=${url}&img=${img}`,
+      //     })
+      //   }
+      // }
     },
     goPdp (item) {
       const aData = {
