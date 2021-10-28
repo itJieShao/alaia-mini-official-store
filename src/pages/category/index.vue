@@ -5,18 +5,17 @@
       <!-- 分类顶部活动 -->
       <activity-content :config="CATEGORY_ACTIVITY_CONFIG"></activity-content>
       <view class="category-banner">
-        <image class="cover" src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.45073679062264826%E4%BD%8D%E5%9B%BE%E5%A4%87%E4%BB%BD%2010.jpg" 
-        mode="aspectFill"></image>
+        <image class="cover" src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.45073679062264826%E4%BD%8D%E5%9B%BE%E5%A4%87%E4%BB%BD%2010.jpg" mode="aspectFill"></image>
         <view class="txt">WS22 COLLECTION</view>
       </view>
       <view class="category">
         <view class="item" v-for="(item,index) in pageData" :key="item.code">
-          <view class="title" @click="cutItem(index)">{{item.name}}</view>
+          <view class="title" @click="cutItem(index,item)">{{item.name}}</view>
           <view class="children" v-show="curIndex == index">
             <view class="c-item" v-for="sItem in item.children" :key="sItem.name">
               <!-- 点击空白收起部分 -->
               <view class="mark" @click="cutItem(null)"></view>
-              <text class="txt" @click="goPlp(sItem)">{{ sItem.name }}</text>
+              <text class="txt" @click="goPlp(item)">{{ sItem.name }}</text>
             </view>
           </view>
         </view>
@@ -28,8 +27,8 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { priceFormat, imgUrlReplace } from '@/utils/utils';
-import ActivityContent from './components/activityContent';
 import { CATEGORY_ACTIVITY_CONFIG } from '@/constants/cms';
+import ActivityContent from './components/activityContent';
 
 export default {
   components: { ActivityContent },
@@ -39,7 +38,7 @@ export default {
       ktxStatusHeight: getApp().globalData.ktxStatusHeight,
       pageData: [],
       curIndex: null,
-      CATEGORY_ACTIVITY_CONFIG
+      CATEGORY_ACTIVITY_CONFIG,
     }
   },
   computed: {
@@ -78,8 +77,11 @@ export default {
     ...mapMutations('globle', ['setTabSelected']),
     ...mapActions('category', ['getCategoryData', 'categoryProductList']),
 
-    cutItem (index) {
+    cutItem (index, item) {
       this.curIndex = index
+      if (item && !item.children) {
+        this.goPlp(item)
+      }
     },
     getProduct () {
       uni.showLoading({
@@ -149,26 +151,20 @@ export default {
       }, 200)
     },
     goPlp (item) {
-      // tips：这里用的spucode但plp并没有数据
-      const { name, spuCodes: [ spuCode ] } = item;
-      if (spuCode && name) {
-        uni.navigateTo({
-          url: `/subPackages/plp/pages/plp/index?name=${name}&code=${spuCode}`,
-        })
+      const {
+        name, url, img, remark,
+      } = item;
+      if (url) {
+        if (remark) {
+          uni.navigateTo({
+            url: `/subPackages/plp/pages/plp/index?name=${name}&code=${url}&img=${img}&remark=${remark}`,
+          })
+        } else {
+          uni.navigateTo({
+            url: `/subPackages/plp/pages/plp/index?name=${name}&code=${url}&img=${img}`,
+          })
+        }
       }
-      // const { name, url, img, remark, spuCodes: [ spuCode ] } = item;
-      // console.log('spuCodes', spuCodes[0]);
-      // if (url) {
-      //   if (remark) {
-      //     uni.navigateTo({
-      //       url: `/subPackages/plp/pages/plp/index?name=${name}&code=${url}&img=${img}&remark=${remark}`,
-      //     })
-      //   } else {
-      //     uni.navigateTo({
-      //       url: `/subPackages/plp/pages/plp/index?name=${name}&code=${url}&img=${img}`,
-      //     })
-      //   }
-      // }
     },
     goPdp (item) {
       const aData = {
@@ -202,5 +198,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "./index";
+@import './index';
+
 </style>

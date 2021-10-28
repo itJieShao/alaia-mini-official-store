@@ -1,7 +1,7 @@
 <template>
   <view>
     <custom-nav-bar left-arrow="left" :head-border="scrollHeight>168?false:isHeadBorder" :head-blank="scrollHeight>168?false:isHeadBlank" :title="scrollHeight>168?keyWord:' '" />
-    <!-- <view :style="{ 'padding-top': ktxStatusHeight }"></view> -->
+    <view :style="{ 'padding-top': ktxStatusHeight }" v-if="!img"></view>
     <block v-if="pageShow">
       <search-res v-if="goodsList.length" :totalCount="totalCount" :keyWord="keyWord" :remark="remark" :filterKeyWord="filterKeyWord" :img="img" :goodsList="goodsList" :menuList="menuList" @selectMenu="selectMenu" @updateList="updateList" @goFilter="goFilter" @scrollToTop="scrollToTop" :goTopFlag="goTopFlag" :isStatic="isStatic" />
       <search-no-res v-else :keyWord="keyWord" :totalCount="totalCount" />
@@ -61,10 +61,15 @@ export default {
       img,
       remark,
     } = option;
-    this.params.filters.categories = code || '';
-    this.remark = remark || ''
-    this.keyWord = name || '';
-    this.img = img || '';
+
+    this.params.filters.categories = (['', 'null', 'undefined', null, undefined].includes(code)) ? '' : code
+
+    this.remark = (['', 'null', 'undefined', null, undefined].includes(remark)) ? '' : remark
+
+    this.keyWord = (['', 'null', 'undefined', null, undefined].includes(name)) ? '' : name
+
+    this.img = (['', 'null', 'undefined', null, undefined].includes(img)) ? '' : img
+
     this.getProduct();
 
     // 三级导航
