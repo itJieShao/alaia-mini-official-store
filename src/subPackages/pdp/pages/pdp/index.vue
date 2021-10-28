@@ -19,7 +19,7 @@
             </swiper-item>
           </swiper>
           <view class="dots-share">
-            <view class="view-dost" v-if="productData.images.length">
+            <view class="view-dost" v-if="productData.images.length&&productData.images.length>1">
               <view class="item" :class="[index === currentIndex ? 'active' : '']" v-for="(item, index) in productData.images" :key="index"></view>
             </view>
             <view class="share">
@@ -40,10 +40,10 @@
       </view>
 
       <view class="product-details-content" v-if="productData.description.length">
-        <!-- <view class="details-item" v-for="(item, index) in productData.description" :key="index">
+        <view class="details-item" v-for="(item, index) in productData.description" :key="index">
           <image :src="item.url" mode="widthFix" :lazy-load="true" />
-        </view> -->
-        <view class="item" v-for="(li,index) in description" :key="li">
+        </view>
+        <!-- <view class="item" v-for="(li,index) in description" :key="li">
           <view class="title-box" @click="cutDescription(li)">
             <text class="title">描述{{index}}</text>
             <text class="icon-font icon-jianhao" v-if="li.open"></text>
@@ -56,7 +56,7 @@
             <view class="title">尺码和合身</view>
             <view class="txt">腰部喇叭形短款气球式剪裁紧身胸衣结构模特身高 180 厘米，所穿单品尺码为 38（美国 6 码）</view>
           </view>
-        </view>
+        </view> -->
       </view>
 
       <!-- 搭配 -->
@@ -82,7 +82,7 @@
         <view class="box-content" @click="openDialog('color')">
           <block v-if=" currentSkuInfo.options">
             <block v-for="(item,index) in currentSkuInfo.options" :key="index">
-              <view class="color-box" v-if="item.originCode=='Metallic Property'">
+              <view class="color-box" v-if="item.originCode=='basecolor'">
                 <image class="color" :src="item.value.images[0].url"></image>
                 <text class="txt">{{item.value.name}}</text>
               </view>
@@ -379,8 +379,10 @@ export default {
         this.isOffShelf = !get(resultData, 'onShelves');
         const images = get(resultData, 'images').filter((i) => i.type !== 'FIGUREIMAGE');
         const description = get(resultData, 'images').filter((i) => i.type === 'FIGUREIMAGE');
-        const attributes = get(resultData, 'attributes').filter((i) => i.name === '具体材质&尺寸')[0].values[0].frontName;
-        const attributesList = attributes.split('\n');
+        const attributesData = get(resultData, 'attributes').filter((i) => i.name === '具体材质&尺寸')
+        const attributes = attributesData.length && attributesData[0].values[0].frontName
+        const attributesList = attributes && attributes.split('\n')
+
         const materialList = attributesList.length && attributesList.filter((i, index) => index !== 0);
         const skuList = get(resultData, 'skus');
         this.productData = {
@@ -417,7 +419,8 @@ export default {
 
         const styleList = [];
         get(resultData, 'skus').map((item) => {
-          const styleName = get(item, 'options').find((i) => i.originCode === 'Metallic Property');
+          const styleName = get(item, 'options').find((i) => i.originCode === 'basecolor');
+          console.log(styleName);
           if (styleName.value.name != '00') {
             const items = {
               code: item.code,
