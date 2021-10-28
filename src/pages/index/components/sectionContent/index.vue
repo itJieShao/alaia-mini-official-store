@@ -57,8 +57,8 @@ export default {
         const res = newValue[rest.contentCode];
         const cmsContentData = parseCmsContent(res, rest.templateCode, moduleCode);
         let infoData = cmsContentData.shift();
-        if (infoData.source_url && !/^(http|https)/.test(infoData.source_url)) { 
-          infoData.source_url = `${OSS_URL}${infoData.source_url}`  
+        if (infoData.source_url && !/^(http|https)/.test(infoData.source_url)) {
+          infoData.source_url = `${OSS_URL}${infoData.source_url}`
         }
         this.infoData = infoData;
       } catch (error) {

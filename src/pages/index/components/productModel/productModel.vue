@@ -1,17 +1,17 @@
 <template>
   <view class="product-model">
     <view class="title">
-      <com-title title="造型.灵感" subtitle="Shop the Look" />
+      <com-title title="造型.灵感" subtitle="SHOP THE LOOK" />
     </view>
     <view class="product">
-      <view class="product-item" v-for="i in 6" :key="i" @click="goDetail">
-        <image class="product-img" src="" mode="aspectFit"></image>
+      <view class="product-item" v-for="(item,index) in homeStyleInspiration" :key="index" @click="goDetail(index)">
+        <image class="product-img" :src="item.resources[0].url" mode="aspectFit"></image>
         <view class="shopbag">
           <text class="icon-font icon-shopbag"></text>
         </view>
       </view>
     </view>
-    <view class="change-model">
+    <view class="change-model" @click="changeModel">
       <text>换一批</text>
     </view>
   </view>
@@ -20,6 +20,12 @@
 <script>
   import ComTitle from '../comTitle/comTitle';
   export default {
+    props:{
+      homeStyleInspiration:{
+        type:Array,
+        default:[],
+      }
+    },
     data(){
       return{
 
@@ -29,11 +35,14 @@
       ComTitle
     },
     methods:{
-      goDetail(){
+      goDetail(index){
         uni.navigateTo({
-          url:"/subPackages/productCollocation/pages/index"
+          url:`/subPackages/productCollocation/pages/index?index=${index}`
         })
-      }
+      },
+      changeModel(){
+        this.$emit("changeModel")
+      },
     }
   }
 </script>

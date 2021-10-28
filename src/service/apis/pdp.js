@@ -1,5 +1,10 @@
 import apollo from '../apollo';
-import { getProductDetails, addShopCart, productListGql } from '../gqls'
+import { getHomeStyleInspirationGql, getProductDetails, addShopCart, productListGql } from '../gqls'
+
+export const getHomeStyleInspiration = (payload) => apollo.mutate({
+  mutation: getHomeStyleInspirationGql,
+  variables: payload,
+});
 
 export const getProductDetailsAction = (payload) => apollo.mutate({
   mutation: getProductDetails,

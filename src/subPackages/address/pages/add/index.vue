@@ -230,10 +230,11 @@
           try {
             const edit = await this.deliveryAddressUpdateApi(params);
             console.log(edit)
-            this.resetForm()
+            // this.resetForm()
             uni.showToast({
               title: '编辑成功！',
               icon: 'none',
+              duration: 1000,
             })
             this.saveDisabled = false
             setTimeout(() => {
@@ -249,10 +250,11 @@
           try {
             const add = await this.deliveryAddressCreateApi(params);
             console.log('add', add)
-            this.resetForm()
+            // this.resetForm()
             uni.showToast({
               title: '新增成功！',
               icon: 'none',
+              duration: 1000,
             })
             this.saveDisabled = false
             setTimeout(() => {

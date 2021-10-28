@@ -1,5 +1,21 @@
 import gql from 'graphql-tag';
 
+export const getHomeStyleInspirationGql = gql`
+  query homeStyleInspiration{
+    shop{
+      homeStyleInspiration {
+        id
+        resources {
+          id
+          url
+          source
+        }
+        codes
+      }
+    }
+  }
+`
+
 export const getProductDetails = gql`
 query productByCode ($codes: [String!]!) {
     shop {
