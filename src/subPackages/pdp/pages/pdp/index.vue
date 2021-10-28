@@ -82,7 +82,7 @@
         <view class="box-content" @click="openDialog('color')">
           <block v-if=" currentSkuInfo.options">
             <block v-for="(item,index) in currentSkuInfo.options" :key="index">
-              <view class="color-box" v-if="item.originCode=='Metallic Property'">
+              <view class="color-box" v-if="item.originCode=='basecolor'">
                 <image class="color" :src="item.value.images[0].url"></image>
                 <text class="txt">{{item.value.name}}</text>
               </view>
@@ -419,7 +419,8 @@ export default {
 
         const styleList = [];
         get(resultData, 'skus').map((item) => {
-          const styleName = get(item, 'options').find((i) => i.originCode === 'Metallic Property');
+          const styleName = get(item, 'options').find((i) => i.originCode === 'basecolor');
+          console.log(styleName);
           if (styleName.value.name != '00') {
             const items = {
               code: item.code,
@@ -765,5 +766,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./index.scss";
+@import './index.scss';
+
 </style>
