@@ -3,7 +3,7 @@
     <view class="goods">
       <view class="goods-item observer_item" v-for="(item,index) in goodsList" @click="goPdp(item)" :key="index" :data-skucode="item.skus[0].code" :data-title="item.title" :data-spucode="item.code" :data-price="item.minSkuSalePrice" :data-image="item.images.length && item.images[0].url ? item.images[0].url : ''">
         <view class="collection">
-          <text class="icon-font icon-shoucang" v-if="true"></text>
+          <text class="icon-font icon-shoucang" v-if="item.favorite.id"></text>
           <text class="icon-font icon-shoucangchenggong1" v-else></text>
         </view>
         <view class="cover">
@@ -175,7 +175,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
+@import "@/styles/utilities.scss";
 .goods-wrap {
   font-size: 0;
   position: relative;
@@ -290,7 +290,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, 0.3);
   }
   .sort-content {
     position: absolute;
@@ -339,5 +339,4 @@ export default {
     }
   }
 }
-
 </style>

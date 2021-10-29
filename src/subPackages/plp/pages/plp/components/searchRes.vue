@@ -2,8 +2,8 @@
   <view class="res-wrap">
     <image v-if="img" class="banner" :src="img" mode="widthFix" :lazy-load="true"></image>
     <view class="info">
-      <view class="keyword" v-if="keyWord">{{keyWord}}</view>
-      <view class="remark" v-if="remark">{{remark}}</view>
+      <view class="keyword" v-if="keyWord">{{menuList.name}}</view>
+      <view class="remark" v-if="remark">{{menuList.remark}}</view>
       <view class="search-box" @click="linkSearch">
         <text class="icon-font icon-search"></text>
         <text class="txt">搜索商品</text>
@@ -12,7 +12,7 @@
     <view class="res-font">共{{totalCount}}个作品<text class="filter" v-if="filterKeyWord">筛选条件：{{filterKeyWord}}</text></view>
     <view class="menu-box" :style="{ top:ktxStatusHeight }">
       <scroll-view class="menu" scroll-x="true" bindscroll="scroll">
-        <view :class="['item',item.select?'active':'']" v-for="(item,index) in menuList" :key="index" @click="selectMenu(item)">{{item.name}}</view>
+        <view :class="['item',item.select?'active':'']" v-for="(item,index) in menuList.children" :key="index" @click="selectMenu(item)">{{item.name}}</view>
       </scroll-view>
     </view>
     <goods-list :goodsList="goodsList" @updateList="updateList" @goFilter="goFilter" :isStatic="isStatic" />
@@ -56,8 +56,8 @@ export default {
       default: () => [],
     },
     menuList: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => { },
     },
     isStatic: {
       type: Boolean,
@@ -94,7 +94,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/utilities.scss';
+@import "@/styles/utilities.scss";
 .res-wrap {
   font-size: 0;
   width: 100%;
@@ -177,7 +177,7 @@ export default {
     text-align: center;
     border-radius: 50%;
     background: #fff;
-    box-shadow: 0 6px 20px 0 rgba(102, 102, 102, .1);
+    box-shadow: 0 6px 20px 0 rgba(102, 102, 102, 0.1);
     .icon-font {
       font-size: 36rpx;
     }
@@ -212,5 +212,4 @@ export default {
     }
   }
 }
-
 </style>
