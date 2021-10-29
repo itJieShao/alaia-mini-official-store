@@ -20,6 +20,11 @@
         </view>
       </view>
     </view>
+    <view class="home-more-btn">
+      <customButton v-if="content.has_button"  @click="() => navigateTo(content.link)" :btnWidth="480" :btnHeight="80" className="transparent">
+        {{content.button_txt?content.button_txt:'即刻探索'}}
+      </customButton>
+    </view>
   </view>
 </template>
 
@@ -108,6 +113,7 @@
       },
     },
     methods: {
+      navigateTo,
       ...mapActions('product', ['getProductList']),
       getCmsContentData(resData, config, name, getPar) {
         const {
@@ -161,6 +167,7 @@
 
     .product-tab {
       position: sticky;
+      z-index: 9999;
       top: 0;
       width: 100%;
       height: 84rpx;
@@ -219,8 +226,9 @@
           font-family: PingFangSC, PingFangSC-Regular;
           display: block;
           font-size: 28rpx;
-          line-height: 28rpx;
+          line-height: 40rpx;
           margin: 32rpx auto 24rpx;
+          text-align: center;
         }
 
         .goods-price {
@@ -229,6 +237,9 @@
           line-height: 28rpx;
         }
       }
+    }
+    .home-more-btn{
+      padding-top: 50rpx;
     }
   }
 </style>
