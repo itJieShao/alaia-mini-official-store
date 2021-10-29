@@ -31,3 +31,13 @@ query getCmsContentList ($templateWithContentCodes: String!) {
     }
   }
 }`
+
+export const cmsContentGuessLikeGql = gql`
+query getCmsContentGuessLike {
+  shop {
+    plpGuessLike
+    searchGuessLike
+    cartGuessLike
+    favoriteGuessLike
+  }
+}`

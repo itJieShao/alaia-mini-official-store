@@ -32,17 +32,23 @@ export default {
     };
   },
   async created () {
-      const { contentCode } = this.config;
-      const resData = await this.getCmsContentMapData();
-      const cmsContent = JSON.parse(resData[contentCode]) || {};
-      let skuList = [];
-      get(cmsContent, `zh_CN.sku_list.modelContents`, []).forEach((v) => {
-        skuList = v.groupContents[`product_sku_list`].map(s => s.fieldContents);   
-      })
-      console.log(skuList);
+    const { fieldName } = this.config;
+    const guessLikeCmsContentMap = await this.getGuessLikeCmsContentMapData();
+    const codes = guessLikeCmsContentMap[fieldName];
+    const list = await this.getProductList(codes);
+    const newList = list.length && list.filter((s) => s != null && s != undefined && s != '');
+    this.guessLikeProduct = (newList || []).map((item) => ({
+      code: item.code,
+      productPrice: get(item, 'skus[0].salePrice.amount'),
+      productName: item.title,
+      productImg: item.images[0].url || placeholderImg,
+      onShelves: item.onShelves,
+      skuCode: get(item, 'skus[0].code'),
+    })).filter((v) => v.onShelves);
   },
   methods: {
-      ...mapActions('cms', ['getCmsContentMapData'])
+    ...mapActions('product', ['getProductList']),
+    ...mapActions('cms', ['getGuessLikeCmsContentMapData'])
   },
 };
 </script>
