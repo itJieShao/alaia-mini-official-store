@@ -23,7 +23,8 @@
               <view class="item" :class="[index === currentIndex ? 'active' : '']" v-for="(item, index) in productData.images" :key="index"></view>
             </view>
             <view class="share">
-              <text class="icon-font icon-icon-shoucang"></text>
+              <text class="icon-font icon-shoucangchenggong1" v-if="productData.favorite.id"></text>
+              <text class="icon-font icon-shoucang" v-else></text>
               <button open-type="share" class="share-btn">
                 <text class="icon-font icon-icon-fenxiang"></text>
               </button>

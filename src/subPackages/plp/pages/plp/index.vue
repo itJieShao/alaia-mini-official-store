@@ -3,7 +3,7 @@
     <custom-nav-bar left-arrow="left" :head-border="scrollHeight>168?false:isHeadBorder" :head-blank="scrollHeight>168?false:isHeadBlank" :title="scrollHeight>168?keyWord:' '" />
     <view :style="{ 'padding-top': ktxStatusHeight }" v-if="!img"></view>
     <block v-if="pageShow">
-      <search-res v-if="goodsList.length" :totalCount="totalCount" :keyWord="keyWord" :remark="remark" :filterKeyWord="filterKeyWord" :img="img" :goodsList="goodsList" :menuList="menuList" @selectMenu="selectMenu" @updateList="updateList" @goFilter="goFilter" @scrollToTop="scrollToTop" :goTopFlag="goTopFlag" :isStatic="isStatic" />
+      <search-res v-if="goodsList.length" :totalCount="totalCount" :keyWord="keyWord" :remark="remark" :filterKeyWord="filterKeyWord" :img="img" :goodsList="goodsList" :menuList="menuData" @selectMenu="selectMenu" @updateList="updateList" @goFilter="goFilter" @scrollToTop="scrollToTop" :goTopFlag="goTopFlag" :isStatic="isStatic" />
       <search-no-res v-else :keyWord="keyWord" :totalCount="totalCount" />
     </block>
   </view>
@@ -27,9 +27,8 @@ export default {
       isHeaderBlackColor: false, // header 字体颜色
       keyWord: '',
       filterKeyWord: '',
-      img: '',
       goodsList: [],
-      menuList: [],
+      menuData: [],
       pageShow: false,
       params: {
         filters: {
@@ -49,7 +48,6 @@ export default {
       totalCount: 0,
       updateFlag: false,
       goTopFlag: false,
-      remark: '',
       scrollHeight: 0,
       isStatic: true,
     };
@@ -58,33 +56,27 @@ export default {
     const {
       name,
       code,
-      img,
-      remark,
     } = option;
 
     this.params.filters.categories = (['', 'null', 'undefined', null, undefined].includes(code)) ? '' : code
 
-    this.remark = (['', 'null', 'undefined', null, undefined].includes(remark)) ? '' : remark
-
     this.keyWord = (['', 'null', 'undefined', null, undefined].includes(name)) ? '' : name
-
-    this.img = (['', 'null', 'undefined', null, undefined].includes(img)) ? '' : img
 
     this.getProduct();
 
     // 三级导航
     this.getCategoryData().then((result) => {
       for (const [key, value] of Object.entries(result)) {
-        if (value.name === '商品分类') {
+        if (value.name === '分类') {
           const pageData = value ? value.children : []
-          pageData.forEach((element) => {
-            if (element.children && element.children.length) {
-              element.children.forEach((e) => {
-                if (e.name === name) {
-                  this.menuList = e.children
-                  this.menuList.unshift({ name: '全部', select: true })
+          pageData && pageData.forEach((element) => {
+            if (element.url == code) {
+              element.children && element.children.forEach((e) => {
+                if (e.name == name) {
+                  e.select = true
                 }
               });
+              this.menuData = element
             }
           });
         }
