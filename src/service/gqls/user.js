@@ -189,12 +189,7 @@ export const removeAddress = gql`
 // 商品收藏
 export const createFavorite = gql`
   mutation createFavorite($input: CreateFavoriteInput!) {
-    createFavorite(input: $input) {
-      userErrors {
-        code
-        message
-      }
-    }
+  	createFavorite(input: $input)
   }
 `;
 
@@ -224,29 +219,47 @@ export const fetchFavorites = gql`
 
 // 查询心愿单 带商品信息
 export const fetchFavoritesDetail = gql`
-  query favorites {
-    customer {
-      favorites {
-       edges{
-         node{
-           id,
-           url,
-         }
-        }
-      }
-    }
-  }
+  query favorites($pageInput: PageInput) {
+  			customer {
+  				favorites(pageInput: $pageInput) {
+  					edges {
+  						node {
+  							product {
+  								code
+  								title
+  								images {
+  									url
+  									type
+  								}
+  								skus {
+  									salePrice {
+  										amount
+  										currencyCode
+  									}
+  								}
+  								salePrice {
+  									amount
+  									currencyCode
+  								}
+  							}
+  							id
+  						}
+  					}
+  					pageInfo {
+  						startCursor
+  						endCursor
+  						totalCount
+  						hasNextPage
+  					}
+  				}
+  			}
+  		}
 `;
 
 // 删除心愿单
 export const delFavorite = gql`
   mutation cancelFavorites($input: [String!]!) {
-    cancelFavorites(input: $input) {
-      userErrors {
-        code
-        message
-      }
-    }
+  	cancelFavorites(collectionCodes: $input)
   }
 `;
 

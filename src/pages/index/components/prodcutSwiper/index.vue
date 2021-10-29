@@ -100,7 +100,6 @@
           this.swiperList = arr;
         })
         this.content = contentData;
-        console.log(this.content)
       }
     },
     methods: {

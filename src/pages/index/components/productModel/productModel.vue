@@ -1,7 +1,7 @@
 <template>
   <view class="product-model">
     <view class="title">
-      <com-title title="造型.灵感" subtitle="SHOP THE LOOK" />
+      <com-title :title="content.title" :subtitle="content.sub_title" />
     </view>
     <view class="product">
       <view class="product-item" v-for="(item,index) in homeStyleInspiration" :key="index" @click="goDetail(index)">
@@ -18,6 +18,12 @@
 </template>
 
 <script>
+  import {
+    HOME_BRAND_INTRO_CONFIG
+  } from '@/constants/cms';
+  import {
+    parseCmsContent
+  } from '@/utils/cms';
   import { mapGetters } from 'vuex';
   import ComTitle from '../comTitle/comTitle';
   import { HOME_STYLING_INSPIRATION_TITLE_CONFIG } from '@/constants/cms';
@@ -30,7 +36,7 @@
     },
     data(){
       return{
-
+        content:{},
       }
     },
     computed: {
@@ -38,14 +44,26 @@
     },
      watch: {
       cmsContentMap (newValue) {
-        // todo: 这里进行数据绑定 HOME_STYLING_INSPIRATION_TITLE_CONFIG
-        console.log(newValue)
+        const content = this.getCmsContentData(newValue, HOME_STYLING_INSPIRATION_TITLE_CONFIG, 'section_content');
+        const contentData = content[0];
+        this.content = contentData;
       }
     },
     components: {
       ComTitle
     },
     methods:{
+      getCmsContentData(resData, config, name) {
+        const {
+          moduleCode,
+          contentCode
+        } = config;
+        try {
+          return parseCmsContent(resData[contentCode], name, moduleCode);
+        } catch (error) {
+          console.error(error)
+        }
+      },
       goDetail(index){
         uni.navigateTo({
           url:`/subPackages/productCollocation/pages/index?index=${index}`

@@ -21,7 +21,7 @@ const actions = {
     return delFavoriteApi(params).then((res) => res)
   },
   fetchFavoritesList(_, params) {
-    return fetchFavoritesDetailApi(params).then((res) => res)
+    return fetchFavoritesDetailApi(params).then((res) => get(res, 'data.customer.favorites.edges') || [])
   },
 }
 const mutations = {
