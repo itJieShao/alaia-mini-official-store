@@ -23,10 +23,10 @@ export const HOME_RECOMMEND_PRODUCT_CONFIG = { moduleCode: 'swiper', templateCod
 // 分类页
 export const CATEGORY_ACTIVITY_CONFIG = { moduleCode: 'swiper', templateCode: 'swiper_group', contentCode: 'category_activity' }
 // 猜你喜欢
-export const GUESS_LIKE_SEARCH_CONFIG = { moduleCode: 'product_sku', templateCode: 'guess_like_template', contentCode: 'guess_like_search' }
-export const GUESS_LIKE_CAET_CONFIG = { moduleCode: 'product_sku', templateCode: 'guess_like_template', contentCode: 'guess_like_cart' }
-export const GUESS_LIKE_PLP_CONFIG = { moduleCode: 'product_sku',  templateCode: 'guess_like_template', contentCode: 'guess_like_plp' }
-export const GUESS_LIKE_FAVORITE_CONFIG = { moduleCode: 'product_sku', templateCode: 'guess_like_template', contentCode: 'guess_like_favorite' }
+export const GUESS_LIKE_SEARCH_CONFIG = { fieldName: 'searchGuessLike', moduleCode: 'product_sku', templateCode: 'guess_like_template', contentCode: 'guess_like_search' }
+export const GUESS_LIKE_CAET_CONFIG = { fieldName: 'cartGuessLike', moduleCode: 'product_sku', templateCode: 'guess_like_template', contentCode: 'guess_like_cart' }
+export const GUESS_LIKE_PLP_CONFIG = { fieldName: 'plpGuessLike', moduleCode: 'product_sku',  templateCode: 'guess_like_template', contentCode: 'guess_like_plp' }
+export const GUESS_LIKE_FAVORITE_CONFIG = { fieldName: 'favoriteGuessLike',moduleCode: 'product_sku', templateCode: 'guess_like_template', contentCode: 'guess_like_favorite' }
 // 帮助页cms
 export const HELP_LIST_CMS_CONFIG = {  moduleCode: 'index', templateCode: 'help_index', contentCode: 'help_index' }
 
