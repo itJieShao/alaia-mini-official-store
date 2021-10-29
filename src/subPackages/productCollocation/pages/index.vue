@@ -3,8 +3,8 @@
     <custom-nav-bar title=" " :head-font-color="false" :head-border="false" :head-blank="true" />
     <view class="swiper-container">
       <swiper class="swiper" :current="currentIndex" @change="swiperChange" circular>
-        <swiper-item class="swiper-item" v-for="i in 3" :key="i">
-          <image src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.45073679062264826%E4%BD%8D%E5%9B%BE%E5%A4%87%E4%BB%BD%2010.jpg" mode="aspectFill"></image>
+        <swiper-item class="swiper-item" v-for="(item,index) in homeStyleInspiration" :key="index">
+          <image :src="item.resources[0].url" mode="aspectFill"></image>
         </swiper-item>
       </swiper>
       <view class="left-side" @click="changeLeftSide">
@@ -15,36 +15,77 @@
       </view>
     </view>
     <view class="product">
-      <view class="product-item" :class="item.bgClass?'product-bg':''" v-for="(item,index) in list" :key="index">
-        <image src="" mode="aspectFit"></image>
-        <text class="goods-title">镂空饺子包</text>
-        <text class="goods-price">￥27,000</text>
+      <view class="product-item" @click="goPdp(item.code)" :class="item.bgClass?'product-bg':''" v-for="(item,index) in productbyCodesList"
+        :key="index">
+        <image :src="item.images[0].url" mode="aspectFit" :lazy-load="true"></image>
+        <view class="goods-title" v-if="item.title">{{item.title}}</view>
+        <view class="goods-price" v-if="item.skus &&　item.skus.length>0 &&　item.skus[0].salePrice.amount">¥
+          {{item.skus[0].salePrice.amount | formatMoney}}
+        </view>
       </view>
     </view>
   </view>
 </template>
 <script>
+  import {
+    mapGetters,
+    mapActions
+  } from 'vuex';
+  import {
+    priceFormat
+  } from '@/utils/utils';
   export default {
     data() {
       return {
         currentIndex: 0,
-        list: [{bgClass:false},{bgClass:false},{bgClass:false},{bgClass:false}],
+        productbyCodesList: [],
       }
     },
-    onLoad() {
-      for (let i = 0; i < this.list.length; i += 3) {
-        this.list[i].bgClass = true;
-      }
+    computed: {
+      ...mapGetters('product', ['homeStyleInspiration']), //造型灵感数据
+    },
+    watch: {
+      currentIndex(index) {
+        if (this.homeStyleInspiration[index].hasOwnProperty("productbyCodesList")) {
+          this.productbyCodesList = this.homeStyleInspiration[index].productbyCodesList
+        } else {
+          this.getProductList(this.homeStyleInspiration[index].codes).then((res) => {
+            for (let i = 0; i < res.length; i += 3) {
+              res[i].bgClass = true;
+            }
+            this.$set(this.homeStyleInspiration[index], "productbyCodesList", res);
+            this.productbyCodesList = res;
+          })
+        }
+      },
+    },
+    filters: {
+      formatMoney(val) {
+        if (val) {
+          return priceFormat(val);
+        }
+        return '0';
+      },
+    },
+    onLoad(option) {
+      this.currentIndex = option.index;
     },
     methods: {
+      ...mapActions('product', ['getProductList']),
       swiperChange(e) {
         this.currentIndex = e.detail.current;
       },
       changeLeftSide() {
-        this.currentIndex = this.currentIndex > 0 ? --this.currentIndex : this.swiperList.length - 1;
+        this.currentIndex = this.currentIndex > 0 ? --this.currentIndex : this.homeStyleInspiration.length - 1;
       },
       changeRightSide() {
-        this.currentIndex = this.currentIndex === this.swiperList.length - 1 ? 0 : ++this.currentIndex;
+        this.currentIndex = this.currentIndex === this.homeStyleInspiration.length - 1 ? 0 : ++this.currentIndex;
+      },
+      goPdp(spuCodes){
+        if (!spuCodes) return;
+        uni.navigateTo({
+          url: `/subPackages/pdp/pages/pdp/index?code=${spuCodes}`,
+        });
       },
     }
   }
@@ -104,7 +145,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
 
-    .product-bg{
+    .product-bg {
       background: linear-gradient(#F7F7F7, #EEEEEE);
     }
 
@@ -124,15 +165,18 @@
       }
 
       .goods-title {
+        width: 90%;
+        text-align: center;
         display: block;
         font-size: 28rpx;
-        line-height: 28rpx;
+        line-height: 40rpx;
         margin: 64rpx auto 20rpx;
       }
 
       .goods-price {
         font-size: 28rpx;
         line-height: 28rpx;
+        margin-bottom: 20rpx;
       }
     }
   }

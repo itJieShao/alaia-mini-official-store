@@ -14,8 +14,8 @@ export const formatViewData = (data, defaultData) => {
 
 
 // 解析cms数据
-export const parseCmsContent = (cmsData, firstLevelName, moduleCode) => {
-  const cmsContent = JSON.parse(cmsData) || {};
+export const parseCmsContent = (cmsData, firstLevelName, moduleCode, getPar) => {
+  const cmsContent = cmsData ? JSON.parse(cmsData) : {};
   return get(cmsContent, `zh_CN.${ firstLevelName }.modelContents`, [])
-          .map((v) => (v.groupContents[moduleCode][0].fieldContents));
+          .map((v) => (getPar?v.groupContents[moduleCode][0]:v.groupContents[moduleCode][0].fieldContents));
 }

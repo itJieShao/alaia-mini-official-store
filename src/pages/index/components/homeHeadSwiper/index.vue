@@ -88,8 +88,8 @@ export default {
         const mainSwiperData = parseCmsContent(res, moduleCode, moduleCode);
         mainSwiperData.forEach(item => {
           const { source_url } = item;
-          if (source_url && !/^(http|https)/.test(source_url)) { 
-            item.source_url = `${OSS_URL}${source_url}`                  
+          if (source_url && !/^(http|https)/.test(source_url)) {
+            item.source_url = `${OSS_URL}${source_url}`
           }
         })
         this[paramsName] = mainSwiperData;
@@ -103,7 +103,6 @@ export default {
     },
     // 去plp页面
     goPlp(name, url) {
-      console.log('goPlp', url);
       if (url) {
         uni.navigateTo({
           url: `/subPackages/plp/pages/plp/index?name=${name}&code=${url}&img=`,
