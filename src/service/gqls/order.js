@@ -350,57 +350,59 @@ query orders($pageInput: PageInput, $months: Int = 999) {
 `
 
 export const productBySkucodesGql = gql`
-  query productBySkucodes($skuCodes: [String!]!){
+  query productBySkuCodes ($skuCodes: [String!]!){
     shop {
-      querySkus(skuCodes: $skuCodes) {
-        code
-        salePrice {
-          amount
-          currencyCode
-        }
-        showAttrList{
+      productBySkuCodesNew (skuCodes: $skuCodes) {
+        skus {
           code
-          enable
-          name
-          sort
-          attrType
-          originCode
-          attrValueList{
-            code
-            attrCode
-            originCode
-            frontName
+          salePrice {
+            amount
+            currencyCode
           }
-        }
-        product {
-          title
-          code
-          attributes{
+          showAttrList{
             code
-            frontName
+            enable
             name
-            values {
+            sort
+            attrType
+            originCode
+            attrValueList{
               code
-              displayName
-              url
+              attrCode
+              originCode
               frontName
             }
           }
-          images {
-            url
-            type
+          product {
+            title
+            code
+            attributes{
+              code
+              frontName
+              name
+              values {
+                code
+                displayName
+                url
+                frontName
+              }
+            }
+            images {
+              url
+              type
+            }
           }
-        }
-        options {
-          code
-          name
-          frontName
-          originCode
-          value {
+          options {
             code
             name
-            displayName
             frontName
+            originCode
+            value {
+              code
+              name
+              displayName
+              frontName
+            }
           }
         }
       }

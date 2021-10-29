@@ -41,36 +41,6 @@ export const cartGql = gql`
                     frontName
                   }
                 }
-                # replaceableSkus {
-                #     inventory
-                #     code
-                #     options {
-                #       code
-                #       frontName
-                #       originCode
-                #       name
-                #       value {
-                #         code
-                #         name
-                #         displayName
-                #         frontName
-                #       }
-                #     }
-                #     showAttrList{
-                #       code
-                #       enable
-                #       name
-                #       sort
-                #       attrType
-                #       originCode
-                #       attrValueList{
-                #         code
-                #         attrCode
-                #         originCode
-                #         frontName
-                #       }
-                #     }
-                #   }
                 product{
                   code
                   title
@@ -203,36 +173,6 @@ export const cartUpdateGql = gql`
                   }
                 }
               }
-              replaceableSkus {
-                inventory
-                code
-                showAttrList{
-                  code
-                  enable
-                  name
-                  sort
-                  attrType
-                  originCode
-                  attrValueList{
-                    code
-                    attrCode
-                    originCode
-                    frontName
-                  }
-                }
-                options {
-                  code
-                  frontName
-                  originCode
-                  name
-                  value {
-                    code
-                    name
-                    displayName
-                    frontName
-                  }
-                }
-              }
               attributes{
                 code
                 frontName
@@ -309,36 +249,6 @@ export const cartDeleteGql = gql`
               subTitle
               description
               inventory
-              replaceableSkus {
-                inventory
-                code
-                showAttrList{
-                  code
-                  enable
-                  name
-                  sort
-                  attrType
-                  originCode
-                  attrValueList{
-                    code
-                    attrCode
-                    originCode
-                    frontName
-                  }
-                }
-                options {
-                  code
-                  frontName
-                  originCode
-                  name
-                  value {
-                    code
-                    name
-                    displayName
-                    frontName
-                  }
-                }
-              }
               attributes{
                 code
                 frontName
@@ -424,36 +334,6 @@ export const cartSkuStatusUpdateGql = gql`
                   displayName
                   url
                   frontName
-                }
-              }
-              replaceableSkus {
-                inventory
-                code
-                showAttrList{
-                  code
-                  enable
-                  name
-                  sort
-                  attrType
-                  originCode
-                  attrValueList{
-                    code
-                    attrCode
-                    originCode
-                    frontName
-                  }
-                }
-                options {
-                  code
-                  frontName
-                  originCode
-                  name
-                  value {
-                    code
-                    name
-                    displayName
-                    frontName
-                  }
                 }
               }
               images{
