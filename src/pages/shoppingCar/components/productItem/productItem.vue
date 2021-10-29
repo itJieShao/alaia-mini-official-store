@@ -104,17 +104,14 @@ export default {
       return getSizeBySkuInfo(this.skuData)
     },
     currentStyle() {
-      const styleItem = get(this.skuData, 'showAttrList', []).find((v) => v.code === 'customSizeDesc')
-      return styleItem && styleItem.attrValueList[0] && styleItem.attrValueList[0].frontName
+      const result = get(this.skuData, 'options', []).find((v) => v.originCode === 'basecolor')
+      return get(result, 'value.name', '')
     },
     styleIndex() {
       return this.styleOptions.findIndex((item) => item.frontName === this.currentStyle)
     },
     sizeIndex() {
       return this.sizeOptions.findIndex((item) => item.frontName === this.currentSize)
-    },
-    numIndex() {
-      return this.numOptions.findIndex((item) => item === this.productData.quantity)
     },
     // 尺寸可选列表
     sizeOptions() {
@@ -129,6 +126,7 @@ export default {
         }
       })
       _list.sort((a, b) => a.frontName - b.frontName)
+      console.log('_list------->', _list);
       return _list
     },
     // 样式可选列表
@@ -143,13 +141,6 @@ export default {
         }
       })
       return _list
-    },
-    // 数量可选列表
-    numOptions() {
-      if (this.inventory >= 2) {
-        return [1, 2]
-      }
-      return this.inventory > 0 ? [1] : []
     },
     inventory() {
       return get(this.skuData, 'inventory')
