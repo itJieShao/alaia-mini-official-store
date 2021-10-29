@@ -15,7 +15,7 @@
             <view class="c-item" v-for="sItem in item.children" :key="sItem.name">
               <!-- 点击空白收起部分 -->
               <view class="mark" @click="cutItem(null)"></view>
-              <text class="txt" @click="goPlp(item)">{{ sItem.name }}</text>
+              <text class="txt" @click="goPlp(item,sItem.name)">{{ sItem.name }}</text>
             </view>
           </view>
         </view>
@@ -150,20 +150,12 @@ export default {
           })
       }, 200)
     },
-    goPlp (item) {
-      const {
-        name, url, img, remark,
-      } = item;
+    goPlp (item, name) {
+      const { url } = item;
       if (url) {
-        if (remark) {
-          uni.navigateTo({
-            url: `/subPackages/plp/pages/plp/index?name=${name}&code=${url}&img=${img}&remark=${remark}`,
-          })
-        } else {
-          uni.navigateTo({
-            url: `/subPackages/plp/pages/plp/index?name=${name}&code=${url}&img=${img}`,
-          })
-        }
+        uni.navigateTo({
+          url: `/subPackages/plp/pages/plp/index?name=${name}&code=${url}`,
+        })
       }
     },
     goPdp (item) {
@@ -198,6 +190,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './index';
-
+@import "./index";
 </style>

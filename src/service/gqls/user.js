@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const visitorLoginGql = gql`
   mutation visitorLogin {
@@ -10,7 +10,7 @@ export const visitorLoginGql = gql`
       }
     }
   }
-`
+`;
 
 export const userLogin = gql`
   mutation wxUserLogin($userLoginInput: WXUserLoginInput) {
@@ -284,8 +284,8 @@ export const fetchFavoritesDetail = gql`
 
 // 删除心愿单
 export const delFavorite = gql`
-  mutation cancelFavorite($input: CancelFavoriteInput!) {
-    cancelFavorite(input: $input) {
+  mutation cancelFavorites($input: [String!]!) {
+    cancelFavorites(input: $input) {
       userErrors {
         code
         message
@@ -308,11 +308,11 @@ export const clearUseLess = gql`
 
 // 查询收货地址列表
 export const deliveryAddressesGql = gql`
-  query deleverAdress($input:PageInput){
-    customer{
-      deliveryAddresses(pageInput:$input){
-        edges{
-          node{
+  query deleverAdress($input: PageInput) {
+    customer {
+      deliveryAddresses(pageInput: $input) {
+        edges {
+          node {
             code
             isDefault
             countryId
@@ -332,7 +332,6 @@ export const deliveryAddressesGql = gql`
       }
     }
   }
-
 `;
 
 export const deliveryAddressCreate = gql`
@@ -376,106 +375,105 @@ export const bindMobileForWechatGql = gql`
 // 登录接口
 export const loginByAuthCodeGql = gql`
   mutation autoLoginWechat($input: String!) {
-        miniProgramLogin(authCode: $input) {
-          userErrors {
-            code
-            message
-          }
-          token
-          customer {
-            mobile
-            openId
-            unionId
-            accountInfo {
-              name
-              firstName
-              lastName
-              localLastName
-              localFirstName
-              birthday
-              genderType
-              email
-              address
-              province
-              city
-              ext
-            }
-          }
+    miniProgramLogin(authCode: $input) {
+      userErrors {
+        code
+        message
+      }
+      token
+      customer {
+        mobile
+        openId
+        unionId
+        accountInfo {
+          name
+          firstName
+          lastName
+          localLastName
+          localFirstName
+          birthday
+          genderType
+          email
+          address
+          province
+          city
+          ext
         }
       }
+    }
+  }
 `;
 
 export const decryptDataGql = gql`
   mutation decryptData($encryptedData: String!, $iv: String!) {
     decryptData(encryptedData: $encryptedData, iv: $iv)
   }
-`
+`;
 
 export const syncCrmMemberInfoGql = gql`
-  mutation syncCrmMemberInfo{
+  mutation syncCrmMemberInfo {
     syncCrmMemberInfo
   }
-`
+`;
 
 export const queryCustomerGql = gql`
-      query queryCustomer {
-        customer {
-          mobile
-          accountInfo {
-            name
-            firstName
-            lastName
-            localLastName
-            localFirstName
-            birthday
-            genderType
-            email
-            address
-            province
-            city
-            ext
-            portrait
-            nickname
-          }
-
-        }
+  query queryCustomer {
+    customer {
+      mobile
+      accountInfo {
+        name
+        firstName
+        lastName
+        localLastName
+        localFirstName
+        birthday
+        genderType
+        email
+        address
+        province
+        city
+        ext
+        portrait
+        nickname
       }
-    `
+    }
+  }
+`;
 
 export const sendSmsVerifyCodeGql = gql`
   mutation sendSmsVerifyCode($input: VerifyCodeInput!) {
     sendSmsVerifyCode(input: $input)
   }
-`
+`;
 
 export const bindMobileByVerifyCodeGql = gql`
   mutation bindMobileByVerifyCode($input: VerifyCodeInput!) {
     bindMobileByVerifyCode(input: $input)
   }
-`
+`;
 
 export const bindMobileByEncryptedDataGql = gql`
   mutation bindMobileByEncryptedData($encryptedData: String!, $iv: String!) {
     bindMobileByEncryptedData(encryptedData: $encryptedData, iv: $iv)
   }
-`
+`;
 
 export const updateAccountInfoGql = gql`
   mutation lpAccountUpdate($input: AccountInfoInput!) {
     lpAccountUpdate(input: $input)
   }
-`
+`;
 
 export const editAccountInfoGql = gql`
-  mutation updateAccountInfo($input: AccountInfoInput!){
+  mutation updateAccountInfo($input: AccountInfoInput!) {
     updateAccountInfo(input: $input)
   }
-`
+`;
 export const queryAccountInfoGql = gql`
-  query accountInfo{
-    customer{
+  query accountInfo {
+    customer {
       mobile
-      accountInfo{
+      accountInfo {
         appellation
         firstName
         lastName
@@ -484,4 +482,4 @@ export const queryAccountInfoGql = gql`
       }
     }
   }
-`
+`;
