@@ -224,58 +224,14 @@ export const fetchFavorites = gql`
 
 // 查询心愿单 带商品信息
 export const fetchFavoritesDetail = gql`
-  query fetchFavorites($page: Int = 1, $size: Int = 8) {
+  query favorites {
     customer {
-      favorites(page: $page, size: $size) {
-        userErrors {
-          code
-          message
-        }
-        pageInfo {
-          size
-          page
-          hasNextPage
-          totalCount
-        }
-        data {
-          id
-          userCode
-          spuCode
-          price {
-            amount
-            currencyCode
-          }
-          continuousCode
-          product {
-            code
-            title
-            subTitle
-            inventory
-            listPrice {
-              amount
-              currencyCode
-            }
-            salePrice {
-              amount
-              currencyCode
-            }
-            onShelves
-            options {
-              code
-              frontName
-              values {
-                code
-                frontName
-              }
-            }
-            images {
-              url
-            }
-            skus {
-              code
-              id
-            }
-          }
+      favorites {
+       edges{
+         node{
+           id,
+           url,
+         }
         }
       }
     }

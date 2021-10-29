@@ -17,13 +17,7 @@
             <product-swiper @handleProductClick="handleProductClick"></product-swiper>
             <product-model :homeStyleInspiration="homeStyleInspiration" @changeModel="changeModel"></product-model>
             <product @handleProductClick="handleProductClick" showTab ></product>
-            <view style="padding-top: 50rpx;background-color: #fff;">
-              <customButton :btnWidth="480" :btnHeight="80" className="transparent">即刻探索</customButton>
-            </view>
             <product @handleProductClick="handleProductClick"></product>
-            <view style="padding-top: 50rpx;background-color: #fff;">
-              <customButton :btnWidth="480" :btnHeight="80" className="transparent">即刻探索</customButton>
-            </view>
             <!-- 品牌故事 -->
             <section-content :config="HOME_BRAND_INTRO_CONFIG"></section-content>
             <!-- 精品店 -->

@@ -48,13 +48,15 @@
     onPullDownRefresh() {
       wx.stopPullDownRefresh(); // 阻止下拉刷新
     },
-    onShow() {
-
+    onLoad() {
+      this.fetchFavoritesList().then(res => {
+        console.log(res)
+      })
     },
     methods: {
       ...mapActions('user', ['shopApi']),
       ...mapActions('order', ['getRegionsList']),
-
+      ...mapActions('wish', ['fetchFavoritesList']),
     },
   }
 </script>

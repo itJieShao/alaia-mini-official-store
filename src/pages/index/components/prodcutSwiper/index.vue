@@ -31,7 +31,7 @@
         </view>
       </view>
       <view class="home-more-btn">
-        <customButton v-if="content.has_button" :btnWidth="480" :btnHeight="80" className="transparent">
+        <customButton v-if="content.has_button"  @click="() => navigateTo(content.link)" :btnWidth="480" :btnHeight="80" className="transparent">
           {{content.button_txt?content.button_txt:'即刻探索'}}
         </customButton>
       </view>
@@ -100,6 +100,7 @@
           this.swiperList = arr;
         })
         this.content = contentData;
+        console.log(this.content)
       }
     },
     methods: {
