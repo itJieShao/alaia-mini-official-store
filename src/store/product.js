@@ -20,7 +20,9 @@ const actions = {
     return productList(codes).then((res) => get(res, 'data.shop.productByCode') || [])
   },
   getProductListBySku(_, skuCodes) {
-    return productBySkucodes(skuCodes).then((res) => get(res, 'data.shop.querySkus') || [])
+    return productBySkucodes(skuCodes).then((res) => {
+      return get(res, 'data.shop.productBySkuCodesNew').map(t => t.skus[0]) || [];
+    })
   },
 }
 const mutations = {
