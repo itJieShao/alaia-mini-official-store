@@ -18,7 +18,7 @@ export const HOME_SUB_SWIPER_CONFIG = {  moduleCode: 'swiper', templateCode: 'co
 export const HOME_STORE_CONFIG = {  moduleCode: 'swiper', templateCode: 'section_content', contentCode: 'home_store' }
 export const HOME_PRODUCT_CONFIG = {  moduleCode: 'swiper', templateCode: 'content_swiper_group', contentCode: 'home_product' }
 export const HOME_BRAND_INTRO_CONFIG = {  moduleCode: 'swiper', templateCode: 'section_content', contentCode: 'home_brand_intro' }
-// tips: 精品推荐，换装的可以看一下杨召配的
+export const HOME_STYLING_INSPIRATION_TITLE_CONFIG = { moduleCode: 'swiper', templateCode: 'section_content', contentCode: 'home_styling_inspiration_title' }
 export const HOME_RECOMMEND_PRODUCT_CONFIG = { moduleCode: 'swiper', templateCode: 'content_swiper_group', contentCode: 'home_recommend_product' }
 // 分类页
 export const CATEGORY_ACTIVITY_CONFIG = { moduleCode: 'swiper', templateCode: 'swiper_group', contentCode: 'category_activity' }
@@ -35,6 +35,7 @@ export const CMS_CONFIG_LIST = [
   HOME_MAIN_SWIPER_CONFIG,
   HOME_TOP_NOTIFY_CONFIG,
   HOME_SUB_SWIPER_CONFIG,
+  HOME_STYLING_INSPIRATION_TITLE_CONFIG,
   HOME_PRODUCT_CONFIG,
   HOME_STORE_CONFIG,
   HOME_BRAND_INTRO_CONFIG,

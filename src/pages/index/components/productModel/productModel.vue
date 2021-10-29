@@ -18,7 +18,9 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
   import ComTitle from '../comTitle/comTitle';
+  import { HOME_STYLING_INSPIRATION_TITLE_CONFIG } from '@/constants/cms';
   export default {
     props:{
       homeStyleInspiration:{
@@ -29,6 +31,15 @@
     data(){
       return{
 
+      }
+    },
+    computed: {
+      ...mapGetters('cms', ['cmsContentMap']),
+    },
+     watch: {
+      cmsContentMap (newValue) {
+        // todo: 这里进行数据绑定 HOME_STYLING_INSPIRATION_TITLE_CONFIG
+        console.log(newValue)
       }
     },
     components: {
