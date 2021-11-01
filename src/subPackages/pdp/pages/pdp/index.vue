@@ -40,24 +40,27 @@
         </view>
       </view>
 
-      <view class="product-details-content" v-if="productData.description.length">
-        <view class="details-item" v-for="(item, index) in productData.description" :key="index">
+      <view class="product-details-content" v-if="extAttributeData.length">
+        <!-- <view class="details-item" v-for="(item, index) in productData.description" :key="index">
           <image :src="item.url" mode="widthFix" :lazy-load="true" />
-        </view>
-        <!-- <view class="item" v-for="(li,index) in description" :key="li">
+        </view> -->
+        <view class="item" v-for="(li,index) in extAttributeData" :key="index">
           <view class="title-box" @click="cutDescription(li)">
-            <text class="title">描述{{index}}</text>
+            <text class="title">{{li.name}}</text>
             <text class="icon-font icon-jianhao" v-if="li.open"></text>
             <text class="icon-font icon-jiahao" v-else></text>
           </view>
           <view class="content" v-show="li.open">
-            <view class="txt">这款短款气球连衣裙采用褶皱设计。它具有合身的腰身，构造像带骨的紧身胸衣。它的圆形钩眼 正面的扣件凸显了其内衣灵感。</view>
-            <view class="title">细节</view>
+            <view class="txt" v-if="li.value">{{li.value}}</view>
+            <block v-for="(i,idx) in li.resource" :key="idx">
+              <image :src="i.url" mode="widthFix" :lazy-load="true" />
+            </block>
+            <!-- <view class="title">细节</view>
             <view class="txt">材质：62% 羊毛，32% 真丝，6% 聚酰胺 缺口领口正面有圆形钩眼扣意大利制造 产品编号：AA9R0966CT396 颜色：黑色</view>
             <view class="title">尺码和合身</view>
-            <view class="txt">腰部喇叭形短款气球式剪裁紧身胸衣结构模特身高 180 厘米，所穿单品尺码为 38（美国 6 码）</view>
+            <view class="txt">腰部喇叭形短款气球式剪裁紧身胸衣结构模特身高 180 厘米，所穿单品尺码为 38（美国 6 码）</view> -->
           </view>
-        </view> -->
+        </view>
       </view>
 
       <!-- 搭配 -->
@@ -66,13 +69,13 @@
           <view class="line"></view>
           <text class="icon-font icon-icon-tuxingxingzhuang"></text>
         </view>
-        <swiper class="suit-box">
-          <swiper-item>
-            <image class="imgs" src="https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg" mode="widthFix" :lazy-load="true" />
+        <view class="suit-box">
+          <block v-for="li in productSuit.resources" :key="li.id">
+            <image class="imgs" :src="li.url" mode="widthFix" :lazy-load="true" />
             <view class="title">完成这套搭配</view>
-            <productSwiper @clickItem="handleClick" :products="productSuit" />
-          </swiper-item>
-        </swiper>
+            <productSwiper @clickItem="handleClick" :products="productSuit.menu" />
+          </block>
+        </view>
       </view>
     </view>
 
@@ -164,7 +167,7 @@ import {
 } from 'vuex';
 import { get } from '@/utils/utilityOperationHelper';
 import { priceFormat, imgUrlReplace, randomString } from '@/utils/utils';
-import { getProductDetailsAction, addShopCartApi } from '@/service/apis/pdp';
+import { getProductDetailsAction, addShopCartApi, getPDPstyleInspiration } from '@/service/apis/pdp';
 import navBarHeight from '@/components/common/navBarHeight';
 import { ORDER_INFO, WX_INFO } from '@/constants/user';
 import { ENCODE_SPLIT_SIGN } from '@/constants/share';
@@ -227,23 +230,8 @@ export default {
         show: false,
       },
       scrollTop: 0,
-      productSuit: [
-        {
-          productImg: 'https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg',
-          productName: '1111',
-          productPrice: '1111',
-        },
-        {
-          productImg: 'https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg',
-          productName: '222',
-          productPrice: '222',
-        },
-        {
-          productImg: 'https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg',
-          productName: '333',
-          productPrice: '333',
-        },
-      ],
+      productSuit: [],
+      extAttributeData: [],
       description: [
         {
           open: false,
@@ -279,6 +267,7 @@ export default {
       this.code = paramsArr[0];
     }
     this.getProductData();
+    this.getPDPstyle();
   },
   onShow () {
     const advertisingParams = uni.getStorageSync('advertisingParam') || this.advertisingParam
@@ -446,6 +435,12 @@ export default {
           }
         }
 
+        const { extAttribute } = this.productData
+        for (const [key, value] of Object.entries(extAttribute)) {
+          extAttribute[key].open = true
+        }
+        this.extAttributeData = extAttribute
+
         this.$nextTick(() => {
           // 添加最近浏览商品
           const recentBrowseItem = {
@@ -512,6 +507,23 @@ export default {
           params,
         });
       }
+    },
+    async getPDPstyle () {
+      const result = await getPDPstyleInspiration({
+        code: this.code,
+      });
+      const { styleInspiration } = result.data.shop
+      const { data } = await getProductDetailsAction({
+        codes: styleInspiration.codes || [],
+      });
+      const menu = data.shop.productByCode || []
+      menu.forEach((element) => {
+        element.productName = element.title
+        element.productPrice = element.salePrice.amount
+        element.productImg = element.images[0].url
+      });
+      styleInspiration.menu = menu
+      this.productSuit = styleInspiration
     },
     // 公共函数
     buyCommonFunc ({
@@ -740,6 +752,7 @@ export default {
     },
     cutDescription (item) {
       item.open = !item.open
+      console.log(11111, item);
     },
   },
   filters: {
