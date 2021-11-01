@@ -7,19 +7,26 @@
           <text class="icon-font icon-logo-alaia_000 logo"></text>
           <text class="desc1">欢迎加入</text>
           <text class="desc2">授权我们获取您的手机号即可完成注册流程</text>
-          <button class="login-btn" v-if="isAgreeYSXY" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">
-            授权手机号
-          </button>
-          <button class="login-btn" v-else @click="showAgreeTip">
-            授权手机号
-          </button>
-          <view class="agreement-content">
-            <z-checkbox @checkEvent="handleReceiverCheck" :checked="isAgreeYSXY"></z-checkbox>
-            <view class="privacy-txt" @click="handleReceiverCheck"> 我已阅读并接受ALAÏA<view class="under-line"
-                @click.stop="handleToRule">销售条款</view>及
-              <view class="under-line" @click.stop="handleToPrivacy">隐私政策</view>。
+          <block v-if="!isGetUserInfo && isAuthorizeInfo == false">
+            <button class="login-btn" open-type="getUserInfo" @click="doLogin">
+              立即登录
+            </button>
+          </block>
+          <block v-if="isGetUserInfo || isAuthorizeInfo == true">
+            <button class="login-btn" v-if="isAgreeYSXY" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">
+              授权手机号
+            </button>
+            <button class="login-btn" v-else @click="showAgreeTip">
+              授权手机号
+            </button>
+            <view class="agreement-content">
+              <z-checkbox @checkEvent="handleReceiverCheck" :checked="isAgreeYSXY"></z-checkbox>
+              <view class="privacy-txt" @click="handleReceiverCheck"> 我已阅读并接受ALAÏA<view class="under-line"
+                  @click.stop="handleToRule">销售条款</view>及
+                <view class="under-line" @click.stop="handleToPrivacy">隐私政策</view>。
+              </view>
             </view>
-          </view>
+          </block>
         </view>
       </view>
     </view>
@@ -31,9 +38,17 @@
     mapActions,
     mapGetters
   } from 'vuex';
+  import customButton from '@/components/button/normal.vue';
   import errorCode from '@/constants/errorCode';
   import zCheckbox from '@/components/al-checkbox';
   import {
+    WX_INFO,
+    ORDER_INFO,
+    PROTOCOL,
+    USER_INFO,
+    USER_WX_INFO,
+    DISAGREE,
+    AGREE,
     MOBILE,
     OPEN_ID,
     UNION_ID,
@@ -47,15 +62,26 @@
   } from '@/utils/utilityOperationHelper';
 
   export default {
-    props: {},
-    components:{
+    components: {
+      customButton,
       zCheckbox
     },
+    props: {},
     data() {
       return {
+        newDateTime: Date.parse(new Date()),
+        ktxStatusHeight: getApp().globalData.ktxStatusHeight,
+        isGetUserInfo: false,
         isAgreeYSXY: false,
+        accountInfo: {}, // 用户信息
+        isAgree: false,
+        // 是否授权过用户信心
+        isAuthorizeInfo: false,
+        // 是否支持getUserProfile
+        canIUseGetUserProfile: false,
       };
     },
+    onshow() {},
     onPullDownRefresh() {
       wx.stopPullDownRefresh();
     },
@@ -75,8 +101,73 @@
         'editAccountInfo',
         'getUserInfo',
       ]),
-      handleReceiverCheck() {
-        this.isAgreeYSXY = !this.isAgreeYSXY
+      handleReceiverCheck(){
+        this.isAgreeYSXY = !this.isAgreeYSXY;
+      },
+      // 立即登录
+      async doLogin(e, params) {
+        const {
+          type
+        } = e.target.dataset;
+        if (!this.canIUseGetUserProfile && !this.isAuthorizeInfo) {
+          wx.getUserInfo({
+            success: (res) => {
+              if (res.errMsg === 'getUserInfo:ok') {
+                uni.setStorageSync('isAuthorizeInfo', true);
+                uni.setStorageSync(WX_INFO, JSON.parse(res.rawData || '{}'));
+                this.isAuthorizeInfo = true;
+                this.isGetUserInfo = true;
+                this.buyCommonFunc({
+                  userInfo: res.rawData,
+                  type,
+                  params,
+                  encryptInfo: res,
+                });
+              }
+            },
+            fail: () => {
+              this.buyCommonFunc({
+                userInfo: '{}',
+                type,
+                params,
+                encryptInfo: {},
+              });
+            },
+          });
+          return;
+        }
+        if (this.canIUseGetUserProfile && !this.isAuthorizeInfo) {
+          wx.getUserProfile({
+            desc: '完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+            success: (res) => {
+              uni.setStorageSync('isAuthorizeInfo', true);
+              uni.setStorageSync(WX_INFO, JSON.parse(res.rawData || '{}'));
+              this.isAuthorizeInfo = true;
+              this.isGetUserInfo = true;
+              this.buyCommonFunc({
+                userInfo: res.rawData,
+                type,
+                params,
+                encryptInfo: res,
+              });
+            },
+            fail: () => {
+              this.buyCommonFunc({
+                userInfo: '{}',
+                type,
+                params,
+                encryptInfo: {},
+              });
+            },
+          });
+        } else {
+          this.buyCommonFunc({
+            userInfo: uni.getStorageSync(WX_INFO),
+            type,
+            params,
+          });
+        }
+        // await this.getUnionId(e);
       },
       handleToRule() {
         uni.navigateTo({
@@ -93,6 +184,28 @@
           title: '请勾选接受ALAÏA销售条款及隐私政策',
           icon: 'none',
         });
+      },
+      // 公共函数
+      buyCommonFunc({
+        userInfo,
+        encryptInfo
+      } = {}) {
+        uni.setStorageSync(WX_INFO, JSON.parse(userInfo || '{}'));
+        if (userInfo && userInfo.indexOf('nickName') != -1) {
+          const info = JSON.parse(userInfo || '{}')
+          const params = {
+            nickname: info.nickName,
+            portrait: info.avatarUrl,
+          };
+          this.editAccountInfo({
+            input: params,
+          });
+        }
+        const isMemberLogin = uni.getStorageSync('isMemberLogin');
+        const isAuthorizeInfo = uni.getStorageSync('isAuthorizeInfo');
+        if (isMemberLogin && isAuthorizeInfo) {
+          uni.navigateBack();
+        }
       },
       async getPhoneNumber(e) {
         if (e.detail.errMsg !== 'getPhoneNumber:ok') {
@@ -134,7 +247,7 @@
           }
         } catch (err) {
           console.log(err);
-        }
+        }       
       },
       // 显示错误信息
       showMessage(msg, errCode) {
@@ -165,6 +278,7 @@
 
 <style lang="scss" scoped>
   @import "@/styles/base.scss";
+
   .no-login {
     position: relative;
     display: flex;
@@ -220,7 +334,7 @@
         color: #1D1D1D;
         border: none;
         margin-top: rpx(35);
-        line-height:inherit;
+        line-height: inherit;
       }
 
       .agreement-content {

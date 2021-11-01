@@ -13,15 +13,12 @@
             </view>
             <view class="text">{{ nav.label }}</view>
           </button>
-          <button class="item-con" open-type="getUserInfo" @tap.stop="e => authorizeLogin(e)" v-else-if="nav.icon == 'icon-wode'  && !authorizeInfo">
+          <!-- <button class="item-con" open-type="getUserInfo" @tap.stop="e => authorizeLogin(e)" v-else-if="nav.icon == 'icon-wode'  && !authorizeInfo">
             <view class="icon">
-              <!-- <image class="icon-img" mode="widthFix" :src="
-                  tabSelected == index ? nav.selectedIconPath : nav.iconPath
-                "></image> -->
               <text :class="['icon-font', nav.icon]" :style="tabSelected == index ? 'color:#1D1D1D;' : 'color:#BBBBBB;'"></text>
             </view>
             <view class="text">{{ nav.label }}</view>
-          </button>
+          </button> -->
           <view class="item-con" v-else>
             <view class="icon">
               <!-- <image class="icon-img" mode="widthFix" :src="
@@ -122,7 +119,7 @@
       handleTap(menu, index) {
         // 点击客服不跳转
         if (index !== 3) {
-          if (index === 4 && !uni.getStorageSync('isMemberLogin') && uni.getStorageSync('isAuthorizeInfo')){
+          if (index === 4 && (!uni.getStorageSync('isMemberLogin') || !uni.getStorageSync('isAuthorizeInfo'))){
             uni.navigateTo({
               url:"/subPackages/login/pages/login/index"
             })
