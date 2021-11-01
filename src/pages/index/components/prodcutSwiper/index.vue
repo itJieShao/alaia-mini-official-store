@@ -91,7 +91,7 @@
         const content = this.getCmsContentData(newValue, HOME_SUB_SWIPER_CONFIG, 'content');
         const contentData = content[0];
         const swiperList = this.getCmsContentData(newValue, HOME_SUB_SWIPER_CONFIG, 'swiper_group');
-        const codes = swiperList.map(item => item.sku_code);
+        const codes = swiperList.map(item => item.spu_code);
         this.getProductList(codes).then((res) => {
           const arr = [];
           for (let i = 0; i < res.length;) {
