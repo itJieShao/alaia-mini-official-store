@@ -83,6 +83,7 @@
       };
     },
     onLoad() {
+      wx.hideShareMenu();
       this.getHomeStyleInspiration();
     },
     async onShow() {
