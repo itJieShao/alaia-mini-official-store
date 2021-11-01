@@ -18,6 +18,7 @@
 <script>
 import { getCmsContent } from '@/service/apis';
 import { parseCmsContent  } from '@/utils/cms';
+import { HELP_DETAIL_CMS_CONFIG } from '@/constants/cms';
 import { get } from '@/utils/utilityOperationHelper';
 
 export default {
@@ -44,9 +45,10 @@ export default {
   methods: {
     async getHelpDetail() {
       try {
+        const { fieldName, moduleCode } = HELP_DETAIL_CMS_CONFIG;
         const res = await getCmsContent({ templateCode: this.templateCode, contentCode: this.contentCode });
         const resData = get(res, 'data.shop.templateData');
-        this.helpContentList = parseCmsContent(resData, 'help_content_item', 'text_config');
+        this.helpContentList = parseCmsContent(resData, fieldName, moduleCode);
       } catch (error) {
         console.error(error)
       }

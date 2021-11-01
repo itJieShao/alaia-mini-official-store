@@ -29,7 +29,7 @@ export const GUESS_LIKE_PLP_CONFIG = { fieldName: 'plpGuessLike', moduleCode: 'p
 export const GUESS_LIKE_FAVORITE_CONFIG = { fieldName: 'favoriteGuessLike',moduleCode: 'product_sku', templateCode: 'guess_like_template', contentCode: 'guess_like_favorite' }
 // 帮助页cms
 export const HELP_LIST_CMS_CONFIG = {  moduleCode: 'index', templateCode: 'help_index', contentCode: 'help_index' }
-
+export const HELP_DETAIL_CMS_CONFIG = {  moduleCode: 'text_config',  fieldName: 'help_content_item'  }
 
 export const CMS_CONFIG_LIST = [
   HOME_MAIN_SWIPER_CONFIG,
