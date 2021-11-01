@@ -28,7 +28,7 @@ export default {
       keyWord: '',
       filterKeyWord: '',
       goodsList: [],
-      menuData: [],
+      menuData: {},
       pageShow: false,
       params: {
         filters: {
@@ -252,7 +252,14 @@ export default {
       });
     },
     selectMenu (e) {
-      console.log(e);
+      const list = this.menuData
+      list.children && list.children.forEach((item) => {
+        item.select = false
+        if (item.name == e.name) {
+          item.select = true
+        }
+      });
+      this.menuData = list
     },
   },
 };

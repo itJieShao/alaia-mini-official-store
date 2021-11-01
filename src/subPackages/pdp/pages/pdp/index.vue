@@ -40,11 +40,11 @@
         </view>
       </view>
 
-      <view class="product-details-content" v-if="productData.extAttribute.length">
+      <view class="product-details-content" v-if="extAttributeData.length">
         <!-- <view class="details-item" v-for="(item, index) in productData.description" :key="index">
           <image :src="item.url" mode="widthFix" :lazy-load="true" />
         </view> -->
-        <view class="item" v-for="(li,index) in productData.extAttribute" :key="index">
+        <view class="item" v-for="(li,index) in extAttributeData" :key="index">
           <view class="title-box" @click="cutDescription(li)">
             <text class="title">{{li.name}}</text>
             <text class="icon-font icon-jianhao" v-if="li.open"></text>
@@ -52,9 +52,9 @@
           </view>
           <view class="content" v-show="li.open">
             <view class="txt" v-if="li.value">{{li.value}}</view>
-            <view class="txt" v-for="(i,idx) in li.resource" :key="idx" v-show="li.resource">
-              <image class="imgs" :src="i.url" mode="widthFix" :lazy-load="true" />
-            </view>
+            <block v-for="(i,idx) in li.resource" :key="idx">
+              <image :src="i.url" mode="widthFix" :lazy-load="true" />
+            </block>
             <!-- <view class="title">细节</view>
             <view class="txt">材质：62% 羊毛，32% 真丝，6% 聚酰胺 缺口领口正面有圆形钩眼扣意大利制造 产品编号：AA9R0966CT396 颜色：黑色</view>
             <view class="title">尺码和合身</view>
@@ -69,13 +69,13 @@
           <view class="line"></view>
           <text class="icon-font icon-icon-tuxingxingzhuang"></text>
         </view>
-        <swiper class="suit-box">
-          <swiper-item v-for="li in productSuit.resources" :key="li.id">
+        <view class="suit-box">
+          <block v-for="li in productSuit.resources" :key="li.id">
             <image class="imgs" :src="li.url" mode="widthFix" :lazy-load="true" />
             <view class="title">完成这套搭配</view>
             <productSwiper @clickItem="handleClick" :products="productSuit.menu" />
-          </swiper-item>
-        </swiper>
+          </block>
+        </view>
       </view>
       <recently-like-products :config="GUESS_LIKE_PLP_CONFIG" />
     </view>
@@ -236,6 +236,7 @@ export default {
       },
       scrollTop: 0,
       productSuit: [],
+      extAttributeData: [],
       description: [
         {
           open: false,
@@ -443,7 +444,7 @@ export default {
         for (const [key, value] of Object.entries(extAttribute)) {
           extAttribute[key].open = true
         }
-        this.productData.extAttribute = extAttribute
+        this.extAttributeData = extAttribute
 
         this.$nextTick(() => {
           // 添加最近浏览商品
@@ -520,7 +521,13 @@ export default {
       const { data } = await getProductDetailsAction({
         codes: styleInspiration.codes || [],
       });
-      styleInspiration.menu = data.shop.productByCode || []
+      const menu = data.shop.productByCode || []
+      menu.forEach((element) => {
+        element.productName = element.title
+        element.productPrice = element.salePrice.amount
+        element.productImg = element.images[0].url
+      });
+      styleInspiration.menu = menu
       this.productSuit = styleInspiration
     },
     // 公共函数
@@ -750,6 +757,7 @@ export default {
     },
     cutDescription (item) {
       item.open = !item.open
+      console.log(11111, item);
     },
   },
   filters: {
