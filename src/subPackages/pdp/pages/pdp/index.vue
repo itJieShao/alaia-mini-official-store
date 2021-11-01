@@ -184,7 +184,6 @@ export default {
   mixins: [navBarHeight],
   data () {
     return {
-      GUESS_LIKE_PLP_CONFIG,
       ktxStatusHeight: getApp().globalData.ktxStatusHeight, // 头部的高度，用于设置样式padding-top
       isHeadBorder: false, // header border是否展示
       isHeaderBlackColor: false, // header 字体颜色
