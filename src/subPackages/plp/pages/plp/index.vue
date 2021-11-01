@@ -286,12 +286,13 @@ export default {
             price: item.salePrice,
             url: covers[0],
           }
-          const result = await createFavoriteApi({ input })
+          const result = await createFavoriteApi({ ...input })
           if (result.code == 200) {
             item.favorite.id = result.data.createFavorite
           }
         }
       }
+      this.goodsList.splice(e, 1, item)
     },
   },
 };
