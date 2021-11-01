@@ -189,12 +189,7 @@ export const removeAddress = gql`
 // 商品收藏
 export const createFavorite = gql`
   mutation createFavorite($input: CreateFavoriteInput!) {
-    createFavorite(input: $input) {
-      userErrors {
-        code
-        message
-      }
-    }
+  	createFavorite(input: $input)
   }
 `;
 
@@ -224,73 +219,47 @@ export const fetchFavorites = gql`
 
 // 查询心愿单 带商品信息
 export const fetchFavoritesDetail = gql`
-  query fetchFavorites($page: Int = 1, $size: Int = 8) {
-    customer {
-      favorites(page: $page, size: $size) {
-        userErrors {
-          code
-          message
-        }
-        pageInfo {
-          size
-          page
-          hasNextPage
-          totalCount
-        }
-        data {
-          id
-          userCode
-          spuCode
-          price {
-            amount
-            currencyCode
-          }
-          continuousCode
-          product {
-            code
-            title
-            subTitle
-            inventory
-            listPrice {
-              amount
-              currencyCode
-            }
-            salePrice {
-              amount
-              currencyCode
-            }
-            onShelves
-            options {
-              code
-              frontName
-              values {
-                code
-                frontName
-              }
-            }
-            images {
-              url
-            }
-            skus {
-              code
-              id
-            }
-          }
-        }
-      }
-    }
-  }
+  query favorites($pageInput: PageInput) {
+  			customer {
+  				favorites(pageInput: $pageInput) {
+  					edges {
+  						node {
+  							product {
+  								code
+  								title
+  								images {
+  									url
+  									type
+  								}
+  								skus {
+  									salePrice {
+  										amount
+  										currencyCode
+  									}
+  								}
+  								salePrice {
+  									amount
+  									currencyCode
+  								}
+  							}
+  							id
+  						}
+  					}
+  					pageInfo {
+  						startCursor
+  						endCursor
+  						totalCount
+  						hasNextPage
+  					}
+  				}
+  			}
+  		}
 `;
 
 // 删除心愿单
 export const delFavorite = gql`
   mutation cancelFavorites($input: [String!]!) {
-    cancelFavorites(input: $input) {
-      userErrors {
-        code
-        message
-      }
-    }
+  	cancelFavorites(collectionCodes: $input)
   }
 `;
 

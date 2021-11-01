@@ -5,7 +5,7 @@ export const tabBarList = [
     text: '首页',
   },
   {
-    pagePath: '',
+    pagePath: '/pages/category/index',
     icon: 'icon-category',
     text: '精选产品',
     type: 'serverModel',

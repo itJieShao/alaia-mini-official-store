@@ -1,66 +1,149 @@
 <template>
   <view class="product">
     <view class="title">
-      <com-title title="精选.推荐" subtitle="YOU MAY ALSO LIKE" />
+      <com-title :title="content.title" :subtitle="content.sub_title" />
     </view>
-    <image class="banner" src="" mode="aspectFill"></image>
+    <image class="banner" :src="content.source_url" mode="aspectFill"></image>
     <view v-if="showTab" class="product-tab">
       <text @click="changeTab(index)" :class="item.checked?'act':''" v-for="(item,index) in tabList"
-        :key="index">{{item.name}}</text>
+        :key="index">{{item.title}}</text>
     </view>
     <view class="product-content">
-      <view class="product-item" v-for="i in 6" :key="i">
-        <image src="" mode="aspectFit"></image>
+      <view class="product-item" @click="goPdp(it.code)" v-for="(it,index) in swiperList" :key="index">
+        <image :src="it.images[0].url" mode="aspectFit" :lazy-load="true"></image>
         <view class="goods-label">
           新品
         </view>
-        <text class="goods-title">镂空饺子包</text>
-        <text class="goods-price">￥27,000</text>
+        <view class="goods-title" v-if="it.title">{{it.title}}</view>
+        <view class="goods-price" v-if="it.skus &&　it.skus.length>0 &&　it.skus[0].salePrice.amount">¥
+          {{it.skus[0].salePrice.amount | formatMoney}}
+        </view>
       </view>
+    </view>
+    <view class="home-more-btn">
+      <customButton v-if="content.has_button"  @click="() => navigateTo(content.link)" :btnWidth="480" :btnHeight="80" className="transparent">
+        {{content.button_txt?content.button_txt:'即刻探索'}}
+      </customButton>
     </view>
   </view>
 </template>
 
 <script>
+  import {
+    mapGetters,
+    mapActions
+  } from 'vuex';
   import ComTitle from '../comTitle/comTitle';
+  import {
+    HOME_PRODUCT_CONFIG,
+    HOME_RECOMMEND_PRODUCT_CONFIG
+  } from '@/constants/cms';
+  import {
+    parseCmsContent
+  } from '@/utils/cms';
+  import {
+    navigateTo,
+    priceFormat
+  } from '@/utils/utils';
   import customButton from '@/components/button/normal.vue';
+  import {
+    OSS_URL
+  } from '@/constants/env';
   export default {
-    props:{
-      showTab:{
-        type:Boolean,
-        default:false,
+    props: {
+      showTab: {
+        type: Boolean,
+        default: false,
       }
     },
     data() {
       return {
-        tabList: [{
-          name: "新品",
-          checked: true
-        }, {
-          name: "成衣",
-          checked: false
-        }, {
-          name: "包袋",
-          checked: false
-        }, {
-          name: "鞋履",
-          checked: false
-        }, {
-          name: "配件",
-          checked: false
-        }]
+        tabList: [],
+        swiperList: [],
+        content: {},
+      }
+    },
+    computed: {
+      ...mapGetters('cms', ['cmsContentMap'])
+    },
+    watch: {
+      cmsContentMap(newValue) {
+        // todo : 需要绑定数据
+        const content = this.getCmsContentData(newValue, this.showTab ? HOME_RECOMMEND_PRODUCT_CONFIG :
+          HOME_PRODUCT_CONFIG, 'content');
+        const contentData = content[0];
+        const swiperList = this.getCmsContentData(newValue, this.showTab ? HOME_RECOMMEND_PRODUCT_CONFIG :
+          HOME_PRODUCT_CONFIG, 'swiper_group', this.showTab);
+        if (this.showTab) {
+          swiperList.forEach(item => {
+            item.fieldContents.checked = false;
+            item.fieldContents.codes = item.groupChildren[0].sku_list.map(it => it.fieldContents.sku_code)
+          })
+          swiperList[0].fieldContents.checked = true;
+          this.tabList = swiperList.map(item => item.fieldContents);
+          this.getProductList(this.tabList[0].codes).then((res) => {
+            this.$set(this.tabList[0], "productList", res);
+            this.swiperList = res;
+          })
+        } else {
+          const codes = swiperList.map(item => item.sku_code);
+          this.getProductList(codes).then((res) => {
+            this.swiperList = res;
+          })
+        }
+        const {
+          source_url
+        } = contentData;
+        if (source_url && !/^(http|https)/.test(source_url)) {
+          contentData.source_url = `${OSS_URL}${source_url}`
+        }
+        this.content = contentData;
       }
     },
     components: {
       ComTitle,
       customButton,
     },
+    filters: {
+      formatMoney(val) {
+        if (val) {
+          return priceFormat(val);
+        }
+        return '0';
+      },
+    },
     methods: {
+      navigateTo,
+      ...mapActions('product', ['getProductList']),
+      getCmsContentData(resData, config, name, getPar) {
+        const {
+          moduleCode,
+          contentCode
+        } = config;
+        try {
+          return parseCmsContent(resData[contentCode], name, moduleCode, getPar);
+        } catch (error) {
+          console.error(error)
+        }
+      },
       changeTab(index) {
         this.tabList.forEach(item => {
           item.checked = false;
         })
         this.$set(this.tabList[index], 'checked', true);
+        if (this.tabList[index].hasOwnProperty("productList")) {
+          this.swiperList = this.tabList[index].productList;
+        } else {
+          this.getProductList(this.tabList[index].codes).then((res) => {
+            this.$set(this.tabList[index], "productList", res);
+            this.swiperList = res;
+          })
+        }
+      },
+      goPdp(code) {
+        if (code) {
+          this.$emit('handleProductClick', code);
+        }
       },
     }
   }
@@ -84,6 +167,7 @@
 
     .product-tab {
       position: sticky;
+      z-index: 9999;
       top: 0;
       width: 100%;
       height: 84rpx;
@@ -121,6 +205,7 @@
         width: 370rpx;
         color: $color;
         margin-bottom: 40rpx;
+
         image {
           display: block;
           width: 100%;
@@ -133,16 +218,17 @@
           font-size: 24rpx;
           line-height: 28rpx;
           padding: 8rpx;
-          border: 2rpx solid $color;
           margin-top: 30rpx;
+          font-weight: bold;
         }
 
         .goods-title {
           font-family: PingFangSC, PingFangSC-Regular;
           display: block;
           font-size: 28rpx;
-          line-height: 28rpx;
-          margin: 24rpx auto;
+          line-height: 40rpx;
+          margin: 32rpx auto 24rpx;
+          text-align: center;
         }
 
         .goods-price {
@@ -151,6 +237,9 @@
           line-height: 28rpx;
         }
       }
+    }
+    .home-more-btn{
+      padding-top: 50rpx;
     }
   }
 </style>

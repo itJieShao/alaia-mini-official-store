@@ -1,4 +1,4 @@
-import { getViewData, getCmsContentListApi  } from '../service/apis/cms';
+import { getViewData, getCmsContentListApi, getCmsContentGuessLikeApi } from '../service/apis/cms';
 import { CMS_CONFIG_LIST } from '@/constants/cms';
 import { get } from '../utils/utilityOperationHelper'
 import log from '../utils/log'
@@ -10,7 +10,9 @@ const state = {
     isPublish: true,
   },
   pageCode: '',
-  cmsContentMap: {}
+  cmsContentMap: {},
+  // 猜你喜欢配置
+  guessLikeCmsContentMap: {}
 };
 
 const getters = {
@@ -37,6 +39,18 @@ const actions = {
       return cmsContentMap;
     }
   },
+  async getGuessLikeCmsContentMapData ({ state, commit }) {
+    const { guessLikeCmsContentMap } = state;
+    if (Object.keys(guessLikeCmsContentMap).length === 0) {
+      const res = await getCmsContentGuessLikeApi();
+      const resData = get(res, 'data.shop');
+      console.log('getCmsContentGuessLikeApi------>', resData);
+      commit('setGuessLikeCmsContentMap', resData);
+      return resData;
+    } else {
+      return guessLikeCmsContentMap;
+    }
+  },
   getViewData({ state, commit }, code) {
     commit('setPageCode', code)
     return getViewData({ ...state.defaultParams, smodelCode: code }).then((res) => {
@@ -60,6 +74,9 @@ const mutations = {
   },
   setCmsContentMap(state, list) {
     state.cmsContentMap = list;
+  },
+  setGuessLikeCmsContentMap (state, map) {
+    state.guessLikeCmsContentMap = map;
   }
 };
 

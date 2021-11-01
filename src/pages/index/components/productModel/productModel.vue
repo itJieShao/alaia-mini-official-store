@@ -1,39 +1,77 @@
 <template>
   <view class="product-model">
     <view class="title">
-      <com-title title="造型.灵感" subtitle="Shop the Look" />
+      <com-title :title="content.title" :subtitle="content.sub_title" />
     </view>
     <view class="product">
-      <view class="product-item" v-for="i in 6" :key="i" @click="goDetail">
-        <image class="product-img" src="" mode="aspectFit"></image>
+      <view class="product-item" v-for="(item,index) in homeStyleInspiration" :key="index" @click="goDetail(index)">
+        <image class="product-img" :src="item.resources[0].url" mode="aspectFit"></image>
         <view class="shopbag">
           <text class="icon-font icon-shopbag"></text>
         </view>
       </view>
     </view>
-    <view class="change-model">
+    <view class="change-model" @click="changeModel">
       <text>换一批</text>
     </view>
   </view>
 </template>
 
 <script>
+  import {
+    HOME_BRAND_INTRO_CONFIG
+  } from '@/constants/cms';
+  import {
+    parseCmsContent
+  } from '@/utils/cms';
+  import { mapGetters } from 'vuex';
   import ComTitle from '../comTitle/comTitle';
+  import { HOME_STYLING_INSPIRATION_TITLE_CONFIG } from '@/constants/cms';
   export default {
+    props:{
+      homeStyleInspiration:{
+        type:Array,
+        default:[],
+      }
+    },
     data(){
       return{
-
+        content:{},
+      }
+    },
+    computed: {
+      ...mapGetters('cms', ['cmsContentMap']),
+    },
+     watch: {
+      cmsContentMap (newValue) {
+        const content = this.getCmsContentData(newValue, HOME_STYLING_INSPIRATION_TITLE_CONFIG, 'section_content');
+        const contentData = content[0];
+        this.content = contentData;
       }
     },
     components: {
       ComTitle
     },
     methods:{
-      goDetail(){
+      getCmsContentData(resData, config, name) {
+        const {
+          moduleCode,
+          contentCode
+        } = config;
+        try {
+          return parseCmsContent(resData[contentCode], name, moduleCode);
+        } catch (error) {
+          console.error(error)
+        }
+      },
+      goDetail(index){
         uni.navigateTo({
-          url:"/subPackages/productCollocation/pages/index"
+          url:`/subPackages/productCollocation/pages/index?index=${index}`
         })
-      }
+      },
+      changeModel(){
+        this.$emit("changeModel")
+      },
     }
   }
 </script>

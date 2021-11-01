@@ -14,6 +14,7 @@ import globle from './globle'
 import category from './category'
 import goodsFilter from './goodsFilter'
 import shop from './shop'
+import wish from './wish'
 
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -31,7 +32,8 @@ const store = new Vuex.Store({
     globle,
     category,
     goodsFilter,
-    shop
+    shop,
+    wish
   },
 })
 

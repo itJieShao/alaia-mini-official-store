@@ -14,16 +14,10 @@
         <swiper-item>
           <scroll-view scroll-y class="scroll-view scroll-view-content" :style="{'paddingTop':ktxStatusHeight}"
             @scroll="viewScroll" :scroll-into-view="scrollToId">
-            <product-swiper></product-swiper>
-            <product-model></product-model>
-            <product showTab ></product>
-            <view style="padding-top: 50rpx;background-color: #fff;">
-              <customButton :btnWidth="480" :btnHeight="80" className="transparent">即刻探索</customButton>
-            </view>
-            <product></product>
-            <view style="padding-top: 50rpx;background-color: #fff;">
-              <customButton :btnWidth="480" :btnHeight="80" className="transparent">即刻探索</customButton>
-            </view>
+            <product-swiper @handleProductClick="handleProductClick"></product-swiper>
+            <product-model :homeStyleInspiration="homeStyleInspiration" @changeModel="changeModel"></product-model>
+            <product @handleProductClick="handleProductClick" showTab ></product>
+            <product @handleProductClick="handleProductClick"></product>
             <!-- 品牌故事 -->
             <section-content :config="HOME_BRAND_INTRO_CONFIG"></section-content>
             <!-- 精品店 -->
@@ -38,7 +32,7 @@
 </template>
 
 <script>
-  import { mapState, mapActions, mapMutations } from 'vuex';
+  import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
   import { trackWechatAd } from '@/service/apis'
   import customButton from '@/components/button/normal.vue';
   import HomeHeadSwiper from './components/homeHeadSwiper/index'; // 首页顶部swiper
@@ -73,8 +67,11 @@
         pageIsShow: false,
         isShowDost: true,
         HOME_STORE_CONFIG,
-        HOME_BRAND_INTRO_CONFIG
+        HOME_BRAND_INTRO_CONFIG,
       };
+    },
+    computed:{
+      ...mapGetters('product',['homeStyleInspiration']),//造型灵感数据
     },
     // 分享配置项
     onShareAppMessage(res) {
@@ -84,6 +81,9 @@
         imageUrl: '',
         success() {},
       };
+    },
+    onLoad() {
+      this.getHomeStyleInspiration();
     },
     async onShow() {
       this.pageIsShow = true;
@@ -102,12 +102,17 @@
       wx.stopPullDownRefresh(); // 阻止下拉刷新
     },
     methods: {
+      ...mapActions('product', ['getHomeStyleInspiration']),
       ...mapActions('cms', ['getCmsContentMapData']),
       ...mapActions('category', ['getCategoryData']),
       ...mapActions('common', ['getAccessToken']),
       ...mapState('globle', ['advertisingParam']),
       ...mapMutations('globle', ['setTabBarHide', 'setTabSelected']),
       ...mapActions('user', ['getUserInfo']),
+      //换一批
+      changeModel(){
+        this.getHomeStyleInspiration();
+      },
       // 点击去详情
       handleProductClick(spuCodes) {
         if (!spuCodes) return;

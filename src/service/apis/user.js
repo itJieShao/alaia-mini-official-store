@@ -155,12 +155,10 @@ export const delFavoriteApi = (input) => apollo.mutate({
   throw Error(e)
 })
 
-export const fetchFavoritesDetailApi = ({ size, page }) => apollo.query({
+export const fetchFavoritesDetailApi = (input) => apollo.query({
   query: fetchFavoritesDetail,
-  fetchPolicy: 'network-only',
   variables: {
-    page,
-    size,
+    pageInput: input,
   },
 }).catch((e) => {
   throw Error(e)
