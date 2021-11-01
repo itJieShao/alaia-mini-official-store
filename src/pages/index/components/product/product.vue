@@ -15,7 +15,7 @@
           新品
         </view>
         <view class="goods-title" v-if="it.title">{{it.title}}</view>
-        <view class="goods-price" v-if="it.skus &&　it.skus.length>0 &&　it.skus[0].salePrice.amount">¥
+        <view class="goods-price" v-if="it && it.skus &&　it.skus.length > 0 &&　it.skus[0].salePrice.amount">¥
           {{it.skus[0].salePrice.amount | formatMoney}}
         </view>
       </view>

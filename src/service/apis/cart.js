@@ -3,6 +3,7 @@ import {
   cartGql, cartAddGql, cartUpdateGql, cartDeleteGql,
   cartSkuStatusUpdateGql,
   productByCodeGql,
+  replaceableSkusGql
 } from '../gqls'
 
 // 根据商品code获取商品列表
@@ -15,6 +16,12 @@ export const getProductByCode = (params) => apollo.query({
 export const getCartInfoData = () => apollo.query({
   query: cartGql,
   fetchPolicy: 'no-cache',
+})
+
+export const getReplaceableSkusDataApi = (params) => apollo.query({
+  query: replaceableSkusGql,
+  fetchPolicy: 'no-cache',
+  variables: { codes: params },
 })
 
 // 添加购物车

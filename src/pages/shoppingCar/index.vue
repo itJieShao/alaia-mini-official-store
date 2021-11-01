@@ -13,6 +13,7 @@
         >
           <productItem
             :productData="{...item, gaIndex: index + 1}"
+            :replaceableSkusMap="replaceableSkusMap"
             @deleteEventer="handleDeleteConfirm"
             @updateNum="cartUpdateNum"
             @changeSize="handleSizeChange"
@@ -105,6 +106,7 @@ import {
   cartDelete,
   cartUpdateNum,
   cartSkuStatusUpdate,
+  getReplaceableSkusDataApi
 } from '../../service/apis/cart';
 import { GUESS_LIKE_CAET_CONFIG } from '@/constants/cms';
 import { ORDER_INFO } from '../../constants/user'
@@ -132,7 +134,8 @@ export default {
       // 导购信息
       guideInfo: null,
       isMemberLogin: true,
-      GUESS_LIKE_CAET_CONFIG
+      GUESS_LIKE_CAET_CONFIG,
+      replaceableSkusMap: {}
     };
   },
   async onShow() {
@@ -168,7 +171,18 @@ export default {
         const cartItems = await this.queryCartInfo();
         this.list = cartItems
         console.log('cartItems>>>', cartItems)
+        // 获取购物车中skus
         this.list = this.filterProduct(cartItems);
+        // 获取替换skus
+        if (this.list.length > 0) {
+          const resData = await getReplaceableSkusDataApi(this.list.map(l => l.sku.product.code));
+          const replaceSkus = get(resData, 'data.shop.productByCode');
+          this.replaceableSkusMap = replaceSkus.reduce((p, c) => {
+            p[c.code] = c.skus;
+            return p;
+          }, {});
+        }
+
         if (cartItems.length > 0) {
           this.getCartAmount();
         }

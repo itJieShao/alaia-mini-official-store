@@ -71,6 +71,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    replaceableSkusMap: {
+      type: Object,
+      default: () => {}
+    }
   },
   components: { zCheckbox },
   data() {
@@ -115,32 +119,41 @@ export default {
     },
     // 尺寸可选列表
     sizeOptions() {
-      const skus = get(this, 'skuData.product.replaceableSkus', []).filter((v) => v.inventory > 0)
-      const _list = skus.map((item) => {
-        const sizeItem = get(item, 'options', []).find((v) => v.originCode === 'customSize')
-        return {
-          lineId: this.skuData.lineId,
-          skuCode: item.code,
-          frontName: get(sizeItem, 'value.frontName'),
-          code: get(sizeItem, 'value.code'),
-        }
-      })
-      _list.sort((a, b) => a.frontName - b.frontName)
-      console.log('_list------->', _list);
-      return _list
+      const productCode = get(this, 'skuData.product.code', []);
+      const list = this.replaceableSkusMap[productCode];
+      if (list && list.length > 0) {
+        const skus = list.filter((v) => v.inventory > 0);
+        const _list = skus.map((item) => {
+          const sizeItem = get(item, 'options', []).find((v) => v.originCode === 'customSize')
+          return {
+            lineId: this.skuData.lineId,
+            skuCode: item.code,
+            frontName: get(sizeItem, 'value.frontName'),
+            code: get(sizeItem, 'value.code'),
+          }
+        })
+        _list.sort((a, b) => a.frontName - b.frontName)
+        return _list
+      }
+      return [];
     },
     // 样式可选列表
     styleOptions() {
-      const skus = get(this, 'skuData.product.replaceableSkus', []).filter((v) => v.inventory > 0)
-      const _list = skus.map((item) => {
-        const styleItem = get(item, 'showAttrList', []).find((v) => v.originCode === 'customSizeDesc')
-        return {
-          skuCode: item.code,
-          frontName: get(styleItem, 'attrValueList[0].frontName'),
-          code: get(styleItem, 'attrValueList[0].code.'),
-        }
-      })
-      return _list
+      const productCode = get(this, 'skuData.product.code', []);
+      const list = this.replaceableSkusMap[productCode];
+      if (list && list.length > 0) {
+        const skus = this.replaceableSkusMap[productCode].filter((v) => v.inventory > 0)
+        const _list = skus.map((item) => {
+          const styleItem = get(item, 'showAttrList', []).find((v) => v.originCode === 'basecolor')
+          return {
+            skuCode: item.code,
+            frontName: get(styleItem, 'attrValueList[0].frontName'),
+            code: get(styleItem, 'attrValueList[0].code.'),
+          }
+        })
+        return _list
+      }
+      return [];
     },
     inventory() {
       return get(this.skuData, 'inventory')
@@ -229,48 +242,6 @@ export default {
           trackProductData: this.trackProductData,
         })
       }
-    },
-    bindNumPickerChange(e) {
-      if ((Number(e.target.value) + 1) !== this.productData.quantity) {
-        this.$emit('updateNum', [
-          {
-            quantity: Number(e.target.value) + 1,
-            lineId: this.skuData.lineId,
-            trackProductData: this.trackProductData,
-          },
-        ])
-      }
-    },
-    updateNum(num) {
-      const { quantity } = this.productData;
-      const inventory = quantity + num
-      // 实际库存 < 增加的库存 , 则显示 error 信息
-      this.inventoryMsg = this.inventory < inventory;
-      // 如果是增加库存，并且有error信息
-      if (this.inventoryMsg && num > 0) {
-        return
-      }
-      if (inventory <= 0) {
-        uni.showToast({
-          title: '此商品最少购入一件',
-          icon: 'none',
-        });
-        return
-      }
-      if (inventory > 5) {
-        uni.showToast({
-          title: '最多购买5件',
-          icon: 'none',
-        });
-        return
-      }
-      this.$emit('updateNum', [
-        {
-          quantity: this.inventoryMsg && num < 0 ? this.inventory : inventory,
-          lineId: this.skuData.lineId,
-          trackProductData: this.trackProductData,
-        },
-      ])
     },
     checkedEventer({ checked }) {
       console.log('checked', checked)
