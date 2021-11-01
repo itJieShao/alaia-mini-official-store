@@ -24,6 +24,7 @@ export const HOME_RECOMMEND_PRODUCT_CONFIG = { moduleCode: 'swiper', templateCod
 export const SEARCH_HOT_WORD_CONFIG = {  moduleCode: 'hot',  fieldName: 'hot_item',  templateCode: 'hot', contentCode: 'hot' }
 // 分类页
 export const CATEGORY_ACTIVITY_CONFIG = { moduleCode: 'swiper', templateCode: 'swiper_group', contentCode: 'category_activity' }
+export const CATEGORY_TOP_INTRO_CONFIG = { moduleCode: 'swiper', templateCode: 'section_content', contentCode: 'category_top_intro' }
 // 猜你喜欢
 export const GUESS_LIKE_SEARCH_CONFIG = { fieldName: 'searchGuessLike', moduleCode: 'product_sku', templateCode: 'guess_like_template', contentCode: 'guess_like_search' }
 export const GUESS_LIKE_CAET_CONFIG = { fieldName: 'cartGuessLike', moduleCode: 'product_sku', templateCode: 'guess_like_template', contentCode: 'guess_like_cart' }
@@ -44,9 +45,6 @@ export const CMS_CONFIG_LIST = [
   HOME_RECOMMEND_PRODUCT_CONFIG,
   SEARCH_HOT_WORD_CONFIG,
   CATEGORY_ACTIVITY_CONFIG,
-  HELP_LIST_CMS_CONFIG,
-  GUESS_LIKE_SEARCH_CONFIG,
-  GUESS_LIKE_CAET_CONFIG,
-  GUESS_LIKE_PLP_CONFIG,
-  GUESS_LIKE_FAVORITE_CONFIG
+  CATEGORY_TOP_INTRO_CONFIG,
+  HELP_LIST_CMS_CONFIG
 ]
