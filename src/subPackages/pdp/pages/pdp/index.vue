@@ -40,24 +40,27 @@
         </view>
       </view>
 
-      <view class="product-details-content" v-if="productData.description.length">
-        <view class="details-item" v-for="(item, index) in productData.description" :key="index">
+      <view class="product-details-content" v-if="productData.extAttribute.length">
+        <!-- <view class="details-item" v-for="(item, index) in productData.description" :key="index">
           <image :src="item.url" mode="widthFix" :lazy-load="true" />
-        </view>
-        <!-- <view class="item" v-for="(li,index) in description" :key="li">
+        </view> -->
+        <view class="item" v-for="(li,index) in productData.extAttribute" :key="index">
           <view class="title-box" @click="cutDescription(li)">
-            <text class="title">描述{{index}}</text>
+            <text class="title">{{li.name}}</text>
             <text class="icon-font icon-jianhao" v-if="li.open"></text>
             <text class="icon-font icon-jiahao" v-else></text>
           </view>
           <view class="content" v-show="li.open">
-            <view class="txt">这款短款气球连衣裙采用褶皱设计。它具有合身的腰身，构造像带骨的紧身胸衣。它的圆形钩眼 正面的扣件凸显了其内衣灵感。</view>
-            <view class="title">细节</view>
+            <view class="txt" v-if="li.value">{{li.value}}</view>
+            <view class="txt" v-for="(i,idx) in li.resource" :key="idx" v-show="li.resource">
+              <image class="imgs" :src="i.url" mode="widthFix" :lazy-load="true" />
+            </view>
+            <!-- <view class="title">细节</view>
             <view class="txt">材质：62% 羊毛，32% 真丝，6% 聚酰胺 缺口领口正面有圆形钩眼扣意大利制造 产品编号：AA9R0966CT396 颜色：黑色</view>
             <view class="title">尺码和合身</view>
-            <view class="txt">腰部喇叭形短款气球式剪裁紧身胸衣结构模特身高 180 厘米，所穿单品尺码为 38（美国 6 码）</view>
+            <view class="txt">腰部喇叭形短款气球式剪裁紧身胸衣结构模特身高 180 厘米，所穿单品尺码为 38（美国 6 码）</view> -->
           </view>
-        </view> -->
+        </view>
       </view>
 
       <!-- 搭配 -->
@@ -450,6 +453,12 @@ export default {
             this.currentSkuCode = get(resultData, 'skus')[0].code;
           }
         }
+
+        const { extAttribute } = this.productData
+        for (const [key, value] of Object.entries(extAttribute)) {
+          extAttribute[key].open = true
+        }
+        this.productData.extAttribute = extAttribute
 
         this.$nextTick(() => {
           // 添加最近浏览商品
