@@ -5,7 +5,7 @@
       <text class="title">热词搜索</text>
       <view class="hot-list">
         <view @click="searchClick(item)" :class="['item',index==0?'hot':'']" v-for="(item,index) in hotWords" :key="index">
-          {{item.name}}
+          {{ item.name }}
         </view>
       </view>
     </view>
@@ -16,9 +16,11 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import searchInput from '@/components/searchInput';
-import { GUESS_LIKE_SEARCH_CONFIG } from '@/constants/cms';
-import RecentlyLikeProducts from '@/components/al-recentlyLikeProducts'
+import { SEARCH_HOT_WORD_CONFIG, GUESS_LIKE_SEARCH_CONFIG } from '@/constants/cms';
+import { get } from '@/utils/utilityOperationHelper';
+import RecentlyLikeProducts from '@/components/al-recentlyLikeProducts';
 
 export default {
   components: {
@@ -27,23 +29,39 @@ export default {
   },
   data () {
     return {
-      GUESS_LIKE_SEARCH_CONFIG
+      GUESS_LIKE_SEARCH_CONFIG,
+      hotWords: []
     }
   },
-  props: {
-    hotWords: {
-      type: Array,
-      default: [],
-    },
+
+  mounted() {
+    this.getHotWords();
   },
   methods: {
+    ...mapActions('cms', ['getCmsContentMapData']),
     getProduct (params) {
       this.$emit('getProduct', params);
     },
     searchClick (keyword) {
       this.$emit('getProduct', keyword);
     },
-  },
+    async getHotWords() {
+        const { contentCode } = SEARCH_HOT_WORD_CONFIG;
+        try {
+          const cmsContentMap = await this.getCmsContentMapData();
+          const cmsContent = JSON.parse(cmsContentMap[contentCode]) || {};
+          const hotWords = get(cmsContent, 'zh_CN.hot_item.modelContents', [])
+            .map((v) => ({
+              search_type: v.groupContents.hot1[0].fieldContents.search_type,
+              search_value: v.groupContents.hot1[0].fieldContents.search_value,
+              name: v.groupContents.hot1[0].fieldContents.show,
+            }))
+          this.hotWords = hotWords;
+        } catch (error) {
+          console.error(error)
+        }
+    }
+  }
 }
 </script>
 

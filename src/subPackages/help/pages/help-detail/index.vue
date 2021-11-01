@@ -53,7 +53,7 @@ export default {
         console.error(error)
       }
     },
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>
