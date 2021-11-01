@@ -1,9 +1,9 @@
 <template>
   <view class="res-wrap">
-    <image v-if="img" class="banner" :src="img" mode="widthFix" :lazy-load="true"></image>
+    <image v-if="menuList.picLink" class="banner" :src="menuList.picLink" mode="widthFix" :lazy-load="true"></image>
     <view class="info">
-      <view class="keyword" v-if="keyWord">{{menuList.name}}</view>
-      <view class="remark" v-if="remark">{{menuList.remark}}</view>
+      <view class="keyword" v-if="keyWord">{{menuList.title}}</view>
+      <view class="remark" v-if="remark">{{menuList.subTitle}}</view>
       <view class="search-box" @click="linkSearch">
         <text class="icon-font icon-search"></text>
         <text class="txt">搜索商品</text>
@@ -15,7 +15,7 @@
         <view :class="['item',item.select?'active':'']" v-for="(item,index) in menuList.children" :key="index" @click="selectMenu(item)">{{item.name}}</view>
       </scroll-view>
     </view>
-    <goods-list :goodsList="goodsList" @updateList="updateList" @goFilter="goFilter" :isStatic="isStatic" />
+    <goods-list :goodsList="goodsList" @updateList="updateList" @goFilter="goFilter" :isStatic="isStatic" @on-favorite="cutFavorite" />
     <!-- <view v-if="goTopFlag" class="goTop" @click="scrollToTop">
       <text class="icon-font icon-icon-yijianxiangshang"></text>
     </view> -->
@@ -82,6 +82,9 @@ export default {
     selectMenu (e) {
       this.$emit('selectMenu', e);
     },
+    cutFavorite (e) {
+      this.$emit('on-favorite', e);
+    },
     scrollToTop () {
       this.$emit('scrollToTop')
     },
@@ -94,7 +97,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/utilities.scss";
+@import '@/styles/utilities.scss';
 .res-wrap {
   font-size: 0;
   width: 100%;
@@ -177,7 +180,7 @@ export default {
     text-align: center;
     border-radius: 50%;
     background: #fff;
-    box-shadow: 0 6px 20px 0 rgba(102, 102, 102, 0.1);
+    box-shadow: 0 6px 20px 0 rgba(102, 102, 102, .1);
     .icon-font {
       font-size: 36rpx;
     }
@@ -212,4 +215,5 @@ export default {
     }
   }
 }
+
 </style>

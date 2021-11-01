@@ -45,7 +45,7 @@
           <image :src="item.url" mode="widthFix" :lazy-load="true" />
         </view> -->
         <view class="item" v-for="(li,index) in extAttributeData" :key="index">
-          <view class="title-box" @click="cutDescription(li)">
+          <view class="title-box" @click="cutDescription(index)">
             <text class="title">{{li.name}}</text>
             <text class="icon-font icon-jianhao" v-if="li.open"></text>
             <text class="icon-font icon-jiahao" v-else></text>
@@ -64,7 +64,7 @@
       </view>
 
       <!-- 搭配 -->
-      <view class="suit-wrap">
+      <view class="suit-wrap" v-if="productSuit.id">
         <view class="line-title">
           <view class="line"></view>
           <text class="icon-font icon-icon-tuxingxingzhuang"></text>
@@ -230,7 +230,7 @@ export default {
         show: false,
       },
       scrollTop: 0,
-      productSuit: [],
+      productSuit: {},
       extAttributeData: [],
       description: [
         {
@@ -437,7 +437,7 @@ export default {
 
         const { extAttribute } = this.productData
         for (const [key, value] of Object.entries(extAttribute)) {
-          extAttribute[key].open = true
+          extAttribute[key].open = false
         }
         this.extAttributeData = extAttribute
 
@@ -513,17 +513,19 @@ export default {
         code: this.code,
       });
       const { styleInspiration } = result.data.shop
-      const { data } = await getProductDetailsAction({
-        codes: styleInspiration.codes || [],
-      });
-      const menu = data.shop.productByCode || []
-      menu.forEach((element) => {
-        element.productName = element.title
-        element.productPrice = element.salePrice.amount
-        element.productImg = element.images[0].url
-      });
-      styleInspiration.menu = menu
-      this.productSuit = styleInspiration
+      if (styleInspiration.codes) {
+        const { data } = await getProductDetailsAction({
+          codes: styleInspiration.codes,
+        });
+        const menu = data.shop.productByCode || []
+        menu.forEach((element) => {
+          element.productName = element.title
+          element.productPrice = element.salePrice.amount || ''
+          element.productImg = element.images[0].url || ''
+        });
+        styleInspiration.menu = menu
+        this.productSuit = styleInspiration
+      }
     },
     // 公共函数
     buyCommonFunc ({
@@ -750,9 +752,10 @@ export default {
       this.isSaleOut = !(currentSku.inventory > 0)
       this.openDialog()
     },
-    cutDescription (item) {
+    cutDescription (index) {
+      const item = this.extAttributeData[index]
       item.open = !item.open
-      console.log(11111, item);
+      this.extAttributeData.splice(index, 1, item)
     },
   },
   filters: {
