@@ -1,7 +1,7 @@
 <template>
   <view>
-    <custom-nav-bar left-arrow="left" :head-border="scrollHeight>168?false:isHeadBorder" :head-blank="scrollHeight>168?false:isHeadBlank" :title="scrollHeight>168?keyWord:' '" />
-    <view :style="{ 'padding-top': ktxStatusHeight }" v-if="!img"></view>
+    <custom-nav-bar left-arrow="left" :head-border="scrollHeight>168?false:isHeadBorder" :head-blank="scrollHeight>168?false:isHeadBlank" title=" " />
+    <view :style="{ 'padding-top': ktxStatusHeight }" v-if="!menuData.picLink"></view>
     <block v-if="pageShow">
       <search-res v-if="goodsList.length" :totalCount="totalCount" :keyWord="keyWord" :remark="remark" :filterKeyWord="filterKeyWord" :img="img" :goodsList="goodsList" :menuList="menuData" @selectMenu="selectMenu" @updateList="updateList" @goFilter="goFilter" @scrollToTop="scrollToTop" :goTopFlag="goTopFlag" :isStatic="isStatic" />
       <search-no-res v-else :keyWord="keyWord" :totalCount="totalCount" />
