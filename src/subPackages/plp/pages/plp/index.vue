@@ -53,31 +53,18 @@ export default {
     };
   },
   onLoad (option) {
-    const {
-      name,
-      code,
-    } = option;
-
-    this.params.filters.categories = (['', 'null', 'undefined', null, undefined].includes(code)) ? '' : code
-
-    this.keyWord = (['', 'null', 'undefined', null, undefined].includes(name)) ? '' : name
-
-    this.getProduct();
-
     // 三级导航
     this.getCategoryData().then((result) => {
       for (const [key, value] of Object.entries(result)) {
         if (value.name === '分类') {
           const pageData = value ? value.children : []
           pageData && pageData.forEach((element) => {
-            if (element.url == code) {
-              element.children && element.children.forEach((e) => {
-                if (e.name == name) {
-                  e.select = true
-                }
-              });
-              this.menuData = element
-            }
+            element.children && element.children.forEach((e) => {
+              if (e.url == option.code) {
+                this.menuData = element
+                this.selectMenu(e)
+              }
+            });
           });
         }
       }
@@ -159,6 +146,19 @@ export default {
     ...mapMutations('goodsFilter', ['clearFilterData']),
     ...mapActions('search', ['searchProduct']),
     ...mapActions('category', ['getCategoryData']),
+    selectMenu (e) {
+      const list = this.menuData
+      list.children && list.children.forEach((item) => {
+        item.select = false
+        if (item.url == e.url) {
+          item.select = true
+          this.params.filters.categories = (['', 'null', 'undefined', null, undefined].includes(item.url)) ? '' : item.url
+          this.keyWord = (['', 'null', 'undefined', null, undefined].includes(item.name)) ? '' : item.name
+          this.getProduct();
+        }
+      });
+      this.menuData = list
+    },
     getProduct () {
       uni.showLoading({
         title: '加载中...',
@@ -206,17 +206,21 @@ export default {
           this.moreFlag = false;
         }
         this.totalCount = pageInfo.totalCount;
-        if (this.updateFlag) {
-          this.updateFlag = false;
-          this.goodsList = list;
-        } else {
-          this.goodsList = this.goodsList.concat(list || []);
-        }
-        for (let i = 1; i < this.goodsList.length; i += 4) {
-          this.goodsList[i].hasBorder = true;
-          if (this.goodsList[i + 1]) {
-            this.goodsList[i + 1].hasBorder = true;
+        if (this.totalCount) {
+          if (this.updateFlag) {
+            this.updateFlag = false;
+            this.goodsList = list
+          } else {
+            this.goodsList = this.goodsList.concat(list || []);
           }
+          for (let i = 1; i < this.goodsList.length; i += 4) {
+            this.goodsList[i].hasBorder = true;
+            if (this.goodsList[i + 1]) {
+              this.goodsList[i + 1].hasBorder = true;
+            }
+          }
+        } else {
+          this.goodsList = []
         }
         uni.hideLoading();
       });
@@ -250,16 +254,6 @@ export default {
       uni.pageScrollTo({
         scrollTop: 0,
       });
-    },
-    selectMenu (e) {
-      const list = this.menuData
-      list.children && list.children.forEach((item) => {
-        item.select = false
-        if (item.name == e.name) {
-          item.select = true
-        }
-      });
-      this.menuData = list
     },
   },
 };

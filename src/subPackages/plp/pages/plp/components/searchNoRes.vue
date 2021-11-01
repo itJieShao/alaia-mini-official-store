@@ -1,5 +1,5 @@
 <template>
-  <view class="no-res-wrap" :style="{ 'padding-top':ktxStatusHeight }">
+  <view class="no-res-wrap">
     <view class="txt" v-if="keyWord">共0个作品，筛选条件：{{keyWord}}</view>
     <view class="txt" v-else>共0个作品</view>
     <view class="txt tips">很抱歉，我们未找到与您筛选条件相匹配的内容。</view>
