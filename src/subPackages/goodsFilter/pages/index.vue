@@ -3,14 +3,45 @@
     <custom-nav-bar left-arrow="left" :left-border="false" :head-border="false" :head-font-color="false" title="筛选" />
     <view>
       <view class="filter-con">
-        <view class="filter-type" @click="metallicProperty.toggle = !metallicProperty.toggle">
-          <text class="title">材质</text>
-          <image class="filter-opt" :src="metallicProperty.toggle ? 'https://res-tasaki.baozun.com/static/images/icon-reduce.png' : 'https://res-tasaki.baozun.com/static/images/icon-add.png'" mode="aspectFit">
+        <view class="filter-type" @click="colorProperty.toggle = !colorProperty.toggle">
+          <text class="title">颜色</text>
+          <image class="filter-opt" :src="colorProperty.toggle ? 'https://res-tasaki.baozun.com/static/images/icon-reduce.png' : 'https://res-tasaki.baozun.com/static/images/icon-add.png'" mode="aspectFit">
           </image>
         </view>
-        <view class="filter-check" :style="metallicProperty.toggle?'display:flex;':'display:none;'">
-          <view :class="['item',item.checked?'check-item':'']" v-for="(item,index) in metallicProperty.values" :key="index" @click="checkedOption('metallicProperty',3,item.frontName,index,'MetallicProperty')">
-            <text class="title">{{item.key}}</text>
+        <view class="filter-check" :style="colorProperty.toggle?'display:flex;':'display:none;'">
+          <view :class="['item',item.checked?'check-item':'']" v-for="(item,index) in colorProperty.values" :key="index" @click="checkedOption('colorProperty',1,item.frontName,index,'colorProperty')">
+            <view class="color-box">
+              <view class="color" :style="{background:item.value}" v-if="item.value"></view>
+              <view class="color" :style="'background-url:(' + item.imageUrl + ')'" v-else-if="item.imageUrl"></view>
+              <view class="color color-none" v-else></view>
+              <text class="title">{{item.frontName}}</text>
+            </view>
+            <text class="icon-font icon-gouxuanchenggong" v-if="item.checked"></text>
+          </view>
+        </view>
+      </view>
+      <view class="filter-con">
+        <view class="filter-type" @click="sizeProperty.toggle = !sizeProperty.toggle">
+          <text class="title">尺寸</text>
+          <image class="filter-opt" :src="sizeProperty.toggle ? 'https://res-tasaki.baozun.com/static/images/icon-reduce.png' : 'https://res-tasaki.baozun.com/static/images/icon-add.png'" mode="aspectFit">
+          </image>
+        </view>
+        <view class="filter-check" :style="sizeProperty.toggle?'display:flex;':'display:none;'">
+          <view :class="['item',item.checked?'check-item':'']" v-for="(item,index) in sizeProperty.values" :key="index" @click="checkedOption('sizeProperty',2,item.frontName,index,'sizeProperty')">
+            <text class="title">{{item.frontName}}</text>
+            <text class="icon-font icon-gouxuanchenggong" v-if="item.checked"></text>
+          </view>
+        </view>
+      </view>
+      <view class="filter-con">
+        <view class="filter-type" @click="materialProperty.toggle = !materialProperty.toggle">
+          <text class="title">材质</text>
+          <image class="filter-opt" :src="materialProperty.toggle ? 'https://res-tasaki.baozun.com/static/images/icon-reduce.png' : 'https://res-tasaki.baozun.com/static/images/icon-add.png'" mode="aspectFit">
+          </image>
+        </view>
+        <view class="filter-check" :style="materialProperty.toggle?'display:flex;':'display:none;'">
+          <view :class="['item',item.checked?'check-item':'']" v-for="(item,index) in materialProperty.values" :key="index" @click="checkedOption('materialProperty',3,item.frontName,index,'materialProperty')">
+            <text class="title">{{item.frontName}}</text>
             <text class="icon-font icon-gouxuanchenggong" v-if="item.checked"></text>
           </view>
         </view>
@@ -36,7 +67,9 @@ export default {
       plp_params: {},
       filter_params: {},
       goodsList: [],
-      metallicProperty: {},
+      colorProperty: {},
+      sizeProperty: {},
+      materialProperty: {},
       type: '',
       resNum: 0,
       setOptionFlag: 0,
@@ -67,11 +100,15 @@ export default {
     if (params.filters.condition.conditions.length) {
       if (type == 1) {
         if (this.fromTypeData1) {
-          this.metallicProperty = this.fromTypeData1.metallicProperty;
+          this.colorProperty = this.fromTypeData1.colorProperty;
+          this.sizeProperty = this.fromTypeData1.sizeProperty;
+          this.materialProperty = this.fromTypeData1.materialProperty;
           return;
         }
       } else if (this.fromTypeData2) {
-        this.metallicProperty = this.fromTypeData2.metallicProperty;
+        this.colorProperty = this.fromTypeData2.colorProperty;
+        this.sizeProperty = this.fromTypeData1.sizeProperty;
+        this.materialProperty = this.fromTypeData1.materialProperty;
         return;
       }
     }
@@ -88,9 +125,15 @@ export default {
     }
     this.getFilterData(urlParams).then((res) => {
       if (res.attributes) {
-        const metallicProperty = res.attributes.find((item) => item.code == 'MetallicProperty') || {};
-        metallicProperty.toggle = false;
-        this.metallicProperty = metallicProperty;
+        const colorProperty = res.attributes.find((item) => item.code == 'customColor') || {};
+        const sizeProperty = res.attributes.find((item) => item.code == 'customSize') || {};
+        const materialProperty = res.attributes.find((item) => item.code == 'material') || {};
+        colorProperty.toggle = false;
+        sizeProperty.toggle = false;
+        materialProperty.toggle = false;
+        this.colorProperty = colorProperty;
+        this.sizeProperty = sizeProperty;
+        this.materialProperty = materialProperty;
       }
     });
   },
@@ -178,7 +221,13 @@ export default {
       })
     }, 300),
     resetClick () {
-      this.metallicProperty.values.forEach((item) => {
+      this.colorProperty.values.forEach((item) => {
+        item.checked = false
+      });
+      this.sizeProperty.values.forEach((item) => {
+        item.checked = false
+      });
+      this.materialProperty.values.forEach((item) => {
         item.checked = false
       });
       this.plp_params.filters.condition.conditions = [];
@@ -199,7 +248,9 @@ export default {
     },
     setPageData () {
       const aData = {
-        metallicProperty: this.metallicProperty,
+        colorProperty: this.colorProperty,
+        sizeProperty: this.sizeProperty,
+        materialProperty: this.materialProperty,
         goodsList: this.goodsList,
         pageInfo: this.pageInfo,
         plp_params: this.plp_params,
@@ -273,6 +324,23 @@ export default {
       top: rpx(10);
       right: rpx(21);
       color: #1d1d1d;
+    }
+    .color-box {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      margin-left: rpx(15);
+      .color {
+        width: rpx(19);
+        height: rpx(19);
+        margin-right: rpx(16);
+        border: rpx(1) solid #bbb;
+        border-radius: 50%;
+      }
+      .color-none {
+        border-color: #fff;
+        background: none;
+      }
     }
   }
   .check-item {
