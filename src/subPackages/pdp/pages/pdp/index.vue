@@ -70,10 +70,10 @@
           <text class="icon-font icon-icon-tuxingxingzhuang"></text>
         </view>
         <swiper class="suit-box">
-          <swiper-item>
-            <image class="imgs" src="https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg" mode="widthFix" :lazy-load="true" />
+          <swiper-item v-for="li in productSuit.resources" :key="li.id">
+            <image class="imgs" :src="li.url" mode="widthFix" :lazy-load="true" />
             <view class="title">完成这套搭配</view>
-            <productSwiper @clickItem="handleClick" :products="productSuit" />
+            <productSwiper @clickItem="handleClick" :products="productSuit.menu" />
           </swiper-item>
         </swiper>
       </view>
@@ -168,7 +168,7 @@ import {
 } from 'vuex';
 import { get } from '@/utils/utilityOperationHelper';
 import { priceFormat, imgUrlReplace, randomString } from '@/utils/utils';
-import { getProductDetailsAction, addShopCartApi } from '@/service/apis/pdp';
+import { getProductDetailsAction, addShopCartApi, getPDPstyleInspiration } from '@/service/apis/pdp';
 import navBarHeight from '@/components/common/navBarHeight';
 import { ORDER_INFO, WX_INFO } from '@/constants/user';
 import { ENCODE_SPLIT_SIGN } from '@/constants/share';
@@ -235,23 +235,7 @@ export default {
         show: false,
       },
       scrollTop: 0,
-      productSuit: [
-        {
-          productImg: 'https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg',
-          productName: '1111',
-          productPrice: '1111',
-        },
-        {
-          productImg: 'https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg',
-          productName: '222',
-          productPrice: '222',
-        },
-        {
-          productImg: 'https://res-tasaki.baozun.com/static/images/boutique-750-996.jpg',
-          productName: '333',
-          productPrice: '333',
-        },
-      ],
+      productSuit: [],
       description: [
         {
           open: false,
@@ -287,6 +271,7 @@ export default {
       this.code = paramsArr[0];
     }
     this.getProductData();
+    this.getPDPstyle();
   },
   onShow () {
     const advertisingParams = uni.getStorageSync('advertisingParam') || this.advertisingParam
@@ -526,6 +511,17 @@ export default {
           params,
         });
       }
+    },
+    async getPDPstyle () {
+      const result = await getPDPstyleInspiration({
+        code: this.code,
+      });
+      const { styleInspiration } = result.data.shop
+      const { data } = await getProductDetailsAction({
+        codes: styleInspiration.codes || [],
+      });
+      styleInspiration.menu = data.shop.productByCode || []
+      this.productSuit = styleInspiration
     },
     // 公共函数
     buyCommonFunc ({

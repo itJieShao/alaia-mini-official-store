@@ -1,5 +1,21 @@
 import gql from "graphql-tag";
 
+export const styleInspiration = gql`
+  query styleInspiration($code: String!) {
+    shop {
+      styleInspiration(code: $code) {
+        id
+        resources {
+          id
+          url
+          source
+        }
+        codes
+      }
+    }
+  }
+`;
+
 export const getProductDetails = gql`
   query productByCode($codes: [String!]!) {
     shop {
