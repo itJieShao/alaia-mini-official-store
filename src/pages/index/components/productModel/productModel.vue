@@ -19,9 +19,6 @@
 
 <script>
   import {
-    HOME_BRAND_INTRO_CONFIG
-  } from '@/constants/cms';
-  import {
     parseCmsContent
   } from '@/utils/cms';
   import { mapGetters } from 'vuex';

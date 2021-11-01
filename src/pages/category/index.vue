@@ -5,8 +5,8 @@
       <!-- 分类顶部活动 -->
       <activity-content :config="CATEGORY_ACTIVITY_CONFIG"></activity-content>
       <view class="category-banner">
-        <image class="cover" src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.45073679062264826%E4%BD%8D%E5%9B%BE%E5%A4%87%E4%BB%BD%2010.jpg" mode="aspectFill"></image>
-        <view class="txt">WS22 COLLECTION</view>
+        <image class="cover" :src="topIntro.source_url" mode="aspectFill"></image>
+        <view class="txt">{{ topIntro.title }}</view>
       </view>
       <view class="category">
         <view class="item" v-for="(item,index) in pageData" :key="item.code">
@@ -27,7 +27,9 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { priceFormat, imgUrlReplace } from '@/utils/utils';
-import { CATEGORY_ACTIVITY_CONFIG } from '@/constants/cms';
+import { OSS_URL } from '@/constants/env';
+import { CATEGORY_ACTIVITY_CONFIG, CATEGORY_TOP_INTRO_CONFIG } from '@/constants/cms';
+import { parseCmsContent } from '@/utils/cms';
 import ActivityContent from './components/activityContent';
 
 export default {
@@ -38,6 +40,7 @@ export default {
       ktxStatusHeight: getApp().globalData.ktxStatusHeight,
       pageData: [],
       curIndex: null,
+      topIntro: {},
       CATEGORY_ACTIVITY_CONFIG,
     }
   },
@@ -59,6 +62,7 @@ export default {
         this.pageData = value ? value.children : []
       }
     }
+    this.getTopIntroData();
   },
   onShow () {
     this.setTabSelected(1);
@@ -76,11 +80,24 @@ export default {
     imgUrlReplace,
     ...mapMutations('globle', ['setTabSelected']),
     ...mapActions('category', ['getCategoryData', 'categoryProductList']),
-
+    ...mapActions('cms', ['getCmsContentMapData']),
     cutItem (index, item) {
       this.curIndex = index
       if (item && !item.children) {
         this.goPlp(item)
+      }
+    },
+    async getTopIntroData () {
+      const { templateCode, contentCode, moduleCode } = CATEGORY_TOP_INTRO_CONFIG;
+      try {
+        const cmsContentMap = await this.getCmsContentMapData();
+        const introData = parseCmsContent(cmsContentMap[contentCode], templateCode, moduleCode).shift();
+        if (introData.source_url && !/^(http|https)/.test(introData.source_url)) {
+            introData.source_url = `${OSS_URL}${introData.source_url}`
+        }
+        this.topIntro = introData;
+      } catch (error) {
+        console.error(error)
       }
     },
     getProduct () {
