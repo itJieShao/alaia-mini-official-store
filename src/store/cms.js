@@ -44,7 +44,6 @@ const actions = {
     if (Object.keys(guessLikeCmsContentMap).length === 0) {
       const res = await getCmsContentGuessLikeApi();
       const resData = get(res, 'data.shop');
-      console.log('getCmsContentGuessLikeApi------>', resData);
       commit('setGuessLikeCmsContentMap', resData);
       return resData;
     } else {

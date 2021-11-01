@@ -2,7 +2,7 @@
   <view>
     <custom-nav-bar left-arrow="left" title="搜索" />
     <view :style="{'padding-top':ktxStatusHeight}"></view>
-    <search-default v-if="searchPageType === 1" :hotWords="hotWords" @getProduct="searchClick"></search-default>
+    <search-default v-if="searchPageType === 1" @getProduct="searchClick"></search-default>
     <search-res v-if="searchPageType === 2" @getProduct="searchClick" @goFilter="goFilter" @updateList="updateList" :keyword="keyword" :filterKeyWord="filterKeyWord" :goodsList="goodsList" :totalCount="totalCount" @scrollToTop="scrollToTop" :goTopFlag="goTopFlag">
     </search-res>
     <search-no-res v-if="searchPageType === 3" :keyword="keyword" @getProduct="searchClick"></search-no-res>
@@ -30,7 +30,6 @@ export default {
       goodsList: [],
       searchPageType: 1,
       ktxStatusHeight: getApp().globalData.ktxStatusHeight,
-      hotWords: [], // 热词
       historyWords: uni.getStorageSync('searchHistoryData') ? JSON.parse(uni.getStorageSync('searchHistoryData'))
         : [],
       params: {
