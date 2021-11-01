@@ -438,3 +438,44 @@ export const productByCodeGql = gql`
       }
     }
   }`
+
+
+export const replaceableSkusGql = gql`
+  query getReplaceableSkus( $codes: [String!]!) {
+    shop {
+      productByCode(codes: $codes){
+        code
+        skus {
+          inventory
+          code
+          showAttrList{
+            code
+            enable
+            name
+            sort
+            attrType
+            originCode
+            attrValueList{
+              code
+              attrCode
+              originCode
+              frontName
+            }
+          }
+          options {
+            code
+            frontName
+            originCode
+            name
+            value {
+              code
+              name
+              displayName
+              frontName
+            }
+          }
+        }
+      }
+    }
+  }
+`
