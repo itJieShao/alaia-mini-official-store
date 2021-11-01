@@ -1,16 +1,16 @@
 <template>
   <view class="goods-wrap">
     <view class="goods">
-      <view class="goods-item observer_item" v-for="(item,index) in goodsList" @click="goPdp(item)" :key="index" :data-skucode="item.skus[0].code" :data-title="item.title" :data-spucode="item.code" :data-price="item.minSkuSalePrice" :data-image="item.images.length && item.images[0].url ? item.images[0].url : ''">
-        <view class="collection">
+      <view class="goods-item observer_item" v-for="(item,index) in goodsList" :key="index" :data-skucode="item.skus[0].code" :data-title="item.title" :data-spucode="item.code" :data-price="item.minSkuSalePrice" :data-image="item.images.length && item.images[0].url ? item.images[0].url : ''">
+        <view class="collection" @click="cutFavorite(index)">
           <text class="icon-font icon-shoucangchenggong1" v-if="item.favorite.id"></text>
           <text class="icon-font icon-shoucang" v-else></text>
         </view>
-        <view class="cover">
+        <view class="cover" @click="goPdp(item)">
           <image :src="item.images[0].url" mode="aspectFit"></image>
         </view>
-        <view class="info">
-          <view class="txt tag">标签</view>
+        <view class="info" @click="goPdp(item)">
+          <view class="txt tag">1993年版</view>
           <view class="txt title">{{item.title}}</view>
           <view class="txt price">￥{{item.minSkuSalePrice | formatMoney}}</view>
         </view>
@@ -146,6 +146,9 @@ export default {
     goFilter () {
       this.$emit('goFilter');
     },
+    cutFavorite (index) {
+      this.$emit('on-favorite', index);
+    },
     goPdp (item) {
       const aData = {
         sku: {
@@ -216,6 +219,7 @@ export default {
   padding-bottom: rpx(40);
   .goods-item {
     position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -227,7 +231,7 @@ export default {
     }
     .collection {
       position: absolute;
-      z-index: 1;
+      z-index: 2;
       top: rpx(10);
       right: rpx(10);
       .icon-font {

@@ -15,7 +15,7 @@
         <view :class="['item',item.select?'active':'']" v-for="(item,index) in menuList.children" :key="index" @click="selectMenu(item)">{{item.name}}</view>
       </scroll-view>
     </view>
-    <goods-list :goodsList="goodsList" @updateList="updateList" @goFilter="goFilter" :isStatic="isStatic" />
+    <goods-list :goodsList="goodsList" @updateList="updateList" @goFilter="goFilter" :isStatic="isStatic" @on-favorite="cutFavorite" />
     <!-- <view v-if="goTopFlag" class="goTop" @click="scrollToTop">
       <text class="icon-font icon-icon-yijianxiangshang"></text>
     </view> -->
@@ -81,6 +81,9 @@ export default {
     },
     selectMenu (e) {
       this.$emit('selectMenu', e);
+    },
+    cutFavorite (e) {
+      this.$emit('on-favorite', e);
     },
     scrollToTop () {
       this.$emit('scrollToTop')

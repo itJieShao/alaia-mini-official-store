@@ -1,9 +1,9 @@
 <template>
   <view>
     <custom-nav-bar left-arrow="left" :head-border="scrollHeight>168?false:isHeadBorder" :head-blank="scrollHeight>168?false:isHeadBlank" title=" " />
-    <view :style="{ 'padding-top': ktxStatusHeight }" v-if="!menuData.picLink"></view>
+    <view :style="{ 'padding-top': ktxStatusHeight }" v-if="!menuData.picLink||goodsList.length==0"></view>
     <block v-if="pageShow">
-      <search-res v-if="goodsList.length" :totalCount="totalCount" :keyWord="keyWord" :remark="remark" :filterKeyWord="filterKeyWord" :img="img" :goodsList="goodsList" :menuList="menuData" @selectMenu="selectMenu" @updateList="updateList" @goFilter="goFilter" @scrollToTop="scrollToTop" :goTopFlag="goTopFlag" :isStatic="isStatic" />
+      <search-res v-if="totalCount" :totalCount="totalCount" :keyWord="keyWord" :remark="remark" :filterKeyWord="filterKeyWord" :img="img" :goodsList="goodsList" :menuList="menuData" @selectMenu="selectMenu" @on-favorite="cutFavorite" @updateList="updateList" @goFilter="goFilter" @scrollToTop="scrollToTop" :goTopFlag="goTopFlag" :isStatic="isStatic" />
       <search-no-res v-else :keyWord="keyWord" :totalCount="totalCount" />
     </block>
   </view>
@@ -11,6 +11,7 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { delFavoriteApi, createFavoriteApi } from '@/service/apis/user';
 import searchRes from './components/searchRes';
 import searchNoRes from './components/searchNoRes';
 
@@ -59,12 +60,17 @@ export default {
         if (value.name === '分类') {
           const pageData = value ? value.children : []
           pageData && pageData.forEach((element) => {
-            element.children && element.children.forEach((e) => {
-              if (e.url == option.code) {
-                this.menuData = element
-                this.selectMenu(e)
-              }
-            });
+            if (element.url == option.code) {
+              this.menuData = element
+              this.selectMenu(element)
+            } else {
+              element.children && element.children.forEach((e) => {
+                if (e.url == option.code) {
+                  this.menuData = element
+                  this.selectMenu(e)
+                }
+              });
+            }
           });
         }
       }
@@ -147,16 +153,21 @@ export default {
     ...mapActions('search', ['searchProduct']),
     ...mapActions('category', ['getCategoryData']),
     selectMenu (e) {
+      let key = e
       const list = this.menuData
-      list.children && list.children.forEach((item) => {
-        item.select = false
-        if (item.url == e.url) {
-          item.select = true
-          this.params.filters.categories = (['', 'null', 'undefined', null, undefined].includes(item.url)) ? '' : item.url
-          this.keyWord = (['', 'null', 'undefined', null, undefined].includes(item.name)) ? '' : item.name
-          this.getProduct();
-        }
-      });
+      if (list.children) {
+        list.children.forEach((item) => {
+          item.select = false
+          if (item.url == e.url) {
+            item.select = true
+            key = item
+          }
+        });
+      }
+      this.params.filters.categories = (['', 'null', 'undefined', null, undefined].includes(key.url)) ? '' : key.url
+      this.keyWord = (['', 'null', 'undefined', null, undefined].includes(key.name)) ? '' : key.name
+      this.goodsList = []
+      this.getProduct();
       this.menuData = list
     },
     getProduct () {
@@ -219,8 +230,6 @@ export default {
               this.goodsList[i + 1].hasBorder = true;
             }
           }
-        } else {
-          this.goodsList = []
         }
         uni.hideLoading();
       });
@@ -254,6 +263,35 @@ export default {
       uni.pageScrollTo({
         scrollTop: 0,
       });
+    },
+    async cutFavorite (e) {
+      const list = this.goodsList
+      const item = list[e]
+      const isBloon = item.favorite ? item.favorite.id ? item.favorite.id : false : false
+      if (isBloon) {
+        const result = await delFavoriteApi({ input: [item.favorite.id] })
+        if (result.code == 200) {
+          item.favorite.id = ''
+        }
+      } else {
+        const covers = []
+        item.images.forEach((e) => {
+          if (e.type == 'MAINIMAGE') {
+            covers.push(e.url)
+          }
+        });
+        if (covers.length) {
+          const input = {
+            spuCode: item.code,
+            price: item.salePrice,
+            url: covers[0],
+          }
+          const result = await createFavoriteApi({ input })
+          if (result.code == 200) {
+            item.favorite.id = result.data.createFavorite
+          }
+        }
+      }
     },
   },
 };

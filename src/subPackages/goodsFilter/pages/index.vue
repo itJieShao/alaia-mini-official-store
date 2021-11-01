@@ -11,8 +11,10 @@
         <view class="filter-check" :style="colorProperty.toggle?'display:flex;':'display:none;'">
           <view :class="['item',item.checked?'check-item':'']" v-for="(item,index) in colorProperty.values" :key="index" @click="checkedOption('colorProperty',1,item.frontName,index,'colorProperty')">
             <view class="color-box">
-              <view class="color" :style="{background:item.key}"></view>
-              <text class="title">{{item.value}}</text>
+              <view class="color" :style="{background:item.value}" v-if="item.value"></view>
+              <view class="color" :style="'background-url:(' + item.imageUrl + ')'" v-else-if="item.imageUrl"></view>
+              <view class="color color-none" v-else></view>
+              <text class="title">{{item.frontName}}</text>
             </view>
             <text class="icon-font icon-gouxuanchenggong" v-if="item.checked"></text>
           </view>
@@ -26,7 +28,7 @@
         </view>
         <view class="filter-check" :style="sizeProperty.toggle?'display:flex;':'display:none;'">
           <view :class="['item',item.checked?'check-item':'']" v-for="(item,index) in sizeProperty.values" :key="index" @click="checkedOption('sizeProperty',2,item.frontName,index,'sizeProperty')">
-            <text class="title">{{item.value}}</text>
+            <text class="title">{{item.frontName}}</text>
             <text class="icon-font icon-gouxuanchenggong" v-if="item.checked"></text>
           </view>
         </view>
@@ -39,7 +41,7 @@
         </view>
         <view class="filter-check" :style="materialProperty.toggle?'display:flex;':'display:none;'">
           <view :class="['item',item.checked?'check-item':'']" v-for="(item,index) in materialProperty.values" :key="index" @click="checkedOption('materialProperty',3,item.frontName,index,'materialProperty')">
-            <text class="title">{{item.value}}</text>
+            <text class="title">{{item.frontName}}</text>
             <text class="icon-font icon-gouxuanchenggong" v-if="item.checked"></text>
           </view>
         </view>
@@ -123,7 +125,7 @@ export default {
     }
     this.getFilterData(urlParams).then((res) => {
       if (res.attributes) {
-        const colorProperty = res.attributes.find((item) => item.code == 'basecolor') || {};
+        const colorProperty = res.attributes.find((item) => item.code == 'customColor') || {};
         const sizeProperty = res.attributes.find((item) => item.code == 'customSize') || {};
         const materialProperty = res.attributes.find((item) => item.code == 'material') || {};
         colorProperty.toggle = false;
@@ -334,6 +336,10 @@ export default {
         margin-right: rpx(16);
         border: rpx(1) solid #bbb;
         border-radius: 50%;
+      }
+      .color-none {
+        border-color: #fff;
+        background: none;
       }
     }
   }
