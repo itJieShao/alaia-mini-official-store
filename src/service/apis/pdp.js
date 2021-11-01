@@ -3,7 +3,8 @@ import {
   getHomeStyleInspirationGql,
   getProductDetails,
   addShopCart,
-  productListGql
+  productListGql,
+  styleInspiration
 } from "../gqls";
 
 export const getHomeStyleInspiration = payload =>
