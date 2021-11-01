@@ -1,30 +1,20 @@
 <template>
   <view class="help-detail" :style="{'padding-top':ktxStatusHeight}">
-    <custom-nav-bar :head-border="false"  :head-font-color="false"  />
-    <!-- help title & logo -->
+    <custom-nav-bar title="帮助中心"  />
     <view class="help-detail-title">
-      <text class="icon-font icon-logo-alaia_000"></text>
-      <view class="help-detail-title-name">{{helpTitle}}</view>
+      <view class="help-detail-title-name">{{helpTitle}}
+        <text class="icon icon-font icon-icon-tuxingxingzhuang"></text>
+      </view>
     </view>
     <view class="help-detail-content">
-      <block v-for="(item,index) in  helpContent" :key="index">
-        <!-- type == sub_type 标题 -->
-        <view class="sub_type" v-if="item.type === 'sub_type'" :style="{'textAlign':item.textAlignm,'fontWeight':'700'}"> {{item.content}} </view>
-        <!-- type == text 文本 -->
-        <view v-if="item.type  === 'text'" :style="{'fontWeight':item.fontWeight}">
-          <text>{{item.content}}</text>
-        </view>
-        <!-- type == bullet 带小圆点的text -->
-        <view class="cont" v-if="item.type === 'bullet'" :style="{'fontWeight':item.fontWeight}">
-          <view>
-            <text>{{item.content}}</text>
-          </view>
-        </view>
-        <!-- type == img 图片 -->
-        <view class="image" v-if="item.type === 'img'">
-          <image :src="item.content" mode="widthFix" :lazy-load="true" />
-        </view>
-      </block>
+      <view>
+        <view class="title">关于正品</view>
+        <view class="content">我们向您保证ALAÏA精品店所售商品均为原装正品。</view>
+      <view>
+        <view>
+        <view class="title">关于签收</view>
+        <view class="content">ALAÏA唯一指定官方配送渠道为顺丰速递，我们将确保商品安全送至您的手中，并将为您的订单提供保险，以预防配送期间可能出现的丢失和意外损伤。 一旦您的商品送至指定地址并被本人签收，所购商品将不再受保险保护，如包裹送达时您无法收取，您可以提前联系在线顾问，我们将协助您解决。</view>
+      <view>
     </view>
   </view>
 </template>
