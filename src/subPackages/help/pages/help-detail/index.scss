@@ -2,59 +2,44 @@
 
 .help-detail {
   background-color: #fff;
-  padding-top: 40rpx;
+  padding: 40rpx rpx(16) 0 rpx(16);
   .help-detail-title {
+    position: relative;
     text-align: center;
-    margin-bottom: 70rpx;
-    margin-top: 60rpx;
-    .icon-font {
-      font-size: rpx(24);
+    padding-bottom: rpx(37);
+    padding-top: rpx(25);
+    border-bottom: 1px solid #ddd;
+    .icon {
+      background: #fff;
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      bottom: rpx(-10);
+      width: rpx(26);
+      padding: 0 rpx(5);
     }
     .help-detail-title-name {
-      position: relative;
-      font-size: 32rpx;
+      font-size: rpx(16);
       font-weight: normal;
-      color: #0e0e0e;
-      line-height: 48rpx;
-      letter-spacing: 2rpx;
-      margin-top: 34rpx;
+      color: #000;
       box-sizing: border-box;
     }
   }
   .help-detail-content {
-    padding: 0 32rpx 60rpx;
-    font-size: 24rpx;
-    line-height: 40rpx;
-    color: #8e8e8e;
-    view {
-      margin-bottom: 16rpx;
+    padding-top: rpx(27);
+    font-size: rpx(14);
+    .title {
+      color: #1D1D1D;
+      margin-bottom: rpx(10);
+      font-family: 'PingFangSC, PingFangSC-Medium;';
     }
-    .sub_type {
-      font-size: 28rpx;
-      color: #1d1d1d;
-      line-height: 42rpx;
-      margin: 40rpx 0;
-    }
-    .cont {
-      padding-left: 30rpx;
-      view {
-        position: relative;
-        &::before {
-          content: '';
-          position: absolute;
-          top: 12rpx;
-          left: -30rpx;
-          width: 16rpx;
-          height: 16rpx;
-          border-radius: 50%;
-        }
-      }
-    }
-    .image {
-      width: 100%;
-      image {
-        width: 100%;
-      }
-    }
+    .content {
+      font-weight: 400;
+      font-family: 'PingFangSC, PingFangSC-Medium';
+      text-align: left;
+      color: #616161;
+      margin-bottom: rpx(25);
+    } 
   }
 }
