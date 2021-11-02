@@ -56,6 +56,8 @@ export default {
     },
   },
   async onLoad () {
+    wx.hideShareMenu();
+
     const res = await this.getCategoryData();
     for (const [key, value] of Object.entries(res)) {
       if (value.name === '分类') {
@@ -93,7 +95,7 @@ export default {
         const cmsContentMap = await this.getCmsContentMapData();
         const introData = parseCmsContent(cmsContentMap[contentCode], templateCode, moduleCode).shift();
         if (introData.source_url && !/^(http|https)/.test(introData.source_url)) {
-            introData.source_url = `${OSS_URL}${introData.source_url}`
+          introData.source_url = `${OSS_URL}${introData.source_url}`
         }
         this.topIntro = introData;
       } catch (error) {
