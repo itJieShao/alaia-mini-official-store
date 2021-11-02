@@ -781,45 +781,53 @@ export default {
       let favorite = {}
       const item = this.productData
       const isBloon = item.favorite ? item.favorite.id ? item.favorite.id : false : false
-      if (isBloon) {
-        const result = await delFavoriteApi({ input: [item.favorite.id] })
-        favorite = {
-          id: null,
-        }
-        if (!favorite) {
-          uni.showToast({
-            icon: 'none',
-            title: '取消成功',
-            duration: 2000,
-          });
-        }
-      } else {
-        const covers = []
-        item.images.forEach((e) => {
-          if (e.type == 'MAINIMAGE') {
-            covers.push(e.url)
-          }
-        });
-        if (covers.length) {
-          const input = {
-            spuCode: item.code,
-            price: item.salePriceData,
-            url: covers[0],
-          }
-          const result = await createFavoriteApi({ ...input })
+
+      const Member = this.isMemberLogin && this.isAuthorizeInfo
+      if (Member) {
+        if (isBloon) {
+          const result = await delFavoriteApi({ input: [item.favorite.id] })
           favorite = {
-            id: result.data.createFavorite,
+            id: null,
           }
-          if (favorite) {
+          if (!result.data.createFavorite) {
             uni.showToast({
               icon: 'none',
-              title: '收藏成功',
+              title: '取消成功',
               duration: 2000,
             });
           }
+        } else {
+          const covers = []
+          item.images.forEach((e) => {
+            if (e.type == 'MAINIMAGE') {
+              covers.push(e.url)
+            }
+          });
+          if (covers.length) {
+            const input = {
+              spuCode: item.code,
+              price: item.salePriceData,
+              url: covers[0],
+            }
+            const result = await createFavoriteApi({ ...input })
+            favorite = {
+              id: result.data.createFavorite,
+            }
+            if (favorite) {
+              uni.showToast({
+                icon: 'none',
+                title: '收藏成功',
+                duration: 2000,
+              });
+            }
+          }
         }
+        this.productData.favorite = favorite
+      } else {
+        uni.navigateTo({
+          url: '/subPackages/login/pages/login/index',
+        });
       }
-      this.productData.favorite = favorite
     },
   },
   filters: {

@@ -99,6 +99,9 @@ export default {
       this.goTopFlag = false;
     }
   },
+  onLoad () {
+    wx.hideShareMenu();
+  },
   created () {
 
   },
