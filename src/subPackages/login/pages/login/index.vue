@@ -1,6 +1,6 @@
 <template>
   <view>
-    <custom-nav-bar title=" " :head-border="false" :head-blank="true" />
+    <custom-nav-bar title=" " :head-border="false" :head-blank="true" :has-left-radius="true" />
     <view class="container">
       <view class="no-login">
         <view class="no-login-con">
@@ -26,7 +26,12 @@
                 <view class="under-line" @click.stop="handleToPrivacy">隐私政策</view>。
               </view>
             </view>
-          </block>
+            <view style="display: block;" class="agreement-content" v-if="isAgreeYSXY">
+              我们ALAÏA为向您提供产品或服务
+              (包括履行订购及维修单，提供售后服务，发送有关服务的信息，包括订单确认及处理您的查询和请求等)、传送营销信息及进行市场分析和调研（包括分析购买偏好及趋势），需要处理您的个人信息，并将您的个人信息披露给我们境外的关联公司。这些关联公司的名称和联系资料请见
+              <view class="under-line" @click.stop="handleToPrivacy">此处链接</view>。
+            </view>
+          </block>     
         </view>
       </view>
     </view>
@@ -101,7 +106,7 @@
         'editAccountInfo',
         'getUserInfo',
       ]),
-      handleReceiverCheck(){
+      handleReceiverCheck() {
         this.isAgreeYSXY = !this.isAgreeYSXY;
       },
       // 立即登录
@@ -247,7 +252,7 @@
           }
         } catch (err) {
           console.log(err);
-        }       
+        }
       },
       // 显示错误信息
       showMessage(msg, errCode) {
@@ -338,10 +343,12 @@
       }
 
       .agreement-content {
-        margin-top: rpx(17);
+        width: rpx(290);
+        margin-top: rpx(20);
         display: flex;
         font-size: rpx(12);
         font-family: 'PingFangSC';
+        letter-spacing: rpx(1);
         color: #BBBBBB;
 
         .under-line {

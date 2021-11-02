@@ -1,6 +1,6 @@
 <template>
   <view class="product-content">
-    <custom-nav-bar :left-arrow="isLeftArrow" title=' ' :head-border="isHeadBorder" :head-blank="scrollTop<500" :head-font-color="isHeaderBlackColor" />
+    <custom-nav-bar :has-left-radius="true" :left-arrow="isLeftArrow" title=' ' :head-border="isHeadBorder" :head-blank="scrollTop<500" :head-font-color="isHeaderBlackColor" />
     <view class="wrapper">
       <view class="wrapper-content">
         <view class="product-banner-content">
@@ -695,7 +695,7 @@ export default {
     },
     openDialog (type) {
       if (type === 'size') {
-        if (this.currentSkuCode) {
+        if (this.currentSkuCode && this.sizeList.length) {
           this.dialog = {
             value: this.dialog.value,
             show: true,
@@ -708,7 +708,7 @@ export default {
             icon: 'none',
           });
         }
-      } else if (type === 'color') {
+      } else if (type === 'color' && this.sizeList.length) {
         this.dialog = {
           value: this.dialog.value,
           show: true,
@@ -819,6 +819,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './index.scss';
-
+@import "./index.scss";
 </style>
