@@ -1,6 +1,6 @@
 <template>
   <view class="help-detail" :style="{'padding-top':ktxStatusHeight}">
-    <custom-nav-bar title="帮助中心"  />
+    <custom-nav-bar title="帮助中心" :has-left-radius="true" />
     <view class="help-detail-title">
       <view class="help-detail-title-name">{{helpTitle}}
         <text class="icon icon-font icon-icon-tuxingxingzhuang"></text>

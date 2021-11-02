@@ -1,7 +1,7 @@
 <template>
   <view class="my-order" :style="{'padding-top':ktxStatusHeight}">
     <!-- header -->
-    <custom-nav-bar title="我的订单"/>
+    <custom-nav-bar title="我的订单" :has-left-radius="true"/>
     <!-- content -->
     <view class="my-order-content">
       <!-- 无订单 -->

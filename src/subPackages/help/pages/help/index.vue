@@ -1,6 +1,6 @@
 <template>
   <view class="help-center" :style="{'padding-top':ktxStatusHeight}">
-    <custom-nav-bar title="帮助中心" />
+    <custom-nav-bar title="帮助中心" :has-left-radius="true" />
     <view class="help-list">
       <view class="help-list-item" v-for="(item ,index ) in helpList" :key="index" @click="goHelpDetail(item)">
         <text>{{item.value}}</text>
