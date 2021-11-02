@@ -90,16 +90,24 @@
             <view :style="{ display: isFold ? 'none' : 'block' }">
               <view class="form-title">公司其他信息</view>
               <view class="form-item-input">
-                <input placeholder="注册地址（选填）" />
+                <input 
+                v-model="companyInvoice.vatRegisteredAddr" 
+                placeholder="注册地址（选填）" />
               </view>
               <view class="form-item-input">
-                <input placeholder="注册电话（选填）" />
+                <input 
+                v-model="companyInvoice.vatTelephone"
+                placeholder="注册电话（选填）" />
               </view>
               <view class="form-item-input">
-                <input placeholder="开户银行（选填）" />
+                <input 
+                v-model="companyInvoice.vatBankName"
+                placeholder="开户银行（选填）" />
               </view>
               <view class="form-item-input">
-                <input placeholder="开户账号（选填）" />
+                <input 
+                v-model="companyInvoice.vatBankAccount"
+                placeholder="开户账号（选填）" />
               </view>
             </view>
             <view class="handle-icon" @click="isFold = !isFold">
@@ -214,6 +222,10 @@ export default {
       companyInvoice: {
         title: '',
         taxNumber: '',
+        vatRegisteredAddr: '',
+        vatTelephone: '',
+        vatBankName: '',
+        vatBankAccount: ''
       },
       isFold: true
     };
@@ -588,11 +600,13 @@ export default {
           titleType: INVOICE_TITLE_TYPE.PERSONAL,
         }
       } else {
+        const { title, taxNumber: taxNo, ...restCompanyInvoice } = this.companyInvoice;
         invoice = {
           ...invoice,
           titleType: INVOICE_TITLE_TYPE.COMPANY,
-          title: this.companyInvoice.title,
-          taxNo: this.companyInvoice.taxNumber,
+          title,
+          taxNo,
+          ...restCompanyInvoice
         }
       }
       return invoice
