@@ -380,7 +380,7 @@ export default {
         const sizeList = [];
         get(resultData, 'skus').map((item) => {
           const sizeName = get(item, 'options').find((i) => i.originCode === 'customSize');
-          if (sizeName.value && sizeName.value.name != '00') {
+          if (sizeName && sizeName.value && sizeName.value.name != '00') {
             const items = {
               code: item.code,
               name: sizeName.value.name,
