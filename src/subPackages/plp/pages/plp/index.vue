@@ -270,8 +270,15 @@ export default {
       const isBloon = item.favorite ? item.favorite.id ? item.favorite.id : false : false
       if (isBloon) {
         const result = await delFavoriteApi({ input: [item.favorite.id] })
-        if (result.code == 200) {
-          item.favorite.id = ''
+        item.favorite = {
+          id: null,
+        }
+        if (!result.data.createFavorite) {
+          uni.showToast({
+            icon: 'none',
+            title: '取消成功',
+            duration: 2000,
+          });
         }
       } else {
         const covers = []
@@ -287,8 +294,15 @@ export default {
             url: covers[0],
           }
           const result = await createFavoriteApi({ ...input })
-          if (result.code == 200) {
-            item.favorite.id = result.data.createFavorite
+          item.favorite = {
+            id: result.data.createFavorite,
+          }
+          if (result.data.createFavorite) {
+            uni.showToast({
+              icon: 'none',
+              title: '收藏成功',
+              duration: 2000,
+            });
           }
         }
       }
