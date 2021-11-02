@@ -83,6 +83,8 @@ export default {
     ...mapGetters('goodsFilter', ['fromTypeData1', 'fromTypeData2']),
   },
   onLoad (option) {
+    wx.hideShareMenu();
+
     const type = option.type || '';
     const params = JSON.parse(decodeURIComponent(option.params)) || {};
     if (!params.filters.hasOwnProperty('condition')) {

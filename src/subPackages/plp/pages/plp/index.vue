@@ -54,6 +54,7 @@ export default {
     };
   },
   onLoad (option) {
+    wx.hideShareMenu();
     // 三级导航
     this.getCategoryData().then((result) => {
       for (const [key, value] of Object.entries(result)) {
