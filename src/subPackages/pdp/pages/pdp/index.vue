@@ -89,7 +89,7 @@
             <block v-for="(item,index) in currentSkuInfo.options" :key="index">
               <view class="color-box" v-if="item.originCode=='basecolor'">
                 <image class="color" :src="item.value.images[0].url"></image>
-                <text class="txt">{{item.value.name}}</text>
+                <text class="txt">{{item.value.name}}<text v-if="currentSkuInfo.inventory==0">-缺货</text></text>
               </view>
             </block>
           </block>
@@ -99,7 +99,7 @@
         <view class="box-content" @click="openDialog('size')">
           <block v-if="currentSkuInfo.options">
             <block v-for="(item,index) in currentSkuInfo.options" :key="index">
-              <text class="txt" v-if="item.originCode=='customSize'">{{item.value.name}}</text>
+              <text class="txt" v-if="item.originCode=='customSize'">{{item.value.name}}<text v-if="currentSkuInfo.inventory==0">-缺货</text></text>
             </block>
           </block>
           <text class="txt" v-else>请选择尺码</text>
@@ -235,17 +235,7 @@ export default {
       scrollTop: 0,
       productSuit: {},
       extAttributeData: [],
-      description: [
-        {
-          open: false,
-        },
-        {
-          open: false,
-        },
-        {
-          open: false,
-        },
-      ],
+      description: [],
     };
   },
   onPageScroll (e) {
@@ -292,7 +282,7 @@ export default {
     ...mapGetters('user', ['unionId']),
     ...mapState('globle', ['advertisingParam']),
     skus () {
-      return get(this.productData, 'skus') || [];
+      return get(this.productData, 'skus') || []
     },
     currentSkuInfo () {
       return this.skus.find((sku) => sku.code === this.currentSkuCode);
@@ -390,7 +380,7 @@ export default {
         const sizeList = [];
         get(resultData, 'skus').map((item) => {
           const sizeName = get(item, 'options').find((i) => i.originCode === 'customSize');
-          if (sizeName.value.name != '00') {
+          if (sizeName.value && sizeName.value.name != '00') {
             const items = {
               code: item.code,
               name: sizeName.value.name,
@@ -410,8 +400,7 @@ export default {
         const styleList = [];
         get(resultData, 'skus').map((item) => {
           const styleName = get(item, 'options').find((i) => i.originCode === 'basecolor');
-          console.log(styleName);
-          if (styleName.value.name != '00') {
+          if (styleName && styleName.value && styleName.value.name != '00') {
             const items = {
               code: item.code,
               name: styleName.value.name,
@@ -474,23 +463,6 @@ export default {
               uni.setStorageSync('recentBrowseGoods', recentBrowseGoods);
             }
           }
-
-          // 有数 访问pdp上报
-          this.$sr.track('browse_sku_page', {
-            sku: {
-              sku_id: resultData.code, // 若商品无sku_id时，可传spu_id信息
-              sku_name: resultData.title, // 若商品无sku_name时，可传spu_name信息
-            },
-            spu: {
-              spu_id: resultData.code, // 若商品无spu_id时，可传sku_id信息
-              spu_name: resultData.title, // 若商品无spu_name时，可传sku_name信息
-            },
-            sale: {
-              original_price: this.productData.salePrice || 0, // 对接智慧零售入口必传
-              current_price: this.productData.salePrice || 0, // 对接智慧零售入口必传
-            },
-            primary_image_url: resultData.images[0].url,
-          });
         });
         uni.hideLoading();
       } catch (e) {
