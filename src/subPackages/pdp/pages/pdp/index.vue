@@ -549,18 +549,7 @@ export default {
     // 加入购物袋
     async handleAddShopCart (params) {
       if (!this.currentSkuCode) {
-        if (this.isHasStyle) {
-          uni.showToast({
-            title: '请选择款式',
-            icon: 'none',
-          });
-        }
-        if (this.isHasSize) {
-          uni.showToast({
-            title: '请选择款式',
-            icon: 'none',
-          });
-        }
+        this.isShowToast()
         setTimeout(() => {
           this.isDisabled = false;
         }, 2000);
@@ -605,13 +594,24 @@ export default {
       } catch (e) { }
     },
 
+    isShowToast () {
+      if (this.isHasStyle) {
+        uni.showToast({
+          title: '请选择款式',
+          icon: 'none',
+        });
+      }
+      if (this.isHasSize) {
+        uni.showToast({
+          title: '请选择尺码',
+          icon: 'none',
+        });
+      }
+    },
     // 立即购买
     handleShopBuyNow (currentSkuCode) {
       if (!currentSkuCode) {
-        uni.showToast({
-          title: this.isHasSize ? '请选择尺寸' : '请选择款式',
-          icon: 'none',
-        });
+        this.isShowToast()
         setTimeout(() => {
           this.isDisabled = false;
         }, 2000);
@@ -647,10 +647,7 @@ export default {
         });
       } else {
         if (!this.currentSkuCode) {
-          uni.showToast({
-            title: this.isHasSize ? '请选择尺寸' : '请选择款式',
-            icon: 'none',
-          });
+          this.isShowToast()
           setTimeout(() => {
             this.isDisabled = false;
           }, 2000);
