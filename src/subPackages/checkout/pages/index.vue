@@ -152,7 +152,8 @@ import navBarHeight from '@/components/common/navBarHeight';
 import OrderProductList from '@/components/al-orderProductList';
 import OrderAmountInfo from '@/components/al-orderAmountInfo';
 import { trackWechatAd } from '@/service/apis';
-import utils, { priceFormat } from '@/utils/utils';
+import { priceFormat } from '@/utils/utils';
+import { getColorBySkuInfo } from '@/utils/product';
 import { get } from '@/utils/utilityOperationHelper';
 import FormError from '../components/FormError.vue'
 import weixinSupport from './weixinSupport.mixin'
@@ -328,13 +329,12 @@ export default {
         if (list) {
           this.productList = (list || []).map((product) => {
             const orderLine = this.orderLines.find((item) => (item.skuCode === get(product, 'code')))
-            const styleItem = get(product, 'showAttrList', []).find((v) => v.code === 'customSizeDesc')
             return {
               sort: orderLine.sort,
               skuCode: product.code,
               quantity: get(orderLine, 'quantity'),
               size: getSizeBySkuInfo(product),
-              style: get(styleItem, 'attrValueList[0].frontName'),
+              style: getColorBySkuInfo(product),
               ...product,
               ...product.product,
             }
@@ -565,12 +565,12 @@ export default {
     },
     handleToRule() {
       uni.navigateTo({
-        url: '/subPackages/help/pages/help-detail/index?name=销售条款&templateCode=help_content&contentCode=sales',
+        url: '/subPackages/help/pages/help-detail/index?name=销售条款&templateCode=help_content&contentCode=help_sale_content',
       });
     },
     handleToPrivacy() {
       uni.navigateTo({
-        url: '/subPackages/help/pages/help-detail/index?name=隐私政策&templateCode=help_content&contentCode=privacy',
+        url: '/subPackages/help/pages/help-detail/index?name=隐私政策&templateCode=help_content&contentCode=help_private',
       });
     },
     handleErrorShow(filedName, value) {

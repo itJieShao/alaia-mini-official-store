@@ -15,7 +15,6 @@
             :productData="{...item, gaIndex: index + 1}"
             :replaceableSkusMap="replaceableSkusMap"
             @deleteEventer="handleDeleteConfirm"
-            @updateNum="cartUpdateNum"
             @changeSize="handleSizeChange"
             @cartStatusUpdate="cartStatusUpdate"
           />
@@ -102,16 +101,15 @@ import customButton from '../../components/al-button/normal.vue'
 import productItem from './components/productItem/productItem';
 import zCheckbox from '../../components/al-checkbox';
 import { get } from '../../utils/utilityOperationHelper';
-import {
-  cartDelete,
-  cartUpdateNum,
-  cartSkuStatusUpdate,
-  getReplaceableSkusDataApi
-} from '../../service/apis/cart';
+import { cartDelete, cartUpdateNum,
+  cartSkuStatusUpdate, getReplaceableSkusDataApi } from '../../service/apis/cart';
 import { GUESS_LIKE_CAET_CONFIG } from '@/constants/cms';
 import { ORDER_INFO } from '../../constants/user'
 import { BUY_MAX_NUM } from '../../constants/product'
 import { LOACK_OF_INVENTORY } from '../../constants/errorCode'
+import { splitCartQuantity, getCartProductQualityMap, findArrayFirstItemIndex,
+getOrderLineProductQualityMap } from '@/utils/cart';
+import { currency } from '@/filters';
 
 export default {
   components: {
@@ -178,7 +176,9 @@ export default {
           const resData = await getReplaceableSkusDataApi(this.list.map(l => l.sku.product.code));
           const replaceSkus = get(resData, 'data.shop.productByCode');
           this.replaceableSkusMap = replaceSkus.reduce((p, c) => {
-            p[c.code] = c.skus;
+            if (!p.hasOwnProperty(c.code)) {
+              p[c.code] = c.skus;
+            }
             return p;
           }, {});
         }
@@ -197,29 +197,27 @@ export default {
       if (Object.prototype.toString.call(dataArr) !== '[object Array]' || dataArr.length === 0) {
         return []
       }
-      return dataArr.filter((item) => {
+      const res =  dataArr.filter((item) => {
         const { product } = item.sku || {};
         return product && product.onShelves;
       })
+      return splitCartQuantity(res);
     },
     // 获取购物车内商品金额
     async getCartAmount() {
       const cartItems = [];
       const selectCart = [];
       let cartNum = 0;
+      // 结算价格
+      const cartProductMap = getCartProductQualityMap(this.list);
+      cartNum = Object.keys(cartProductMap).reduce((p, k) => (p + cartProductMap[k]), 0);
 
-      this.list.forEach((item) => {
-        item.id = Math.random()
-        // 计算金额排除无效商品
-        if (item.selected && item.sku.product.onShelves && item.sku.inventory > 0) {
-          cartItems.push({
-            skuCode: item.sku.code,
-            quantity: item.quantity,
-          })
-          selectCart.push(item);
-          cartNum += item.quantity;
-        }
-      });
+      Object.keys(cartProductMap).forEach(skuCode => {
+        const cartItem = { skuCode, quantity: cartProductMap[skuCode] };
+        cartItems.push(cartItem);
+        selectCart.push(cartItem);
+      })
+
       this.updateCartNumber(cartNum)
       this.updateSelectCart(selectCart)
       if (cartItems.length <= 0) {
@@ -239,33 +237,53 @@ export default {
       }
     },
     // 删除购物车商品
-    async deleteCart(skuCodes) {
-      if (!skuCodes || skuCodes.length === 0) return
-      let deleteProduct = []
-      try {
-        const data = await cartDelete(skuCodes);
-        deleteProduct = this.list.filter((item) => get(item, 'sku.code') === skuCodes[0])
-        // 删除购物车埋点
-        this.addCartTrack('remove_from_cart', {
-          skuCode: get(deleteProduct[0], 'sku.code'),
-          spuCode: get(deleteProduct[0], 'sku.product.code'),
-          skuName: get(deleteProduct[0], 'sku.product.title'),
-          amount: get(deleteProduct[0], 'sku.product.salePrice.amount'),
-          skuNum: get(deleteProduct[0], 'quantity'),
-        })
-        const errMessage = get(data, 'errors[0].message');
-        if (!errMessage) {
-          const cartItems = get(data, 'data.cartDelete.cart.cartItems');
-          this.list = this.filterProduct(cartItems);
-          if (cartItems.length > 0) {
-            this.getCartProductInfo()
-            // this.getCartAmount();
-          } else {
-            this.updateCartNumber(0)
-          }
+    async deleteCart(lineIdList) {
+      if (!lineIdList || lineIdList.length === 0) return;
+      const [ currentLineId ] = lineIdList;
+      const lineIdNumberMap = this.list.reduce((p, c) => {
+          const { lineId } = c;
+          p[lineId] = p[lineId] ? p[lineId] + 1 : 1;
+          return p;
+      }, {})
+      const lineIdCartQuality = lineIdNumberMap[currentLineId];
+      if (lineIdCartQuality > 1) {
+        const deleteIndex = findArrayFirstItemIndex(this.list.map(item => item.lineId), currentLineId);
+        if (deleteIndex >= 0) {
+          this.list = this.list.filter((item, i) => i !== deleteIndex);
+          this.list = this.filterProduct(this.list);
+          this.cartUpdateNum({
+            quantity: lineIdCartQuality - 1,
+            lineId: currentLineId,
+            trackProductData: {},
+          });
         }
-      } catch (err) {
-        console.log(err);
+      } else {
+        let deleteProduct = []
+        try {
+          const data = await cartDelete(lineIdList);
+          deleteProduct = this.list.filter((item) => get(item, 'sku.code') === currentLineId)
+          // 删除购物车埋点
+          this.addCartTrack('remove_from_cart', {
+            skuCode: get(deleteProduct[0], 'sku.code'),
+            spuCode: get(deleteProduct[0], 'sku.product.code'),
+            skuName: get(deleteProduct[0], 'sku.product.title'),
+            amount: get(deleteProduct[0], 'sku.product.salePrice.amount'),
+            skuNum: get(deleteProduct[0], 'quantity'),
+          })
+          const errMessage = get(data, 'errors[0].message');
+          if (!errMessage) {
+            const cartItems = get(data, 'data.cartDelete.cart.cartItems');
+            this.list = this.filterProduct(cartItems);
+            if (cartItems.length > 0) {
+              this.getCartProductInfo()
+              // this.getCartAmount();
+            } else {
+              this.updateCartNumber(0)
+            }
+          }
+        } catch (err) {
+          console.log(err);
+        }
       }
     },
     // 更变商品数量
@@ -275,10 +293,10 @@ export default {
       }
       // 处理埋点数据
       const trackProductData = {
-        ...params[0].trackProductData,
+        ...params.trackProductData,
         skuNum: 1,
       }
-      delete params[0].trackProductData
+      delete params.trackProductData
       this.loading = true;
       uni.showLoading({
         title: '加载中...',
@@ -355,12 +373,18 @@ export default {
         });
         return
       }
-      const orderLines = valiableProductList.map(((item, index) => ({
+
+
+      let orderLines = valiableProductList.map(((item, index) => ({
         sort: index + 1,
         spuCode: get(item, 'sku.product.code'),
         skuCode: get(item, 'sku.code'),
         quantity: get(item, 'quantity'),
       })))
+
+      const orderLineProductQualityMap =  getOrderLineProductQualityMap(orderLines || []);
+      orderLines = Object.keys(orderLineProductQualityMap).map(k => orderLineProductQualityMap[k])
+
       const orderInfo = { orderLines }
       // 不是企业微信小程序，并且有导购的信息
       if (!this.isQY && this.guideInfo && this.guideInfo.guideId) {
@@ -476,12 +500,8 @@ export default {
     },
   },
   filters: {
-    currency(value) {
-      if (!value && value !== 0) return '0';
-      return utils.currency(value);
-    },
-  },
-
+    currency
+  }
 };
 </script>
 
