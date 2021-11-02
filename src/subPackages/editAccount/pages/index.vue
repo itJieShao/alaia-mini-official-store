@@ -30,7 +30,7 @@
           </view>
           <view class="input-box">
             <text class="birthday-tip">生日一年只可修改一次</text>
-            <picker :disabled="isChangeDate" mode="date" :value="date" :start="startDate" :end="endDate"
+            <picker :disabled="isDisabledDate" mode="date" :value="date" :start="startDate" :end="endDate"
               @change="bindDateChange">
               <view class="picker uni-input">
                 <text class="date-placeholder" v-if="date == null">生日日期</text>
@@ -96,7 +96,7 @@
         avatarUrl: 'https://res-tasaki.baozun.com/static/images/account/default-head-photo.png',
         ktxStatusHeight: getApp().globalData.ktxStatusHeight,
         nickName: '',
-        isChangeDate: true,
+        isDisabledDate: true,
       }
     },
     computed: {
@@ -146,11 +146,7 @@
             accountInfo
           } = info.data.customer
           console.log('accountInfo', accountInfo)
-          if (!accountInfo.birthday) {
-            this.isChangeDate = false
-          } else {
-            this.isChangeDate = true
-          }
+          this.isDisabledDate = Date.parse(new Date()) < Date.parse(accountInfo.birthdayEditableDate);
           this.genderIndex = accountInfo.appellation == 'MR' ? 0 : 1;
           this.formData.name = accountInfo.firstName || '';
           this.formData.surnname = accountInfo.lastName || '';
@@ -265,17 +261,19 @@
           name: surnname || name ? surnname + name : '',
           firstName: name,
           lastName: surnname,
-          birthday: this.date || '',
           appellation: this.genderIndex == 0 ? 'MR' : 'MRS',
           email,
           mobile: iphone,
+        }
+        if (!this.isDisabledDate) {
+          params.birthday = this.date;
         }
         console.log(params);
         try {
           const updated = await this.editAccountInfo({
             input: params,
           });
-          if (updated.data.updateAccountInfo) {
+          if (updated.data.updateAccountInfoNew) {
             const user_info = uni.getStorageSync(USER_INFO) || {};
             user_info.accountInfo.name = surnname + name;
             uni.setStorageSync(USER_INFO,user_info);
