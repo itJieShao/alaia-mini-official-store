@@ -26,6 +26,10 @@ export default {
       isHeadBorder: false, // header border是否展示
       isHeadBlank: true, // header 是否透明
       isHeaderBlackColor: false, // header 字体颜色
+      // 是否会员
+      isMemberLogin: false,
+      // 是否授权过用户信息
+      isAuthorizeInfo: false,
       keyWord: '',
       filterKeyWord: '',
       goodsList: [],
@@ -54,6 +58,7 @@ export default {
     };
   },
   onLoad (option) {
+    wx.hideShareMenu();
     // 三级导航
     this.getCategoryData().then((result) => {
       for (const [key, value] of Object.entries(result)) {
@@ -75,6 +80,10 @@ export default {
         }
       }
     })
+  },
+  onShow () {
+    this.isMemberLogin = uni.getStorageSync('isMemberLogin') || false;
+    this.isAuthorizeInfo = uni.getStorageSync('isAuthorizeInfo') || false;
   },
   watch: {
     '$store.state.goodsFilter.fromTypeData1.goodsList': {
@@ -268,31 +277,53 @@ export default {
       const list = this.goodsList
       const item = list[e]
       const isBloon = item.favorite ? item.favorite.id ? item.favorite.id : false : false
-      if (isBloon) {
-        const result = await delFavoriteApi({ input: [item.favorite.id] })
-        if (result.code == 200) {
-          item.favorite.id = ''
+
+      const Member = this.isMemberLogin && this.isAuthorizeInfo
+      if (Member) {
+        if (isBloon) {
+          const result = await delFavoriteApi({ input: [item.favorite.id] })
+          item.favorite = {
+            id: null,
+          }
+          if (!result.data.createFavorite) {
+            uni.showToast({
+              icon: 'none',
+              title: '取消成功',
+              duration: 2000,
+            });
+          }
+        } else {
+          const covers = []
+          item.images.forEach((e) => {
+            if (e.type == 'MAINIMAGE') {
+              covers.push(e.url)
+            }
+          });
+          if (covers.length) {
+            const input = {
+              spuCode: item.code,
+              price: item.salePrice,
+              url: covers[0],
+            }
+            const result = await createFavoriteApi({ ...input })
+            item.favorite = {
+              id: result.data.createFavorite,
+            }
+            if (result.data.createFavorite) {
+              uni.showToast({
+                icon: 'none',
+                title: '收藏成功',
+                duration: 2000,
+              });
+            }
+          }
         }
+        this.goodsList.splice(e, 1, item)
       } else {
-        const covers = []
-        item.images.forEach((e) => {
-          if (e.type == 'MAINIMAGE') {
-            covers.push(e.url)
-          }
+        uni.navigateTo({
+          url: '/subPackages/login/pages/login/index',
         });
-        if (covers.length) {
-          const input = {
-            spuCode: item.code,
-            price: item.salePrice,
-            url: covers[0],
-          }
-          const result = await createFavoriteApi({ ...input })
-          if (result.code == 200) {
-            item.favorite.id = result.data.createFavorite
-          }
-        }
       }
-      this.goodsList.splice(e, 1, item)
     },
   },
 };

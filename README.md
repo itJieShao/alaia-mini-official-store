@@ -1,15 +1,16 @@
-# alaia微信小程序项目
+# alaia 微信小程序项目
+
 # 目录
 
 - [启动](#启动)
 - [目录结构](#目录结构)
 - [规范](#规范)
-  - [api规范](#api规范)
-  - [vuex规范](#vuex规范)
+  - [api 规范](#api规范)
+  - [vuex 规范](#vuex规范)
   - [页面规范](#页面规范)
-  - [git提交规范](#git提交规范)
+  - [git 提交规范](#git提交规范)
 - [路由对应功能](#路由对应功能)
-- [api接口链路](#api接口链路)
+- [api 接口链路](#api接口链路)
 - [上线版本更新](#上线版本更新)
 - [开发分支](#开发分支)
 
@@ -65,18 +66,18 @@
 
 ## 规范
 
-### api规范
+### api 规范
 
 #### 接口模块
 
-类似的功能放在一个文件内，文件名以 **主要作用对象** 为名  
+类似的功能放在一个文件内，文件名以 **主要作用对象** 为名
 写入到[根目录下的 apis](./example/mp-mall/apis/index.js)
 
 > account 和 user: 用户相关信息
-> cart: 购物车相关  
-> cms: cms 系统配置相关  
-> common: 公共  
-> order: 订单相关  
+> cart: 购物车相关
+> cms: cms 系统配置相关
+> common: 公共
+> order: 订单相关
 > pdp: 商品详情页面相关
 
 #### 接口命名
@@ -88,16 +89,16 @@
 
 ```js
 export const viewDataGql = gql`
-  query getViewData($input: ViewDataQueryInput!) {
-    shop {
-      viewData(input: $input) {
-        position
-        type
-        module
-        value
-      }
-    }
-  }
+	query getViewData($input: ViewDataQueryInput!) {
+		shop {
+			viewData(input: $input) {
+				position
+				type
+				module
+				value
+			}
+		}
+	}
 `
 ```
 
@@ -108,22 +109,22 @@ export const viewDataGql = gql`
     - delete 删除
     - update 更新
 
-### vuex规范
+### vuex 规范
 
 > 可以先参考下官方写的[用例](https://github.com/vuejs/vuex/blob/dev/examples/shopping-cart/store/modules/cart.js)
 
 #### store 模块
 
-类似的功能放在一个文件内，文件名以 **主要作用对象** 为名  
+类似的功能放在一个文件内，文件名以 **主要作用对象** 为名
 写入到[根目录下的 store/modules](/src/store/index.js)
 
 **`注意⚠️：只有所需的state属于多个组件（2个以上）共享时，才将其写入store里，如果严格属于内部组件或页面的那就写在内部即可`**
 
-> cms: cms 配置相关  
-> common: 公共  
-> order: 订单相关  
-> search: 商品搜索相关  
-> shoppingCart: 购物车相关  
+> cms: cms 配置相关
+> common: 公共
+> order: 订单相关
+> search: 商品搜索相关
+> shoppingCart: 购物车相关
 > user: 用户相关
 
 ### actions 和 mutations 命名规范
@@ -138,55 +139,51 @@ import { getCartInfoData } from '../service/apis/cart'
 import { get } from '../utils/utilityOperationHelper'
 
 const state = {
-  cartNumber: 0,
-  selectCart: [],
+	cartNumber: 0,
+	selectCart: [],
 }
 const getters = {
-  cartNumber: (state) => state.cartNumber,
+	cartNumber: (state) => state.cartNumber,
 }
 const actions = {
-  updateCartNumber({ commit }, num) {
-    commit('updateCartNumber', num)
-  },
-  updateSelectCart({ commit }, data) {
-    commit('updateSelectCart', data)
-  },
-  queryCartInfo({ commit }) {
-    return getCartInfoData().then((res) => {
-      const cartItems = get(res, 'data.customer.cart.cartItems') || []
-      const selectCart = []
-      let cartNum = 0
-      cartItems.forEach((item) => {
-        // 计算金额排除无效商品
-        if (
-          item.selected &&
-          item.sku.product.onShelves &&
-          item.sku.inventory > 0
-        ) {
-          cartNum += item.quantity
-          selectCart.push(item)
-        }
-      })
-      commit('updateCartNumber', cartNum)
-      commit('updateSelectCart', selectCart)
-      return cartItems
-    })
-  },
+	updateCartNumber({ commit }, num) {
+		commit('updateCartNumber', num)
+	},
+	updateSelectCart({ commit }, data) {
+		commit('updateSelectCart', data)
+	},
+	queryCartInfo({ commit }) {
+		return getCartInfoData().then((res) => {
+			const cartItems = get(res, 'data.customer.cart.cartItems') || []
+			const selectCart = []
+			let cartNum = 0
+			cartItems.forEach((item) => {
+				// 计算金额排除无效商品
+				if (item.selected && item.sku.product.onShelves && item.sku.inventory > 0) {
+					cartNum += item.quantity
+					selectCart.push(item)
+				}
+			})
+			commit('updateCartNumber', cartNum)
+			commit('updateSelectCart', selectCart)
+			return cartItems
+		})
+	},
 }
 const mutations = {
-  updateCartNumber(state, num) {
-    state.cartNumber = num
-  },
-  updateSelectCart(state, data) {
-    state.selectCart = data
-  },
+	updateCartNumber(state, num) {
+		state.cartNumber = num
+	},
+	updateSelectCart(state, data) {
+		state.selectCart = data
+	},
 }
 export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
+	namespaced: true,
+	state,
+	getters,
+	actions,
+	mutations,
 }
 ```
 
@@ -196,35 +193,31 @@ export default {
 import { mapActions } from 'vuex'
 
 export default {
-  methods: {
-    ...mapActions('shoppingCart', ['updateCartNumber']),
-    // 一个页面内使用多个模块内的action
-    ...mapActions('cart', ['addCartAsync']),
+	methods: {
+		...mapActions('shoppingCart', ['updateCartNumber']),
+		// 一个页面内使用多个模块内的action
+		...mapActions('cart', ['addCartAsync']),
 
-    onClick() {
-      const cartItems = []
-      const selectCart = []
-      let cartNum = 0
+		onClick() {
+			const cartItems = []
+			const selectCart = []
+			let cartNum = 0
 
-      this.list.forEach((item) => {
-        // 计算金额排除无效商品
-        if (
-          item.selected &&
-          item.sku.product.onShelves &&
-          item.sku.inventory > 0
-        ) {
-          cartItems.push({
-            skuCode: item.sku.code,
-            quantity: item.quantity,
-          })
-          selectCart.push(item)
-          cartNum += item.quantity
-        }
-      })
-      // 直接使用即可
-      this.updateCartNumber(cartNum)
-    },
-  },
+			this.list.forEach((item) => {
+				// 计算金额排除无效商品
+				if (item.selected && item.sku.product.onShelves && item.sku.inventory > 0) {
+					cartItems.push({
+						skuCode: item.sku.code,
+						quantity: item.quantity,
+					})
+					selectCart.push(item)
+					cartNum += item.quantity
+				}
+			})
+			// 直接使用即可
+			this.updateCartNumber(cartNum)
+		},
+	},
 }
 ```
 
@@ -271,8 +264,11 @@ css编写：rpx(1) = 2rpx
 ```
 
 #### 自定义
-**[Header]
-> pages.json内配置style: navigationStyle
+
+\*\*[Header]
+
+> pages.json 内配置 style: navigationStyle
+
     {
       "path": "pages/index/index",
       "style": {
@@ -298,20 +294,21 @@ css编写：rpx(1) = 2rpx
     headBlank: { type: Boolean, default: false }, // header是透明或白底
     headFontColor: { type: Boolean, default: false }, // 设置header字体颜色（黑白）
     ******/
-> 使用自定义Header，需配置Header高度
+
+> 使用自定义 Header，需配置 Header 高度
+
 - import navBarHeight from '@/components/common/navBarHeight';
-    export default {
-      mixins: [navBarHeight],
-    }
-- 最外层view设置padding-top值为 header高度
-    <view class="xxx" :style="{ 'padding-top': computedHeight }">
+  export default {
+  mixins: [navBarHeight],
+  }
+- 最外层 view 设置 padding-top 值为 header 高度
+  <view class="xxx" :style="{ 'padding-top': computedHeight }">
 
+\*\*[tabBar]
 
-**[tabBar]
 - 使用方法：<custom-tab-bar />
 
-
-#### git提交规范
+#### git 提交规范
 
 - feat：新功能（feature）
 
@@ -343,10 +340,10 @@ css编写：rpx(1) = 2rpx
   - `uni.preloadPage(OBJECT)` 预加载页面，是一种性能优化技术
   - `uni.reLaunch(OBJECT)` 关闭所有页面，打开到应用内的某个页面
 
-### api接口链路
+### api 接口链路
 
 1、 页面发起请求
-2、store 中的 actions  
+2、store 中的 actions
 3、 api 函数
 
 ### 上线版本更新
@@ -363,22 +360,21 @@ css编写：rpx(1) = 2rpx
 - develop: 开发分支
 
 # 有数对接:
-- 通过npm安装SDK:  npm i sr-sdk-wxapp
-- 在main.js 中通过 import 引入 SDK: import sr from 'sr-sdk-wxapp'
-> 页面调用方法：this.$sr.track("custom_order", {})
-    this.$sr.track("custom_order", {
-        order: {
-            order_id: "xx",
-            order_time: "xx",
-            order_status: "xx"
-        },
-        sub_orders: [
-          {
-            sub_order_id: "xx",
-            order_amt: "xx",
-            pay_amt: "xx"
-          }
-        ]
-    });
 
-    
+- 通过 npm 安装 SDK: npm i sr-sdk-wxapp
+- 在 main.js 中通过 import 引入 SDK: import sr from 'sr-sdk-wxapp'
+  > 页面调用方法：this.\$sr.track("custom_order", {})
+      this.$sr.track("custom_order", {
+          order: {
+              order_id: "xx",
+              order_time: "xx",
+              order_status: "xx"
+          },
+          sub_orders: [
+            {
+              sub_order_id: "xx",
+              order_amt: "xx",
+              pay_amt: "xx"
+            }
+          ]
+      });
