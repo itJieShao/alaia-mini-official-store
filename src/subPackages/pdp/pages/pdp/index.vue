@@ -450,8 +450,8 @@ export default {
             && recentBrowseGoods.filter((item) => item.code !== this.code);
           if (newRecentBrowseGoods.length > 0) {
             newRecentBrowseGoods.unshift(recentBrowseItem);
-            // 最多保留10条
-            if (newRecentBrowseGoods.length > 10) {
+            // 最多保留16条
+            if (newRecentBrowseGoods.length > 16) {
               newRecentBrowseGoods.length--;
             }
             uni.setStorageSync('recentBrowseGoods', newRecentBrowseGoods);

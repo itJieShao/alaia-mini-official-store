@@ -29,7 +29,7 @@ export default {
   },
   watch: {
     products (newValues) {
-      if (newValues.length > 0) {
+      if (newValues && newValues.length > 0) {
         this.productList = splitCartQuantity(newValues);
       }
     }

@@ -12,7 +12,7 @@
         <view class="info" @click="goPdp(item)">
           <view class="txt tag">1993年版</view>
           <view class="txt title">{{item.title}}</view>
-          <view class="txt price">￥{{item.minSkuSalePrice | formatMoney}}</view>
+          <view class="txt price">￥{{ item.salePrice.amount | formatMoney }}</view>
         </view>
       </view>
     </view>

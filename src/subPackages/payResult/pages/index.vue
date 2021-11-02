@@ -14,7 +14,7 @@
         <view class="result-msg">支付失败，重新支付</view>
         <view class="price">{{ get(orderInfo, 'amount.amount') | currency }}</view>
         <view class="result-tips">
-          请尽快完成支付，15分钟后订单将会被取消，如遇支付问题，请洽询
+          请尽快完成支付，2小时后订单将会被取消，如遇支付问题，请洽询
           <button
             class="service-btn"
             open-type="contact"
@@ -24,7 +24,7 @@
             <text class="text">在线客服</text>
           </button>
         </view>
-        <text class="countdown icon-font icon-shengyushijian">剩余时间：14:59</text>
+        <text class="countdown icon-font icon-shengyushijian">支付剩余时间：{{ orderInfo.countDownTime || '' }}</text>
       </view>
       <OrderDetailInfo 
         :orderCode="orderInfo.orderCode"
@@ -87,6 +87,8 @@ export default {
     if (this.orderId) {
       this.getOrderDetail(this.orderId).then((res) => {
         this.orderInfo = res;
+        // 加入倒计时
+        this.loopCountDown();
         if (this.isSuccess) {
           const orderNo = res.orderCode
           const amount = get(res, 'amount.amount')
@@ -154,6 +156,72 @@ export default {
     },
     handleContact() {},
     bindContact() {},
+     // 循环倒计时 ----> tips: 倒计时都要统一
+    loopCountDown() {
+      const that = this;
+      if (this.orderInfo.orderStatus == 'WAIT_PAY') {
+        const countDownFn = setInterval(() => {
+          if (that.countDownFun(this.orderInfo.paySurplusTime) === '0') {
+            const orderNo = this.orderInfo.orderCode;
+            const amount = get(this.orderInfo, 'amount.amount');
+            const orderTime = new Date(get(this.orderInfo, 'orderTime').replace(/\-/g, '/')).getTime()
+            const trackData = {
+              order: {
+                order_id: orderNo,
+                order_time: orderTime,
+                // openId: uni.getStorageSync(OPEN_ID),
+              },
+              sub_orders: [
+                {
+                  sub_order_id: orderNo,
+                  order_amt: amount,
+                  pay_amt: amount,
+                },
+              ],
+            };
+            this.getOrderData(this.orderInfo.orderCode);
+            // 执行刷新
+            this.srTrackOrder('cancel_give_order', trackData);
+            clearInterval(countDownFn); // 清除定时器
+          } else {
+            const time = this.orderInfo.paySurplusTime--;
+            this.orderInfo.countDownTime = that.countDownFun(time);
+            that.$set(
+              that.orderInfo,
+              this.orderInfo.countDownTime,
+              that.countDownFun(this.orderInfo.paySurplusTime),
+            );
+          }
+        }, 1000);
+      }
+    },
+    // 支付剩余时间倒计时
+    // 倒计时
+    countDownFun(time) {
+      const result = time; // 计算出豪秒
+      const d = parseInt(result / (24 * 60 * 60)); // 用总共的秒数除以1天的秒数
+      let h = parseInt((result / (60 * 60)) % 24); // 精确小时，用去余
+      const m = parseInt((result / 60) % 60); // 剩余分钟就是用1小时等于60分钟进行趣余
+      let s = parseInt(result % 60);
+      // 当倒计时结束时，改变内容
+      if (result <= 0) {
+        return '0';
+      }
+      if (h < 10) {
+        h = `0${h}`;
+      }
+      if (s < 10) {
+        s = `0${s}`;
+      }
+      if (h == 0 && m == 0) {
+        return `${s}s`;
+      } if (h == 0) {
+        return `${m}:${s}`;
+      } if (d == 0) {
+        return `${h}:${m}:${s}`;
+      }
+      return `${d}:${h}:${m}:${s}`;
+    },
   },
   computed: {
     totalQuantity() {
