@@ -68,7 +68,6 @@
     },
     watch: {
       cmsContentMap(newValue) {
-        // todo : 需要绑定数据
         const content = this.getCmsContentData(newValue, this.showTab ? HOME_RECOMMEND_PRODUCT_CONFIG :
           HOME_PRODUCT_CONFIG, 'content');
         const contentData = content[0];
@@ -86,7 +85,7 @@
             this.swiperList = res;
           })
         } else {
-          const codes = swiperList.map(item => item.sku_code);
+          const codes = swiperList.map(item => item.spu_code);
           this.getProductList(codes).then((res) => {
             this.swiperList = res;
           })

@@ -45,7 +45,7 @@
         </view>
         
         <view class="price-box">
-          <view class="amount"><text class="label">数量:</text> 1</view>
+          <view class="amount"><text class="label">数量:</text>{{ productData.quantity }}</view>
           <view class="price">{{ skuData.salePrice.amount | currency }}</view>
         </view>
       </view>
