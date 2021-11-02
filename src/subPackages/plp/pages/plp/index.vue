@@ -1,6 +1,6 @@
 <template>
   <view>
-    <custom-nav-bar left-arrow="left" :head-border="scrollHeight>168?false:isHeadBorder" :head-blank="scrollHeight>168?false:isHeadBlank" title=" " />
+    <custom-nav-bar left-arrow="left" :has-left-radius="true" :head-border=" scrollHeight>168?false:isHeadBorder" :head-blank="scrollHeight>168?false:isHeadBlank" title=" " />
     <view :style="{ 'padding-top': ktxStatusHeight }" v-if="!menuData.picLink||goodsList.length==0"></view>
     <block v-if="pageShow">
       <search-res v-if="totalCount" :totalCount="totalCount" :keyWord="keyWord" :remark="remark" :filterKeyWord="filterKeyWord" :img="img" :goodsList="goodsList" :menuList="menuData" @selectMenu="selectMenu" @on-favorite="cutFavorite" @updateList="updateList" @goFilter="goFilter" @scrollToTop="scrollToTop" :goTopFlag="goTopFlag" :isStatic="isStatic" />

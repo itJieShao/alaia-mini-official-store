@@ -1,6 +1,6 @@
 <template>
   <view class="product-content">
-    <custom-nav-bar :left-arrow="isLeftArrow" title=' ' :head-border="isHeadBorder" :head-blank="scrollTop<500" :head-font-color="isHeaderBlackColor" />
+    <custom-nav-bar :has-left-radius="true" :left-arrow="isLeftArrow" title=' ' :head-border="isHeadBorder" :head-blank="scrollTop<500" :head-font-color="isHeaderBlackColor" />
     <view class="wrapper">
       <view class="wrapper-content">
         <view class="product-banner-content">
