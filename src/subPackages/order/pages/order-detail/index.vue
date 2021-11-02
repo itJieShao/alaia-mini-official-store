@@ -4,7 +4,6 @@
     <custom-nav-bar title="订单详情" :has-left-radius="true"/>
     <view v-if="isLoading">
       <view class="order-status-box">
-        <!-- tips: 需要一下图标 -->
         <view class="status icon-font" :class="{ 
           'icon-yiquxiao': orderData.orderStatus === STATUS_CODE.AUTO_CANCEL || orderData.orderStatus === STATUS_CODE.CANCELED,
           'icon-daifahuo': orderData.orderStatus === STATUS_CODE.WAIT_DELIVERY || orderData.orderStatus === STATUS_CODE.PARTIAL_PAID,
@@ -40,7 +39,7 @@
         </view>
         <view class="order-count-down">
           <text class="icon-font icon-shengyushijian"></text>
-          支付剩余倒计时：{{ orderData.countDownTime || 0 }}
+          支付剩余时间：{{ orderData.countDownTime || '' }}
         </view>
       </view>
       <!-- 配送物流信息 -->
@@ -248,45 +247,6 @@ export default {
       params.order.order_status = orderStatus;
       this.$sr.track('custom_order', params);
     },
-    // 下载发票
-    downFile() {
-      const url = this.orderData.orderInvoice.eInvoiceUrl;
-      uni.showLoading({
-        title: '下载中...',
-      });
-      uni.downloadFile({
-        url,
-        success(res) {
-          // 保存到本地
-          uni.saveFile({
-            tempFilePath: res.tempFilePath,
-            success(res) {
-              const { savedFilePath } = res;
-              // 打开文件
-              uni.openDocument({
-                filePath: savedFilePath,
-                success(res) {
-                  uni.hideLoading();
-                },
-              });
-            },
-            fail(err) {
-              uni.hideLoading();
-              uni.showLoading({
-                title: '保存失败',
-              });
-            },
-          });
-        },
-        fail(res) {
-          uni.hideLoading();
-          uni.showLoading({
-            title: '下载失败',
-          });
-        },
-      });
-    },
-
     // 循环倒计时
     loopCountDown() {
       console.log('this.orderList', this.orderData);
