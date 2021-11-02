@@ -1,7 +1,7 @@
 <template>
   <view class="pay-result-container">
     <!-- 自定义页头 -->
-    <custom-nav-bar :title="'支付结果'" />
+    <custom-nav-bar :title="'支付结果'" :has-left-radius="true"/>
     <view class="container" :style="{ 'padding-top': computedHeight, 'padding-bottom': isSuccess && 0 }">
       <!-- 支付成功的文案 -->
       <view class="result-info" v-if="isSuccess">

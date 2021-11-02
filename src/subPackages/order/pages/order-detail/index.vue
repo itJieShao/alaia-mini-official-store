@@ -1,7 +1,7 @@
 <template>
   <view class="order-detail" :style="{ 'padding-top': ktxStatusHeight }">
     <!-- header -->
-    <custom-nav-bar title="订单详情"/>
+    <custom-nav-bar title="订单详情" :has-left-radius="true"/>
     <view v-if="isLoading">
       <view class="order-status-box">
         <!-- tips: 需要一下图标 -->
