@@ -1,5 +1,8 @@
 @import "@/styles/utilities.scss";
 .editAccount{
+	text{
+		font-family: PingFangSC;
+	}
     padding-bottom: 80rpx;
     .account-top{
         position: relative;
@@ -127,6 +130,14 @@
         } 
         .input-box{
             position: relative;
+			.birthday-tip{
+				display: block;
+				margin-bottom: 20rpx;
+				font-size: 24rpx;
+				line-height: 34rpx;
+				letter-spacing: 0rpx;
+				color: #8E8E8E;
+			}
             .errorMessage {
                 position: absolute;
                 top: 88rpx;

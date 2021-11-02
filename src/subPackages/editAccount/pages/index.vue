@@ -29,7 +29,8 @@
             <input style="flex: 1;margin-left: 26rpx;" v-model="formData.name" name="name" placeholder="名" />
           </view>
           <view class="input-box">
-            <picker mode="date" :disabled="isChangeDate" :value="date" :start="startDate" :end="endDate"
+            <text class="birthday-tip">生日一年只可修改一次</text>
+            <picker :disabled="isChangeDate" mode="date" :value="date" :start="startDate" :end="endDate"
               @change="bindDateChange">
               <view class="picker uni-input">
                 <text class="date-placeholder" v-if="date == null">生日日期</text>
@@ -205,6 +206,24 @@
           email,
           iphone,
         } = this.formData
+        if (!name || !surnname) {
+          return uni.showToast({
+            title: '请填写姓名！',
+            icon: 'none',
+          });
+        }
+        if (!iphone) {
+          return uni.showToast({
+            title: '请填写手机号码！',
+            icon: 'none',
+          });
+        }
+        if (!this.date) {
+          return uni.showToast({
+            title: '请选择生日日期！',
+            icon: 'none',
+          });
+        }
         const genderType = this.genderIndex;
         const birthday = this.date
         // if(!name || !utils.isChinese(name)){
@@ -257,6 +276,9 @@
             input: params,
           });
           if (updated.data.updateAccountInfo) {
+            const user_info = uni.getStorageSync(USER_INFO) || {};
+            user_info.accountInfo.name = surnname + name;
+            uni.setStorageSync(USER_INFO,user_info);
             uni.showToast({
               title: '编辑成功！',
               icon: 'none',
