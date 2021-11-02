@@ -8,6 +8,7 @@
     <view class="nav-bar-left" v-if="leftArrow" @click="onClickLeft(leftIcon)">
       <text class="icon-font" :class="[
           leftIcon === 'left' ? 'icon-zuoyoujiantou' : '',
+          hasLeftRadius ? 'has-left-radius' : '',
           leftIcon === 'search' ? 'icon-search' : '',
         ]"></text>
       <text v-if="!$slots.left && leftText" class="nav-bar-text">
@@ -43,6 +44,7 @@ export default {
     headBorder: { type: Boolean, default: true }, // 是否header有下分割线
     headBlank: { type: Boolean, default: false }, // header是透明或白底
     headFontColor: { type: Boolean, default: false }, // 设置header字体颜色（黑白）
+    hasLeftRadius: { type: Boolean, default: false }, // 返回按钮是否带白色小圆圈
   },
   computed: {
     classes () {

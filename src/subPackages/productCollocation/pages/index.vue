@@ -1,6 +1,6 @@
 <template>
   <view>
-    <custom-nav-bar title=" " :head-font-color="false" :head-border="false" :head-blank="true" />
+    <custom-nav-bar title=" " :head-font-color="false" :head-border="false" :head-blank="true" :has-left-radius="true" />
     <view class="swiper-container">
       <swiper class="swiper" :current="currentIndex" @change="swiperChange" circular>
         <swiper-item class="swiper-item" v-for="(item,index) in homeStyleInspiration" :key="index">

@@ -146,7 +146,7 @@ export const getProductDetails = gql`
               frontName
             }
           }
-          subscribed
+          # subscribed
         }
         recommends {
           code
@@ -372,7 +372,7 @@ export const productListGql = gql`
               }
             }
           }
-          subscribed
+          # subscribed
         }
         productType
         sizeChart

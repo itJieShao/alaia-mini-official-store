@@ -434,8 +434,8 @@ export const updateAccountInfoGql = gql`
 `;
 
 export const editAccountInfoGql = gql`
-  mutation updateAccountInfo($input: AccountInfoInput!) {
-    updateAccountInfo(input: $input)
+  mutation updateAccountInfoNew($input: AccountInfoInput!) {
+    updateAccountInfoNew(input: $input)
   }
 `;
 export const queryAccountInfoGql = gql`
@@ -448,6 +448,7 @@ export const queryAccountInfoGql = gql`
         lastName
         birthday
         email
+        birthdayEditableDate
       }
     }
   }
