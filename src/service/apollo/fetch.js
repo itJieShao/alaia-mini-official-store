@@ -148,7 +148,7 @@ function getOperationNameByBody(body) {
 
 function getToken(operationName) {
   // 后台登录接口不能带上token
-  if (operationName === 'autoLoginWechat' || operationName === 'productByCode') {
+  if (operationName === 'autoLoginWechat') {
     return '';
   }
   return uni.getStorageSync(AUTH_TOKEN)
