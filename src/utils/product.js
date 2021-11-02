@@ -46,4 +46,9 @@ export const getSizeBySkuInfo = (skuInfo) => {
   return get(result, 'value.frontName', '')
 }
 
+export const getColorBySkuInfo = (skuInfo) => {
+  const result = get(skuInfo, 'options', []).find((v) => v.originCode === 'basecolor')
+  return get(result, 'value.name', '')
+}
+
 export const getWhiteGloveService = (product) => (get(product, 'labels') || []).find((item) => (new RegExp(`${WHITE_SERVICE_NAME}`)).test(item.frontName))

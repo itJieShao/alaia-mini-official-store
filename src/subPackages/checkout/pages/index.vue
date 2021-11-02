@@ -90,16 +90,24 @@
             <view :style="{ display: isFold ? 'none' : 'block' }">
               <view class="form-title">公司其他信息</view>
               <view class="form-item-input">
-                <input placeholder="注册地址（选填）" />
+                <input 
+                v-model="companyInvoice.vatRegisteredAddr" 
+                placeholder="注册地址（选填）" />
               </view>
               <view class="form-item-input">
-                <input placeholder="注册电话（选填）" />
+                <input 
+                v-model="companyInvoice.vatTelephone"
+                placeholder="注册电话（选填）" />
               </view>
               <view class="form-item-input">
-                <input placeholder="开户银行（选填）" />
+                <input 
+                v-model="companyInvoice.vatBankName"
+                placeholder="开户银行（选填）" />
               </view>
               <view class="form-item-input">
-                <input placeholder="开户账号（选填）" />
+                <input 
+                v-model="companyInvoice.vatBankAccount"
+                placeholder="开户账号（选填）" />
               </view>
             </view>
             <view class="handle-icon" @click="isFold = !isFold">
@@ -144,7 +152,8 @@ import navBarHeight from '@/components/common/navBarHeight';
 import OrderProductList from '@/components/al-orderProductList';
 import OrderAmountInfo from '@/components/al-orderAmountInfo';
 import { trackWechatAd } from '@/service/apis';
-import utils, { priceFormat } from '@/utils/utils';
+import { priceFormat } from '@/utils/utils';
+import { getColorBySkuInfo } from '@/utils/product';
 import { get } from '@/utils/utilityOperationHelper';
 import FormError from '../components/FormError.vue'
 import weixinSupport from './weixinSupport.mixin'
@@ -214,6 +223,10 @@ export default {
       companyInvoice: {
         title: '',
         taxNumber: '',
+        vatRegisteredAddr: '',
+        vatTelephone: '',
+        vatBankName: '',
+        vatBankAccount: ''
       },
       isFold: true
     };
@@ -316,13 +329,12 @@ export default {
         if (list) {
           this.productList = (list || []).map((product) => {
             const orderLine = this.orderLines.find((item) => (item.skuCode === get(product, 'code')))
-            const styleItem = get(product, 'showAttrList', []).find((v) => v.code === 'customSizeDesc')
             return {
               sort: orderLine.sort,
               skuCode: product.code,
               quantity: get(orderLine, 'quantity'),
               size: getSizeBySkuInfo(product),
-              style: get(styleItem, 'attrValueList[0].frontName'),
+              style: getColorBySkuInfo(product),
               ...product,
               ...product.product,
             }
@@ -553,12 +565,12 @@ export default {
     },
     handleToRule() {
       uni.navigateTo({
-        url: '/subPackages/help/pages/help-detail/index?name=销售条款&templateCode=help_content&contentCode=sales',
+        url: '/subPackages/help/pages/help-detail/index?name=销售条款&templateCode=help_content&contentCode=help_sale_content',
       });
     },
     handleToPrivacy() {
       uni.navigateTo({
-        url: '/subPackages/help/pages/help-detail/index?name=隐私政策&templateCode=help_content&contentCode=privacy',
+        url: '/subPackages/help/pages/help-detail/index?name=隐私政策&templateCode=help_content&contentCode=help_private',
       });
     },
     handleErrorShow(filedName, value) {
@@ -588,11 +600,13 @@ export default {
           titleType: INVOICE_TITLE_TYPE.PERSONAL,
         }
       } else {
+        const { title, taxNumber: taxNo, ...restCompanyInvoice } = this.companyInvoice;
         invoice = {
           ...invoice,
           titleType: INVOICE_TITLE_TYPE.COMPANY,
-          title: this.companyInvoice.title,
-          taxNo: this.companyInvoice.taxNumber,
+          title,
+          taxNo,
+          ...restCompanyInvoice
         }
       }
       return invoice
