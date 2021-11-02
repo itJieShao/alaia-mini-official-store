@@ -15,6 +15,7 @@ export const styleInspiration = gql`
     }
   }
 `;
+
 export const getHomeStyleInspirationGql = gql`
   query homeStyleInspiration {
     shop {

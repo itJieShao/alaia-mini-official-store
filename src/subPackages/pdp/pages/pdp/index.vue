@@ -23,8 +23,10 @@
               <view class="item" :class="[index === currentIndex ? 'active' : '']" v-for="(item, index) in productData.images" :key="index"></view>
             </view>
             <view class="share">
-              <text class="icon-font icon-shoucangchenggong1" v-if="productData.favorite.id"></text>
-              <text class="icon-font icon-shoucang" v-else></text>
+              <view @click="cutFavorite">
+                <text class="icon-font icon-shoucangchenggong1" v-if="productData.favorite.id"></text>
+                <text class="icon-font icon-shoucang" v-else></text>
+              </view>
               <button open-type="share" class="share-btn">
                 <text class="icon-font icon-icon-fenxiang"></text>
               </button>
@@ -168,6 +170,7 @@ import {
 import { get } from '@/utils/utilityOperationHelper';
 import { priceFormat, imgUrlReplace, randomString } from '@/utils/utils';
 import { getProductDetailsAction, addShopCartApi, getPDPstyleInspiration } from '@/service/apis/pdp';
+import { delFavoriteApi, createFavoriteApi } from '@/service/apis/user';
 import navBarHeight from '@/components/common/navBarHeight';
 import { ORDER_INFO, WX_INFO } from '@/constants/user';
 import { ENCODE_SPLIT_SIGN } from '@/constants/share';
@@ -370,6 +373,7 @@ export default {
 
         const materialList = attributesList.length && attributesList.filter((i, index) => index !== 0);
         const skuList = get(resultData, 'skus');
+        const salePriceData = resultData.salePrice
         this.productData = {
           ...this.productData,
           ...resultData,
@@ -379,6 +383,7 @@ export default {
             subTitle: attributesList.length && attributesList[0],
             materialList,
             salePrice: get(skuList, '[0].salePrice.amount'),
+            salePriceData,
           },
         };
 
@@ -419,7 +424,7 @@ export default {
         });
         styleList.sort((a, b) => a.name - b.name)
         if (styleList.length > 1 || (styleList.length == 1 && styleList.some((item) => item.name != '00'))) {
-          this.isHasSize = true;
+          this.isHasStyle = true;
         }
         this.styleList = [...new Set(styleList)];
 
@@ -513,7 +518,7 @@ export default {
         code: this.code,
       });
       const { styleInspiration } = result.data.shop
-      if (styleInspiration.codes) {
+      if (styleInspiration && styleInspiration.codes) {
         const { data } = await getProductDetailsAction({
           codes: styleInspiration.codes,
         });
@@ -544,10 +549,18 @@ export default {
     // 加入购物袋
     async handleAddShopCart (params) {
       if (!this.currentSkuCode) {
-        uni.showToast({
-          title: this.isHasSize ? '请选择尺寸' : '请选择款式',
-          icon: 'none',
-        });
+        if (this.isHasStyle) {
+          uni.showToast({
+            title: '请选择款式',
+            icon: 'none',
+          });
+        }
+        if (this.isHasSize) {
+          uni.showToast({
+            title: '请选择款式',
+            icon: 'none',
+          });
+        }
         setTimeout(() => {
           this.isDisabled = false;
         }, 2000);
@@ -713,11 +726,18 @@ export default {
     },
     openDialog (type) {
       if (type === 'size') {
-        this.dialog = {
-          value: this.dialog.value,
-          show: true,
-          type,
-          data: this.sizeList,
+        if (this.currentSkuCode) {
+          this.dialog = {
+            value: this.dialog.value,
+            show: true,
+            type,
+            data: this.sizeList,
+          }
+        } else {
+          uni.showToast({
+            title: '请选择款式',
+            icon: 'none',
+          });
         }
       } else if (type === 'color') {
         this.dialog = {
@@ -756,6 +776,50 @@ export default {
       const item = this.extAttributeData[index]
       item.open = !item.open
       this.extAttributeData.splice(index, 1, item)
+    },
+    async cutFavorite () {
+      let favorite = {}
+      const item = this.productData
+      const isBloon = item.favorite ? item.favorite.id ? item.favorite.id : false : false
+      if (isBloon) {
+        const result = await delFavoriteApi({ input: [item.favorite.id] })
+        favorite = {
+          id: null,
+        }
+        if (!favorite) {
+          uni.showToast({
+            icon: 'none',
+            title: '取消成功',
+            duration: 2000,
+          });
+        }
+      } else {
+        const covers = []
+        item.images.forEach((e) => {
+          if (e.type == 'MAINIMAGE') {
+            covers.push(e.url)
+          }
+        });
+        if (covers.length) {
+          const input = {
+            spuCode: item.code,
+            price: item.salePriceData,
+            url: covers[0],
+          }
+          const result = await createFavoriteApi({ ...input })
+          favorite = {
+            id: result.data.createFavorite,
+          }
+          if (favorite) {
+            uni.showToast({
+              icon: 'none',
+              title: '收藏成功',
+              duration: 2000,
+            });
+          }
+        }
+      }
+      this.productData.favorite = favorite
     },
   },
   filters: {
