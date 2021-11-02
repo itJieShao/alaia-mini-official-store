@@ -22,7 +22,7 @@
 
 > npm config set @baozun:registry <http://registry-npmjs.baozun.com>
 
-### 安装 11
+### 安装
 
 > yarn
 
