@@ -24,7 +24,7 @@
             <text class="text">在线客服</text>
           </button>
         </view>
-        <text class="countdown icon-font icon-shengyushijian">支付剩余时间：{{ orderInfo.countDownTime || '' }}</text>
+        <text class="countdown icon-font icon-shengyushijian">支付剩余时间：{{ paySurplusTime | countDownFormat }}</text>
       </view>
       <OrderDetailInfo 
         :orderCode="orderInfo.orderCode"
@@ -60,7 +60,8 @@ import customButton from '@/components/al-button/normal';
 import navBarHeight from '@/components/common/navBarHeight';
 import { get } from '@/utils/utilityOperationHelper';
 import { splitCartQuantity } from '@/utils/cart';
-import { currency } from '@/filters';
+import { currency, countDownFormat } from '@/filters';
+import { STATUS_CODE } from '@/constants/order';
 
 export default {
   components: { OrderProductList,
@@ -74,6 +75,8 @@ export default {
       isRePay: false,
       isSuccess: true,
       orderInfo: {},
+      timer: null,
+      paySurplusTime: 0
     };
   },
   onPullDownRefresh() {
@@ -86,29 +89,11 @@ export default {
   },
   onShow() {
     if (this.orderId) {
-      this.getOrderDetail(this.orderId).then((res) => {
-        this.orderInfo = res;
-        // 加入倒计时
-        this.loopCountDown();
-        if (this.isSuccess) {
-          const orderNo = res.orderCode
-          const amount = get(res, 'amount.amount')
-          const orderTime = new Date(get(res, 'orderTime').replace(/\-/g, '/')).getTime()
-          const trackData = {
-            order: {
-              order_id: orderNo,
-              order_time: orderTime,
-            },
-            sub_orders: [{
-              sub_order_id: orderNo,
-              order_amt: amount,
-              pay_amt: amount,
-            }],
-          }
-          this.srTrackOrder('payed', trackData)
-        }
-      });
+      this.getOrderData(this.orderId);
     }
+  },
+  onUnload () {
+    if (this.timer) { clearInterval(this.timer) }
   },
   methods: {
     get,
@@ -157,71 +142,59 @@ export default {
     },
     handleContact() {},
     bindContact() {},
-     // 循环倒计时 ----> tips: 倒计时都要统一
-    loopCountDown() {
-      const that = this;
-      if (this.orderInfo.orderStatus == 'WAIT_PAY') {
-        const countDownFn = setInterval(() => {
-          if (that.countDownFun(this.orderInfo.paySurplusTime) === '0') {
-            const orderNo = this.orderInfo.orderCode;
-            const amount = get(this.orderInfo, 'amount.amount');
-            const orderTime = new Date(get(this.orderInfo, 'orderTime').replace(/\-/g, '/')).getTime()
-            const trackData = {
-              order: {
-                order_id: orderNo,
-                order_time: orderTime,
-                // openId: uni.getStorageSync(OPEN_ID),
-              },
-              sub_orders: [
-                {
-                  sub_order_id: orderNo,
-                  order_amt: amount,
-                  pay_amt: amount,
-                },
-              ],
-            };
-            this.getOrderData(this.orderInfo.orderCode);
-            // 执行刷新
-            this.srTrackOrder('cancel_give_order', trackData);
-            clearInterval(countDownFn); // 清除定时器
-          } else {
-            const time = this.orderInfo.paySurplusTime--;
-            this.orderInfo.countDownTime = that.countDownFun(time);
-            that.$set(
-              that.orderInfo,
-              this.orderInfo.countDownTime,
-              that.countDownFun(this.orderInfo.paySurplusTime),
-            );
+    getOrderData (orderId) {
+      this.getOrderDetail(orderId).then((res) => {
+        this.orderInfo = res;
+        // 等待支付状态添加支付倒计时
+        this.paySurplusTime = this.orderInfo.paySurplusTime;
+        if (this.orderInfo.orderStatus == STATUS_CODE.WAIT_PAY) {
+          this.timer = this.loopCountDown(this.orderInfo)
+        }
+        if (this.isSuccess) {
+          const orderNo = res.orderCode
+          const amount = get(res, 'amount.amount')
+          const orderTime = new Date(get(res, 'orderTime').replace(/\-/g, '/')).getTime()
+          const trackData = {
+            order: {
+              order_id: orderNo,
+              order_time: orderTime,
+            },
+            sub_orders: [{
+              sub_order_id: orderNo,
+              order_amt: amount,
+              pay_amt: amount,
+            }],
           }
-        }, 1000);
-      }
+          this.srTrackOrder('payed', trackData)
+        }
+      });
     },
-    // 支付剩余时间倒计时
-    // 倒计时
-    countDownFun(time) {
-      const result = time; // 计算出豪秒
-      const d = parseInt(result / (24 * 60 * 60)); // 用总共的秒数除以1天的秒数
-      let h = parseInt((result / (60 * 60)) % 24); // 精确小时，用去余
-      const m = parseInt((result / 60) % 60); // 剩余分钟就是用1小时等于60分钟进行趣余
-      let s = parseInt(result % 60);
-      // 当倒计时结束时，改变内容
-      if (result <= 0) {
-        return '0';
-      }
-      if (h < 10) {
-        h = `0${h}`;
-      }
-      if (s < 10) {
-        s = `0${s}`;
-      }
-      if (h == 0 && m == 0) {
-        return `${s}s`;
-      } if (h == 0) {
-        return `${m}:${s}`;
-      } if (d == 0) {
-        return `${h}:${m}:${s}`;
-      }
-      return `${d}:${h}:${m}:${s}`;
+    loopCountDown (orderInfo) {
+      const timer = setInterval(() => {
+        if (this.paySurplusTime === 0) {
+          const orderNo = orderInfo.orderCode;
+          const amount = get(orderInfo, 'amount.amount');
+          const orderTime = new Date(get(orderInfo, 'orderTime').replace(/\-/g, '/')).getTime()
+          const trackData = {
+            order: {
+              order_id: orderNo,
+              order_time: orderTime,
+            },
+            sub_orders: [
+              {
+                sub_order_id: orderNo,
+                order_amt: amount,
+                pay_amt: amount,
+              },
+            ],
+          };
+          this.getOrderData(this.orderInfo.orderCode);
+          this.srTrackOrder('cancel_give_order', trackData);
+          clearInterval(timer); // 清除定时器
+        }
+        this.paySurplusTime--
+      }, 1000);
+      return timer;
     },
   },
   computed: {
@@ -262,7 +235,8 @@ export default {
     },
   },
   filters: {
-    currency
+    currency,
+    countDownFormat
   }
 };
 </script>

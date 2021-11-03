@@ -42,7 +42,6 @@
 import customButton from '@/components/al-button/normal';
 import { mapActions } from 'vuex';
 import { get } from '@/utils/utilityOperationHelper';
-import { priceFormat } from '@/utils/utils';
 import { currency } from '@/filters';  
 
 export default {
@@ -64,6 +63,7 @@ export default {
       countDownInterval: null,
       cardData: {},
       cardOrderStatus: '',
+      paySurplusTime: 0
     };
   },
   filters: {
@@ -86,9 +86,6 @@ export default {
       },
     },
   },
-  onLoad() {
-
-  },
   created() {
     this.cardData = this.orderData
     this.cardOrderStatus = this.orderStatus
@@ -98,80 +95,27 @@ export default {
     ...mapActions('order', ['orderPay']),
     // 倒计时
     loopCountDown() {
-      const { orderData } = this;
-      const that = this;
-      if (that.cardData.node.orderStatus == 'WAIT_PAY' && that.cardData.node.paySurplusTime > 0) {
+      this.paySurplusTime = this.cardData.node.paySurplusTime;
+      if (this.cardData.node.orderStatus == 'WAIT_PAY' && this.paySurplusTime > 0) {
         that.countDownInterval = setInterval(() => {
-          if (that.cardData.countDownTime == '0') {
-            console.log('倒计时0')
-            const orderNo = orderData.node.orderCode
-            const orderInfo = orderData.node
-            const amount = get(orderInfo, 'amount.amount')
-            const orderTime = new Date(get(orderInfo, 'orderTime').replace(/\-/g, '/')).getTime()
-            const trackData = {
-              order: {
-                order_id: orderNo,
-                order_time: orderTime,
-              },
-              sub_orders: [{
-                sub_order_id: orderNo,
-                order_amt: amount,
-                pay_amt: amount,
-              }],
-            }
-            // that.srTrackOrder('cancel_give_order', trackData)
-            that.$emit('updateList')
+          if (this.paySurplusTime == 0) {
+            that.$emit('updateList', { orderStatuses: [ 'WAIT_PAY' ] })
             clearInterval(that.countDownInterval); // 清除定时器
           } else {
-            const time = that.cardData.node.paySurplusTime--
-            that.cardData.countDownTime = that.countDownFun(time);
-            that.$set(
-              that.cardData,
-              that.cardData.countDownTime,
-              that.countDownFun(time),
-            )
+            this.paySurplusTime--
           }
         }, 1000);
       }
     },
-    // 支付剩余时间倒计时
-    // 倒计时
-    countDownFun(time) {
-      const result = time;
-      const d = parseInt(result / (24 * 60 * 60)); // 用总共的秒数除以1天的秒数
-      let h = parseInt((result / (60 * 60)) % 24); // 精确小时，用去余
-      const m = parseInt((result / 60) % 60); // 剩余分钟就是用1小时等于60分钟进行趣余
-      let s = parseInt(result % 60);
-      // 当倒计时结束时，改变内容
-      if (result <= 0) {
-        return '0';
-      }
-      if (h < 10) {
-        h = `0${h}`;
-      }
-      if (s < 10) {
-        s = `0${s}`;
-      }
-      if (h == 0 && m == 0) {
-        return `${s}s`;
-      } if (h == 0) {
-        return `${m}:${s}`;
-      } if (d == 0) {
-        return `${h}:${m}:${s}`;
-      }
-      return `${d}:${h}:${m}:${s}`;
-    },
     // 去详情页
     goOrderDetail(orderData) {
       const { orderCode } = orderData.node
-      // this.srTrackList(orderData)
       uni.navigateTo({
         url: `/subPackages/order/pages/order-detail/index?orderCode=${orderCode}`,
       })
     },
     // 去支付
     goPay(orderData) {
-      // console.log('orderData',orderData)
       const orderNo = orderData.node.orderCode
       const orderInfo = orderData.node
       const amount = get(orderInfo, 'amount.amount')
