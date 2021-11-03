@@ -79,6 +79,7 @@
           </block>
         </view>
       </view>
+      <recently-like-products :showGuessLike="false" />
     </view>
 
     <!-- 购买 -->
@@ -180,12 +181,14 @@ import { TYPE_CODE } from '@/constants/subscribe';
 import { trackWechatAd } from '@/service/apis'
 import productSwiper from '@/components/product-swiper';
 import sizeGuide from './components/sizeGuide';
+import RecentlyLikeProducts from '@/components/al-recentlyLikeProducts';
 
 export default {
   name: 'Product',
   components: {
     sizeGuide,
     productSwiper,
+    RecentlyLikeProducts
   },
   mixins: [navBarHeight],
   data () {

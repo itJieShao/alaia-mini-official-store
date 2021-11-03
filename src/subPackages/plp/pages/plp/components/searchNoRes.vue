@@ -5,7 +5,7 @@
     <view class="txt tips">很抱歉，我们未找到与您筛选条件相匹配的内容。</view>
     <view class="btn-wrap" @click="goBack">清空筛选条件</view>
     <view class="no-list">
-      <recently-like-products :config="GUESS_LIKE_PLP_CONFIG" />
+      <recently-like-products :showRecent="false" />
     </view>
   </view>
 </template>
