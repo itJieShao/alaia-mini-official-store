@@ -92,8 +92,8 @@
           <block v-if=" currentSkuInfo.options">
             <block v-for="(item,index) in currentSkuInfo.options" :key="index">
               <view class="color-box" v-if="item.originCode=='basecolor'">
-                <image class="color" :src="item.value.images[0].url"></image>
-                <text class="txt">{{item.value.name}}<text v-if="currentSkuInfo.inventory==0">-缺货</text></text>
+                <image class="color" :src="productData.cover.url"></image>
+                <text class="txt">{{productData.cover.name}}</text>
               </view>
             </block>
           </block>
@@ -360,6 +360,7 @@ export default {
         this.isSaleOut = !get(resultData, 'inventory') > 0;
         this.isOffShelf = !get(resultData, 'onShelves');
         const images = get(resultData, 'images').filter((i) => i.type !== 'FIGUREIMAGE');
+        const cover = get(resultData, 'images').filter((i) => i.type === 'COLORIMAGE')[0] || [];
         const description = get(resultData, 'images').filter((i) => i.type === 'FIGUREIMAGE');
         const attributesData = get(resultData, 'attributes').filter((i) => i.name === '具体材质&尺寸')
         const attributes = attributesData.length && attributesData[0].values[0].frontName
@@ -372,6 +373,7 @@ export default {
           ...this.productData,
           ...resultData,
           ...{
+            cover,
             images,
             description,
             subTitle: attributesList.length && attributesList[0],
@@ -434,7 +436,7 @@ export default {
         }
 
         const extAttribute = []
-        const descriptionList = []
+        // const descriptionList = []
         const newAttributes = resultData.attributes
         for (const [key, value] of Object.entries(newAttributes)) {
           if (value.originCode == 'itemDescription') {
@@ -447,24 +449,24 @@ export default {
             extAttribute[0].description = value
           }
           if (value.originCode == 'care') {
-            extAttribute[1] = {
-              open: false,
-              name: value.name,
-            }
-            descriptionList.push(...value.values)
+            value.open = false
+            value.show = value.values.length
+            extAttribute[1] = value
           }
           if (value.originCode == 'shippingReturn') {
-            extAttribute[1].name += value.name
-            descriptionList.push(...value.values)
-          }
-          if (value.originCode == 'packing') {
             value.open = false
             value.show = value.values.length
             extAttribute[2] = value
           }
+          if (value.originCode == 'packing') {
+            value.open = false
+            value.show = value.values.length
+            extAttribute[3] = value
+          }
         }
-        extAttribute[1].show = descriptionList.length
-        extAttribute[1].values = descriptionList
+        // extAttribute[1].name = extAttribute[1].name1 + extAttribute[1].name2
+        // extAttribute[1].show = descriptionList.length
+        // extAttribute[1].values = descriptionList
         this.extAttributeData = extAttribute
 
         this.$nextTick(() => {
@@ -695,8 +697,8 @@ export default {
       // }
     },
     /**
-     * 轮播点击
-     */
+   * 轮播点击
+   */
     swiperClick (pic, index) {
       uni.previewImage({
         current: index,
