@@ -73,17 +73,7 @@
     computed:{
       ...mapGetters('product',['homeStyleInspiration']),//造型灵感数据
     },
-    // 分享配置项
-    onShareAppMessage(res) {
-      return {
-        title: 'ALAIA',
-        path: 'pages/index/index',
-        imageUrl: '',
-        success() {},
-      };
-    },
     onLoad() {
-      wx.hideShareMenu();
       this.getHomeStyleInspiration();
     },
     async onShow() {
