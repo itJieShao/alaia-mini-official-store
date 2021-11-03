@@ -26,7 +26,7 @@
           :key="orderIndex"
           :orderData="orderItem"
           :orderStatus="orderItem.node.orderStatus"
-          @updateList="getOrderData">
+          @updateList="updateListHandle">
           </order-card>
         </view>
         <view class="no-order-txt" v-if="isLoad && orderList.length == 0">暂无{{ tabName }}订单</view>
@@ -70,8 +70,10 @@ export default {
     ...mapGetters('order', ['orderPageInfo']),
   },
   onShow() {
-    this.getOrderData({}, true)
     trackerCommonPageView(SCREEN_NAME.ORDER)
+  },
+  onLoad() {
+    this.getOrderData({}, true)
   },
   onReachBottom() {
     if (this.orderPageInfo.hasNextPage) {
@@ -88,6 +90,10 @@ export default {
     ...mapActions('order', ['getOrderList']),
     ...mapMutations('globle', ['setTabSelected']),
     formatDateNew,
+    updateListHandle (params) {
+      this.productList = [];
+      this.getOrderData(params);
+    },
     // 切换状态
     changeTab(name) {
         this.tabList.forEach(t => t.checked = false);
