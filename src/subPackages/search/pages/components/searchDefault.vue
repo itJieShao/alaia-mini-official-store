@@ -10,7 +10,7 @@
       </view>
     </view>
     <view class="guess-like">
-      <recently-like-products :config="GUESS_LIKE_SEARCH_CONFIG" />
+      <recently-like-products :showRecent="false" :config="GUESS_LIKE_SEARCH_CONFIG" />
     </view>
   </view>
 </template>
