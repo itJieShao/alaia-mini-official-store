@@ -1,6 +1,6 @@
 <template>
   <view class="store-list">
-    <custom-nav-bar title="精品店" :head-font-color="false"  />
+    <custom-nav-bar title="精品店" :has-left-radius="true" :head-font-color="false"  />
     <view :style="{'padding-top':ktxStatusHeight}"></view>
     <!-- 精品店列表 -->
     <image class="banner" src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-22/0.5941669535944558%E7%B2%BE%E5%93%81%E5%BA%97.jpg"

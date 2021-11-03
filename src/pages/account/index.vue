@@ -2,7 +2,7 @@
 <template>
   <view>
     <scroll-view class="scroll-container" :style="{'padding-top':ktxStatusHeight}" :scroll-y="true">
-      <custom-nav-bar :left-arrow="false" :head-font-color="false" />
+      <custom-nav-bar :left-icon="'search'" :left-text="'搜索'" :head-font-color="false" />
       <view class="container">
         <!-- account header -->
         <view class="account-header" @click="goNextPage('/subPackages/editAccount/pages/index')">
