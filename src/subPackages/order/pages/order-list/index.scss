@@ -36,6 +36,7 @@
       justify-content: space-around;
       background-color: #fff;
       margin-bottom: rpx(5);
+      border-bottom: 1px solid #F7F7F7;
       text {
         display: block;
         height: 100%;
@@ -68,7 +69,16 @@
           color: #8E8E8E;
         }
       }
-      
+
+    }
+    .no-order-txt {
+      position: absolute;
+      top: rpx(140);
+      font-size: rpx(14);
+      color: #8E8E8E;
+      left: 0;
+      right: 0;
+      text-align: center;
     }
   }
 }
