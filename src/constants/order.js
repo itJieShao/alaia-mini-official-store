@@ -26,6 +26,19 @@ export const STATUS_TXT = {
   [STATUS_CODE.PARTIAL_RECEIVED]: '已发货',
 }
 
+
+// 订单列表状态
+export const ORDER_ALL_STATUS = [ STATUS_CODE.WAIT_PAY, STATUS_CODE.WAIT_DELIVERY, STATUS_CODE.WAIT_RECEIVE, STATUS_CODE.COMPLETED ]
+export const ORDER_STATUS_TXT = ['全部', '待支付', '待发货', '待收货', '已完成'];
+
+export const ORDER_STAUTS_TXT_MAPPING = {
+  '全部': ORDER_ALL_STATUS,
+  '待支付': [ STATUS_CODE.WAIT_PAY ],
+  '待发货': [ STATUS_CODE.WAIT_DELIVERY ],
+  '待收货': [ STATUS_CODE.WAIT_RECEIVE ],
+  '已完成': [ STATUS_CODE.COMPLETED ]
+}
+
 // 表示已经支付的状态
 export const ORDER_PAID = [
   STATUS_CODE.WAIT_DELIVERY,

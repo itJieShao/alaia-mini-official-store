@@ -285,9 +285,9 @@ query cartItemCalculate($input: CartItemInput!) {
 `
 
 export const ordersGql = gql`
-query orders($pageInput: PageInput, $months: Int = 999) {
+query orders($pageInput: PageInput, $months: Int = 999, $orderStatuses: [OrderStatus!] = []) {
   customer {
-    orders (pageInput: $pageInput, months: $months){
+    orders (pageInput: $pageInput, months: $months, orderStatuses: $orderStatuses){
       edges {
         cursor
         node {

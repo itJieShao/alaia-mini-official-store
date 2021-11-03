@@ -47,10 +47,11 @@ export const cartItemCalculate = (input) => apollo.query({
   },
 })
 
-export const getOrderList = (input) => apollo.query({
+export const getOrderList = (input, orderStatuses = []) => apollo.query({
   query: ordersGql,
   variables: {
     pageInput: input,
+    orderStatuses
   },
 })
 
