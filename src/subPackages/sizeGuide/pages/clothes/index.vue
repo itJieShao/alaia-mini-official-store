@@ -110,12 +110,6 @@ export default {
   onPullDownRefresh () {
     wx.stopPullDownRefresh(); // 阻止下拉刷新
   },
-  onShareAppMessage (res) {
-    return {
-      title: 'TASAKI塔思琦线上旗舰店',
-      path: '/subPackages/sizeGuide/pages/index',
-    }
-  },
   methods: {
   },
 }

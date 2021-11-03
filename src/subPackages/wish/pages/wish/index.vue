@@ -1,6 +1,6 @@
 <template>
   <view class="wish">
-    <custom-nav-bar title="心愿单" :head-font-color="false" />
+    <custom-nav-bar title="心愿单" :has-left-radius="true" :head-font-color="false" />
     <view :style="{'padding-top':ktxStatusHeight}" v-if="!isLoading">
       <view class="list" v-if="list.length">
         <view class="goods-item" @click="goPdp(item.product.code)" v-for="(item,index) in list" :key="item.id">
