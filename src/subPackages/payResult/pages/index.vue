@@ -59,7 +59,8 @@ import OrderAmountInfo from '@/components/al-orderAmountInfo';
 import customButton from '@/components/al-button/normal';
 import navBarHeight from '@/components/common/navBarHeight';
 import { get } from '@/utils/utilityOperationHelper';
-import utils from '@/utils/utils';
+import { splitCartQuantity } from '@/utils/cart';
+import { currency } from '@/filters';
 
 export default {
   components: { OrderProductList,
@@ -224,9 +225,6 @@ export default {
     },
   },
   computed: {
-    totalQuantity() {
-      return this.productList.reduce((total, v) => total + v.quantity, 0);
-    },
     addressDetail() {
       const {
         province,
@@ -241,7 +239,7 @@ export default {
       return `${province || ''} ${city || ''} ${district || ''} ${address || ''}`;
     },
     productList() {
-      return (this.orderInfo.orderLines || []).map((order) => {
+      return splitCartQuantity((this.orderInfo.orderLines || []).map((order) => {
         let extObj
         try {
           extObj = JSON.parse(order.extInfos)
@@ -255,7 +253,7 @@ export default {
           material,
           style,
         }
-      })
+      }))
     },
     orderTime() {
       const { orderTime = '' } = this.orderInfo
@@ -264,11 +262,8 @@ export default {
     },
   },
   filters: {
-    currency(value) {
-      if (!value && value !== 0) return '0';
-      return utils.currency(value);
-    },
-  },
+    currency
+  }
 };
 </script>
 

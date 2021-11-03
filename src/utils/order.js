@@ -1,3 +1,5 @@
+import { ORDER_ALL_STATUS } from '@/constants/order';
+
 
 // todo 这里的countDown要重写
 export const countDown = (time) => {
@@ -27,4 +29,9 @@ export const countDown = (time) => {
     return `${h}:${m}:${s}`;
   }
   return `${d}:${h}:${m}:${s}`;
+}
+
+
+export const isAllOrderStatus = (statues) => {
+  return statues.length === ORDER_ALL_STATUS.length 
 }

@@ -16,6 +16,7 @@ import {
 } from '../utils/utilityOperationHelper'
 import {
   STATUS_CODE,
+  ORDER_ALL_STATUS
 } from '../constants/order'
 import {
   ORDER_INFO,
@@ -61,12 +62,14 @@ const actions = {
   getOrderList({
     commit,
   }, params = {}) {
+    let { orderStatuses, ...restParams } = params;
+    if (!orderStatuses) orderStatuses = ORDER_ALL_STATUS 
     return getOrderList({
       ...{
         first: 50,
       },
-      ...params,
-    }).then((res) => {
+      ...restParams,
+    }, orderStatuses).then((res) => {
       commit('setOrderPageInfo', get(res, 'data.customer.orders.pageInfo'))
       return get(res, 'data.customer.orders')
     })

@@ -88,6 +88,7 @@ import OrderProductList from '@/components/al-orderProductList';
 import { get } from '@/utils/utilityOperationHelper';
 import { priceFormat } from '@/utils/utils';
 import { STATUS_TXT, STATUS_CODE } from '@/constants/order';
+import { splitCartQuantity } from '@/utils/cart';
 
 export default {
   name: 'order',
@@ -118,7 +119,7 @@ export default {
   },
   computed: {
     productList() {
-      return (this.orderData.orderLines || []).map((order) => {
+      return splitCartQuantity((this.orderData.orderLines || []).map((order) => {
         let extObj;
         try {
           extObj = JSON.parse(order.extInfos);
@@ -132,7 +133,7 @@ export default {
           material,
           style,
         };
-      });
+      }));
     },
   },
   onPullDownRefresh() {
@@ -142,7 +143,6 @@ export default {
     this.orderCode = orderCode;
     this.getOrderData(this.orderCode);
   },
-  onShow() {},
   beforeDestroy() {
     clearInterval(this.countDownFn);
     this.countDownFn = null;

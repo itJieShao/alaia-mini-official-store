@@ -2,7 +2,7 @@
   <view class="order-summary-info">
     <view class="title">订单摘要 <text class="num">(共{{ totalQuantity }}件)</text></view>
     <view class="order-product-list">
-      <view v-for="(product, index) in productList"
+      <view v-for="(product, index) in products"
         :key="product.code">
         <OrderProductItem isLink :product="{ ...product, gaIndex: index + 1 }"/>
       </view>
@@ -12,7 +12,6 @@
 
 <script>
 import OrderProductItem from '@/components/al-orderProductItem';
-import { splitCartQuantity } from '@/utils/cart';
 
 export default {
   name: 'OrderProductList',
@@ -22,22 +21,10 @@ export default {
       default: () => [],
     },
   },
-  data () {
-    return {
-      productList: []
-    }
-  },
-  watch: {
-    products (newValues) {
-      if (newValues && newValues.length > 0) {
-        this.productList = splitCartQuantity(newValues);
-      }
-    }
-  },
   components: { OrderProductItem },
   computed: {
     totalQuantity() {
-      return this.productList.reduce((total, v) => total + v.quantity, 0);
+      return this.products.reduce((total, v) => total + v.quantity, 0);
     }
   }
 }

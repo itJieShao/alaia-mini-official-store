@@ -156,7 +156,8 @@ import { priceFormat } from '@/utils/utils';
 import { getColorBySkuInfo } from '@/utils/product';
 import { get } from '@/utils/utilityOperationHelper';
 import FormError from '../components/FormError.vue'
-import weixinSupport from './weixinSupport.mixin'
+import weixinSupport from './weixinSupport.mixin';
+import { splitCartQuantity } from '@/utils/cart';
 
 import {
   WX_INFO, ORDER_INFO, PROTOCOL, USER_INFO,
@@ -327,7 +328,7 @@ export default {
       const skuCodes = this.orderLines.map((item) => item.skuCode) || []
       this.getProductListBySku(skuCodes).then((list) => {
         if (list) {
-          this.productList = (list || []).map((product) => {
+          this.productList = splitCartQuantity((list || []).map((product) => {
             const orderLine = this.orderLines.find((item) => (item.skuCode === get(product, 'code')))
             return {
               sort: orderLine.sort,
@@ -338,7 +339,7 @@ export default {
               ...product,
               ...product.product,
             }
-          })
+          }))
           this.productList.sort((a, b) => a.sort - b.sort)
         }
       })
