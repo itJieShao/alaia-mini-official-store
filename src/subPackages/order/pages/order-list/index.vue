@@ -12,6 +12,7 @@
           <view class="no-order-tip">未查询到订单记录，快下单喜欢的商品吧</view>
           <customButton :btnWidth="280" :btnHeight="80" className="big-btn" @click="handleClick">去逛逛</customButton>
         </view>
+        <recently-like-products :config="GUESS_LIKE_FAVORITE_CONFIG" />
       </block>
       <!-- 有订单 -->
       <block v-if="allStatusHasOrders">
@@ -42,12 +43,15 @@ import { formatDateNew } from '@/utils/utils'
 import orderCard from '../../components/order-card/order-card';
 import { ORDER_STAUTS_TXT_MAPPING, ORDER_STATUS_TXT } from '@/constants/order';
 import { isAllOrderStatus } from '@/utils/order';
+import RecentlyLikeProducts from '@/components/al-recentlyLikeProducts';
+import { GUESS_LIKE_FAVORITE_CONFIG } from '@/constants/cms';
 
 export default {
   name: 'order',
   components: {
     customButton,
     orderCard,
+    RecentlyLikeProducts
   },
   data() {
     return {
@@ -58,7 +62,8 @@ export default {
       tabList: ORDER_STATUS_TXT.map((name, i) => ({ name, checked: i === 0 })),
       orderStatuses: [],
       tabName: '全部',
-      allStatusHasOrders: false
+      allStatusHasOrders: false,
+      GUESS_LIKE_FAVORITE_CONFIG
     }
   },
   computed: {
