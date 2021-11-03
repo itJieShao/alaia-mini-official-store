@@ -47,21 +47,25 @@
           <image :src="item.url" mode="widthFix" :lazy-load="true" />
         </view> -->
         <view class="item" v-for="(li,index) in extAttributeData" :key="index">
-          <view class="title-box" @click="cutDescription(index)">
-            <text class="title">{{li.name}}</text>
-            <text class="icon-font icon-jianhao" v-if="li.open"></text>
-            <text class="icon-font icon-jiahao" v-else></text>
-          </view>
-          <view class="content" v-show="li.open">
-            <view class="txt" v-if="li.value">{{li.value}}</view>
-            <block v-for="(i,idx) in li.resource" :key="idx">
-              <image :src="i.url" mode="widthFix" :lazy-load="true" />
-            </block>
-            <!-- <view class="title">细节</view>
-            <view class="txt">材质：62% 羊毛，32% 真丝，6% 聚酰胺 缺口领口正面有圆形钩眼扣意大利制造 产品编号：AA9R0966CT396 颜色：黑色</view>
-            <view class="title">尺码和合身</view>
-            <view class="txt">腰部喇叭形短款气球式剪裁紧身胸衣结构模特身高 180 厘米，所穿单品尺码为 38（美国 6 码）</view> -->
-          </view>
+          <block v-if="li.show">
+            <view class="title-box" @click="cutDescription(index)">
+              <text class="title">{{li.name}}</text>
+              <text class="icon-font icon-jianhao" v-if="li.open"></text>
+              <text class="icon-font icon-jiahao" v-else></text>
+            </view>
+            <view class="content" v-show="li.open">
+              <block v-for="(i,idx) in li.values" :key="idx">
+                <view class="txt" v-html="i.frontName"></view>
+                <!-- <image :src="i.url" mode="widthFix" :lazy-load="true" /> -->
+              </block>
+              <block v-if="li.description&&li.description.show">
+                <view class="title">{{li.description.name}}</view>
+                <block v-for="(i,idx) in li.description.values" :key="idx">
+                  <view class="txt" v-html="i.frontName"></view>
+                </block>
+              </block>
+            </view>
+          </block>
         </view>
       </view>
 
@@ -399,7 +403,7 @@ export default {
 
         const styleList = [];
         get(resultData, 'skus').map((item) => {
-          const styleName = get(item, 'options').find((i) => i.originCode === 'basecolor');
+          const styleName = get(item, 'showAttrList').find((i) => i.originCode === 'customColor');
           if (styleName && styleName.value && styleName.value.name != '00') {
             const items = {
               code: item.code,
@@ -429,10 +433,38 @@ export default {
           }
         }
 
-        const { extAttribute } = this.productData
-        for (const [key, value] of Object.entries(extAttribute)) {
-          extAttribute[key].open = false
+        const extAttribute = []
+        const descriptionList = []
+        const newAttributes = resultData.attributes
+        for (const [key, value] of Object.entries(newAttributes)) {
+          if (value.originCode == 'itemDescription') {
+            value.open = false
+            value.show = value.values.length
+            extAttribute[0] = value
+          }
+          if (value.originCode == 'sizeFit') {
+            value.show = value.values.length
+            extAttribute[0].description = value
+          }
+          if (value.originCode == 'care') {
+            extAttribute[1] = {
+              open: false,
+              name: value.name,
+            }
+            descriptionList.push(...value.values)
+          }
+          if (value.originCode == 'shippingReturn') {
+            extAttribute[1].name += value.name
+            descriptionList.push(...value.values)
+          }
+          if (value.originCode == 'packing') {
+            value.open = false
+            value.show = value.values.length
+            extAttribute[2] = value
+          }
         }
+        extAttribute[1].show = descriptionList.length
+        extAttribute[1].values = descriptionList
         this.extAttributeData = extAttribute
 
         this.$nextTick(() => {
@@ -686,7 +718,7 @@ export default {
       // this.sizeGuideShow = true;
       // this.isLeftArrow = false;
       this.dialog.show = false
-      uni.navigateTo({ url: '/subPackages/sizeGuide/pages/size/index' })
+      uni.navigateTo({ url: `/subPackages/sizeGuide/pages/size/index?code=${this.code}` })
       // uni.navigateTo({ url: '/subPackages/sizeGuide/pages/clothes/index' })
     },
     clickClose () {
@@ -819,5 +851,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./index.scss";
+@import './index.scss';
+
 </style>
