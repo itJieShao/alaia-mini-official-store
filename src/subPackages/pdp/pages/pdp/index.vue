@@ -87,15 +87,10 @@
     <view class="pdp-buy-fixed">
       <view class="pdp-style-content">
         <view class="box-content" @click="openDialog('color')">
-          <block v-if=" currentSkuInfo.options">
-            <block v-for="(item,index) in currentSkuInfo.options" :key="index">
-              <view class="color-box" v-if="item.originCode=='basecolor'">
-                <image class="color" :src="productData.cover.url"></image>
-                <text class="txt">{{productData.cover.name}}</text>
-              </view>
-            </block>
-          </block>
-          <text class="txt" v-else>请选择款式</text>
+          <view class="color-box">
+            <image class="color" :src="productData.cover.url"></image>
+            <text class="txt">{{productData.cover.frontName}}</text>
+          </view>
           <text class="icon-font icon-xiala"></text>
         </view>
         <view class="box-content" @click="openDialog('size')">
@@ -140,7 +135,6 @@
         </view>
       </view>
     </view>
-    <!-- <sizeGuide :size-guide-show="sizeGuideShow" @clickClose="clickClose"></sizeGuide> -->
 
     <!-- 弹窗 -->
     <view class="dialog-wrap" catchtouchmove="true" v-if="dialog.show">
@@ -237,7 +231,6 @@ export default {
       scrollTop: 0,
       productSuit: {},
       extAttributeData: [],
-      description: [],
     };
   },
   onPageScroll (e) {
@@ -245,12 +238,6 @@ export default {
   },
   onLoad (options) {
     const { code, scene, skuCode } = options;
-    // try {
-    //   // 埋点
-    //   setTrackerParams(options);
-    // } catch (error) {
-    //   console.log(error, '埋点设置失败');
-    // }
     if (code) {
       this.code = code;
     }
@@ -359,7 +346,6 @@ export default {
         this.isOffShelf = !get(resultData, 'onShelves');
         const images = get(resultData, 'images').filter((i) => i.type !== 'FIGUREIMAGE');
         const cover = get(resultData, 'images').filter((i) => i.type === 'COLORIMAGE')[0] || [];
-        const description = get(resultData, 'images').filter((i) => i.type === 'FIGUREIMAGE');
         const attributesData = get(resultData, 'attributes').filter((i) => i.name === '具体材质&尺寸')
         const attributes = attributesData.length && attributesData[0].values[0].frontName
         const attributesList = attributes && attributes.split('\n')
@@ -373,7 +359,6 @@ export default {
           ...{
             cover,
             images,
-            description,
             subTitle: attributesList.length && attributesList[0],
             materialList,
             salePrice: get(skuList, '[0].salePrice.amount'),
@@ -421,6 +406,12 @@ export default {
         }
         this.styleList = [...new Set(styleList)];
 
+        // 款式
+        const colorList = get(resultData, 'attributes').filter((i) => i.originCode === 'basecolor')[0]
+        const color = colorList.values[0]
+        this.productData.cover.frontName = color.frontName
+        this.productData.cover.code = color.code
+
         const skusLength = get(resultData, 'skus').length;
         if (skusLength < 2) {
           // this.isHasSize = true;
@@ -434,9 +425,7 @@ export default {
         }
 
         const extAttribute = []
-        // const descriptionList = []
         const newAttributes = resultData.attributes
-        console.log(1111111, newAttributes);
         for (const [key, value] of Object.entries(newAttributes)) {
           if (value.originCode == 'itemDescription') {
             const item = {
@@ -598,12 +587,12 @@ export default {
     },
 
     isShowToast () {
-      if (this.isHasStyle) {
-        uni.showToast({
-          title: '请选择款式',
-          icon: 'none',
-        });
-      }
+      // if (this.isHasStyle) {
+      //   uni.showToast({
+      //     title: '请选择款式',
+      //     icon: 'none',
+      //   });
+      // }
       if (this.isHasSize) {
         uni.showToast({
           title: '请选择尺码',
@@ -726,18 +715,13 @@ export default {
     },
     openDialog (type) {
       if (type === 'size') {
-        if (this.currentSkuCode && this.sizeList.length) {
+        if (this.sizeList.length) {
           this.dialog = {
             value: this.dialog.value,
             show: true,
             type,
             data: this.sizeList,
           }
-        } else {
-          uni.showToast({
-            title: '请选择款式',
-            icon: 'none',
-          });
         }
       } else if (type === 'color' && this.sizeList.length) {
         this.dialog = {
@@ -850,5 +834,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./index.scss";
+@import './index.scss';
+
 </style>
