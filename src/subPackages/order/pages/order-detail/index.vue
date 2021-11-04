@@ -39,7 +39,7 @@
         </view>
         <view class="order-count-down">
           <text class="icon-font icon-shengyushijian"></text>
-          支付剩余时间：{{ orderData.countDownTime || '' }}
+          支付剩余时间：{{ paySurplusTime | countDownFormat }}
         </view>
       </view>
       <!-- 配送物流信息 -->
@@ -89,6 +89,7 @@ import { get } from '@/utils/utilityOperationHelper';
 import { priceFormat } from '@/utils/utils';
 import { STATUS_TXT, STATUS_CODE } from '@/constants/order';
 import { splitCartQuantity } from '@/utils/cart';
+import { countDownFormat } from '@/filters';
 
 export default {
   name: 'order',
@@ -114,7 +115,9 @@ export default {
       countDownFn: null,
       isLoading: false,
       STATUS_TXT,
-      STATUS_CODE
+      STATUS_CODE,
+      paySurplusTime: 0,
+      timer: null
     };
   },
   computed: {
@@ -143,6 +146,9 @@ export default {
     this.orderCode = orderCode;
     this.getOrderData(this.orderCode);
   },
+  onUnload () {
+    if (this.timer) { clearInterval(this.timer) }
+  },
   beforeDestroy() {
     clearInterval(this.countDownFn);
     this.countDownFn = null;
@@ -158,7 +164,11 @@ export default {
       this.getOrderDetail(params)
         .then((res) => {
           this.orderData = res;
-          this.loopCountDown();
+           // 等待支付状态添加支付倒计时
+          this.paySurplusTime = this.orderData.paySurplusTime;
+          if (this.orderData.orderStatus == STATUS_CODE.WAIT_PAY) {
+            this.timer = this.loopCountDown()
+          }
           uni.hideLoading();
           this.isLoading = true
         })
@@ -215,32 +225,11 @@ export default {
     // 取消订单传id
     candelOrder() {
       const orderId = this.orderData.orderCode;
-      this.orderCancel(orderId)
-        .then(() => {
-          const orderNo = this.orderData.orderCode;
-          const amount = get(this.orderData, 'amount.amount');
-          const orderTime = new Date(get(this.orderData, 'orderTime').replace(/\-/g, '/')).getTime()
-          const trackData = {
-            order: {
-              order_id: orderNo,
-              order_time: orderTime,
-              // openId: uni.getStorageSync(OPEN_ID),
-            },
-            sub_orders: [
-              {
-                sub_order_id: orderNo,
-                order_amt: amount,
-                pay_amt: amount,
-              },
-            ],
-          };
-          // this.srTrackOrder('cancel_give_order', trackData);
-          this.getOrderData(orderId);
-        })
-        .catch((error) => {
-          console.log(error);
-          // Do nothing
-        });
+      this.orderCancel(orderId).then(() => {
+        this.getOrderData(orderId);
+      }).catch((error) => {
+        console.log(error);
+      });
     },
     // 腾讯有数
     srTrackOrder(orderStatus, params) {
@@ -249,72 +238,19 @@ export default {
     },
     // 循环倒计时
     loopCountDown() {
-      console.log('this.orderList', this.orderData);
-      const that = this;
-      if (this.orderData.orderStatus == 'WAIT_PAY') {
-        const countDownFn = setInterval(() => {
-          if (that.countDownFun(this.orderData.paySurplusTime) === '0') {
-            const orderNo = this.orderData.orderCode;
-            const amount = get(this.orderData, 'amount.amount');
-            const orderTime = new Date(get(this.orderData, 'orderTime').replace(/\-/g, '/')).getTime()
-            const trackData = {
-              order: {
-                order_id: orderNo,
-                order_time: orderTime,
-                // openId: uni.getStorageSync(OPEN_ID),
-              },
-              sub_orders: [
-                {
-                  sub_order_id: orderNo,
-                  order_amt: amount,
-                  pay_amt: amount,
-                },
-              ],
-            };
-            this.getOrderData(this.orderData.orderCode);
-            // 执行刷新
-            this.srTrackOrder('cancel_give_order', trackData);
-            clearInterval(countDownFn); // 清除定时器
-          } else {
-            const time = this.orderData.paySurplusTime--;
-            this.orderData.countDownTime = that.countDownFun(time);
-            that.$set(
-              that.orderData,
-              this.orderData.countDownTime,
-              that.countDownFun(this.orderData.paySurplusTime),
-            );
-          }
-        }, 1000);
-      }
-    },
-    // 支付剩余时间倒计时
-    // 倒计时
-    countDownFun(time) {
-      const result = time; // 计算出豪秒
-      const d = parseInt(result / (24 * 60 * 60)); // 用总共的秒数除以1天的秒数
-      let h = parseInt((result / (60 * 60)) % 24); // 精确小时，用去余
-      const m = parseInt((result / 60) % 60); // 剩余分钟就是用1小时等于60分钟进行趣余
-      let s = parseInt(result % 60);
-      // 当倒计时结束时，改变内容
-      if (result <= 0) {
-        return '0';
-      }
-      if (h < 10) {
-        h = `0${h}`;
-      }
-      if (s < 10) {
-        s = `0${s}`;
-      }
-      if (h == 0 && m == 0) {
-        return `${s}s`;
-      } if (h == 0) {
-        return `${m}:${s}`;
-      } if (d == 0) {
-        return `${h}:${m}:${s}`;
-      }
-      return `${d}:${h}:${m}:${s}`;
-    },
+      this.timer = setInterval(() => {
+        if (this.paySurplusTime === 0) {
+          this.getOrderData(this.orderData.orderCode);
+          clearInterval(countDownFn); // 清除定时器
+        } else {
+          this.paySurplusTime--;
+        }
+      }, 1000);
+    }
   },
+  filters: {
+    countDownFormat
+  }
 };
 </script>
 

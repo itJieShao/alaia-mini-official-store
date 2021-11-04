@@ -148,7 +148,7 @@ export default {
         // 等待支付状态添加支付倒计时
         this.paySurplusTime = this.orderInfo.paySurplusTime;
         if (this.orderInfo.orderStatus == STATUS_CODE.WAIT_PAY) {
-          this.timer = this.loopCountDown(this.orderInfo)
+          this.timer = this.loopCountDown()
         }
         if (this.isSuccess) {
           const orderNo = res.orderCode
@@ -169,30 +169,14 @@ export default {
         }
       });
     },
-    loopCountDown (orderInfo) {
+    loopCountDown () {
       const timer = setInterval(() => {
         if (this.paySurplusTime === 0) {
-          const orderNo = orderInfo.orderCode;
-          const amount = get(orderInfo, 'amount.amount');
-          const orderTime = new Date(get(orderInfo, 'orderTime').replace(/\-/g, '/')).getTime()
-          const trackData = {
-            order: {
-              order_id: orderNo,
-              order_time: orderTime,
-            },
-            sub_orders: [
-              {
-                sub_order_id: orderNo,
-                order_amt: amount,
-                pay_amt: amount,
-              },
-            ],
-          };
           this.getOrderData(this.orderInfo.orderCode);
-          this.srTrackOrder('cancel_give_order', trackData);
-          clearInterval(timer); // 清除定时器
+          clearInterval(timer);
+        } else {
+          this.paySurplusTime--
         }
-        this.paySurplusTime--
       }, 1000);
       return timer;
     },
