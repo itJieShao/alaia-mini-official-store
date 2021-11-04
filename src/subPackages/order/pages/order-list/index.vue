@@ -40,7 +40,7 @@ import { mapActions, mapMutations, mapGetters } from 'vuex'
 import customButton from '@/components/al-button/normal';
 import { SCREEN_NAME, trackerCommonPageView } from '@/utils/ga'
 import { formatDateNew } from '@/utils/utils'
-import orderCard from '../../components/order-card/order-card';
+import orderCard from '../../components/order-card';
 import { ORDER_STAUTS_TXT_MAPPING, ORDER_STATUS_TXT } from '@/constants/order';
 import { isAllOrderStatus } from '@/utils/order';
 import RecentlyLikeProducts from '@/components/al-recentlyLikeProducts';

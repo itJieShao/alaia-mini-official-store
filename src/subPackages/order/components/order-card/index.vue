@@ -60,7 +60,7 @@ export default {
   },
   data() {
     return {
-      countDownInterval: null,
+      timer: null,
       cardData: {},
       cardOrderStatus: '',
       paySurplusTime: 0
@@ -97,10 +97,10 @@ export default {
     loopCountDown() {
       this.paySurplusTime = this.cardData.node.paySurplusTime;
       if (this.cardData.node.orderStatus == 'WAIT_PAY' && this.paySurplusTime > 0) {
-        that.countDownInterval = setInterval(() => {
+        this.timer = setInterval(() => {
           if (this.paySurplusTime == 0) {
-            that.$emit('updateList', { orderStatuses: [ 'WAIT_PAY' ] })
-            clearInterval(that.countDownInterval); // 清除定时器
+            this.$emit('updateList', { orderStatuses: [ 'WAIT_PAY' ] })
+            clearInterval(that.timer);
           } else {
             this.paySurplusTime--
           }
