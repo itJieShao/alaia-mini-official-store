@@ -165,7 +165,9 @@ import {
 } from 'vuex';
 import { get } from '@/utils/utilityOperationHelper';
 import { priceFormat, imgUrlReplace, randomString } from '@/utils/utils';
-import { getProductDetailsAction, addShopCartApi, getPDPstyleInspiration } from '@/service/apis/pdp';
+import {
+  getProductDetailsAction, addShopCartApi, getPDPstyleInspiration, findProductByStyle,
+} from '@/service/apis/pdp';
 import { delFavoriteApi, createFavoriteApi } from '@/service/apis/user';
 import navBarHeight from '@/components/common/navBarHeight';
 import { ORDER_INFO, WX_INFO } from '@/constants/user';
@@ -385,32 +387,37 @@ export default {
           this.isHasSize = true;
         }
         this.sizeList = sizeList;
-
-        const styleList = [];
-        get(resultData, 'skus').map((item) => {
-          const styleName = get(item, 'showAttrList').find((i) => i.originCode === 'customColor');
-          if (styleName && styleName.value && styleName.value.name != '00') {
-            const items = {
-              code: item.code,
-              name: styleName.value.name,
-              inventory: item.inventory,
-              isEnabled: item.isEnabled,
-            };
-
-            styleList.push(items);
-          }
-        });
-        styleList.sort((a, b) => a.name - b.name)
-        if (styleList.length > 1 || (styleList.length == 1 && styleList.some((item) => item.name != '00'))) {
-          this.isHasStyle = true;
-        }
-        this.styleList = [...new Set(styleList)];
-
         // 款式
-        const colorList = get(resultData, 'attributes').filter((i) => i.originCode === 'basecolor')[0]
-        const color = colorList.values[0]
+        const color = get(resultData, 'attributes').find((i) => i.originCode === 'basecolor').values[0]
         this.productData.cover.frontName = color.frontName
         this.productData.cover.code = color.code
+        // 货号
+        const productNo = get(resultData, 'attributes').find((i) => i.originCode === 'productNo').values[0]
+        this.productData.productNo = productNo
+        // const res = await findProductByStyle({
+        //   codes: productNo,
+        // });
+        // console.log(res);
+
+        // const styleList = [];
+        // get(resultData, 'skus').map((item) => {
+        //   const styleName = get(item, 'showAttrList').find((i) => i.originCode === 'customColor');
+        //   if (styleName && styleName.value && styleName.value.name != '00') {
+        //     const items = {
+        //       code: item.code,
+        //       name: styleName.value.name,
+        //       inventory: item.inventory,
+        //       isEnabled: item.isEnabled,
+        //     };
+
+        //     styleList.push(items);
+        //   }
+        // });
+        // styleList.sort((a, b) => a.name - b.name)
+        // if (styleList.length > 1 || (styleList.length == 1 && styleList.some((item) => item.name != '00'))) {
+        //   this.isHasStyle = true;
+        // }
+        // this.styleList = [...new Set(styleList)];
 
         const skusLength = get(resultData, 'skus').length;
         if (skusLength < 2) {
@@ -587,12 +594,6 @@ export default {
     },
 
     isShowToast () {
-      // if (this.isHasStyle) {
-      //   uni.showToast({
-      //     title: '请选择款式',
-      //     icon: 'none',
-      //   });
-      // }
       if (this.isHasSize) {
         uni.showToast({
           title: '请选择尺码',
