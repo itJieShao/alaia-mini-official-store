@@ -4,12 +4,14 @@
     <view class="content" :style="{ 'padding-top':ktxStatusHeight }">
       <view class="size-guide">
         <view class="module-l1">
-          <view class="txt">拉链罗纹针织毛衣</view>
-          <view class="txt">￥27,302</view>
+          <view class="txt">{{ProductDetails.title}}</view>
+          <view class="txt">￥{{ProductDetails.salePrice.amount}}</view>
           <div class="details">
-            <image mode="widthFix" :lazy-load="true" src="https://res-tasaki.baozun.com/static/images/size-1.png"></image>
+            <image mode="widthFix" :lazy-load="true" :src="ProductDetails.cover[0]"></image>
           </div>
-          <view class="txt tip">模特身高178厘米，身着36码样衣</view>
+          <block v-for="li in ProductDetails.extAttribute" :key="li.code">
+            <view class="txt tip" v-if="li.code=='sizeguideOption'">{{li.value}}</view>
+          </block>
         </view>
 
         <view class="module-l2 gap-top">
@@ -26,28 +28,52 @@
         <view class="module-l3 gap-top">
           <view class="title">选择尺码</view>
           <view class="size-list">
-            <block v-for="(li,index) in sizeList" :key="index">
-              <view :class="['txt',active==index?'active':'']" @click="active=index">{{li.label}}</view>
+            <block v-for="(item,index) in ProductDetails.bodyMeasurements" :key="index">
+              <block v-if="item.unit==company">
+                <block v-for="(li,idx) in item.mapAttrs" :key="idx">
+                  <view :class="['txt',active==idx?'active':'']" @click="active=idx">{{li.attr}}</view>
+                </block>
+              </block>
             </block>
           </view>
           <view class="title">选择单位</view>
           <view class="company-list">
-            <view :class="['txt',company=='inch'?'active':'']" @click="company='inch'">英寸</view>
+            <view :class="['txt',company=='ft'?'active':'']" @click="company='ft'">英寸</view>
             <view :class="['txt',company=='cm'?'active':'']" @click="company='cm'">厘米</view>
           </view>
           <div class="size gap-top">
             <view class="box box1">
-              <view class="f">F.170</view>
-              <view class="b">B.80</view>
-              <view class="g">G.170</view>
-              <view class="c">C.170</view>
-              <view class="d">D.170</view>
+              <block v-for="(item,index) in ProductDetails.bodyMeasurements" :key="index">
+                <block v-if="item.unit==company">
+                  <block v-for="(li,idx) in item.mapAttrs" :key="idx">
+                    <block v-if="active==idx">
+                      <block v-for="(i,dx) in li.size" :key="dx">
+                        <view class="f" v-if="i.key=='F'">{{i.key}}.{{i.value}}</view>
+                        <view class="b" v-if="i.key=='B'">{{i.key}}.{{i.value}}</view>
+                        <view class="g" v-if="i.key=='G'">{{i.key}}.{{i.value}}</view>
+                        <view class="c" v-if="i.key=='C'">{{i.key}}.{{i.value}}</view>
+                        <view class="d" v-if="i.key=='D'">{{i.key}}.{{i.value}}</view>
+                      </block>
+                    </block>
+                  </block>
+                </block>
+              </block>
             </view>
             <view class="box box2">
-              <view class="a">A.170</view>
-              <view class="e">E.170</view>
-              <view class="i">I.170</view>
-              <view class="h">H.170</view>
+              <block v-for="(item,index) in ProductDetails.bodyMeasurements" :key="index">
+                <block v-if="item.unit==company">
+                  <block v-for="(li,idx) in item.mapAttrs" :key="idx">
+                    <block v-if="active==idx">
+                      <block v-for="(i,dx) in li.size" :key="dx">
+                        <view class="a" v-if="i.key=='A'">{{i.key}}.{{i.value}}</view>
+                        <view class="e" v-if="i.key=='E'">{{i.key}}.{{i.value}}</view>
+                        <view class="i" v-if="i.key=='I'">{{i.key}}.{{i.value}}</view>
+                        <view class="h" v-if="i.key=='H'">{{i.key}}.{{i.value}}</view>
+                      </block>
+                    </block>
+                  </block>
+                </block>
+              </block>
             </view>
             <image mode="widthFix" :lazy-load="true" src="https://scm-dam.oss-cn-shanghai.aliyuncs.com/scm-dam/2021-10-27/0.9895252805302546size-01.jpg"></image>
           </div>
@@ -78,6 +104,8 @@
 </template>
 
 <script>
+import { getProductDetailsAction } from '@/service/apis/pdp';
+
 export default {
   data () {
     return {
@@ -101,16 +129,57 @@ export default {
         },
       ],
       active: 1,
-      company: 'inch',
+      company: 'ft',
+      code: null,
+      ProductDetails: {},
     }
   },
   computed: {},
-  onLoad () { },
+  onLoad (options) {
+    const { code } = options;
+    this.code = code
+    this.getProductDetails(code)
+  },
   onShow () { },
   onPullDownRefresh () {
     wx.stopPullDownRefresh(); // 阻止下拉刷新
   },
   methods: {
+    async getProductDetails (code) {
+      const result = await getProductDetailsAction({
+        codes: [code],
+      });
+      const { productByCode } = result.data.shop
+      const ProductDetails = productByCode.length ? productByCode[0] : {}
+      for (const [key, value] of Object.entries(ProductDetails)) {
+        if (key == 'images') {
+          const covers = []
+          value.forEach((e) => {
+            if (e.type == 'MAINIMAGE') {
+              covers.push(e.url)
+            }
+          });
+          ProductDetails.cover = covers
+        }
+        if (key == 'bodyMeasurements') {
+          value.forEach((element) => {
+            element.mapAttrs.forEach((e) => {
+              const newSize = []
+              const size = e.relationAttr.split('&')
+              size.forEach((element) => {
+                const a = element.split(':')
+                newSize.push({
+                  key: a[0],
+                  value: a[1],
+                })
+              });
+              e.size = newSize
+            });
+          });
+        }
+      }
+      this.ProductDetails = ProductDetails
+    },
   },
 }
 </script>

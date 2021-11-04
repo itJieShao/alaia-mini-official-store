@@ -16,6 +16,11 @@ export const searchProductGql = gql`
             favorite {
               id
             }
+            labels {
+              code
+              frontName
+              description
+            }
             listPrice {
               amount
               currencyCode

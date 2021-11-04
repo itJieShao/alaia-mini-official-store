@@ -60,6 +60,14 @@ export const getProductDetails = gql`
           frontName
           description
         }
+        bodyMeasurements {
+          unit
+          category
+          mapAttrs {
+            attr
+            relationAttr
+          }
+        }
         attributes {
           code
           name
