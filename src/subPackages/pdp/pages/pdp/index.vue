@@ -58,11 +58,9 @@
                 <view class="txt" v-html="i.frontName"></view>
                 <!-- <image :src="i.url" mode="widthFix" :lazy-load="true" /> -->
               </block>
-              <block v-if="li.description&&li.description.show">
-                <view class="title">{{li.description.name}}</view>
-                <block v-for="(i,idx) in li.description.values" :key="idx">
-                  <view class="txt" v-html="i.frontName"></view>
-                </block>
+              <view class="title">{{li.description.name}}</view>
+              <block v-for="(i,idx) in li.description.values" :key="idx">
+                <view class="txt" v-html="i.frontName"></view>
               </block>
             </view>
           </block>
@@ -438,42 +436,58 @@ export default {
         const extAttribute = []
         // const descriptionList = []
         const newAttributes = resultData.attributes
+        console.log(1111111, newAttributes);
         for (const [key, value] of Object.entries(newAttributes)) {
           if (value.originCode == 'itemDescription') {
-            value.open = false
-            value.show = value.values.length
-            extAttribute[0] = value
+            const item = {
+              ...value,
+              open: false,
+              show: value.values.length,
+              description: null,
+            }
+            extAttribute.push(item)
           }
           if (value.originCode == 'sizeFit') {
-            value.show = value.values.length
-            extAttribute[0].description = value
+            if (extAttribute.length > 0) {
+              value.show = value.values.length
+              extAttribute[0].description = value
+            }
           }
           if (value.originCode == 'care') {
-            value.open = false
-            value.show = value.values.length
-            extAttribute[1] = value
+            const item = {
+              ...value,
+              open: false,
+              show: value.values.length,
+              description: null,
+            }
+            extAttribute.push(item)
           }
           if (value.originCode == 'shippingReturn') {
-            value.open = false
-            value.show = value.values.length
-            extAttribute[2] = value
+            const item = {
+              ...value,
+              open: false,
+              show: value.values.length,
+              description: null,
+            }
+            extAttribute.push(item)
           }
           if (value.originCode == 'packing') {
-            value.open = false
-            value.show = value.values.length
-            extAttribute[3] = value
+            const item = {
+              ...value,
+              open: false,
+              show: value.values.length,
+              description: null,
+            }
+            extAttribute.push(item)
           }
         }
-        // extAttribute[1].name = extAttribute[1].name1 + extAttribute[1].name2
-        // extAttribute[1].show = descriptionList.length
-        // extAttribute[1].values = descriptionList
         this.extAttributeData = extAttribute
 
         this.$nextTick(() => {
           // 添加最近浏览商品
           const recentBrowseItem = {
             code: resultData.code,
-            images: resultData.images[0].url,
+            images: resultData.images ? resultData.images.length ? resultData.images[0].url : '' : '',
             title: resultData.title,
             salePrice: this.productData.salePrice || 0,
             skuCode: get(this.productData, 'skus[0].code'),
@@ -576,23 +590,6 @@ export default {
           });
         } else {
           this.addSuccess();
-          // 有数 加购上报
-          this.$sr.track('add_to_cart', {
-            action_type: 'append_to_cart',
-            sku: {
-              sku_id: this.currentSkuInfo.code,
-              sku_name: this.productData.title,
-            },
-            spu: {
-              spu_id: this.productData.code, // 若商品无spu_id时，可传sku_id信息
-              spu_name: this.productData.title, // 若商品无spu_name时，可传sku_name信息
-            },
-            sale: {
-              original_price: this.currentSkuInfo.salePrice.amount || 0,
-              current_price: this.currentSkuInfo.salePrice.amount || 0,
-            },
-            sku_num: 1,
-          });
         }
         setTimeout(() => {
           this.isDisabled = false;
@@ -853,6 +850,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './index.scss';
-
+@import "./index.scss";
 </style>
