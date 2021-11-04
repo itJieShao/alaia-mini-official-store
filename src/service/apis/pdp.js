@@ -4,7 +4,8 @@ import {
   getProductDetails,
   addShopCart,
   productListGql,
-  styleInspiration
+  styleInspiration,
+  ProductByStyle
 } from "../gqls";
 
 export const getHomeStyleInspiration = payload =>
@@ -40,4 +41,9 @@ export const productList = payload =>
     variables: {
       codes: payload
     }
+  });
+export const findProductByStyle = payload =>
+  apollo.mutate({
+    mutation: ProductByStyle,
+    variables: payload
   });

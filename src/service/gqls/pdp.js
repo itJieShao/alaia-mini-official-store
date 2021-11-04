@@ -16,6 +16,22 @@ export const styleInspiration = gql`
   }
 `;
 
+export const ProductByStyle = gql`
+  query findProductByStyle($code: String!) {
+    shop {
+      findProductByStyle(styleCode: $code) {
+        id
+        resources {
+          id
+          url
+          source
+        }
+        codes
+      }
+    }
+  }
+`;
+
 export const getHomeStyleInspirationGql = gql`
   query homeStyleInspiration {
     shop {

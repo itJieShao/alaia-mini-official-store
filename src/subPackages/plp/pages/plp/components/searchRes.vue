@@ -2,8 +2,8 @@
   <view class="res-wrap">
     <image v-if="menuList.picLink" class="banner" :src="menuList.picLink" mode="widthFix" :lazy-load="true"></image>
     <view class="info">
-      <view class="keyword" v-if="keyWord">{{menuList.title}}</view>
-      <view class="remark" v-if="remark">{{menuList.subTitle}}</view>
+      <view class="keyword" v-if="menuList.title">{{menuList.title}}</view>
+      <view class="remark" v-if="menuList.subTitle">{{menuList.subTitle}}</view>
       <view class="search-box" @click="linkSearch">
         <text class="icon-font icon-search"></text>
         <text class="txt">搜索商品</text>

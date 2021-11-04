@@ -1,6 +1,6 @@
 <template>
   <view class="search-input">
-    <input :disabled="disabled" type="text" placeholder="搜索关键词" placeholder-style="color:#616161" @confirm="searchClick" @blur="searchClick" v-model="keyword" />
+    <input :disabled="disabled" type="text" :placeholder="placeholder" placeholder-style="color:#616161" @confirm="searchClick" @blur="searchClick" v-model="keyword" />
     <text class="icon-font icon-search"></text>
   </view>
 </template>
@@ -11,6 +11,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
+    },
+    placeholder: {
+      type: String,
+      default: '搜索关键词',
     },
   },
   data () {
