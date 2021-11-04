@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="search-res">抱歉，没有找到任何关于“{{keyword.name}}”的结果 </view>
-    <search-input @getProduct="getProduct" />
+    <search-input @getProduct="getProduct" placeholder="重新搜索" />
     <view class="no-list">
       <recently-like-products :config="GUESS_LIKE_SEARCH_CONFIG" />
     </view>
@@ -20,7 +20,7 @@ export default {
   },
   data () {
     return {
-      GUESS_LIKE_SEARCH_CONFIG
+      GUESS_LIKE_SEARCH_CONFIG,
     }
   },
   props: {

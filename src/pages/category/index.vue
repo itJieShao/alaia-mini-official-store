@@ -19,6 +19,7 @@
             </view>
           </view>
         </view>
+        <view :style="{ 'padding-bottom':ktxStatusHeight }"></view>
       </view>
     </view>
   </view>
