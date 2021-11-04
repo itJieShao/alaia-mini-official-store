@@ -349,7 +349,7 @@ export default {
         const resultData = get(result.data.shop, 'productByCode[0]') || [];
         this.isSaleOut = !get(resultData, 'inventory') > 0;
         this.isOffShelf = !get(resultData, 'onShelves');
-        const images = get(resultData, 'images').filter((i) => i.type !== 'FIGUREIMAGE');
+        const images = get(resultData, 'images').filter((i) => i.type === 'MAINIMAGE');
         const cover = get(resultData, 'images').filter((i) => i.type === 'COLORIMAGE')[0] || [];
         const attributesData = get(resultData, 'attributes').filter((i) => i.name === '具体材质&尺寸')
         const attributes = attributesData.length && attributesData[0].values[0].frontName
@@ -397,10 +397,10 @@ export default {
         // 货号
         const productNo = get(resultData, 'attributes').find((i) => i.originCode === 'productNo').values[0]
         this.productData.productNo = productNo
-        // const res = await findProductByStyle({
-        //   codes: productNo,
-        // });
-        // console.log(res);
+        const res = await findProductByStyle({
+          codes: productNo,
+        });
+        console.log(res);
 
         // const styleList = [];
         // get(resultData, 'skus').map((item) => {
@@ -838,6 +838,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './index.scss';
-
+@import "./index.scss";
 </style>
