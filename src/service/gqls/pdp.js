@@ -20,13 +20,99 @@ export const ProductByStyle = gql`
   query findProductByStyle($code: String!) {
     shop {
       findProductByStyle(styleCode: $code) {
-        id
-        resources {
-          id
-          url
-          source
+        style
+        code
+        title
+        onShelves
+        subTitle
+        description
+        inventory
+        sales
+        listPrice {
+          amount
+          currencyCode
         }
-        codes
+        categories {
+          path
+          code
+          name
+          navFrontName
+          imageUrl
+        }
+        salePrice {
+          amount
+          currencyCode
+        }
+        images {
+          type
+          url
+        }
+        attributes {
+          code
+          name
+          frontName
+          values {
+            code
+            displayName
+            url
+            frontName
+          }
+        }
+        options {
+          code
+          frontName
+          values {
+            code
+            displayName
+            url
+            frontName
+            name
+            images {
+              url
+              images {
+                url
+              }
+            }
+            thumbnails {
+              url
+              images {
+                url
+              }
+            }
+          }
+        }
+        skus {
+          code
+          weight
+          extentionCode
+          featuredType
+          sales
+          inventory
+          preDays
+          code
+          isEnabled
+          listPrice {
+            amount
+            currencyCode
+          }
+          salePrice {
+            amount
+            currencyCode
+          }
+          options {
+            code
+            frontName
+            originCode
+            value {
+              code
+              name
+              frontName
+              images {
+                url
+              }
+            }
+          }
+        }
       }
     }
   }

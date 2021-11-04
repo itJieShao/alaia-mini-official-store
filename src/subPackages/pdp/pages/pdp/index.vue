@@ -394,10 +394,10 @@ export default {
         // 货号
         const productNo = get(resultData, 'attributes').find((i) => i.originCode === 'productNo').values[0]
         this.productData.productNo = productNo
-        // const res = await findProductByStyle({
-        //   codes: productNo,
-        // });
-        // console.log(res);
+        const res = await findProductByStyle({
+          codes: productNo,
+        });
+        console.log(res);
 
         // const styleList = [];
         // get(resultData, 'skus').map((item) => {
